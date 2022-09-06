@@ -55,7 +55,7 @@ const Calendars = () => {
       <Layer>
         <p>{moment(value).format("YYYY년 MM월 DD일")}</p>
         <div>
-               <Calendar
+          <Calendar
           onChange={onChange}
           prev2Label={null}
           next2Label={null}
@@ -107,7 +107,6 @@ const Calendars = () => {
         />
 
         </div>
-   
       </Layer>
 
   );
