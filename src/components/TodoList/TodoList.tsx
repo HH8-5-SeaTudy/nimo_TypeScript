@@ -8,15 +8,19 @@ import { RootState } from '../../redux/config/configStore';
 
 
 const TodoList = () => {
+  interface Icategory {
+    categoryId:number;
+    categoryName:string;
+    todoList:[];
+  }
+
   const dispatch = useDispatch();
   const date= useSelector((state:RootState) => state.updateDate.date);
-  const dateTodos:Array<any>= useSelector((state:RootState) => state.dateTodos.dateTodos);
+  const dateTodos:Array<Icategory>= useSelector((state:RootState) => state.dateTodos.dateTodos);
   
-  console.log('선택날짜',dateTodos[0])
-
-
   const [category,setCategory] = useState('')
 
+  console.log(dateTodos)
 
  // 카테고리가 수정되면 모든 데이터가 변해야 하기 때문에 getAlltodos 실행해줘야함.
   const onSubmitHandler = () => {
@@ -32,21 +36,69 @@ useEffect(() => {
 
   return (
     <TodoListBox>
+  
+
       <CategoryBox>
         <CategoryTitle>
           <div></div>
-          <input defaultValue='카테고리' />
+          <p>{dateTodos[0] ? dateTodos[0]?.categoryName : '카테고리'}</p>
+          <input defaultValue={dateTodos[0]?.categoryName} />
           <button>+</button>
         </CategoryTitle>
         <CategoryList>
-          <CategoryListBox>
-            <p>수학숙제</p>
+          {dateTodos[0]?.todoList.map((item:any)=>
+            <CategoryListBox key={item.todoId}>
+            <p>{item.content}</p>
             <div></div>
-          </CategoryListBox>
-          <CategoryListBox>
-            <p>수학숙제</p>
+          </CategoryListBox>)}
+        </CategoryList>
+      </CategoryBox>
+
+      <CategoryBox>
+        <CategoryTitle>
+          <div></div>
+          <p>{dateTodos[1] ? dateTodos[1]?.categoryName : '카테고리2'}</p>
+          <input defaultValue={dateTodos[1]?.categoryName} />
+          <button>+</button>
+        </CategoryTitle>
+        <CategoryList>
+          {dateTodos[1]?.todoList.map((item:any)=>
+            <CategoryListBox key={item.todoId}>
+            <p>{item.content}</p>
             <div></div>
-          </CategoryListBox>
+          </CategoryListBox>)}
+        </CategoryList>
+      </CategoryBox>
+
+      <CategoryBox>
+        <CategoryTitle>
+          <div></div>
+          <p>{dateTodos[3] ? dateTodos[3]?.categoryName : '카테고리3'}</p>
+          <input defaultValue={dateTodos[3] ? dateTodos[3]?.categoryName : '카테고리3'} />
+          <button>+</button>
+        </CategoryTitle>
+        <CategoryList>
+          {dateTodos[2]?.todoList.map((item:any)=>
+            <CategoryListBox key={item.todoId}>
+            <p>{item.content}</p>
+            <div></div>
+          </CategoryListBox>)}
+        </CategoryList>
+      </CategoryBox>
+
+      <CategoryBox>
+        <CategoryTitle>
+          <div></div>
+          <p>{dateTodos[3] ? dateTodos[3]?.categoryName : '카테고리4'}</p>
+          <input defaultValue={dateTodos[3] ? dateTodos[3]?.categoryName : '카테고리4'} />
+          <button>+</button>
+        </CategoryTitle>
+        <CategoryList>
+          {dateTodos[3]?.todoList.map((item:any)=>
+            <CategoryListBox key={item.todoId}>
+            <p>{item.content}</p>
+            <div></div>
+          </CategoryListBox>)}
         </CategoryList>
       </CategoryBox>
     </TodoListBox>
@@ -73,8 +125,8 @@ const CategoryTitle = styled.div`
   div{
     width: 40px;
     height: 40px;
+    border-radius: 50%;
     background: #C7B5EF;
-    border-radius: 50%
   }
 `
 
