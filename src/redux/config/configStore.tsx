@@ -12,9 +12,13 @@ const store = configureStore({
     dateTodos,
     category,
     timer,
+
     
-  
-  } 
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 export default store;

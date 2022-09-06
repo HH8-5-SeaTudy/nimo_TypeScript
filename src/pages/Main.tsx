@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { ReactComponent as Plus } from "../image/add-button.svg";
 import React, { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { __getTimer } from "../redux/modules/timer";
 import { useCounter } from "./CheckIn";
-// import Header from "../components/common/Header";
+import { useDispatch } from "react-redux";
+import { __getCheckInTimer, __getCheckOutTimer } from "../redux/modules/timer";
 
 const Main = () => {
+  const dispatch = useDispatch();
   // 시, 분, 초를 state로 저장
   const [currentHours, setCurrentHours] = useState(0);
   const [currentMinutes, setCurrentMinutes] = useState(0);
@@ -25,6 +25,21 @@ const Main = () => {
     setCurrentSeconds(seconds);
   };
 
+  useEffect(() => {
+    dispatch(__getCheckOutTimer());
+    dispatch(__getCheckInTimer());
+  }, []);
+
+  const clickStart = () => {
+    dispatch(__getCheckInTimer());
+    start();
+  };
+
+  const clickStop = () => {
+    dispatch(__getCheckOutTimer());
+    stop();
+  };
+
   // count의 변화에 따라 timer 함수 렌더링
   useEffect(timer, [count]);
   return (
@@ -34,8 +49,8 @@ const Main = () => {
         {currentMinutes < 10 ? `0${currentMinutes}` : currentMinutes} :
         {currentSeconds < 10 ? `0${currentSeconds}` : currentSeconds}
       </h1>
-      <button onClick={start}>Start</button>
-      <button onClick={stop}>Stop</button>
+      <button onClick={clickStart}>Start</button>
+      <button onClick={clickStop}>Stop</button>
     </MainContainer>
   );
 };
