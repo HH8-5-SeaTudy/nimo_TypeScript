@@ -1,0 +1,45 @@
+.react-calendar {
+    width: 100%;
+    max-width: 100%;
+    background: white;
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.125em;
+    position: absolute;
+    top: 60px;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  /* 요일 스타일 */
+  font-size: 25px;
+}
+abbr[title] {
+  text-decoration: none;
+}
+
+.react-calendar__navigation__label__labelText  {
+  /* 달 선택 스타일 */
+  font-size: 30px;
+}
+.react-calendar__tile {
+  /* 날짜스타일 */
+  font-size: 40px;
+  padding: 20px 6.6667px 50px 6.667px;
+}
+.react-calendar__tile--active {
+  /* 선택날짜 */
+  border-radius: 20px;
+
+}
+.react-calendar__tile--now {
+  /* 오늘날짜 */
+  border-radius: 20px;
+}
+
+.react-calendar__navigation__arrow {
+  font-size: 30px;
+}
+
+.react-calendar__year-view .react-calendar__tile, .react-calendar__decade-view .react-calendar__tile, .react-calendar__century-view .react-calendar__tile {
+  padding: 1.25em 0.5em;
+}

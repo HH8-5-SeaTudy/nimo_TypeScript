@@ -1,15 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import todos from "../modules/todos";
+import allTodos from "../modules/allTodos";
+import dateTodos from '../modules/dateTodos';
 import timer from "../modules/timer";
 import category from '../modules/category';
-import updateDate from '../modules/updateDate';
+import updateDate from '../modules/searchDate';
 
 const store = configureStore({
   reducer: {
-    todos,
-    timer,
-    category,
     updateDate,
+    allTodos,
+    dateTodos,
+    category,
+    timer,
+    
+  
   } 
 });
 export type RootState = ReturnType<typeof store.getState>

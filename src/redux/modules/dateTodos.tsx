@@ -1,18 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export interface category {
-  content : any,
-}
 
-export const postCategory : any = createAsyncThunk(
+
+export interface date {
+  content : any,
+  selectDate : any,
+  headers: string
+}
+//일자별 목록 조회
+
+export const getDateTodo : any = createAsyncThunk(
   "category/postCategory",
-  async (payload:category, thunkAPI) => {
+  async (payload:date, thunkAPI) => {
     console.log('axios',payload)
     try {
-      const data = await axios.post("http://54.180.79.105/api/v1/todoCategories",{
-        categoryName: payload
-      },
+      const data = await axios.get(`http://54.180.79.105/api/v1/todoCategories/dates?selectDate=${payload}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -28,23 +31,21 @@ export const postCategory : any = createAsyncThunk(
 
 
 const initialState = {
-  category: [],
+  dateTodos: [],
 };
 
 
-export const categorySlice = createSlice({
-  name: "category",
+export const getDateTodoSlice = createSlice({
+  name: "todos",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: {
-      // [postCategory.fulfilled]: (state, action) => {
-      //   {action.payload && state.category.push(action.payload)};
-      //   console.log(action.payload)
-      // }
-    } 
+    [getDateTodo.fulfilled]: (state, action) => {
+      state.dateTodos = action.payload;
+    },
+},
 }
 );
 
 
-export default categorySlice.reducer; 
+export default getDateTodoSlice.reducer; 

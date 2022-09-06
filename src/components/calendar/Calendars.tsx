@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from "react";
+import "react-calendar/dist/Calendar.css";
+import './CalendarEl.css'
 import Calendar from "react-calendar";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDate } from '../../redux/modules/updateDate'
-// import { postTodo } from "../../redux/modules/todos";
-// import { getTodo } from "../../redux/modules/todos";
-// import { deleteTodo } from "../../redux/modules/todos";
-// import { editTodo } from "../../redux/modules/todos";
-// import { doneTodo } from "../../redux/modules/todos";
-
-import "react-calendar/dist/Calendar.css";
+import { updateDate } from '../../redux/modules/searchDate'
+import { getAllTodo } from '../../redux/modules/allTodos';
 import styled from 'styled-components';
+import { RootState } from '../../redux/config/configStore';
 
 const Calendars = () => {
   const dispatch = useDispatch();
 
-  // const { todos } = useSelector((state) => state.todos);
- // 메인화면 유즈이펙트로 바로 오늘 날짜 디스패치로 리덕스에 저장
- //
   const [value, onChange] = useState(new Date());
 
+  const allTodos= useSelector((state:RootState) => state.allTodos.allTodos);
+
+  console.log('todos',allTodos)
 
   // const [todo, setTodo] = useState("");
 
@@ -49,22 +46,23 @@ const Calendars = () => {
   // };
 
   useEffect(() => {
-    dispatch(updateDate(moment(value).format("YYYY-MM-DD")));
+    dispatch(updateDate(moment(value).format("YYYY-MM-DD")))
+    dispatch(getAllTodo())
   }, [value]);
 
   return (
-    <Layer>
-      <div>   
-        {moment(value).format("YYYY년 MM월 DD일")}
-        <Calendar
+  
+      <Layer>
+        <p>{moment(value).format("YYYY년 MM월 DD일")}</p>
+        <div>
+               <Calendar
           onChange={onChange}
           prev2Label={null}
           next2Label={null}
           value={value}
-          
           calendarType={"US"}
           // showNeighboringMonth={false}
-          formatDay={(locale:any, date:any) => moment(date).format("DD")}
+          formatDay={(locale:any, date:any) => moment(date).format("D")}
           tileContent={({ }) => {
             let html : any = [];
             // {
@@ -108,51 +106,21 @@ const Calendars = () => {
           }}
         />
 
-     
-        {/* <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            onSubmitHandler();
-          }}
-        >
-          <input
-            type="text"
-            value={todo}
-            onChange={(e) => setTodo(e.target.value)}
-          />
-          <button type="submit">등록</button>
-        </form> */}
-        {/* {todos.map((list) => (
-          <div key={list.id}>
-            {list.selecteDate === moment(value).format("YYYY년 MM월 DD일") ? (
-              <div>
-                {list.content}
+        </div>
+   
+      </Layer>
 
-                <input
-                  type="text"
-                  defaultValue={list.content}
-                  onChange={(e) => setEditTodoContent(e.target.value)}
-                />
-
-                <button onClick={() => dispatch(deleteTodo(list.id))}>
-                  삭제
-                </button>
-
-                <button onClick={() => editHandler(list.id)}>수정</button>
-                <button onClick={() => doneHandler(list.id)}>완료</button>
-              </div>
-            ) : null}
-          </div>
-        ))} */}
-      </div>
-    </Layer>
   );
 };
 
 export default React.memo(Calendars);
 
-const Layer = styled.section`
-  width: 350px;
-  height: 400px;
-  border: solid blue 3px;
+
+const Layer = styled.div`
+position: relative;
+  p{
+  }
+  div{
+    
+  }
 `
