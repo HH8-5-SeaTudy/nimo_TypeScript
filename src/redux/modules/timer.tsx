@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const __getCheckInTimer: any = createAsyncThunk(
@@ -45,15 +45,25 @@ export const __getCheckOutTimer: any = createAsyncThunk(
   }
 );
 
+interface Itimer {
+  timer: {
+    checkOut: string;
+    hh: number;
+    mm: number;
+    ss: number;
+    timeWatch: string;
+  };
+}
+
 const initialState = {
-  timer: [],
+  timer: {},
 };
 
 export const timerSlice = createSlice({
   name: "timer",
   initialState,
   extraReducers: {
-    [__getCheckInTimer.fulfilled]: (state, action) => {
+    [__getCheckInTimer.fulfilled]: (state, action: PayloadAction<Itimer>) => {
       state.timer = action.payload;
     },
     [__getCheckOutTimer.fulfilled]: (state, action) => {
