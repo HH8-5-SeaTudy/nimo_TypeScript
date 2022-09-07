@@ -2,11 +2,16 @@ import styled from "styled-components";
 import { ReactComponent as Plus } from "../image/add-button.svg";
 import React, { useEffect, useState } from "react";
 import { useCounter } from "./CheckIn";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __getCheckInTimer, __getCheckOutTimer } from "../redux/modules/timer";
+import { RootState } from "../redux/config/configStore";
+import { Itime } from "../api";
 
 const Main = () => {
   const dispatch = useDispatch();
+  const time = useSelector((state: RootState) => state.timer.timer.timeWatch);
+  console.log(time);
+
   // 시, 분, 초를 state로 저장
   const [currentHours, setCurrentHours] = useState(0);
   const [currentMinutes, setCurrentMinutes] = useState(0);
@@ -44,6 +49,7 @@ const Main = () => {
   useEffect(timer, [count]);
   return (
     <MainContainer>
+      <h1>{time}</h1>
       <h1>
         {currentHours < 10 ? `0${currentHours}` : currentHours} :
         {currentMinutes < 10 ? `0${currentMinutes}` : currentMinutes} :
@@ -59,10 +65,5 @@ const MainContainer = styled.div`
   width: 100%;
   height: 100%;
   border: 1px solid black;
-`;
-
-const PlusIcon = styled(Plus)`
-  /* width: 125px; */
-  /* height: 125px; */
 `;
 export default Main;
