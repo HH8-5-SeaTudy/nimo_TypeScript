@@ -18,13 +18,21 @@ const TodoList = () => {
   const date= useSelector((state:RootState) => state.updateDate.date);
   const dateTodos:Array<Icategory>= useSelector((state:RootState) => state.dateTodos.dateTodos);
   
+  const [btnShow,setBtnShow] = useState(false)
+  const [btn2Show,setBtn2Show] = useState(false)
+  const [btn3Show,setBtn3Show] = useState(false)
+  const [btn4Show,setBtn4Show] = useState(false)
+
   const [category,setCategory] = useState('')
 
-  console.log(dateTodos)
+  console.log('선택날짜데이터',dateTodos)
 
- // 카테고리가 수정되면 모든 데이터가 변해야 하기 때문에 getAlltodos 실행해줘야함.
   const onSubmitHandler = () => {
-    dispatch(postCategory(category))
+    dispatch(postCategory(
+      {categoryName:'카테고리',
+      selectDate:date}
+    ))
+    window.location.reload()
   };
 
  // 선택되는 날짜 받아와서 정보불러오기 (기본값 오늘날짜)
@@ -35,77 +43,59 @@ useEffect(() => {
 
 
   return (
+    <>
+    <AddCategory>
+      <BtnGroup>
+        <div onClick={onSubmitHandler}></div>
+      </BtnGroup>
+    </AddCategory>
+
     <TodoListBox>
-  
-
-      <CategoryBox>
-        <CategoryTitle>
+      {dateTodos?.map((list:any)=> 
+      <CategoryBox key={list.categoryId}>
+        <CategoryTitle >
           <div></div>
-          <p>{dateTodos[0] ? dateTodos[0]?.categoryName : '카테고리'}</p>
-          <input defaultValue={dateTodos[0]?.categoryName} />
-          <button>+</button>
+          <p>{list.categoryName}</p>
         </CategoryTitle>
         <CategoryList>
-          {dateTodos[0]?.todoList.map((item:any)=>
+          {list.todoList.map((item:any)=>
             <CategoryListBox key={item.todoId}>
             <p>{item.content}</p>
             <div></div>
           </CategoryListBox>)}
         </CategoryList>
-      </CategoryBox>
-
-      <CategoryBox>
-        <CategoryTitle>
-          <div></div>
-          <p>{dateTodos[1] ? dateTodos[1]?.categoryName : '카테고리2'}</p>
-          <input defaultValue={dateTodos[1]?.categoryName} />
-          <button>+</button>
-        </CategoryTitle>
-        <CategoryList>
-          {dateTodos[1]?.todoList.map((item:any)=>
-            <CategoryListBox key={item.todoId}>
-            <p>{item.content}</p>
-            <div></div>
-          </CategoryListBox>)}
-        </CategoryList>
-      </CategoryBox>
-
-      <CategoryBox>
-        <CategoryTitle>
-          <div></div>
-          <p>{dateTodos[3] ? dateTodos[3]?.categoryName : '카테고리3'}</p>
-          <input defaultValue={dateTodos[3] ? dateTodos[3]?.categoryName : '카테고리3'} />
-          <button>+</button>
-        </CategoryTitle>
-        <CategoryList>
-          {dateTodos[2]?.todoList.map((item:any)=>
-            <CategoryListBox key={item.todoId}>
-            <p>{item.content}</p>
-            <div></div>
-          </CategoryListBox>)}
-        </CategoryList>
-      </CategoryBox>
-
-      <CategoryBox>
-        <CategoryTitle>
-          <div></div>
-          <p>{dateTodos[3] ? dateTodos[3]?.categoryName : '카테고리4'}</p>
-          <input defaultValue={dateTodos[3] ? dateTodos[3]?.categoryName : '카테고리4'} />
-          <button>+</button>
-        </CategoryTitle>
-        <CategoryList>
-          {dateTodos[3]?.todoList.map((item:any)=>
-            <CategoryListBox key={item.todoId}>
-            <p>{item.content}</p>
-            <div></div>
-          </CategoryListBox>)}
-        </CategoryList>
-      </CategoryBox>
+      </CategoryBox>)}
     </TodoListBox>
+    </>
+    
+    
   );
 };
 
 export default TodoList;
+
+const AddCategory = styled.div``
+
+const BtnGroup = styled.div`
+display:flex;
+  div {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    &:first-child {
+      background: red;
+    }
+    &:nth-child(2) {
+      background: yellow;
+    }
+    &:nth-child(3) {
+      background: blue;
+    }
+    &:nth-child(4) {
+      background: green;
+    }
+  }
+`
 
 const TodoListBox = styled.section`
   width:100%;

@@ -18,32 +18,6 @@ const Calendars = () => {
 
   console.log('todos',allTodos)
 
-  // const [todo, setTodo] = useState("");
-
-  // const [editTodoContent, setEditTodoContent] = useState("");
-
-  // const todoList = {
-  //   selectDate: moment(value).format("YYYY-MM-DD"),
-  //   content: todo,
-  // };
-
-  // const onSubmitHandler = () => {
-  //   dispatch(postTodo(todoList));
-  //   setTodo("");
-  //   postTodo();
-  // };
-
-  // const editHandler = (id:string) => {
-  //   dispatch(
-  //     editTodo({
-  //       id: id,
-  //       content: editTodoContent,
-  //     })
-  //   );
-  // };
-  // const doneHandler = (id:string) => {
-  //   dispatch(doneTodo(id));
-  // };
 
   useEffect(() => {
     dispatch(updateDate(moment(value).format("YYYY-MM-DD")))

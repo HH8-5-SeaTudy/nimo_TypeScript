@@ -3,15 +3,20 @@ import axios from "axios";
 
 export interface category {
   content : any,
+  categoryName : any,
+  headers: string
 }
+
+//일자별 목록 조회
 
 export const postCategory : any = createAsyncThunk(
   "category/postCategory",
-  async (payload:category, thunkAPI) => {
+  async (payload:any, thunkAPI) => {
     console.log('axios',payload)
     try {
       const data = await axios.post("http://54.180.79.105/api/v1/todoCategories",{
-        categoryName: payload
+        categoryName: payload.categoryName,
+        selectDate: payload.selectDate,
       },
       {
         headers: {
@@ -39,11 +44,9 @@ export const categorySlice = createSlice({
   },
   extraReducers: {
       // [postCategory.fulfilled]: (state, action) => {
-      //   {action.payload && state.category.push(action.payload)};
-      //   console.log(action.payload)
-      // }
+      //   state.category.concat(action.payload)}
+      }
     } 
-}
 );
 
 
