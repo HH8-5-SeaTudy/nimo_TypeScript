@@ -1,4 +1,9 @@
 import React from "react";
+import { 
+  KaKaoLoginButtonContainer,
+  KaKaoLogo,
+  KaKaoKor,
+} from "./LoginButtonStyle";
 
 const Kakao = () => {
   const restApiKey = process.env.REACT_APP_REST_API_KEY;
@@ -10,7 +15,13 @@ const Kakao = () => {
   const loginHandler = () => {
     window.location.href = kakaoAuthUrl;
   };
-  return <button onClick={loginHandler}> 카카오로 로그인 </button>;
+  return (
+    <KaKaoLoginButtonContainer onClick={loginHandler} >
+      <KaKaoLogo/>
+      <KaKaoKor>카카오톡 로그인</KaKaoKor>
+    </KaKaoLoginButtonContainer>
+  )
 };
+
 
 export default Kakao;

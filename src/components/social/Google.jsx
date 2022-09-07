@@ -1,5 +1,9 @@
 import React from "react";
-
+import { 
+  GoogleLoginButtonContainer,
+  GoogleLogo,
+  GoogleKor,
+} from "./LoginButtonStyle";
 const Google = () => {
   const googleClientId =
     "464072093758-haopsod0lephjnaqkdel99qob47ivlp1.apps.googleusercontent.com";
@@ -12,7 +16,12 @@ const Google = () => {
   const loginHandler = () => {
     window.location.href = googleAuthUrl;
   };
-  return <button onClick={loginHandler}> 구글로 로그인 </button>;
+  return (
+  <GoogleLoginButtonContainer onClick={loginHandler}>
+    <GoogleLogo/>
+    <GoogleKor>구글 로그인</GoogleKor>
+  </GoogleLoginButtonContainer>
+  )
 };
 
 export default Google;
