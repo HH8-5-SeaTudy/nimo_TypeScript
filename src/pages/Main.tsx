@@ -36,6 +36,7 @@ const Main = () => {
       </h1>
       <button onClick={start}>Start</button>
       <button onClick={stop}>Stop</button>
+      <div></div>
     </MainContainer>
   );
 };
