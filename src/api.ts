@@ -14,3 +14,9 @@ export interface Itime {
   timer: [];
   timeWatch: string;
 }
+
+export interface Icategory {
+  categoryId: number;
+  categoryName: string;
+  todoList: [];
+}

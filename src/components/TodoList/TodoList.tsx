@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Category, { postCategory } from "../../redux/modules/category";
 import { getDateTodo } from "../../redux/modules/dateTodos";
 import { RootState } from "../../redux/config/configStore";
-import { Icategory, Iitem } from "../../api";
+import { Icategory } from "../../api";
 
 const TodoList = () => {
   const dispatch = useDispatch();
@@ -13,15 +13,19 @@ const TodoList = () => {
   const dateTodos: Array<Icategory> = useSelector(
     (state: RootState) => state.dateTodos.dateTodos
   );
-  console.log("선택날짜", dateTodos[0]);
 
-  useEffect(() => {}, []);
+  const [btnShow, setBtnShow] = useState(false);
+  const [btn2Show, setBtn2Show] = useState(false);
+  const [btn3Show, setBtn3Show] = useState(false);
+  const [btn4Show, setBtn4Show] = useState(false);
 
   const [category, setCategory] = useState("");
 
-  // 카테고리가 수정되면 모든 데이터가 변해야 하기 때문에 getAlltodos 실행해줘야함.
+  console.log("선택날짜데이터", dateTodos);
+
   const onSubmitHandler = () => {
-    dispatch(postCategory(category));
+    dispatch(postCategory({ categoryName: "카테고리", selectDate: date }));
+    window.location.reload();
   };
 
   // 선택되는 날짜 받아와서 정보불러오기 (기본값 오늘날짜)
@@ -31,31 +35,59 @@ const TodoList = () => {
   }, [date]);
 
   return (
-    <TodoListBox>
-      <CategoryBox>
-        <CategoryTitle>
-          <div></div>
-          <input defaultValue="카테고리" />
-          <button>+</button>
-        </CategoryTitle>
-        <CategoryList>
-          <CategoryListBox>
-            <p>수학숙제</p>
-            <div></div>
-          </CategoryListBox>
-          {dateTodos[0]?.todoList.map((item: Iitem) => (
-            <CategoryListBox>
-              <p>{item.content}</p>
-              <p>{item.selectDate}</p>
-            </CategoryListBox>
-          ))}
-        </CategoryList>
-      </CategoryBox>
-    </TodoListBox>
+    <>
+      <AddCategory>
+        <BtnGroup>
+          <div onClick={onSubmitHandler}></div>
+        </BtnGroup>
+      </AddCategory>
+
+      <TodoListBox>
+        {dateTodos?.map((list: any) => (
+          <CategoryBox key={list.categoryId}>
+            <CategoryTitle>
+              <div></div>
+              <p>{list.categoryName}</p>
+            </CategoryTitle>
+            <CategoryList>
+              {list.todoList.map((item: any) => (
+                <CategoryListBox key={item.todoId}>
+                  <p>{item.content}</p>
+                  <div></div>
+                </CategoryListBox>
+              ))}
+            </CategoryList>
+          </CategoryBox>
+        ))}
+      </TodoListBox>
+    </>
   );
 };
 
 export default TodoList;
+
+const AddCategory = styled.div``;
+
+const BtnGroup = styled.div`
+  display: flex;
+  div {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    &:first-child {
+      background: red;
+    }
+    &:nth-child(2) {
+      background: yellow;
+    }
+    &:nth-child(3) {
+      background: blue;
+    }
+    &:nth-child(4) {
+      background: green;
+    }
+  }
+`;
 
 const TodoListBox = styled.section`
   width: 100%;
@@ -74,8 +106,8 @@ const CategoryTitle = styled.div`
   div {
     width: 40px;
     height: 40px;
-    background: #c7b5ef;
     border-radius: 50%;
+    background: #c7b5ef;
   }
 `;
 

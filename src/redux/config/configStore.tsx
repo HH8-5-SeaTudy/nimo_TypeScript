@@ -4,6 +4,7 @@ import dateTodos from "../modules/dateTodos";
 import timer from "../modules/timer";
 import category from "../modules/category";
 import updateDate from "../modules/searchDate";
+
 import socket from "../modules/socket";
 
 const store = configureStore({
