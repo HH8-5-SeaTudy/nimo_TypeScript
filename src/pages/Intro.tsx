@@ -17,7 +17,7 @@ export default function Intro() {
         }}
       > */}
       <WaveContainer>
-        <WaveWrapper style={{ zIndex: "2" }}>
+        <WaveWrapper>
           <FirstWave className="wave wave1"></FirstWave>
         </WaveWrapper>
         <WaveWrapper>
@@ -133,7 +133,7 @@ const SecondeWave = styled.div`
   align-items: center;
   flex-direction: column;
   height: 100%;
-  background-color: #1b343f;
+  background-color: black;
   overflow: hidden;
 
   &:before,
@@ -143,7 +143,7 @@ const SecondeWave = styled.div`
     left: 50%;
     min-width: 200vw;
     min-height: 200vw;
-    background-color: #1b343f;
+    background-color: transparent;
     animation-name: ${rotate};
     animation-iteration-count: infinite;
     animation-timing-function: linear;
