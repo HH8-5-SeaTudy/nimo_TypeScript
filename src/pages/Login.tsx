@@ -9,15 +9,15 @@ import styled from "styled-components";
 export default function Login() {
   return (
     <div>
-      
-      <Header/>
-      <LoginContainer>
+      {/* <TodoModal/> */}
       <Kakao />
       <Naver />
       <Google />
-      </LoginContainer>
+      <ProfileSidebar/>
+      <BurgerSidebar/>
+      <TodoSidebar/>
+      <CalendarSidebar/>
     </div>
-  );
 }
 
 const LoginContainer = styled.div`
