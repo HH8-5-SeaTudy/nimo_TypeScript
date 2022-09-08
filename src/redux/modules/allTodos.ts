@@ -54,10 +54,8 @@ export const getAllTodoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    
   },
   extraReducers: {
-
     [getAllTodo.fulfilled.type]: (state: IInitialState, action : PayloadAction<Array<ITodos>>) => {
       state.allTodos = action.payload;
     },
