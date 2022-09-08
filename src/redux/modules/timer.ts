@@ -45,18 +45,21 @@ export const __getCheckOutTimer: any = createAsyncThunk(
   }
 );
 
-interface Itimer {
-  timer: {
-    checkOut?: string;
-    hh?: number;
-    mm?: number;
-    ss?: number;
-    timeWatch?: string;
-  };
-}
+// 초기 상태 타입
+export type Itimer = {
+  checkOut: string;
+  hh: number;
+  mm: number;
+  ss: number;
+  timeWatch: string;
+};
 
-const initialState = {
-  timer: {},
+const initialState : Itimer = {
+  checkOut: "",
+  hh: 0,
+  mm: 0,
+  ss: 0,
+  timeWatch: "",
 };
 
 export const timerSlice = createSlice({
@@ -64,10 +67,10 @@ export const timerSlice = createSlice({
   initialState: initialState as Itimer,
   extraReducers: {
     [__getCheckInTimer.fulfilled]: (state, action: PayloadAction<Itimer>) => {
-      // state.timer = action.payload;
+      state = action.payload;
     },
     [__getCheckOutTimer.fulfilled]: (state, action) => {
-      state.timer = action.payload;
+      state = action.payload;
     },
   },
   reducers: {},

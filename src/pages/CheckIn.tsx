@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useCallback } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/config/configStore";
 
 interface returnValue {
   count: number;
@@ -11,7 +12,7 @@ interface returnValue {
 
 // 사용자 정의 hook
 export const useCounter = (initialValue: number, ms: number) => {
-  const time = useSelector((state: any) => state.timer);
+  const time = useSelector((state: RootState) => state.timer);
   console.log(time);
 
   const [count, setCount] = useState<number>(initialValue);
