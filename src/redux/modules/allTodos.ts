@@ -1,18 +1,14 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface todoList {
-  selectDate: string;
-  content: string;
-  id: string;
-}
+const name = 'todo';
 
 //전체 목록 조회
-export const getAllTodo: any = createAsyncThunk(
+export const getAllTodo :any = createAsyncThunk(
   "todo/getTodo",
-  async (payload: any, thunkAPI) => {
+  async (payload, thunkAPI) => {
     try {
-      const data: any = await axios.get(
+      const getData = await axios.get(
         "http://54.180.79.105/api/v1/todoCategories",
         {
           headers: {
@@ -22,26 +18,55 @@ export const getAllTodo: any = createAsyncThunk(
           },
         }
       );
-      return thunkAPI.fulfillWithValue(data.data.data);
+      
+      const data :ITodos[] = getData.data.data;
+      console.log(data);
+      console.log(thunkAPI);
+      
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
-const initialState = {
+
+
+export type IInitialState = {
+  allTodos : Array<ITodos>;
+}
+
+export type ITodos = {
+  categoryId: number,
+  categoryName: string,
+  memberCateDto: {
+    memberId: number, 
+    email: string,
+  }
+  selectDate: string,
+  todoList: any,
+}
+const initialState : IInitialState = {
   allTodos: [],
 };
 
 export const getAllTodoSlice = createSlice({
-  name: "todos",
+  name: "todo",
   initialState,
-  reducers: {},
+  reducers: {
+    
+  },
   extraReducers: {
-    [getAllTodo.fulfilled]: (state, action) => {
+
+    [getAllTodo.fulfilled.type]: (state: IInitialState, action : PayloadAction<Array<ITodos>>) => {
       state.allTodos = action.payload;
     },
   },
+  // extraReducers: (builder) => {
+  //   builder.addCase(getAllTodo.fulfilled, (state, action) => {
+  //     state.allTodos = action.payload;
+  //   })
+  // },
 });
 
 export default getAllTodoSlice.reducer;
