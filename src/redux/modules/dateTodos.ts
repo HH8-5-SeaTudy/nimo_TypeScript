@@ -25,6 +25,7 @@ export const getDateTodo: any = createAsyncThunk(
           },
         }
       );
+      console.log(data);
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
