@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { ReactComponent as ProfileIcon } from "../../image/icon/ProfileIcon.svg";
+import { ReactComponent as ProfileIcon } from "../../assets/icon/ProfileIcon.svg";
 
 const ProfileSidebar = () => {
   const [show, setShow] = useState(false);
@@ -9,24 +9,22 @@ const ProfileSidebar = () => {
     <div>
       <ProfileSide onClick={() => setShow(!show)}>
         <ProfileIconBox>
-        <Profile />
-      </ProfileIconBox>
+          <Profile />
+        </ProfileIconBox>
       </ProfileSide>
-    <ProfileLayer show={show}>
-          <ProfileBox>
-            <ProfileImg></ProfileImg>
-            <PlayerName>플레이어 이름</PlayerName>
-            <PlayerMSG></PlayerMSG>
-          </ProfileBox>
-          <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
-        </ProfileLayer>
+      <ProfileLayer show={show}>
+        <ProfileBox>
+          <ProfileImg></ProfileImg>
+          <PlayerName>플레이어 이름</PlayerName>
+          <PlayerMSG></PlayerMSG>
+        </ProfileBox>
+        <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
+      </ProfileLayer>
     </div>
   );
 };
 
 export default ProfileSidebar;
-
-
 
 const ProfileSide = styled.div`
   position: absolute;
@@ -44,9 +42,9 @@ const ProfileIconBox = styled.div`
   height: 80px;
   left: 0;
   top: 35%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
   border-radius: 40px;
@@ -54,15 +52,14 @@ const ProfileIconBox = styled.div`
 
 const Profile = styled(ProfileIcon)`
   position: absolute;
-
 `;
 interface ProfileLayerProps {
-  show : boolean;
+  show: boolean;
 }
 
 const ProfileLayer = styled.div<ProfileLayerProps>`
   position: absolute;
-  display:flex;
+  display: flex;
   top: 64px;
   width: 359px;
   height: 394px;
@@ -117,5 +114,5 @@ const PlayerMSG = styled.div`
 `;
 
 const CloseBtn = styled.div`
-  width:25px;
-`
+  width: 25px;
+`;

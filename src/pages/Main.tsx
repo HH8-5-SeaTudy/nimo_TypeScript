@@ -9,7 +9,7 @@ import { Itime } from "../api";
 
 const Main = () => {
   const dispatch = useDispatch();
-  const time = useSelector((state: RootState) => state.timer.timer.timeWatch);
+  const time = useSelector((state: RootState) => state);
   console.log(time);
 
   // 시, 분, 초를 state로 저장
@@ -49,7 +49,6 @@ const Main = () => {
   useEffect(timer, [count]);
   return (
     <MainContainer>
-      <h1>{time}</h1>
       <h1>
         {currentHours < 10 ? `0${currentHours}` : currentHours} :
         {currentMinutes < 10 ? `0${currentMinutes}` : currentMinutes} :

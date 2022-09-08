@@ -48,7 +48,7 @@ function ChatRoom() {
     try {
       client.connect(headers, () => {
         client.subscribe(
-          `/sub/chat/room/4e66fa90-e834-4b51-b17d-c222979cc04c`,
+          `/sub/chat/room/hello`,
           (data) => {
             const newMessage = JSON.parse(data.body);
             dispatch(addMessage(newMessage));
@@ -65,7 +65,7 @@ function ChatRoom() {
       `/pub/chat/message`,
       headers,
       JSON.stringify({
-        roomId: "4e66fa90-e834-4b51-b17d-c222979cc04c",
+        roomId: "hello",
         message: message,
       })
     );
