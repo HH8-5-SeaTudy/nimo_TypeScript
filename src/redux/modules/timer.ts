@@ -1,20 +1,23 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BASE_URL = process.env.BASE_URL;
+const token: any = process.env.REACT_APP_TOKEN;
+
 export const __getCheckInTimer: any = createAsyncThunk(
   "timer/postTimer",
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://54.180.79.105/api/v1/checkIns",
+        `${BASE_URL}/api/v1/checkIns`,
         payload,
         {
           headers: {
-            Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMxMjNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjcxMTUwN30.kF7tvGWZbhv5ovOKA3CPyY7KIwg2dSsGgw9o63M3kQ4"
+            Authorization: token,
           },
         }
       );
-      console.log('checkin',response);
+      console.log("checkin", response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -27,16 +30,15 @@ export const __getCheckOutTimer: any = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://54.180.79.105/api/v1/checkOuts",
+        `${BASE_URL}/api/v1/checkOuts`,
         payload,
         {
           headers: {
-            Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMxMjNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjcxMTUwN30.kF7tvGWZbhv5ovOKA3CPyY7KIwg2dSsGgw9o63M3kQ4",
+            Authorization: token,
           },
         }
       );
-      console.log('checkOut',response.data);
+      console.log("checkOut", response.data);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -54,7 +56,7 @@ export type Itimer = {
   timeWatch: string;
 };
 
-const initialState : Itimer = {
+const initialState: Itimer = {
   checkOut: "",
   checkIn: "",
   hh: 0,
@@ -67,18 +69,23 @@ export const timerSlice = createSlice({
   name: "timer",
   initialState,
   extraReducers: {
-    [__getCheckInTimer.fulfilled.type]: (state, action: PayloadAction<Itimer>) => {
+    [__getCheckInTimer.fulfilled.type]: (
+      state,
+      action: PayloadAction<Itimer>
+    ) => {
       state = action.payload;
-      console.log('In',state)
-      console.log(action.payload)
-      return state
-
+      console.log("In", state);
+      console.log(action.payload);
+      return state;
     },
-    [__getCheckOutTimer.fulfilled.type]: (state, action : PayloadAction<Itimer>) => {
-      state = {...state,...action.payload};
-      console.log('out',state)
-      console.log(action.payload)
-      return state
+    [__getCheckOutTimer.fulfilled.type]: (
+      state,
+      action: PayloadAction<Itimer>
+    ) => {
+      state = { ...state, ...action.payload };
+      console.log("out", state);
+      console.log(action.payload);
+      return state;
     },
   },
   reducers: {},
