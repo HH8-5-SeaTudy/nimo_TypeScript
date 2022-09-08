@@ -52,8 +52,8 @@ const Statistics = () => {
         </PointBox>
       </LeftSide>
       <RightSide>
-        <Chart></Chart>
-        <Graph></Graph>
+        <Chart>뭘넣어야지</Chart>
+        <Graph>뭘넣어야지</Graph>
       </RightSide>
     </StatisticsLayer>
   );
