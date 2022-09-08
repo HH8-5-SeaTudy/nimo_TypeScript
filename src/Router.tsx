@@ -9,7 +9,8 @@ import GoogleLogin from "./pages/GoogleLogin";
 import Login from "./pages/Login";
 import { EnumPages } from "./enum/EnumPages";
 import ChatRoom from "./pages/ChatRoom";
-// import Test from "./pages/Test";
+import Statistics from './pages/Statistics';
+
 
 const Router = () => {
   return (
@@ -18,13 +19,15 @@ const Router = () => {
         <Route path={EnumPages.HOME} element={<Home />}>
           <Route path={EnumPages.INTRO} element={<Intro />} />
           <Route path={EnumPages.MAIN} element={<Main />} />
-          <Route path={EnumPages.CHATROOM} element={<ChatRoom />} />
+          <Route path={EnumPages.CHATROOM} element={<ChatRoom />} />   
+          <Route path={EnumPages.STATISTICS} element={<Statistics />} />
         </Route>
         <Route path={EnumPages.LOGIN} element={<Login />} />
         <Route path={EnumPages.KAKAOLOGIN} element={<KakaoLogin />} />
         <Route path={EnumPages.NAVERLOGIN} element={<NaverLogin />} />
         <Route path={EnumPages.GOOGLELOGIN} element={<GoogleLogin />} />
-        {/* <Route path="test" element={<Test />} /> */}
+        <Route path={EnumPages.GOOGLELOGIN} element={<GoogleLogin />} />
+     
       </Routes>
     </BrowserRouter>
   );
