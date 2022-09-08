@@ -2,38 +2,43 @@ import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import Category, { postCategory } from '../../redux/modules/category';
+import { postCategory,deleteCategory,_editCategory} from '../../redux/modules/dateTodos';
 import { getDateTodo } from '../../redux/modules/dateTodos';
 import { RootState } from '../../redux/config/configStore';
 
 
 const TodoList = () => {
-  interface Icategory {
-    categoryId:number;
-    categoryName:string;
-    todoList:[];
-  }
+  // interface Icategory {
+  //   categoryId:number;
+  //   categoryName:string;
+  //   todoList:[];
+  // }
 
   const dispatch = useDispatch();
   const date= useSelector((state:RootState) => state.updateDate.date);
-  const dateTodos:Array<Icategory>= useSelector((state:RootState) => state.dateTodos.dateTodos);
-  
-  const [btnShow,setBtnShow] = useState(false)
-  const [btn2Show,setBtn2Show] = useState(false)
-  const [btn3Show,setBtn3Show] = useState(false)
-  const [btn4Show,setBtn4Show] = useState(false)
+  const dateTodos:any= useSelector((state:RootState) => state.dateTodos.dateTodos);
+
 
   const [category,setCategory] = useState('')
+  const [editCategory,setEditCategory] = useState('')
 
   console.log('선택날짜데이터',dateTodos)
+  console.log('선택날짜데이터',category)
 
   const onSubmitHandler = () => {
     dispatch(postCategory(
-      {categoryName:'카테고리',
+      {categoryName:category,
       selectDate:date}
     ))
     window.location.reload()
   };
+
+  const onSubmitEditHandler = (id:any) => {
+    dispatch(_editCategory({
+      categoryName: editCategory,
+      categoryId: id,
+    }))
+  }
 
  // 선택되는 날짜 받아와서 정보불러오기 (기본값 오늘날짜)
 
@@ -46,7 +51,11 @@ useEffect(() => {
     <>
     <AddCategory>
       <BtnGroup>
-        <div onClick={onSubmitHandler}></div>
+        카테고리생성
+        <form onSubmit={onSubmitHandler}>
+        <input type="text" onChange={(e)=>setCategory(e.target.value)}/>
+        <button type='submit' >+</button>
+        </form>
       </BtnGroup>
     </AddCategory>
 
@@ -56,10 +65,16 @@ useEffect(() => {
         <CategoryTitle >
           <div></div>
           <p>{list.categoryName}</p>
+          <button onClick={()=>dispatch(deleteCategory(list.categoryId))}>x</button>
+          <form onSubmit={()=>onSubmitEditHandler(list.categoryId)}>
+          <input type="text" onChange={(e)=>setEditCategory(e.target.value)}/>
+          <button type='submit'>수정</button>
+          </form>
         </CategoryTitle>
+        
         <CategoryList>
           {list.todoList.map((item:any)=>
-            <CategoryListBox key={item.todoId}>
+            <CategoryListBox key={item.todoId}> 
             <p>{item.content}</p>
             <div></div>
           </CategoryListBox>)}
@@ -72,7 +87,7 @@ useEffect(() => {
   );
 };
 
-export default TodoList;
+export default TodoList
 
 const AddCategory = styled.div``
 
