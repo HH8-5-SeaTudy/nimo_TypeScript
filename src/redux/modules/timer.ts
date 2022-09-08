@@ -6,16 +6,16 @@ export const __getCheckInTimer: any = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://13.125.120.152/api/v1/checkIns",
+        "http://54.180.79.105/api/v1/checkIns",
         payload,
         {
           headers: {
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyN0BuYXZlci5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNTUzNTM5fQ.7fy8-Y_BGidln7b8TJQ4OE7s7sPoAWtApNW3mUl0pz0",
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMxMjNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjcxMTUwN30.kF7tvGWZbhv5ovOKA3CPyY7KIwg2dSsGgw9o63M3kQ4",
           },
         }
       );
-      console.log(response);
+      console.log("checkIn", response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -28,16 +28,16 @@ export const __getCheckOutTimer: any = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://13.125.120.152/api/v1/checkOuts",
+        "http://54.180.79.105/api/v1/checkOuts",
         payload,
         {
           headers: {
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyN0BuYXZlci5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNTUzNTM5fQ.7fy8-Y_BGidln7b8TJQ4OE7s7sPoAWtApNW3mUl0pz0",
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMxMjNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjcxMTUwN30.kF7tvGWZbhv5ovOKA3CPyY7KIwg2dSsGgw9o63M3kQ4",
           },
         }
       );
-      console.log(response.data);
+      console.log("checkOut", response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -47,33 +47,38 @@ export const __getCheckOutTimer: any = createAsyncThunk(
 
 // 초기 상태 타입
 export type Itimer = {
-  checkOut: string;
+  checkOut?: string;
+  checkIn?: string;
   hh: number;
   mm: number;
   ss: number;
   timeWatch: string;
 };
 
-const initialState : Itimer = {
-  checkOut: "",
-  hh: 0,
-  mm: 0,
-  ss: 0,
-  timeWatch: "",
+const initialState = {
+  // checkOut: "",
+  // checkIn: "",
+  // hh: 0,
+  // mm: 0,
+  // ss: 0,
+  // timeWatch: "",
+  timer: [],
 };
 
 export const timerSlice = createSlice({
   name: "timer",
-  initialState: initialState as Itimer,
+  initialState,
+  reducers: {},
   extraReducers: {
-    [__getCheckInTimer.fulfilled]: (state, action: PayloadAction<Itimer>) => {
+    [__getCheckInTimer.fulfilled]: (state, action) => {
       state = action.payload;
+      console.log(action.payload);
     },
     [__getCheckOutTimer.fulfilled]: (state, action) => {
+      // state.timeWatch = action.payload.timeWatch;
       state = action.payload;
     },
   },
-  reducers: {},
 });
 
 export default timerSlice.reducer;

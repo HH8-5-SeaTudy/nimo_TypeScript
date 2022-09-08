@@ -9,8 +9,9 @@ import { Itime } from "../api";
 
 const Main = () => {
   const dispatch = useDispatch();
+  const timeCheckIn = useSelector((state: RootState) => state.timer);
   const time = useSelector((state: RootState) => state);
-  console.log(time);
+  console.log(timeCheckIn);
 
   // 시, 분, 초를 state로 저장
   const [currentHours, setCurrentHours] = useState(0);
