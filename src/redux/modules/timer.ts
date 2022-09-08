@@ -10,12 +10,20 @@ export const __getCheckInTimer: any = createAsyncThunk(
         payload,
         {
           headers: {
+<<<<<<< HEAD
             Authorization:
               "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMxMjNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjcxMTUwN30.kF7tvGWZbhv5ovOKA3CPyY7KIwg2dSsGgw9o63M3kQ4",
           },
         }
       );
       console.log("checkIn", response);
+=======
+            Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXMxMjNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjcxMTUwN30.kF7tvGWZbhv5ovOKA3CPyY7KIwg2dSsGgw9o63M3kQ4"
+          },
+        }
+      );
+      console.log('checkin',response);
+>>>>>>> 958d89cd1581dc7396a594b86f8e5d0d9bccef0c
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -37,7 +45,11 @@ export const __getCheckOutTimer: any = createAsyncThunk(
           },
         }
       );
+<<<<<<< HEAD
       console.log("checkOut", response);
+=======
+      console.log('checkOut',response.data);
+>>>>>>> 958d89cd1581dc7396a594b86f8e5d0d9bccef0c
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -55,6 +67,7 @@ export type Itimer = {
   timeWatch: string;
 };
 
+<<<<<<< HEAD
 const initialState = {
   // checkOut: "",
   // checkIn: "",
@@ -63,11 +76,21 @@ const initialState = {
   // ss: 0,
   // timeWatch: "",
   timer: [],
+=======
+const initialState : Itimer = {
+  checkOut: "",
+  checkIn: "",
+  hh: 0,
+  mm: 0,
+  ss: 0,
+  timeWatch: "",
+>>>>>>> 958d89cd1581dc7396a594b86f8e5d0d9bccef0c
 };
 
 export const timerSlice = createSlice({
   name: "timer",
   initialState,
+<<<<<<< HEAD
   reducers: {},
   extraReducers: {
     [__getCheckInTimer.fulfilled]: (state, action) => {
@@ -77,6 +100,21 @@ export const timerSlice = createSlice({
     [__getCheckOutTimer.fulfilled]: (state, action) => {
       // state.timeWatch = action.payload.timeWatch;
       state = action.payload;
+=======
+  extraReducers: {
+    [__getCheckInTimer.fulfilled.type]: (state, action: PayloadAction<Itimer>) => {
+      state = action.payload;
+      console.log('In',state)
+      console.log(action.payload)
+      return state
+
+    },
+    [__getCheckOutTimer.fulfilled.type]: (state, action : PayloadAction<Itimer>) => {
+      state = {...state,...action.payload};
+      console.log('out',state)
+      console.log(action.payload)
+      return state
+>>>>>>> 958d89cd1581dc7396a594b86f8e5d0d9bccef0c
     },
   },
 });

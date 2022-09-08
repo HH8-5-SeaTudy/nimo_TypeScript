@@ -11,7 +11,11 @@ const Main = () => {
   const dispatch = useDispatch();
   const timeCheckIn = useSelector((state: RootState) => state.timer);
   const time = useSelector((state: RootState) => state);
+<<<<<<< HEAD
   console.log(timeCheckIn);
+=======
+  // console.log(time);
+>>>>>>> 958d89cd1581dc7396a594b86f8e5d0d9bccef0c
 
   // 시, 분, 초를 state로 저장
   const [currentHours, setCurrentHours] = useState(0);
@@ -31,10 +35,10 @@ const Main = () => {
     setCurrentSeconds(seconds);
   };
 
-  useEffect(() => {
-    dispatch(__getCheckOutTimer());
-    dispatch(__getCheckInTimer());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(__getCheckOutTimer());
+  //   dispatch(__getCheckInTimer());
+  // }, []);
 
   const clickStart = () => {
     dispatch(__getCheckInTimer());
