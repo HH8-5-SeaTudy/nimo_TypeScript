@@ -44,7 +44,7 @@ export const postCategory: any = createAsyncThunk(
     console.log("카테생성", payload);
     try {
       const data = await axios.post(
-        "http://54.180.79.105/api/v1/todoCategories",
+        "http://13.125.120.152/api/v1/todoCategories",
         {
           categoryName: payload.categoryName,
           selectDate: payload.selectDate,
@@ -71,7 +71,7 @@ export const deleteCategory: any = createAsyncThunk(
     console.log("카테삭제", payload);
     try {
       const data = await axios.delete(
-        `http://54.180.79.105/api/v1/todoCategories/${payload}`,
+        `http://13.125.120.152/api/v1/todoCategories/${payload}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export const _editCategory: any = createAsyncThunk(
     console.log("카테수정", payload);
     try {
       const data = await axios.put(
-        `http://54.180.79.105/api/v1/todoCategories/${payload.categoryId}`,
+        `http://13.125.120.152/api/v1/todoCategories/${payload.categoryId}`,
         {
           categoryName: payload.categoryName,
         },
@@ -124,7 +124,9 @@ export const getDateTodoSlice = createSlice({
   extraReducers: {
     [getDateTodo.fulfilled]: (state, action) => {
       state.dateTodos = action.payload;
+      console.log('jeads')
     },
+
   },
 });
 

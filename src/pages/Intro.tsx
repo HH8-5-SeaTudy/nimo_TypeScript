@@ -110,7 +110,7 @@ const rotate = keyframes`
   100% {transform: translate(-50%, 0%) rotateZ(360deg);}
 `;
 
-const WaveContainer = styled.div`
+const WaveContainer = styled.div` 
   top: 0;
   width: 100%;
   height: 100%;

@@ -9,7 +9,7 @@ export const getAllTodo :any = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const getData = await axios.get(
-        "http://54.180.79.105/api/v1/todoCategories",
+        "http://13.125.120.152/api/v1/todoCategories",
         {
           headers: {
             "Content-Type": "application/json",
