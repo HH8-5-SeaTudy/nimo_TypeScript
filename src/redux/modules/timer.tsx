@@ -64,7 +64,7 @@ const initialState : Itimer = {
 
 export const timerSlice = createSlice({
   name: "timer",
-  initialState,
+  initialState: initialState as Itimer,
   extraReducers: {
     [__getCheckInTimer.fulfilled]: (state, action: PayloadAction<Itimer>) => {
       state = action.payload;

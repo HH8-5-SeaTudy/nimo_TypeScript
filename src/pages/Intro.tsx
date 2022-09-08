@@ -41,7 +41,7 @@ const IntroContainer = styled.div`
 
 const IntroTitleContainer = styled.div`
   width: 100%;
-  padding: 0% 10%;
+  padding: 15% 10%;
 `;
 
 const IntroTitleWrapper = styled.section`
@@ -86,7 +86,7 @@ const WaveWrapper = styled.div`
   position: -webkit-sticky;
   top: 0;
   width: 100%;
-  height: 80vh;
+  height: 100vh;
 `;
 
 const FirstWave = styled.div`
@@ -96,7 +96,7 @@ const FirstWave = styled.div`
   align-items: center;
   flex-direction: column;
   height: 100%;
-  background-color: #3e606f;
+  background: linear-gradient(#3e606f, #1b343f);
   overflow: hidden;
 
   &:before,
@@ -113,13 +113,13 @@ const FirstWave = styled.div`
   }
 
   &:before {
-    bottom: 35vh;
+    bottom: 55vh;
     border-radius: 55%;
     animation-duration: 10s;
   }
 
   &:after {
-    bottom: 35vh;
+    bottom: 55vh;
     opacity: 0.5;
     border-radius: 47%;
     animation-duration: 10s;
@@ -133,10 +133,8 @@ const SecondeWave = styled.div`
   align-items: center;
   flex-direction: column;
   height: 100%;
-  background-color: #131f24;
+  background-color: black;
   overflow: hidden;
-  z-index: 2;
-  padding-top: 40%;
 
   &:before,
   &:after {
@@ -145,7 +143,7 @@ const SecondeWave = styled.div`
     left: 50%;
     min-width: 200vw;
     min-height: 200vw;
-    background-color: white;
+    background-color: transparent;
     animation-name: ${rotate};
     animation-iteration-count: infinite;
     animation-timing-function: linear;
