@@ -7,8 +7,6 @@ export interface category {
   headers: string;
 }
 
-//일자별 목록 조회
-
 export const postCategory: any = createAsyncThunk(
   "category/postCategory",
   async (payload: any, thunkAPI) => {
@@ -24,7 +22,7 @@ export const postCategory: any = createAsyncThunk(
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjU1MDQzMX0.pl0AJBZaI_IJHqEfvfHKmlgaVqahoXHa1b4sGv6fSXQ",
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjY0Mjk5Mn0.gGbOTw4oyHuqpxoxtQjti_ITyJxZ4-tqn2fi6HOH7WI",
           },
         }
       );
@@ -44,8 +42,9 @@ export const categorySlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    // [postCategory.fulfilled]: (state, action) => {
-    //   state.category.concat(action.payload)}
+    [postCategory.fulfilled]: (state, action) => {
+      state.category.concat(action.payload);
+    },
   },
 });
 

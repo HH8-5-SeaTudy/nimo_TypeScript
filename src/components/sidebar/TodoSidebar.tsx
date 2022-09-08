@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { ReactComponent as PlusIcon } from "../../image/icon/PlusIcon.svg";
+import { ReactComponent as PlusIcon } from "../../assets/icon/PlusIcon.svg";
 
 const TodoSidebar = () => {
   const [show, setShow] = useState(false);
@@ -8,14 +8,12 @@ const TodoSidebar = () => {
     <div>
       <TodoSide onClick={() => setShow(!show)}>
         <TodoIconBox>
-        <Plus />
-      </TodoIconBox>
+          <Plus />
+        </TodoIconBox>
       </TodoSide>
       <TodoLayer show={show}>
-          <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
-          <TodoBox>
-            
-          </TodoBox>
+        <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
+        <TodoBox></TodoBox>
       </TodoLayer>
     </div>
   );
@@ -23,12 +21,11 @@ const TodoSidebar = () => {
 
 export default TodoSidebar;
 
-
 const TodoSide = styled.div`
   position: absolute;
   width: 25px;
   height: 394px;
-  right:0px;
+  right: 0px;
   top: 65px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
@@ -40,9 +37,9 @@ const TodoIconBox = styled.div`
   height: 80px;
   right: 0;
   top: 35%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
   border-radius: 40px;
@@ -52,11 +49,11 @@ const Plus = styled(PlusIcon)`
 `;
 
 interface TodoLayerProps {
-  show : boolean;
+  show: boolean;
 }
 const TodoLayer = styled.div<TodoLayerProps>`
   position: absolute;
-  display:flex;
+  display: flex;
   top: 65px;
   width: 359px;
   height: 394px;
@@ -68,8 +65,8 @@ const TodoLayer = styled.div<TodoLayerProps>`
 `;
 
 const CloseBtn = styled.div`
-  width:25px;
-`
+  width: 25px;
+`;
 const TodoBox = styled.div`
   border: solid red 1px;
   box-sizing: border-box;

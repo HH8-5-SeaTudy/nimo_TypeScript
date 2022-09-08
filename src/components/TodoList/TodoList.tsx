@@ -25,7 +25,6 @@ const TodoList = () => {
 
   const onSubmitHandler = () => {
     dispatch(postCategory({ categoryName: "카테고리", selectDate: date }));
-    window.location.reload();
   };
 
   // 선택되는 날짜 받아와서 정보불러오기 (기본값 오늘날짜)
@@ -41,7 +40,6 @@ const TodoList = () => {
           <div onClick={onSubmitHandler}></div>
         </BtnGroup>
       </AddCategory>
-
       <TodoListBox>
         {dateTodos?.map((list: any) => (
           <CategoryBox key={list.categoryId}>

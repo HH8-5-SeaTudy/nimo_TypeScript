@@ -5,7 +5,7 @@ const accessToken =
   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBnbWFpbC5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNjA2MjEwfQ.IHaY6U-3-UQJzwggQtCzVVv6Dh45WH8VNm5fZShQpzo";
 
 const BASE_URL = "http://43.200.115.252";
-const roomId = `4e66fa90-e834-4b51-b17d-c222979cc04c`;
+const roomId = `hello`;
 
 export const __getChatroom: any = createAsyncThunk(
   "get/chatroom",

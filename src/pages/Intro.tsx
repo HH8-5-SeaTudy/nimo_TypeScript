@@ -18,15 +18,53 @@ export default function Intro() {
       > */}
       <WaveContainer>
         <WaveWrapper>
-          <FirstWave className="wave wave1"></FirstWave>
+          <FirstWave>
+            <div
+              className="wave1"
+              style={{ left: "10%", animationDuration: "5s" }}
+            ></div>
+            <div
+              className="wave2"
+              style={{ left: "10%", animationDuration: "5s" }}
+            ></div>
+            <div
+              className="wave1"
+              style={{ left: "30%", animationDuration: "5.5s" }}
+            ></div>
+            <div
+              className="wave2"
+              style={{ left: "30%", animationDuration: "5.5s" }}
+            ></div>
+            <div
+              className="wave1"
+              style={{ left: "50%", animationDuration: "6s" }}
+            ></div>
+            <div
+              className="wave2"
+              style={{ left: "50%", animationDuration: "6s" }}
+            ></div>
+            <div
+              className="wave1"
+              style={{ left: "70%", animationDuration: "6.5s" }}
+            ></div>
+            <div
+              className="wave2"
+              style={{ left: "70%", animationDuration: "6.5s" }}
+            ></div>
+            <div
+              className="wave1"
+              style={{ left: "90%", animationDuration: "7s" }}
+            ></div>
+            <div
+              className="wave2"
+              style={{ left: "90%", animationDuration: "7s" }}
+            ></div>
+          </FirstWave>
+          {/* <SecondeWave /> */}
         </WaveWrapper>
-        <WaveWrapper>
-          <SecondeWave className="wave wave2"></SecondeWave>
-        </WaveWrapper>
-
-        {/* <SecondeWave></SecondeWave> */}
       </WaveContainer>
-      <WaveContainer></WaveContainer>
+      {/* <SecondeWave className="wave wave2"></SecondeWave> */}
+      {/* <WaveContainer></WaveContainer> */}
       {/* </div> */}
     </IntroContainer>
   );
@@ -35,7 +73,6 @@ export default function Intro() {
 const IntroContainer = styled.div`
   width: 100%;
   height: 500vh;
-  border: 15px solid black;
   /* position: relative; */
 `;
 
@@ -74,8 +111,6 @@ const rotate = keyframes`
 `;
 
 const WaveContainer = styled.div`
-  position: sticky;
-  position: -webkit-sticky;
   top: 0;
   width: 100%;
   height: 100%;
@@ -90,39 +125,44 @@ const WaveWrapper = styled.div`
 `;
 
 const FirstWave = styled.div`
+  /* width:30vw;
+position:absolute */
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-  background: linear-gradient(#3e606f, #1b343f);
+  height: 70%;
+  background: linear-gradient(#2866b6, #112d52);
   overflow: hidden;
 
-  &:before,
-  &:after {
+  .wave1 {
+    bottom: 55vh;
+    border-radius: 55%;
+    animation-duration: 10s;
     content: "";
     position: absolute;
-    left: 50%;
-    min-width: 180vw;
-    min-height: 350vh;
+    left: 0;
+    width: 40vw;
+    height: 70vh;
     background-color: white;
     animation-name: ${rotate};
     animation-iteration-count: infinite;
     animation-timing-function: linear;
+    border: 2px solid white;
   }
 
-  &:before {
-    bottom: 55vh;
-    border-radius: 55%;
-    animation-duration: 10s;
-  }
-
-  &:after {
+  .wave2 {
     bottom: 55vh;
     opacity: 0.5;
     border-radius: 47%;
     animation-duration: 10s;
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 40vw;
+    height: 70vh;
+    background-color: white;
+    animation-name: ${rotate};
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    border: 2px solid white;
   }
 `;
 
@@ -132,18 +172,19 @@ const SecondeWave = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100%;
-  background-color: black;
+  height: 70%;
+  z-index: 5;
+  background: linear-gradient(#2866b6, #112d52);
   overflow: hidden;
 
   &:before,
   &:after {
     content: "";
     position: absolute;
-    left: 50%;
-    min-width: 200vw;
-    min-height: 200vw;
-    background-color: transparent;
+    left: 40%;
+    width: 40vw;
+    height: 70vw;
+    background-color: white;
     animation-name: ${rotate};
     animation-iteration-count: infinite;
     animation-timing-function: linear;

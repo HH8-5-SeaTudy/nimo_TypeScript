@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface todoList {
-  selectDate: any;
-  content: any;
+  selectDate: string;
+  content: string;
   id: string;
 }
 
@@ -18,7 +18,7 @@ export const getAllTodo: any = createAsyncThunk(
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjU1MDQzMX0.pl0AJBZaI_IJHqEfvfHKmlgaVqahoXHa1b4sGv6fSXQ",
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjY0Mjk5Mn0.gGbOTw4oyHuqpxoxtQjti_ITyJxZ4-tqn2fi6HOH7WI",
           },
         }
       );
