@@ -130,11 +130,10 @@ const swellAnimation = keyframes`
 
 
 const Layer = styled.section`
-width:100%;
-height: 1800px;
-background:radial-gradient(ellipse at center, rgba(255,254,234,1) 0%, rgba(255,254,234,1) 35%, #cff3f5 100%);
+  width:100%;
+  height: 1800px;
+  background:radial-gradient(ellipse at center, rgba(255,254,234,1) 0%, rgba(255,254,234,1) 35%, #cff3f5 100%);
   overflow: hidden;
-
 `
 
 const WavePart = styled.div``
