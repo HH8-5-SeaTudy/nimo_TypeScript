@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getCheckInTimer, __getCheckOutTimer } from "../redux/modules/timer";
 import { RootState } from "../redux/config/configStore";
 import { Itime } from "../api";
+import Wave from './Wave';
 
 const Main = () => {
   const dispatch = useDispatch();
-  const time = useSelector((state: RootState) => state.timer.timer.timeWatch);
-  console.log(time);
+  const time = useSelector((state: RootState) => state);
+  // console.log(time);
 
   // 시, 분, 초를 state로 저장
   const [currentHours, setCurrentHours] = useState(0);
@@ -30,10 +31,10 @@ const Main = () => {
     setCurrentSeconds(seconds);
   };
 
-  useEffect(() => {
-    dispatch(__getCheckOutTimer());
-    dispatch(__getCheckInTimer());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(__getCheckOutTimer());
+  //   dispatch(__getCheckInTimer());
+  // }, []);
 
   const clickStart = () => {
     dispatch(__getCheckInTimer());
@@ -49,7 +50,6 @@ const Main = () => {
   useEffect(timer, [count]);
   return (
     <MainContainer>
-      <h1>{time}</h1>
       <h1>
         {currentHours < 10 ? `0${currentHours}` : currentHours} :
         {currentMinutes < 10 ? `0${currentMinutes}` : currentMinutes} :
