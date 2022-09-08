@@ -1,28 +1,25 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const name = 'todo';
+const BASE_URL = process.env.BASE_URL;
+const token: any = process.env.REACT_APP_TOKEN;
 
 //전체 목록 조회
-export const getAllTodo :any = createAsyncThunk(
+export const getAllTodo: any = createAsyncThunk(
   "todo/getTodo",
   async (payload, thunkAPI) => {
     try {
-      const getData = await axios.get(
-        "http://54.180.79.105/api/v1/todoCategories",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjY0Mjk5Mn0.gGbOTw4oyHuqpxoxtQjti_ITyJxZ4-tqn2fi6HOH7WI",
-          },
-        }
-      );
-      
-      const data :ITodos[] = getData.data.data;
+      const getData = await axios.get(`${BASE_URL}/api/v1/todoCategories`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+
+      const data: ITodos[] = getData.data.data;
       console.log(data);
       console.log(thunkAPI);
-      
+
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -30,33 +27,33 @@ export const getAllTodo :any = createAsyncThunk(
   }
 );
 
-
-
 export type IInitialState = {
-  allTodos : Array<ITodos>;
-}
+  allTodos: Array<ITodos>;
+};
 
 export type ITodos = {
-  categoryId: number,
-  categoryName: string,
+  categoryId: number;
+  categoryName: string;
   memberCateDto: {
-    memberId: number, 
-    email: string,
-  }
-  selectDate: string,
-  todoList: any,
-}
-const initialState : IInitialState = {
+    memberId: number;
+    email: string;
+  };
+  selectDate: string;
+  todoList: any;
+};
+const initialState: IInitialState = {
   allTodos: [],
 };
 
 export const getAllTodoSlice = createSlice({
   name: "todo",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: {
-    [getAllTodo.fulfilled.type]: (state: IInitialState, action : PayloadAction<Array<ITodos>>) => {
+    [getAllTodo.fulfilled.type]: (
+      state: IInitialState,
+      action: PayloadAction<Array<ITodos>>
+    ) => {
       state.allTodos = action.payload;
     },
   },

@@ -24,7 +24,6 @@ export default function Intro() {
                 zIndex: "1",
               }}
             ></div> */}
-
             <div
               style={{
                 height: "100%",
@@ -88,6 +87,8 @@ const IntroContainer = styled.div`
 const IntroTitleContainer = styled.div`
   width: 100%;
   padding: 15% 10%;
+  background-color: #ffff96;
+  margin-top: 20%;
 `;
 
 const IntroTitleWrapper = styled.section`
@@ -124,6 +125,7 @@ const rotate = keyframes`
 `;
 
 const WaveContainer = styled.div`
+  top: 0;
   width: 100%;
   height: 100%;
 `;
@@ -132,8 +134,6 @@ const WaveWrapper = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
-  /* overflow: hidden; */
-  /* z-index: -2; */
   .background-wrap {
     width: 100%;
     height: 100%;
@@ -142,6 +142,8 @@ const WaveWrapper = styled.div`
     position: absolute;
     right: 0;
     z-index: 2;
+    overflow: hidden;
+
     .x1 {
       animation: ${animateBubble} 25s linear infinite,
         ${sideWays} 2s ease-in-out infinite alternate;
@@ -344,6 +346,7 @@ const FishSticky = styled.div`
   height: 50vh;
   background: transparent;
   border: 2px solid black;
+  z-index: 5;
 `;
 
 const SeatudyContainer = styled.h2`
@@ -356,9 +359,6 @@ const SeatudyContainer = styled.h2`
   font-size: 4em;
   box-sizing: border-box;
   height: 100%;
-  div {
-    /* width: 50vw; */
-  }
   span {
     cursor: pointer;
     position: relative;
@@ -367,13 +367,13 @@ const SeatudyContainer = styled.h2`
     transition: 0.5s;
     color: #225279;
     margin-right: 10px;
-    z-index: 65;
 
     i {
       position: absolute;
       inset: 0;
       background-color: transparent;
       left: -10px;
+      top: 10px;
     }
     &:hover {
       filter: blur(0px);

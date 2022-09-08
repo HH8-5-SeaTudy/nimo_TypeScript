@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { useCounter } from "../../pages/CheckIn";
+import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
+import Asmr from '../asmr/Asmr';
 
 interface props {
   start? : ()=>void,
@@ -32,11 +34,11 @@ const Header = ({start, stop}:props) => {
   };
   useEffect(timer, [count]);
   return (
-    <HeaderContainer>
+    <>  <HeaderContainer>
       <HeaderLogoContainer>
         <HeaderLogo>Logo</HeaderLogo>
       </HeaderLogoContainer>
-      {isLogin ? (
+      {isLogin && (
         <HeaderTimerContainer>
           <HeaderTimer>
             <h1>
@@ -47,13 +49,12 @@ const Header = ({start, stop}:props) => {
           </HeaderTimer>
           {/* <CheckIn /> */}
         </HeaderTimerContainer>
-      ) : (
-        <HeaderLoginContainer>
-          <HeaderLoginButton onClick={onClick}>Log in</HeaderLoginButton>
-          <HeaderSigninButton>Sign in</HeaderSigninButton>
-        </HeaderLoginContainer>
       )}
-    </HeaderContainer>
+      <OnAsmrBtn />
+      <Asmr/>
+    </HeaderContainer> 
+ </>
+  
   );
 };
 
@@ -79,29 +80,6 @@ const HeaderLogo = styled.span`
   color: #fff;
 `;
 
-const HeaderLoginContainer = styled.div`
-  display: flex;
-`;
-
-const HeaderLoginButton = styled.button`
-  border: 2px solid blue;
-  font-size: 20px;
-  padding: 5px 15px;
-  border-radius: 20px;
-  background-color: transparent;
-  cursor: pointer;
-  margin-right: 10px;
-`;
-
-const HeaderSigninButton = styled.button`
-  border: 2px solid blue;
-  font-size: 20px;
-  padding: 5px 15px;
-  border-radius: 20px;
-  background-color: transparent;
-  cursor: pointer;
-`;
-
 const HeaderTimerContainer = styled.div`
   display: flex;
   align-items: center;
@@ -111,6 +89,11 @@ const HeaderTimerContainer = styled.div`
 const HeaderTimer = styled.span`
   color: #fff;
   font-size: 32px;
+`;
+
+const OnAsmrBtn = styled(onAsmrIcon)`
+  position: absolute;
+  right: 400px;
 `;
 
 export default Header;
