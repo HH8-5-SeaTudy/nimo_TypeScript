@@ -17,6 +17,7 @@ export const getAllTodo: any = createAsyncThunk(
       });
 
       const data: ITodos[] = getData.data.data;
+
       console.log(data);
       console.log(thunkAPI);
 

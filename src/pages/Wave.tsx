@@ -123,12 +123,10 @@ const swellAnimation = keyframes`
 `;
 
 const Layer = styled.section`
-  width: 100%;
-  height: 1800px;
-  overflow: hidden;
-`;
+
 
 const WavePart = styled.div``;
+
 
 const Ocean = styled.div`
   height: 900px;
