@@ -20,8 +20,11 @@ const Calendars = () => {
 
   useEffect(() => {
     dispatch(updateDate(moment(value).format("YYYY-MM-DD")));
-    dispatch(getAllTodo());
   }, [value]);
+
+  useEffect(() => {
+    dispatch(getAllTodo());
+  }, []);
 
   return (
     <Layer>

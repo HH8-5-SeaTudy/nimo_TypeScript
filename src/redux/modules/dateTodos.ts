@@ -14,12 +14,12 @@ export const getDateTodo: any = createAsyncThunk(
     console.log("axios", payload);
     try {
       const data = await axios.get(
-        `http://54.180.79.105/api/v1/todoCategories/dates?selectDate=${payload}`,
+        `http://13.125.120.152/api/v1/todoCategories/dates?selectDate=${payload}`,
         {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjY0Mjk5Mn0.gGbOTw4oyHuqpxoxtQjti_ITyJxZ4-tqn2fi6HOH7WI",
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBuYXZlci5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNzQ4ODE1fQ.wGMzdwUbILtMyXGTSw_M0phsbPnvzWRxikN_7zocrdg",
           },
         }
       );
@@ -44,7 +44,7 @@ export const postCategory: any = createAsyncThunk(
     console.log("카테생성", payload);
     try {
       const data = await axios.post(
-        "http://54.180.79.105/api/v1/todoCategories",
+        "http://13.125.120.152/api/v1/todoCategories",
         {
           categoryName: payload.categoryName,
           selectDate: payload.selectDate,
@@ -53,7 +53,7 @@ export const postCategory: any = createAsyncThunk(
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjY0Mjk5Mn0.gGbOTw4oyHuqpxoxtQjti_ITyJxZ4-tqn2fi6HOH7WI",
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBuYXZlci5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNzQ4ODE1fQ.wGMzdwUbILtMyXGTSw_M0phsbPnvzWRxikN_7zocrdg",
           },
         }
       );
@@ -71,12 +71,12 @@ export const deleteCategory: any = createAsyncThunk(
     console.log("카테삭제", payload);
     try {
       const data = await axios.delete(
-        `http://54.180.79.105/api/v1/todoCategories/${payload}`,
+        `http://13.125.120.152/api/v1/todoCategories/${payload}`,
         {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjY0Mjk5Mn0.gGbOTw4oyHuqpxoxtQjti_ITyJxZ4-tqn2fi6HOH7WI",
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBuYXZlci5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNzQ4ODE1fQ.wGMzdwUbILtMyXGTSw_M0phsbPnvzWRxikN_7zocrdg",
           },
         }
       );
@@ -94,7 +94,7 @@ export const _editCategory: any = createAsyncThunk(
     console.log("카테수정", payload);
     try {
       const data = await axios.put(
-        `http://54.180.79.105/api/v1/todoCategories/${payload.categoryId}`,
+        `http://13.125.120.152/api/v1/todoCategories/${payload.categoryId}`,
         {
           categoryName: payload.categoryName,
         },
@@ -102,7 +102,56 @@ export const _editCategory: any = createAsyncThunk(
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrbXNAZ21haWwuY29tIiwiaXNzIjoiaGFuZ2hhZTVfc2VhdHVkeSIsImV4cCI6MTY2MjY0Mjk5Mn0.gGbOTw4oyHuqpxoxtQjti_ITyJxZ4-tqn2fi6HOH7WI",
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBuYXZlci5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNzQ4ODE1fQ.wGMzdwUbILtMyXGTSw_M0phsbPnvzWRxikN_7zocrdg",
+          },
+        }
+      );
+      return thunkAPI.fulfillWithValue(data.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+// 투두리스트 추가
+export const postTodo: any = createAsyncThunk(
+  "category/postTodo",
+  async (payload: any, thunkAPI) => {
+    console.log("투두추가", payload);
+    try {
+      const data = await axios.post(
+        `http://13.125.120.152/api/v1/${payload.categoryId}/todoLists`,{
+          selectDate: payload.selectDate,
+          content: payload.content
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBuYXZlci5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNzQ4ODE1fQ.wGMzdwUbILtMyXGTSw_M0phsbPnvzWRxikN_7zocrdg",
+          },
+        }
+      );
+      return thunkAPI.fulfillWithValue(data.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+//투두리스트 완료
+export const doneTodo: any = createAsyncThunk(
+  "category/doneTodo",
+  async (payload: any, thunkAPI) => {
+    console.log("투두완료", payload);
+    try {
+      const data = await axios.post(
+        `http://13.125.120.152/api/v1/todoLists/${payload}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBuYXZlci5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNzQ4ODE1fQ.wGMzdwUbILtMyXGTSw_M0phsbPnvzWRxikN_7zocrdg",
           },
         }
       );
@@ -124,7 +173,9 @@ export const getDateTodoSlice = createSlice({
   extraReducers: {
     [getDateTodo.fulfilled]: (state, action) => {
       state.dateTodos = action.payload;
+      console.log('jeads')
     },
+
   },
 });
 
