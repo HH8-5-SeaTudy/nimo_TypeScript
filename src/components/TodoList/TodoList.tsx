@@ -8,6 +8,7 @@ import {
   _editCategory,
   postTodo,
   doneTodo,
+  deleteTodo,
 } from "../../redux/modules/dateTodos";
 import { getDateTodo } from "../../redux/modules/dateTodos";
 import { RootState } from "../../redux/config/configStore";
@@ -16,16 +17,16 @@ const TodoList = () => {
 
   const dispatch = useDispatch();
   const date = useSelector((state: RootState) => state.updateDate.date);
-  const dateTodos: any = useSelector(
+  const dateTodos = useSelector(
     (state: RootState) => state.dateTodos.dateTodos
   );
+
+  console.log('text',dateTodos)
 
   const [category, setCategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
   const [todo,setTodo] = useState("");
 
-  console.log("선택날짜데이터", dateTodos);
-  console.log("선택날짜데이터", category);
 
   const onSubmitHandler = () => {
     dispatch(postCategory({ categoryName: category, selectDate: date }));
@@ -51,7 +52,6 @@ const TodoList = () => {
 
 
 
-
   // 캘린더에서 선택되는 날짜 받아와서 정보불러오기 (기본값 오늘날짜)
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const TodoList = () => {
         </BtnGroup>
       </AddCategory>
       <TodoListBox>
-        {dateTodos?.map((list: any) => (
+        {dateTodos && dateTodos.map((list) => (
           <CategoryBox key={list.categoryId}>
             <CategoryTitle>
               <div></div>
@@ -103,11 +103,15 @@ const TodoList = () => {
               </form>
             </CategoryTitle>
             <CategoryList>
-              {list.todoList.map((item: any) => (
-                <CategoryListBox key={item.todoId}>
+              {list.todoList.map((item) => (
+                <><CategoryListBox key={item.todoId}>
                   <p>{item.content}</p>
-                  <div onClick={()=>dispatch(doneTodo(item.todoId))}></div>
+                  <div onClick={()=>dispatch(doneTodo(item.todoId))}>{item.done === 1? '완료' : null}</div>
                 </CategoryListBox>
+                <button onClick={()=>dispatch(deleteTodo({
+                  todoId:item.todoId,
+                  categoryId:list.categoryId}))}>삭제</button>
+                </>
               ))}
             </CategoryList>
           </CategoryBox>

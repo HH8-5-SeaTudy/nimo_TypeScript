@@ -9,7 +9,7 @@ export const getAllTodo: any = createAsyncThunk(
   "todo/getTodo",
   async (payload, thunkAPI) => {
     try {
-      const getData = await axios.get(`${BASE_URL}/api/v1/todoCategories`, {
+      const getData = await axios.get(`http://43.200.115.252/api/v1/todoCategories`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
@@ -17,10 +17,7 @@ export const getAllTodo: any = createAsyncThunk(
       });
 
       const data: ITodos[] = getData.data.data;
-
-      console.log(data);
-      console.log(thunkAPI);
-
+      
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
