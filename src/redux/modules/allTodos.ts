@@ -9,7 +9,7 @@ export const getAllTodo: any = createAsyncThunk(
   "todo/getTodo",
   async (payload, thunkAPI) => {
     try {
-      const getData = await axios.get(`${BASE_URL}/api/v1/todoCategories`, {
+      const getData = await axios.get(`http://43.200.115.252/api/v1/todoCategories`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: token,

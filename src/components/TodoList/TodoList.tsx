@@ -8,6 +8,7 @@ import {
   _editCategory,
   postTodo,
   doneTodo,
+  deleteTodo,
 } from "../../redux/modules/dateTodos";
 import { getDateTodo } from "../../redux/modules/dateTodos";
 import { RootState } from "../../redux/config/configStore";
@@ -19,6 +20,8 @@ const TodoList = () => {
   const dateTodos: any = useSelector(
     (state: RootState) => state.dateTodos.dateTodos
   );
+
+  console.log('text',dateTodos)
 
   const [category, setCategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
@@ -51,7 +54,6 @@ const TodoList = () => {
 
 
 
-
   // 캘린더에서 선택되는 날짜 받아와서 정보불러오기 (기본값 오늘날짜)
 
   useEffect(() => {
@@ -73,7 +75,7 @@ const TodoList = () => {
         </BtnGroup>
       </AddCategory>
       <TodoListBox>
-        {dateTodos?.map((list: any) => (
+        {dateTodos && dateTodos.map((list: any) => (
           <CategoryBox key={list.categoryId}>
             <CategoryTitle>
               <div></div>
@@ -104,10 +106,12 @@ const TodoList = () => {
             </CategoryTitle>
             <CategoryList>
               {list.todoList.map((item: any) => (
-                <CategoryListBox key={item.todoId}>
+                <><CategoryListBox key={item.todoId}>
                   <p>{item.content}</p>
-                  <div onClick={()=>dispatch(doneTodo(item.todoId))}></div>
+                  <div onClick={()=>dispatch(doneTodo(item.todoId))}>{item.done === 1? '완료' : null}</div>
                 </CategoryListBox>
+                <button onClick={()=>dispatch(deleteTodo(item.todoId))}>삭제</button>
+                </>
               ))}
             </CategoryList>
           </CategoryBox>

@@ -122,7 +122,7 @@ const swellAnimation = keyframes`
   }
 `;
 
-const Layer = styled.section`
+const Layer = styled.section``
 
 
 const WavePart = styled.div``;
