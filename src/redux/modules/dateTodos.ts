@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import TodoList from '../../components/TodoList/TodoList';
 
 const BASE_URL = process.env.BASE_URL;
 const token: any = process.env.REACT_APP_TOKEN;
@@ -83,7 +84,7 @@ export const deleteCategory: any = createAsyncThunk(
           },
         }
       );
-      return thunkAPI.fulfillWithValue(data.data.data);
+      return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -134,7 +135,7 @@ export const postTodo: any = createAsyncThunk(
           },
         }
       );
-      return thunkAPI.fulfillWithValue(data.data.data);
+      return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -169,7 +170,7 @@ export const deleteTodo: any = createAsyncThunk(
     console.log("투두삭제", payload);
     try {
       const data = await axios.delete(
-        `http://43.200.115.252/api/v1/todoLists/${payload}`,
+        `http://43.200.115.252/api/v1/todoLists/${payload.todoId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -177,16 +178,40 @@ export const deleteTodo: any = createAsyncThunk(
           },
         }
       );
-      return thunkAPI.fulfillWithValue(data.data.data);
+      return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
-const initialState = {
-  dateTodos: [],
+export type IInitialState = {
+  dateTodos: Array<ITodos>;
 };
+export type ITodoList = {
+  content: string;
+  done: number;
+  selectDate: string;
+  todoId: number;
+}
+
+export type ITodos = {
+  categoryId: number;
+  categoryName: string;
+  memberCateDto: {
+    memberId: number;
+    email: string;
+  };
+  selectDate: string;
+  todoList: Array<ITodoList>;
+};
+
+const initialState : IInitialState = {
+  dateTodos: [
+  ],
+};
+
+
 
 export const getDateTodoSlice = createSlice({
   name: "todos",
@@ -195,8 +220,35 @@ export const getDateTodoSlice = createSlice({
   extraReducers: {
     [getDateTodo.fulfilled]: (state, action) => {
       state.dateTodos = action.payload;
-      console.log("jeads");
     },
+    // [postCategory.fulfilled]: (state, action) => {
+    //   state.dateTodos.push(action.payload);
+    // },
+    [deleteCategory.fulfilled]: (state, action) => {
+      state.dateTodos = state.dateTodos.filter((list) => list.categoryId !== action.payload)
+    },
+    [_editCategory.fulfilled]: (state, action) => {
+      state.dateTodos = state.dateTodos.map((list) => list.categoryId === action.payload.categoryId 
+      ? { ...list, categoryName:action.payload.categoryName} 
+      : list)
+    },
+    // [postTodo.fulfilled]: (state, action) => {
+    //     state.dateTodos = state.dateTodos.map((list:any) => {
+    //       if (list.categoryId === action.payload.categoryId) {
+    //         return list.map((todo:any)=> {todo.todoList.push(action.payload)});
+    //       } else {
+    //         return list;
+    //       }
+    //     })
+    // },
+    [deleteTodo.fulfilled]: (state, action) => {
+      state.dateTodos = state.dateTodos.map((list:any)=>{
+        if (list.categoryId === action.payload.categoryId) {
+            return list.map((todo:any)=> {todo.todoList.filter((item:any) => item.todoId !== action.payload.todoId)});
+          }
+      })
+    },
+
   },
 });
 

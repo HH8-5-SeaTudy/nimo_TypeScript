@@ -17,7 +17,7 @@ const TodoList = () => {
 
   const dispatch = useDispatch();
   const date = useSelector((state: RootState) => state.updateDate.date);
-  const dateTodos: any = useSelector(
+  const dateTodos = useSelector(
     (state: RootState) => state.dateTodos.dateTodos
   );
 
@@ -27,8 +27,6 @@ const TodoList = () => {
   const [editCategory, setEditCategory] = useState("");
   const [todo,setTodo] = useState("");
 
-  console.log("선택날짜데이터", dateTodos);
-  console.log("선택날짜데이터", category);
 
   const onSubmitHandler = () => {
     dispatch(postCategory({ categoryName: category, selectDate: date }));
@@ -75,7 +73,7 @@ const TodoList = () => {
         </BtnGroup>
       </AddCategory>
       <TodoListBox>
-        {dateTodos && dateTodos.map((list: any) => (
+        {dateTodos && dateTodos.map((list) => (
           <CategoryBox key={list.categoryId}>
             <CategoryTitle>
               <div></div>
@@ -105,12 +103,14 @@ const TodoList = () => {
               </form>
             </CategoryTitle>
             <CategoryList>
-              {list.todoList.map((item: any) => (
+              {list.todoList.map((item) => (
                 <><CategoryListBox key={item.todoId}>
                   <p>{item.content}</p>
                   <div onClick={()=>dispatch(doneTodo(item.todoId))}>{item.done === 1? '완료' : null}</div>
                 </CategoryListBox>
-                <button onClick={()=>dispatch(deleteTodo(item.todoId))}>삭제</button>
+                <button onClick={()=>dispatch(deleteTodo({
+                  todoId:item.todoId,
+                  categoryId:list.categoryId}))}>삭제</button>
                 </>
               ))}
             </CategoryList>
