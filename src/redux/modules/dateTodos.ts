@@ -187,6 +187,7 @@ export const deleteTodo: any = createAsyncThunk(
 
 export type IInitialState = {
   dateTodos: Array<ITodos>;
+  todoList: Array<ITodoList>
 };
 export type ITodoList = {
   content: string;
@@ -209,6 +210,7 @@ export type ITodos = {
 const initialState : IInitialState = {
   dateTodos: [
   ],
+  todoList: []
 };
 
 
