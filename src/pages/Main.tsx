@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getCheckInTimer, __getCheckOutTimer } from "../redux/modules/timer";
 import { RootState } from "../redux/config/configStore";
 import { Itime } from "../api";
-import Wave from './Wave';
+import Wave from "./Wave";
 
 const Main = () => {
   const dispatch = useDispatch();
+  const timeCheckIn = useSelector((state: RootState) => state.timer);
   const time = useSelector((state: RootState) => state);
+
   // console.log(time);
 
   // 시, 분, 초를 state로 저장

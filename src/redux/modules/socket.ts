@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const accessToken =
-  "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBnbWFpbC5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNjA2MjEwfQ.IHaY6U-3-UQJzwggQtCzVVv6Dh45WH8VNm5fZShQpzo";
+const BASE_URL = process.env.BASE_URL;
+const token: any = process.env.REACT_APP_TOKEN;
 
-const BASE_URL = "http://43.200.115.252";
 const roomId = `hello`;
 
 export const __getChatroom: any = createAsyncThunk(
@@ -16,7 +15,7 @@ export const __getChatroom: any = createAsyncThunk(
         {
           headers: {
             contentType: "application/json",
-            authorization: accessToken,
+            authorization: token,
           },
         }
       );
