@@ -1,8 +1,8 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import TodoList from '../../components/TodoList/TodoList';
 
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: any = process.env.REACT_APP_TOKEN;
 
 export interface date {
@@ -13,12 +13,11 @@ export interface date {
 //일자별 목록 조회
 
 export const getDateTodo: any = createAsyncThunk(
-  "category/postCategory",
+  "category/getDateTodo",
   async (payload: date, thunkAPI) => {
-    console.log("axios", payload);
     try {
       const data = await axios.get(
-        `http://43.200.115.252/api/v1/todoCategories/dates?selectDate=${payload}`,
+        `${BASE_URL}/api/v1/todoCategories/dates?selectDate=${payload}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -27,6 +26,7 @@ export const getDateTodo: any = createAsyncThunk(
           },
         }
       );
+      console.log('확인',data.data.data)
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -48,7 +48,7 @@ export const postCategory: any = createAsyncThunk(
     console.log("카테생성", payload);
     try {
       const data = await axios.post(
-        `http://43.200.115.252/api/v1/todoCategories`,
+        `${BASE_URL}/api/v1/todoCategories`,
         {
           categoryName: payload.categoryName,
           selectDate: payload.selectDate,
@@ -75,7 +75,7 @@ export const deleteCategory: any = createAsyncThunk(
     console.log("카테삭제", payload);
     try {
       const data = await axios.delete(
-        `http://43.200.115.252/api/v1/todoCategories/${payload}`,
+        `${BASE_URL}/api/v1/todoCategories/${payload}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -98,7 +98,7 @@ export const _editCategory: any = createAsyncThunk(
     console.log("카테수정", payload);
     try {
       const data = await axios.put(
-        `http://43.200.115.252/api/v1/todoCategories/${payload.categoryId}`,
+        `${BASE_URL}/api/v1/todoCategories/${payload.categoryId}`,
         {
           categoryName: payload.categoryName,
         },
@@ -124,7 +124,7 @@ export const postTodo: any = createAsyncThunk(
     console.log("투두추가", payload);
     try {
       const data = await axios.post(
-        `http://43.200.115.252/api/v1/${payload.categoryId}/todoLists`,{
+        `${BASE_URL}/api/v1/${payload.categoryId}/todoLists`,{
           selectDate: payload.selectDate,
           content: payload.content
         },
@@ -149,11 +149,11 @@ export const doneTodo: any = createAsyncThunk(
     console.log("투두완료", payload);
     try {
       const data = await axios.post(
-        `http://43.200.115.252/api/v1/todoLists/${payload}`,{},
+        `${BASE_URL}/api/v1/todoLists/${payload}`,{},
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBuYXZlci5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNzkxNzQ4fQ.Om2Seorp_4IThAooS9W4DFS1b8J2gX3fQY_XYFOXCqg"
+            Authorization: token
           },
         }
       );
@@ -174,7 +174,7 @@ export const deleteTodo: any = createAsyncThunk(
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBuYXZlci5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNzkxNzQ4fQ.Om2Seorp_4IThAooS9W4DFS1b8J2gX3fQY_XYFOXCqg"
+            Authorization: token
           },
         }
       );
@@ -187,7 +187,6 @@ export const deleteTodo: any = createAsyncThunk(
 
 export type IInitialState = {
   dateTodos: Array<ITodos>;
-  todoList: Array<ITodoList>
 };
 export type ITodoList = {
   content: string;
@@ -210,7 +209,6 @@ export type ITodos = {
 const initialState : IInitialState = {
   dateTodos: [
   ],
-  todoList: []
 };
 
 
@@ -222,10 +220,12 @@ export const getDateTodoSlice = createSlice({
   extraReducers: {
     [getDateTodo.fulfilled]: (state, action) => {
       state.dateTodos = action.payload;
+      console.log('해당날짜',action.payload)
     },
-    // [postCategory.fulfilled]: (state, action) => {
-    //   state.dateTodos.push(action.payload);
-    // },
+    [postCategory.fulfilled]: (state, action) => {
+      state.dateTodos.push(action.payload);
+   
+    },
     [deleteCategory.fulfilled]: (state, action) => {
       state.dateTodos = state.dateTodos.filter((list) => list.categoryId !== action.payload)
     },
@@ -237,19 +237,18 @@ export const getDateTodoSlice = createSlice({
     // [postTodo.fulfilled]: (state, action) => {
     //     state.dateTodos = state.dateTodos.map((list:any) => {
     //       if (list.categoryId === action.payload.categoryId) {
-    //         return list.map((todo:any)=> {todo.todoList.push(action.payload)});
-    //       } else {
-    //         return list;
+    //         return list.todoList.push(action.payload)
     //       }
     //     })
     // },
-    [deleteTodo.fulfilled]: (state, action) => {
-      state.dateTodos = state.dateTodos.map((list:any)=>{
-        if (list.categoryId === action.payload.categoryId) {
-            return list.map((todo:any)=> {todo.todoList.filter((item:any) => item.todoId !== action.payload.todoId)});
-          }
-      })
-    },
+    // [deleteTodo.fulfilled]: (state, action) => {
+
+    //   state.dateTodos = state.dateTodos.map((list:any)=>{
+    //     if (list.categoryId === action.payload.categoryId) {
+    //         return list.todoList.filter((item:any) => item.todoId !== action.payload.todoId);
+    //       }
+    //   })
+    // },
 
   },
 });

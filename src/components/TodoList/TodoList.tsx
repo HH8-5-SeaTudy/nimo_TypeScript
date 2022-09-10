@@ -81,7 +81,7 @@ const TodoList = () => {
               <button onClick={() => dispatch(deleteCategory(list.categoryId))}>
                 x
               </button>
-              {/* //카테고리생성 */}
+              {/* //카테고리수정 */}
               <form onSubmit={(e) => {
                     e.preventDefault();
                     onSubmitEditHandler(list.categoryId);
@@ -103,7 +103,7 @@ const TodoList = () => {
               </form>
             </CategoryTitle>
             <CategoryList>
-              {list.todoList.map((item) => (
+              {list.todoList && list.todoList.map((item) => (
                 <><CategoryListBox key={item.todoId}>
                   <p>{item.content}</p>
                   <div onClick={()=>dispatch(doneTodo(item.todoId))}>{item.done === 1? '완료' : null}</div>
@@ -121,7 +121,7 @@ const TodoList = () => {
   );
 };
 
-export default TodoList;
+export default React.memo(TodoList);
 
 const AddCategory = styled.div``;
 
