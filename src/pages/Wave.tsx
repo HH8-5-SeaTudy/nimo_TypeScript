@@ -39,13 +39,13 @@ const Wave = () => {
   return (
     <>
       <Layer>
-        <WavePart>
+        {/* <WavePart>
           <Ocean>
             <div></div>
             <div></div>
             <p>sadasdas</p>
           </Ocean>
-        </WavePart>
+        </WavePart> */}
 
         <WavePart1>
           <Ocean1 scroll={scroll}>
@@ -136,7 +136,7 @@ const Ocean = styled.div`
   position: relative;
   top: 400px;
   left: 0;
-  background: #96e6fe;
+  background: white;
   div {
     background: url(${wave1});
     position: absolute;
