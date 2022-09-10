@@ -114,7 +114,7 @@ export default function Intro() {
                   </span>
                   <span>
                     <SeatudyContainerBubble
-                      boxshadow={bubble}
+                      boxshadow={bubble6}
                       onClick={() => setBubble6(true)}
                     />
                     Y
