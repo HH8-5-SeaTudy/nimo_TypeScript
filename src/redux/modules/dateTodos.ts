@@ -234,22 +234,17 @@ export const getDateTodoSlice = createSlice({
       ? { ...list, categoryName:action.payload.categoryName} 
       : list)
     },
-    // [postTodo.fulfilled]: (state, action) => {
-    //     state.dateTodos = state.dateTodos.map((list:any) => {
-    //       if (list.categoryId === action.payload.categoryId) {
-    //         return list.todoList.push(action.payload)
-    //       }
-    //     })
-    // },
-    // [deleteTodo.fulfilled]: (state, action) => {
-
-    //   state.dateTodos = state.dateTodos.map((list:any)=>{
-    //     if (list.categoryId === action.payload.categoryId) {
-    //         return list.todoList.filter((item:any) => item.todoId !== action.payload.todoId);
-    //       }
-    //   })
-    // },
-
+    [postTodo.fulfilled]: (state, action) => {
+      console.log('투두리듀서',action.payload)
+        state.dateTodos.map((list)=>list.categoryId === action.payload.categoryId 
+        ? list.todoList.push(action.payload)
+        : list )
+    },
+    [deleteTodo.fulfilled]: (state, action) => {
+      state.dateTodos.map((list)=>list.categoryId === action.payload.categoryId 
+      ? list.todoList.filter((item:any) => item.categoryId !== action.payload.todoId)
+      : list )
+    },
   },
 });
 
