@@ -26,7 +26,7 @@ export const getAllTodo: any = createAsyncThunk(
 );
 
 export type IInitialState = {
-  allTodos: Array<ITodos>;
+  allTodos: ITodos[];
 };
 
 export type ITodos = {

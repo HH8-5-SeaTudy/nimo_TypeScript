@@ -8751,6 +8751,11 @@
   dependencies:
     "punycode" "^2.1.1"
 
+"trim@^1.0.1":
+  "integrity" "sha512-3JVP2YVqITUisXblCDq/Bi4P9457G/sdEamInkyvCsjbTcXLXIiG7XCb4kGMFWh6JGXesS3TKxOPtrncN/xe8w=="
+  "resolved" "https://registry.npmjs.org/trim/-/trim-1.0.1.tgz"
+  "version" "1.0.1"
+
 "tryer@^1.0.1":
   "integrity" "sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA=="
   "resolved" "https://registry.npmjs.org/tryer/-/tryer-1.0.1.tgz"

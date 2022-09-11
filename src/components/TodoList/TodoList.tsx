@@ -20,19 +20,20 @@ const TodoList = () => {
     (state: RootState) => state.dateTodos.dateTodos
   );
 
-  console.log("🤣🤣🤣🤣🤣🤣", dateTodos);
+  console.log("text", dateTodos);
 
   const [category, setCategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
   const [todo, setTodo] = useState("");
+  const [input, setInput] = useState("");
 
   const onSubmitHandler = (e: any) => {
     dispatch(postCategory({ categoryName: category, selectDate: date }));
     e.preventDefault();
-    setTodo("");
+    setInput("");
   };
 
-  const onSubmitEditHandler = (id: number) => {
+  const onSubmitEditHandler = (id: any) => {
     dispatch(
       _editCategory({
         categoryName: editCategory,
@@ -40,7 +41,7 @@ const TodoList = () => {
       })
     );
   };
-  const onSubmitTodoHandler = (id: number) => {
+  const onSubmitTodoHandler = (id: any) => {
     dispatch(
       postTodo({
         categoryId: id,
@@ -49,9 +50,12 @@ const TodoList = () => {
       })
     );
   };
+  const onChangeInput = (e: any) => {
+    setInput(e.target.value);
+    setCategory(e.target.value);
+  };
 
   // 캘린더에서 선택되는 날짜 받아와서 정보불러오기 (기본값 오늘날짜)
-
   useEffect(() => {
     dispatch(getDateTodo(moment(date).format("YYYY-MM-DD")));
   }, [date]);
@@ -62,8 +66,10 @@ const TodoList = () => {
         <BtnGroup>
           카테고리생성
           <form onSubmit={onSubmitHandler}>
-            <input type="text" onChange={(e) => setCategory(e.target.value)} />
-            <button type="submit">생성하기</button>
+            <input type="text" value={input} onChange={onChangeInput} />
+            <button type="submit" onClick={onSubmitHandler}>
+              +
+            </button>
           </form>
         </BtnGroup>
       </AddCategory>
@@ -79,7 +85,7 @@ const TodoList = () => {
                 >
                   x
                 </button>
-                {/* //카테고리생성 */}
+                {/* //카테고리수정 */}
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -139,7 +145,7 @@ const TodoList = () => {
   );
 };
 
-export default TodoList;
+export default React.memo(TodoList);
 
 const AddCategory = styled.div``;
 
