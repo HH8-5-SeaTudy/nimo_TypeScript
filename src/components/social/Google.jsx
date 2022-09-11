@@ -1,13 +1,11 @@
 import React from "react";
-import { 
+import {
   GoogleLoginButtonContainer,
   GoogleLogo,
   GoogleKor,
 } from "./LoginButtonStyle";
 const Google = () => {
-  const googleClientId =
-    "464072093758-haopsod0lephjnaqkdel99qob47ivlp1.apps.googleusercontent.com";
-  // const googleClientId = process.env.REACT_APP_GOOGLE_KEY;
+  const googleClientId = process.env.REACT_APP_GOOGLE_KEY;
 
   const googleRedirectUrl = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
 
@@ -17,11 +15,11 @@ const Google = () => {
     window.location.href = googleAuthUrl;
   };
   return (
-  <GoogleLoginButtonContainer onClick={loginHandler}>
-    <GoogleLogo/>
-    <GoogleKor>구글 로그인</GoogleKor>
-  </GoogleLoginButtonContainer>
-  )
+    <GoogleLoginButtonContainer onClick={loginHandler}>
+      <GoogleLogo />
+      <GoogleKor>구글 로그인</GoogleKor>
+    </GoogleLoginButtonContainer>
+  );
 };
 
 export default Google;

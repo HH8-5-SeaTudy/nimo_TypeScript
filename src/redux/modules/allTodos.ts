@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = process.env.BASE_URL;
-const token: any = process.env.REACT_APP_TOKEN;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const token: string = process.env.REACT_APP_TOKEN as string;
 
 //전체 목록 조회
 export const getAllTodo: any = createAsyncThunk(
@@ -17,8 +17,6 @@ export const getAllTodo: any = createAsyncThunk(
       });
 
       const data: ITodos[] = getData.data.data;
-      console.log(data);
-      console.log(thunkAPI);
 
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {

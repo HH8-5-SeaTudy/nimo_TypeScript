@@ -6,33 +6,46 @@ import {
   postCategory,
   deleteCategory,
   _editCategory,
+  postTodo,
+  doneTodo,
+  deleteTodo,
 } from "../../redux/modules/dateTodos";
 import { getDateTodo } from "../../redux/modules/dateTodos";
 import { RootState } from "../../redux/config/configStore";
 
 const TodoList = () => {
-
   const dispatch = useDispatch();
   const date = useSelector((state: RootState) => state.updateDate.date);
-  const dateTodos: any = useSelector(
+  const dateTodos = useSelector(
     (state: RootState) => state.dateTodos.dateTodos
   );
 
+  console.log("🤣🤣🤣🤣🤣🤣", dateTodos);
+
   const [category, setCategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
+  const [todo, setTodo] = useState("");
 
-  console.log("선택날짜데이터", dateTodos);
-  console.log("선택날짜데이터", category);
-
-  const onSubmitHandler = () => {
+  const onSubmitHandler = (e: any) => {
     dispatch(postCategory({ categoryName: category, selectDate: date }));
+    e.preventDefault();
+    setTodo("");
   };
 
-  const onSubmitEditHandler = (id: any) => {
+  const onSubmitEditHandler = (id: number) => {
     dispatch(
       _editCategory({
         categoryName: editCategory,
         categoryId: id,
+      })
+    );
+  };
+  const onSubmitTodoHandler = (id: number) => {
+    dispatch(
+      postTodo({
+        categoryId: id,
+        selectDate: moment(date).format("YYYY-MM-DD"),
+        content: todo,
       })
     );
   };
@@ -48,47 +61,79 @@ const TodoList = () => {
       <AddCategory>
         <BtnGroup>
           카테고리생성
-          <form onSubmit={(e) => {
-                    e.preventDefault();
-                    onSubmitHandler();
-                  }}>
+          <form onSubmit={onSubmitHandler}>
             <input type="text" onChange={(e) => setCategory(e.target.value)} />
-            <button type="submit">+</button>
+            <button type="submit">생성하기</button>
           </form>
         </BtnGroup>
       </AddCategory>
-
       <TodoListBox>
-        {dateTodos?.map((list: any) => (
-          <CategoryBox key={list.categoryId}>
-            <CategoryTitle>
-              <div></div>
-              <p>{list.categoryName}</p>
-              <button onClick={() => dispatch(deleteCategory(list.categoryId))}>
-                x
-              </button>
-              <form onSubmit={(e) => {
+        {dateTodos &&
+          dateTodos.map((list) => (
+            <CategoryBox key={list.categoryId}>
+              <CategoryTitle>
+                <div></div>
+                <p>{list.categoryName}</p>
+                <button
+                  onClick={() => dispatch(deleteCategory(list.categoryId))}
+                >
+                  x
+                </button>
+                {/* //카테고리생성 */}
+                <form
+                  onSubmit={(e) => {
                     e.preventDefault();
                     onSubmitEditHandler(list.categoryId);
-                  }}>
-                <input
-                  type="text"
-                  onChange={(e) => setEditCategory(e.target.value)}
-                />
-                <button type="submit">수정</button>
-              </form>
-            </CategoryTitle>
-
-            <CategoryList>
-              {list.todoList.map((item: any) => (
-                <CategoryListBox key={item.todoId}>
-                  <p>{item.content}</p>
-                  <div></div>
-                </CategoryListBox>
-              ))}
-            </CategoryList>
-          </CategoryBox>
-        ))}
+                  }}
+                >
+                  <input
+                    type="text"
+                    onChange={(e) => setEditCategory(e.target.value)}
+                  />
+                  <button type="submit">수정</button>
+                </form>
+                {/* //투두리스트 */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    onSubmitTodoHandler(list.categoryId);
+                  }}
+                >
+                  투두
+                  <input
+                    type="text"
+                    onChange={(e) => setTodo(e.target.value)}
+                  />
+                  <button type="submit">추가</button>
+                </form>
+              </CategoryTitle>
+              <CategoryList>
+                {list.todoList &&
+                  list.todoList.map((item) => (
+                    <>
+                      <CategoryListBox key={item.todoId}>
+                        <p>{item.content}</p>
+                        <div onClick={() => dispatch(doneTodo(item.todoId))}>
+                          {item.done === 1 ? "완료" : null}
+                        </div>
+                      </CategoryListBox>
+                      <button
+                        onClick={() =>
+                          dispatch(
+                            deleteTodo({
+                              todoId: item.todoId,
+                              categoryId: list.categoryId,
+                            })
+                          )
+                        }
+                      >
+                        삭제
+                      </button>
+                    </>
+                  ))}
+              </CategoryList>
+            </CategoryBox>
+          ))}
       </TodoListBox>
     </>
   );

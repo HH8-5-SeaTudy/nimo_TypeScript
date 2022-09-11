@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = process.env.BASE_URL;
-const token: any = process.env.REACT_APP_TOKEN;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const token: string = process.env.REACT_APP_TOKEN as string;
 
 const roomId = `hello`;
 
