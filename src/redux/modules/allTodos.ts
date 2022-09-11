@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: any = process.env.REACT_APP_TOKEN;
 
 //전체 목록 조회
@@ -9,7 +9,7 @@ export const getAllTodo: any = createAsyncThunk(
   "todo/getTodo",
   async (payload, thunkAPI) => {
     try {
-      const getData = await axios.get(`http://43.200.115.252/api/v1/todoCategories`, {
+      const getData = await axios.get(`${BASE_URL}/api/v1/todoCategories`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
