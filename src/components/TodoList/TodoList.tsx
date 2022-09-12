@@ -21,7 +21,6 @@ const TodoList = () => {
     (state: RootState) => state.dateTodos.dateTodos
   );
 
-  console.log('text',dateTodos)
 
   const [category, setCategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
@@ -29,8 +28,13 @@ const TodoList = () => {
 
 
   const onSubmitHandler = () => {
-    dispatch(postCategory({ categoryName: category, selectDate: date }));
+    if (dateTodos.length < 4)
+      dispatch(postCategory({ categoryName: category, selectDate: date }));
+    else {
+      alert("4개까지만 생성가능");
+    }
   };
+
 
   const onSubmitEditHandler = (id: any) => {
     dispatch(
@@ -106,7 +110,9 @@ const TodoList = () => {
               {list.todoList && list.todoList.map((item) => (
                 <><CategoryListBox key={item.todoId}>
                   <p>{item.content}</p>
-                  <div onClick={()=>dispatch(doneTodo(item.todoId))}>{item.done === 1? '완료' : null}</div>
+                  <div onClick={()=>dispatch(doneTodo(item.todoId))}>
+                    {item.done === 1? '완료' : null}
+                    </div>
                 </CategoryListBox>
                 <button onClick={()=>dispatch(deleteTodo({
                   todoId:item.todoId,

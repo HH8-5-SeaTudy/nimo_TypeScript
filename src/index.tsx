@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import GlobalStyle from './style/GlobalStyle';
 import store from './redux/config/configStore';
+import Asmr from './components/asmr/Asmr';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
