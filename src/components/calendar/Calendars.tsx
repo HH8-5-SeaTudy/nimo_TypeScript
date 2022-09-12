@@ -8,6 +8,7 @@ import { updateDate } from "../../redux/modules/searchDate";
 import { getAllTodo,  } from "../../redux/modules/allTodos";
 import styled from "styled-components";
 import { RootState } from "../../redux/config/configStore";
+import { lstat } from 'fs/promises';
 
 const Calendars = () => {
   const dispatch = useDispatch();
@@ -38,44 +39,17 @@ const Calendars = () => {
           calendarType={"US"}
           // showNeighboringMonth={false}
           formatDay={(locale: any, date: any) => moment(date).format("D")}
-          tileContent={({}) => {
-            let html: any = [];
-            // {
-            //   todos.map((list) =>
-            //     list.selectDate === moment(date).format("YYYY년 MM월 DD일") &&
-            //     list.success === false
-            //       ? html.push(
-            //           <div
-            //             style={{
-            //               height: "8px",
-            //               width: "8px",
-            //               backgroundColor: "red",
-            //             }}
-            //           ></div>
-            //         )
-            //       : null
-            //   );
-            // }
-            // {
-            //   todos.map((list) =>
-            //     list.selectDate === moment(date).format("YYYY년 MM월 DD일") &&
-            //     list.success === true
-            //       ? html.push(
-            //           <div
-            //             style={{
-            //               height: "8px",
-            //               width: "8px",
-            //               backgroundColor: "green",
-            //             }}
-            //           ></div>
-            //         )
-            //       : null
-            //   );
-            // }
-
+          tileContent={({ date, view }) => { // 날짜 타일에 컨텐츠 추가하기 (html 태그)
+            // 추가할 html 태그를 변수 초기화
+            let html = [];
+            // 현재 날짜가 post 작성한 날짜 배열(mark)에 있다면, dot div 추가
+            const aa = allTodos.map((list)=>list.selectDate  === moment(date).format("YYYY-MM-DD")
+            ? list.todoList.map((item:any)=> item.done === 1 ? <ContentBox>💚</ContentBox> : null) : null)
+            
+            html.push(aa)
             return (
               <>
-                <div>{html}</div>
+                <Test>{html}</Test>
               </>
             );
           }}
@@ -85,7 +59,7 @@ const Calendars = () => {
   );
 };
 
-export default React.memo(Calendars);
+export default Calendars;
 
 const Layer = styled.div`
   position: relative;
@@ -94,3 +68,15 @@ const Layer = styled.div`
   div {
   }
 `;
+
+const Test = styled.div`
+  display:flex;
+`
+
+const ContentBox = styled.div`
+  width: 60px;
+  height:10px;
+  font-size: 20px;
+  margin-top: 5px;
+  position:absolute;
+`

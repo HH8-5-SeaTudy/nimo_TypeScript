@@ -26,7 +26,6 @@ export const getDateTodo: any = createAsyncThunk(
           },
         }
       );
-      console.log('확인',data.data.data)
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -72,7 +71,6 @@ export const postCategory: any = createAsyncThunk(
 export const deleteCategory: any = createAsyncThunk(
   "category/deleteCategory",
   async (payload: any, thunkAPI) => {
-    console.log("카테삭제", payload);
     try {
       const data = await axios.delete(
         `${BASE_URL}/api/v1/todoCategories/${payload}`,
@@ -95,7 +93,6 @@ export const deleteCategory: any = createAsyncThunk(
 export const _editCategory: any = createAsyncThunk(
   "category/editCategory",
   async (payload: any, thunkAPI) => {
-    console.log("카테수정", payload);
     try {
       const data = await axios.put(
         `${BASE_URL}/api/v1/todoCategories/${payload.categoryId}`,
@@ -121,7 +118,6 @@ export const _editCategory: any = createAsyncThunk(
 export const postTodo: any = createAsyncThunk(
   "todo/postTodo",
   async (payload: any, thunkAPI) => {
-    console.log("투두추가", payload);
     try {
       const data = await axios.post(
         `${BASE_URL}/api/v1/${payload.categoryId}/todoLists`,{
@@ -135,7 +131,7 @@ export const postTodo: any = createAsyncThunk(
           },
         }
       );
-      return thunkAPI.fulfillWithValue(payload);
+      return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -146,7 +142,6 @@ export const postTodo: any = createAsyncThunk(
 export const doneTodo: any = createAsyncThunk(
   "todo/doneTodo",
   async (payload: any, thunkAPI) => {
-    console.log("투두완료", payload);
     try {
       const data = await axios.post(
         `${BASE_URL}/api/v1/todoLists/${payload}`,{},
@@ -167,7 +162,6 @@ export const doneTodo: any = createAsyncThunk(
 export const deleteTodo: any = createAsyncThunk(
   "todo/deleteTodo",
   async (payload: any, thunkAPI) => {
-    console.log("투두삭제", payload);
     try {
       const data = await axios.delete(
         `http://43.200.115.252/api/v1/todoLists/${payload.todoId}`,
@@ -220,11 +214,9 @@ export const getDateTodoSlice = createSlice({
   extraReducers: {
     [getDateTodo.fulfilled]: (state, action) => {
       state.dateTodos = action.payload;
-      console.log('해당날짜',action.payload)
     },
     [postCategory.fulfilled]: (state, action) => {
       state.dateTodos.push(action.payload);
-   
     },
     [deleteCategory.fulfilled]: (state, action) => {
       state.dateTodos = state.dateTodos.filter((list) => list.categoryId !== action.payload)
@@ -235,15 +227,29 @@ export const getDateTodoSlice = createSlice({
       : list)
     },
     [postTodo.fulfilled]: (state, action) => {
-      console.log('투두리듀서',action.payload)
         state.dateTodos.map((list)=>list.categoryId === action.payload.categoryId 
         ? list.todoList.push(action.payload)
         : list )
     },
     [deleteTodo.fulfilled]: (state, action) => {
-      state.dateTodos.map((list)=>list.categoryId === action.payload.categoryId 
-      ? list.todoList.filter((item:any) => item.categoryId !== action.payload.todoId)
-      : list )
+      state.dateTodos.map((list)=>
+      {
+        if( list.categoryId === action.payload.categoryId ) {
+          return list.todoList = list.todoList.filter((todo)=>todo.todoId !== action.payload.todoId)
+        }
+      }
+      )
+    },
+    [doneTodo.fulfilled]: (state, action) => {
+      state.dateTodos.map((list)=>
+      {
+        if( list.categoryId === action.payload.categoryId ) {
+          return list.todoList = list.todoList.map((todo)=> todo.todoId == action.payload.todoId
+          ? {...todo, done: action.payload.done}
+          : todo )
+        }
+      }
+      )
     },
   },
 });
