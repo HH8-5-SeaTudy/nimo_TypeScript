@@ -1,15 +1,26 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ICategory, IDateTodosInitialState } from "../../api";
-import { ITodos } from "./allTodos";
+import { IDateTodosInitialState, ITodos } from "../../api";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token: any = process.env.REACT_APP_TOKEN;
+const token: string = process.env.REACT_APP_TOKEN as string;
+
+interface MyKnownError {
+  errorMessage: string;
+}
+interface MyKnowSuccess {
+  successMessage: string;
+}
 
 //일자별 목록 조회
 export const getDateTodo: any = createAsyncThunk(
+  // 성공시 리턴 타입
+  // ITodos[],
+  // payload 타입
+  // string,
+  // { rejectValue: MyKnownError }
   "category/getDateTodo",
-  async (payload: ICategory, thunkAPI) => {
+  async (payload, thunkAPI) => {
     try {
       const data = await axios.get(
         `${BASE_URL}/api/v1/todoCategories/dates?selectDate=${payload}`,
@@ -23,7 +34,7 @@ export const getDateTodo: any = createAsyncThunk(
       console.log("확인", data.data.data);
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue({ errorMessage: "에러가 발생" });
     }
   }
 );
@@ -180,42 +191,43 @@ export const getDateTodoSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getDateTodo.fulfilled, (state, action) => {
-      state.dateTodos = action.payload;
-      console.log("해당날짜", action.payload);
-    });
-    builder.addCase(postCategory.fulfilled, (state, action) => {
-      state.dateTodos.push(action.payload);
-    });
-    builder.addCase(deleteCategory.fulfilled, (state, action) => {
-      state.dateTodos = state.dateTodos.filter(
-        (list) => list.categoryId !== action.payload
-      );
-    });
-    builder.addCase(_editCategory.fulfilled, (state, action) => {
-      state.dateTodos = state.dateTodos.map((list) =>
-        list.categoryId === action.payload.categoryId
-          ? { ...list, categoryName: action.payload.categoryName }
-          : list
-      );
-    });
-    builder.addCase(postTodo.fulfilled, (state, action) => {
-      console.log("투두리듀서", action.payload);
-      state.dateTodos.map((list) =>
-        list.categoryId === action.payload.categoryId
-          ? list.todoList.push(action.payload)
-          : list
-      );
-    });
-    builder.addCase(deleteTodo.fulfilled, (state, action) => {
-      state.dateTodos.map((list) =>
-        list.categoryId === action.payload.categoryId
-          ? list.todoList.filter(
-              (item: any) => item.categoryId !== action.payload.todoId
-            )
-          : list
-      );
-    });
+    builder
+      .addCase(getDateTodo.fulfilled, (state, action) => {
+        state.dateTodos = action.payload;
+        console.log("해당날짜", action.payload);
+      })
+      .addCase(postCategory.fulfilled, (state, action) => {
+        state.dateTodos.push(action.payload);
+      })
+      .addCase(deleteCategory.fulfilled, (state, action) => {
+        state.dateTodos = state.dateTodos.filter(
+          (list) => list.categoryId !== action.payload
+        );
+      })
+      .addCase(_editCategory.fulfilled, (state, action) => {
+        state.dateTodos = state.dateTodos.map((list) =>
+          list.categoryId === action.payload.categoryId
+            ? { ...list, categoryName: action.payload.categoryName }
+            : list
+        );
+      })
+      .addCase(postTodo.fulfilled, (state, action) => {
+        console.log("투두리듀서", action.payload);
+        state.dateTodos.map((list) =>
+          list.categoryId === action.payload.categoryId
+            ? list.todoList.push(action.payload)
+            : list
+        );
+      })
+      .addCase(deleteTodo.fulfilled, (state, action) => {
+        state.dateTodos.map((list) =>
+          list.categoryId === action.payload.categoryId
+            ? list.todoList.filter(
+                (item: any) => item.categoryId !== action.payload.todoId
+              )
+            : list
+        );
+      });
   },
 });
 

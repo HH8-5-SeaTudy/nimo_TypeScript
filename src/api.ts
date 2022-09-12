@@ -1,7 +1,6 @@
 /**
  * Category Todo API
  */
-
 // * Category IInitialState
 export type IDateTodosInitialState = {
   dateTodos: ITodos[];
@@ -10,17 +9,16 @@ export type IDateTodosInitialState = {
 export type ITodos = {
   categoryId: number;
   categoryName: string;
+  selectDate: string;
   memberCateDto: {
     memberId: number;
     email: string;
   };
-  // category: ICategory[];
-  selectDate: string;
   todoList: ITodoList[];
   success: boolean;
   error: null;
 };
-// * TodiList Type
+// * TodoList Type
 export type ITodoList = {
   content: string;
   done: number;
@@ -28,26 +26,22 @@ export type ITodoList = {
   todoId: number;
   categoryId: number;
 };
-// * Category Type
-export type ICategory = {
-  categoryId: number;
-  categoryName: string;
-  selectDate: string;
-  memberCateDto: {
-    memberId: number;
-    email: string;
-  };
-};
 
 /**
  * Timer API
  */
-export interface Iitem {
-  todoId: string;
-  content: string;
-  selectDate: string;
-}
-export interface Itime {
-  timer: [];
-  timeWatch: string;
-}
+
+export type ItimerInitialState = {
+  timer: Itimer[];
+};
+
+export type Itimer = {
+  dayStudyTime: string;
+  totalStudyTime: string;
+  todayLogs: todayLogs[];
+};
+
+export type todayLogs = {
+  checkIn: string;
+  checkOut: string;
+};

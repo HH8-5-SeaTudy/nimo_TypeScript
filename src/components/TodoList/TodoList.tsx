@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
 import {
   postCategory,
   deleteCategory,
@@ -11,16 +10,13 @@ import {
   deleteTodo,
 } from "../../redux/modules/dateTodos";
 import { getDateTodo } from "../../redux/modules/dateTodos";
-import { RootState } from "../../redux/config/configStore";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 const TodoList = () => {
-  const dispatch = useDispatch();
-  const date = useSelector((state: RootState) => state.updateDate.date);
-  const dateTodos = useSelector(
-    (state: RootState) => state.dateTodos.dateTodos
-  );
-
-  console.log("text", dateTodos);
+  // * Typescript redux useSelector, useDispatch 재사용 방법
+  const dispatch = useAppDispatch();
+  const date = useAppSelector((state) => state.updateDate.date);
+  const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
 
   const [category, setCategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
