@@ -2,18 +2,15 @@ import { useRef } from "react";
 import { useCallback } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { RootState } from "../redux/config/configStore";
-
-interface returnValue {
-  count: number;
-  start: () => void;
-  stop: () => void;
-}
 
 // 사용자 정의 hook
 export const useCounter = (initialValue: number, ms: number) => {
-  const time = useSelector((state: RootState) => state.timer);
-  console.log(time);
+  // const time = useSelector((state: RootState) => state.timer);
+  // console.log(time);
+  const dispatch = useAppDispatch();
+  const userTime = useAppSelector((state) => state.timer.dayStudyTime);
 
   const [count, setCount] = useState<number>(initialValue);
   const intervalRef = useRef<any>(null);

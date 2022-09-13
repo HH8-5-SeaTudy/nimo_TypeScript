@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import axios from "axios";
 
 const GoogleLogin = () => {
-  const code : string|null = new URL(window.location.href).searchParams.get("code");
-  console.log(code);
+  const code: string | null = new URL(window.location.href).searchParams.get(
+    "code"
+  );
   useEffect(() => {
     const google = async () => {
       return await axios

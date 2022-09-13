@@ -1,11 +1,28 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Itimer } from "../../api";
 
-const BASE_URL = process.env.BASE_URL;
-const token: any = process.env.REACT_APP_TOKEN;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const token: string = process.env.REACT_APP_TOKEN as string;
+
+export const __getUserinquire: any = createAsyncThunk(
+  "timer/userInquire",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/checkIns`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const __getCheckInTimer: any = createAsyncThunk(
-  "timer/postTimer",
+  "timer/postCheckIn",
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
@@ -17,7 +34,6 @@ export const __getCheckInTimer: any = createAsyncThunk(
           },
         }
       );
-      console.log("checkin", response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -26,7 +42,7 @@ export const __getCheckInTimer: any = createAsyncThunk(
 );
 
 export const __getCheckOutTimer: any = createAsyncThunk(
-  "timer/postTimer",
+  "timer/postCheckOut",
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
@@ -38,7 +54,6 @@ export const __getCheckOutTimer: any = createAsyncThunk(
           },
         }
       );
-      console.log("checkOut", response.data);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -47,48 +62,29 @@ export const __getCheckOutTimer: any = createAsyncThunk(
 );
 
 // 초기 상태 타입
-export type Itimer = {
-  checkOut?: string;
-  checkIn?: string;
-  hh: number;
-  mm: number;
-  ss: number;
-  timeWatch: string;
-};
 
 const initialState: Itimer = {
-  checkOut: "",
-  checkIn: "",
-  hh: 0,
-  mm: 0,
-  ss: 0,
-  timeWatch: "",
+  dayStudyTime: "",
+  totalStudyTime: "",
+  todayLogs: [],
 };
 
 export const timerSlice = createSlice({
   name: "timer",
   initialState,
-  extraReducers: {
-    [__getCheckInTimer.fulfilled.type]: (
-      state,
-      action: PayloadAction<Itimer>
-    ) => {
-      state = action.payload;
-      console.log("In", state);
-      console.log(action.payload);
-      return state;
-    },
-    [__getCheckOutTimer.fulfilled.type]: (
-      state,
-      action: PayloadAction<Itimer>
-    ) => {
-      state = { ...state, ...action.payload };
-      console.log("out", state);
-      console.log(action.payload);
-      return state;
-    },
-  },
   reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(__getUserinquire.fulfilled, (state, action) => {
+        state.dayStudyTime = action.payload.dayStudyTime;
+      })
+      .addCase(__getCheckInTimer.fulfilled, (state, action) => {
+        // state.timer = action.payload;
+      })
+      .addCase(__getCheckOutTimer.fulfilled, (state, action) => {
+        state = { ...state, ...action.payload };
+      });
+  },
 });
 
 export default timerSlice.reducer;

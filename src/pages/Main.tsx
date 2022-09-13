@@ -2,18 +2,25 @@ import styled from "styled-components";
 import { ReactComponent as Plus } from "../image/add-button.svg";
 import React, { useEffect, useState } from "react";
 import { useCounter } from "./CheckIn";
-import { useDispatch, useSelector } from "react-redux";
-import { __getCheckInTimer, __getCheckOutTimer } from "../redux/modules/timer";
+import {
+  __getCheckInTimer,
+  __getCheckOutTimer,
+  __getUserinquire,
+} from "../redux/modules/timer";
 import { RootState } from "../redux/config/configStore";
-import { Itime } from "../api";
+import { Itimer } from "../api";
 import Wave from "./Wave";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 
 const Main = () => {
-  const dispatch = useDispatch();
-  const timeCheckIn = useSelector((state: RootState) => state.timer);
-  const time = useSelector((state: RootState) => state);
-
-  // console.log(time);
+  const dispatch = useAppDispatch();
+  // const timeCheckIn = useSelector((state: RootState) => state.timer);
+  // const time = useSelector((state: RootState) => state);
+  const userTime = useAppSelector((state) => state.timer.dayStudyTime);
+  console.log(userTime);
+  const hours1 = Number(userTime.split(":")[0]);
+  const minutes1 = Number(userTime.split(":")[1]);
+  const seconds1 = Number(userTime.split(":")[2]);
 
   // 시, 분, 초를 state로 저장
   const [currentHours, setCurrentHours] = useState(0);
@@ -33,13 +40,10 @@ const Main = () => {
     setCurrentSeconds(seconds);
   };
 
-  // useEffect(() => {
-  //   dispatch(__getCheckOutTimer());
-  //   dispatch(__getCheckInTimer());
-  // }, []);
-
   const clickStart = () => {
     dispatch(__getCheckInTimer());
+    dispatch(__getUserinquire());
+
     start();
   };
 
@@ -52,6 +56,7 @@ const Main = () => {
   useEffect(timer, [count]);
   return (
     <MainContainer>
+      {userTime}
       <h1>
         {currentHours < 10 ? `0${currentHours}` : currentHours} :
         {currentMinutes < 10 ? `0${currentMinutes}` : currentMinutes} :

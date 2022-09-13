@@ -21,8 +21,6 @@ function ChatRoom() {
 
   const chatList = useSelector((state: RootState) => state);
 
-  console.log(chatList);
-
   const roomId = useParams();
   //렌더되면 소켓 연결실행
   useEffect(() => {

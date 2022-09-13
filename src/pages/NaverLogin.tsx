@@ -6,8 +6,6 @@ import { setCookie } from "../components/social/Cookie";
 const NaverLogin = () => {
   const code = new URL(window.location.href).searchParams.get("code");
   const state = new URL(window.location.href).searchParams.get("state");
-  console.log(code);
-  console.log(state);
 
   useEffect(() => {
     const naver = async () => {
