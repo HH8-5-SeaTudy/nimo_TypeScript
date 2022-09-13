@@ -17,16 +17,16 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path={EnumPages.HOME} element={<Home />}>
-          <Route path={EnumPages.INTRO} element={<Intro />} />
+          {/* <Route path={EnumPages.INTRO} element={<Intro />} /> */}
           <Route path={EnumPages.MAIN} element={<Main />} />
           <Route path={EnumPages.CHATROOM} element={<ChatRoom />} />
           <Route path={EnumPages.STATISTICS} element={<Statistics />} />
         </Route>
-        <Route path={EnumPages.LOGIN} element={<Login />} />
-        <Route path={EnumPages.KAKAOLOGIN} element={<KakaoLogin />} />
-        <Route path={EnumPages.NAVERLOGIN} element={<NaverLogin />} />
-        <Route path={EnumPages.GOOGLELOGIN} element={<GoogleLogin />} />
-        <Route path={EnumPages.WAVE} element={<Wave />} />
+        <Route path={EnumPages.LOGIN} element={<Login />}>
+          <Route path={EnumPages.KAKAOLOGIN} element={<KakaoLogin />} />
+          <Route path={EnumPages.NAVERLOGIN} element={<NaverLogin />} />
+          <Route path={EnumPages.GOOGLELOGIN} element={<GoogleLogin />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

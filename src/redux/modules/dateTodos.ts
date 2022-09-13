@@ -5,15 +5,8 @@ import { IDateTodosInitialState, ITodos } from "../../api";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = process.env.REACT_APP_TOKEN as string;
 
-interface MyKnownError {
-  errorMessage: string;
-}
-interface MyKnowSuccess {
-  successMessage: string;
-}
-
 //일자별 목록 조회
-export const getDateTodo: any = createAsyncThunk(
+export const __getDateTodo: any = createAsyncThunk(
   // 성공시 리턴 타입
   // ITodos[],
   // payload 타입
@@ -39,7 +32,7 @@ export const getDateTodo: any = createAsyncThunk(
 );
 
 //카테고리 생성
-export const postCategory: any = createAsyncThunk(
+export const __postCategory: any = createAsyncThunk(
   "category/postCategory",
   async (payload: any, thunkAPI) => {
     try {
@@ -64,7 +57,7 @@ export const postCategory: any = createAsyncThunk(
 );
 
 // 카테고리 삭제
-export const deleteCategory: any = createAsyncThunk(
+export const __deleteCategory: any = createAsyncThunk(
   "category/deleteCategory",
   async (payload: any, thunkAPI) => {
     try {
@@ -77,6 +70,7 @@ export const deleteCategory: any = createAsyncThunk(
           },
         }
       );
+      console.log(payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -85,7 +79,7 @@ export const deleteCategory: any = createAsyncThunk(
 );
 
 // 카테고리 수정
-export const _editCategory: any = createAsyncThunk(
+export const __editCategory: any = createAsyncThunk(
   "category/editCategory",
   async (payload: any, thunkAPI) => {
     try {
@@ -109,7 +103,7 @@ export const _editCategory: any = createAsyncThunk(
 );
 
 // 투두리스트 추가
-export const postTodo: any = createAsyncThunk(
+export const __postTodo: any = createAsyncThunk(
   "todo/postTodo",
   async (payload: any, thunkAPI) => {
     try {
@@ -134,7 +128,7 @@ export const postTodo: any = createAsyncThunk(
 );
 
 //투두리스트 완료
-export const doneTodo: any = createAsyncThunk(
+export const __doneTodo: any = createAsyncThunk(
   "todo/doneTodo",
   async (payload: any, thunkAPI) => {
     try {
@@ -155,12 +149,12 @@ export const doneTodo: any = createAsyncThunk(
   }
 );
 //투두리스트 삭제
-export const deleteTodo: any = createAsyncThunk(
+export const __deleteTodo: any = createAsyncThunk(
   "todo/deleteTodo",
   async (payload: any, thunkAPI) => {
     try {
       const data = await axios.delete(
-        `http://43.200.115.252/api/v1/todoLists/${payload.todoId}`,
+        `${BASE_URL}/api/v1/todoLists/${payload.todoId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -168,6 +162,7 @@ export const deleteTodo: any = createAsyncThunk(
           },
         }
       );
+
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -186,39 +181,53 @@ export const getDateTodoSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getDateTodo.fulfilled, (state, action) => {
+      // * Category Reducer
+      .addCase(__getDateTodo.fulfilled, (state, action) => {
         state.dateTodos = action.payload;
       })
-      .addCase(postCategory.fulfilled, (state, action) => {
+      .addCase(__postCategory.fulfilled, (state, action) => {
         state.dateTodos.push(action.payload);
       })
-      .addCase(deleteCategory.fulfilled, (state, action) => {
+      .addCase(__deleteCategory.fulfilled, (state, action) => {
         state.dateTodos = state.dateTodos.filter(
           (list) => list.categoryId !== action.payload
         );
       })
-      .addCase(_editCategory.fulfilled, (state, action) => {
+      .addCase(__editCategory.fulfilled, (state, action) => {
         state.dateTodos = state.dateTodos.map((list) =>
           list.categoryId === action.payload.categoryId
             ? { ...list, categoryName: action.payload.categoryName }
             : list
         );
       })
-      .addCase(postTodo.fulfilled, (state, action) => {
+
+      // * Todo Reducer
+      .addCase(__postTodo.fulfilled, (state, action) => {
         state.dateTodos.map((list) =>
           list.categoryId === action.payload.categoryId
-            ? list.todoList.push(action.payload)
+            ? list.todoList && list.todoList.push(action.payload)
             : list
         );
       })
-      .addCase(deleteTodo.fulfilled, (state, action) => {
-        state.dateTodos.map((list) =>
-          list.categoryId === action.payload.categoryId
-            ? list.todoList.filter(
-                (item: any) => item.categoryId !== action.payload.todoId
-              )
-            : list
-        );
+      .addCase(__doneTodo.fulfilled, (state, action) => {
+        state.dateTodos.map((list) => {
+          if (list.categoryId === action.payload.categoryId) {
+            return (list.todoList = list.todoList.map((todo) =>
+              todo.todoId === action.payload.todoId
+                ? { ...todo, done: action.payload.done }
+                : todo
+            ));
+          }
+        });
+      })
+      .addCase(__deleteTodo.fulfilled, (state, action) => {
+        state.dateTodos.map((list) => {
+          if (list.categoryId === action.payload.categoryId) {
+            return (list.todoList = list.todoList.filter(
+              (todo) => todo.todoId !== action.payload.todoId
+            ));
+          }
+        });
       });
   },
 });

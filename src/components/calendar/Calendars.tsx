@@ -27,10 +27,6 @@ const Calendars = () => {
     dispatch(getAllTodo());
   }, []);
 
-  interface todoObject {
-    todoObject: string;
-  }
-
   return (
     <Layer>
       <p>{moment(value).format("YYYY년 MM월 DD일")}</p>
@@ -49,14 +45,21 @@ const Calendars = () => {
             let html = [];
             // 현재 날짜가 post 작성한 날짜 배열(mark)에 있다면, dot div 추가
             const todoDone = allTodos.map((list) => {
-              return list.todoList.filter((item) => item.done).length;
+              return (
+                list.todoList &&
+                list.todoList.filter((item) => item.done).length
+              );
             });
 
             const todoObject = allTodos.map((list, index) => {
               return (
-                list.selectDate === moment(date).format("YYYY-MM-DD") &&
-                todoDone[index] === list.todoList.length &&
-                `a`
+                <React.Fragment key={index}>
+                  {list.selectDate === moment(date).format("YYYY-MM-DD") &&
+                    todoDone[index] > 0 &&
+                    todoDone[index] === list.todoList.length && (
+                      <ContentBox>💚</ContentBox>
+                    )}
+                </React.Fragment>
               );
             });
 
