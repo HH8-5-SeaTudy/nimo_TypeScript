@@ -205,6 +205,7 @@ export const getDateTodoSlice = createSlice({
         );
       })
       .addCase(postTodo.fulfilled, (state, action) => {
+        console.log(action.payload)
         state.dateTodos.map((list) =>
           list.categoryId === action.payload.categoryId
             ? list.todoList.push(action.payload)
