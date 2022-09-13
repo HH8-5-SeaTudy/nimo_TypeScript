@@ -31,7 +31,6 @@ export const getDateTodo: any = createAsyncThunk(
           },
         }
       );
-      console.log("확인", data.data.data);
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue({ errorMessage: "에러가 발생" });
@@ -69,7 +68,6 @@ export const postCategory: any = createAsyncThunk(
 export const deleteCategory: any = createAsyncThunk(
   "category/deleteCategory",
   async (payload: any, thunkAPI) => {
-    console.log("카테삭제", payload);
     try {
       const data = await axios.delete(
         `${BASE_URL}/api/v1/todoCategories/${payload}`,
@@ -91,7 +89,6 @@ export const deleteCategory: any = createAsyncThunk(
 export const _editCategory: any = createAsyncThunk(
   "category/editCategory",
   async (payload: any, thunkAPI) => {
-    console.log("카테수정", payload);
     try {
       const data = await axios.put(
         `${BASE_URL}/api/v1/todoCategories/${payload.categoryId}`,
@@ -116,7 +113,6 @@ export const _editCategory: any = createAsyncThunk(
 export const postTodo: any = createAsyncThunk(
   "todo/postTodo",
   async (payload: any, thunkAPI) => {
-    console.log("투두추가", payload);
     try {
       const data = await axios.post(
         `${BASE_URL}/api/v1/${payload.categoryId}/todoLists`,
@@ -131,7 +127,7 @@ export const postTodo: any = createAsyncThunk(
           },
         }
       );
-      return thunkAPI.fulfillWithValue(payload);
+      return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -142,7 +138,6 @@ export const postTodo: any = createAsyncThunk(
 export const doneTodo: any = createAsyncThunk(
   "todo/doneTodo",
   async (payload: any, thunkAPI) => {
-    console.log("투두완료", payload);
     try {
       const data = await axios.post(
         `${BASE_URL}/api/v1/todoLists/${payload}`,
@@ -164,7 +159,6 @@ export const doneTodo: any = createAsyncThunk(
 export const deleteTodo: any = createAsyncThunk(
   "todo/deleteTodo",
   async (payload: any, thunkAPI) => {
-    console.log("투두삭제", payload);
     try {
       const data = await axios.delete(
         `http://43.200.115.252/api/v1/todoLists/${payload.todoId}`,
@@ -184,6 +178,7 @@ export const deleteTodo: any = createAsyncThunk(
 
 const initialState: IDateTodosInitialState = {
   dateTodos: [],
+  allTodos: [],
 };
 
 export const getDateTodoSlice = createSlice({
@@ -194,7 +189,6 @@ export const getDateTodoSlice = createSlice({
     builder
       .addCase(getDateTodo.fulfilled, (state, action) => {
         state.dateTodos = action.payload;
-        console.log("해당날짜", action.payload);
       })
       .addCase(postCategory.fulfilled, (state, action) => {
         state.dateTodos.push(action.payload);

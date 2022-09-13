@@ -4,6 +4,7 @@
 // * Category IInitialState
 export type IDateTodosInitialState = {
   dateTodos: ITodos[];
+  allTodos: ITodos[];
 };
 // * Category TodoList 전체조회
 export type ITodos = {

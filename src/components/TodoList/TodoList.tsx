@@ -24,7 +24,11 @@ const TodoList = () => {
   const [input, setInput] = useState("");
 
   const onSubmitHandler = (e: any) => {
-    dispatch(postCategory({ categoryName: category, selectDate: date }));
+    if (dateTodos.length < 4)
+      dispatch(postCategory({ categoryName: category, selectDate: date }));
+    else {
+      alert("4개까지만 생성가능");
+    }
     e.preventDefault();
     setInput("");
   };
