@@ -23,7 +23,6 @@ const Wave = () => {
     // 스크롤이 Top에서 50px 이상 내려오면 true값을 useState에 넣어줌
     if (window.scrollY >= 500) {
       setScroll(true);
-      console.log(window.scrollY);
     }
     if (window.scrollY >= 600) {
       setPartTwo(true);
@@ -122,11 +121,9 @@ const swellAnimation = keyframes`
   }
 `;
 
-const Layer = styled.section``
-
+const Layer = styled.section``;
 
 const WavePart = styled.div``;
-
 
 const Ocean = styled.div`
   height: 900px;

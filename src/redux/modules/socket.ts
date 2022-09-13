@@ -19,7 +19,6 @@ export const __getChatroom: any = createAsyncThunk(
           },
         }
       );
-      console.log(response);
       return response.data.data.roomId;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

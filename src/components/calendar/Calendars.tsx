@@ -19,8 +19,6 @@ const Calendars = () => {
   const allTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const todoLength = useAppSelector((state) => state.allTodos.allTodos);
 
-  // console.log("todos", allTodos, todoLength);
-
   useEffect(() => {
     dispatch(updateDate(moment(value).format("YYYY-MM-DD")));
   }, [value]);
@@ -61,12 +59,10 @@ const Calendars = () => {
                 `a`
               );
             });
-            console.log("todoDone", todoDone);
 
             /// 카테고리 날짜가 달력의 날짜랑 일치
             /// 카테고리 안에 todolist의 done: 1 의 갯수가 전체 투두리스트 길의와 같으면
             // 달력에 점을 찍어라.
-            console.log("todoObject", todoObject.length);
 
             html.push(todoObject);
             return <>{<Test>{html}</Test>}</>;

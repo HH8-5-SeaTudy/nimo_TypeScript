@@ -42,7 +42,6 @@ export const getDateTodo: any = createAsyncThunk(
 export const postCategory: any = createAsyncThunk(
   "category/postCategory",
   async (payload: any, thunkAPI) => {
-    console.log("카테생성", payload);
     try {
       const data = await axios.post(
         `${BASE_URL}/api/v1/todoCategories`,
@@ -206,7 +205,6 @@ export const getDateTodoSlice = createSlice({
         );
       })
       .addCase(postTodo.fulfilled, (state, action) => {
-        console.log("투두리듀서", action.payload);
         state.dateTodos.map((list) =>
           list.categoryId === action.payload.categoryId
             ? list.todoList.push(action.payload)

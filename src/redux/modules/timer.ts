@@ -84,24 +84,6 @@ export const timerSlice = createSlice({
       .addCase(__getCheckOutTimer.fulfilled, (state, action) => {
         state = { ...state, ...action.payload };
       });
-    // [__getCheckInTimer.fulfilled.type]: (
-    //   state,
-    //   action: PayloadAction<Itimer>
-    // ) => {
-    //   state = action.payload;
-    //   console.log("In", state);
-    //   console.log(action.payload);
-    //   return state;
-    // },
-    // [__getCheckOutTimer.fulfilled.type]: (
-    //   state,
-    //   action: PayloadAction<Itimer>
-    // ) => {
-    //   state = { ...state, ...action.payload };
-    //   console.log("out", state);
-    //   console.log(action.payload);
-    //   return state;
-    // },
   },
 });
 
