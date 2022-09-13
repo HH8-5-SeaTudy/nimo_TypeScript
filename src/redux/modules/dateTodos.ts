@@ -212,13 +212,13 @@ export const getDateTodoSlice = createSlice({
         );
       })
       .addCase(deleteTodo.fulfilled, (state, action) => {
-        state.dateTodos.map((list) =>
-          list.categoryId === action.payload.categoryId
-            ? list.todoList.filter(
-                (item: any) => item.categoryId !== action.payload.todoId
-              )
-            : list
-        );
+        state.dateTodos.map((list)=>
+        {
+        if( list.categoryId === action.payload.categoryId ) {
+        return list.todoList = list.todoList.filter((todo)=>todo.todoId !== action.payload.todoId)
+        }
+        }
+        )
       });
   },
 });

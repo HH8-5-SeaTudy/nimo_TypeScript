@@ -49,15 +49,17 @@ const Calendars = () => {
             let html = [];
             // 현재 날짜가 post 작성한 날짜 배열(mark)에 있다면, dot div 추가
             const todoDone = allTodos.map((list) => {
-              return list.todoList.filter((item) => item.done).length;
+              return list.todoList?.filter((item) => item.done).length;
             });
 
             const todoObject = allTodos.map((list, index) => {
               return (
                 list.selectDate === moment(date).format("YYYY-MM-DD") &&
-                todoDone[index] === list.todoList.length &&
-                `a`
-              );
+                todoDone[index] > 0 &&
+                todoDone[index] === list.todoList.length && (
+                <ContentBox>💚</ContentBox>
+                )
+                );
             });
 
             /// 카테고리 날짜가 달력의 날짜랑 일치
