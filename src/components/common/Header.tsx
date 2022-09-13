@@ -1,57 +1,45 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+
 import styled from "styled-components";
-import { useCounter } from "../../pages/CheckIn";
 import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
 import Asmr from '../asmr/Asmr';
+import StopWatch from '../stopwatch/StopWatch';
 
 interface props {
   start? : ()=>void,
   stop? : ()=>void
 }
 
-const Header = ({start, stop}:props) => {
-  const [isLogin, setIsLogin] = useState(false);
-  const { count } = useCounter(0, 1000);
-  const [currentHours, setCurrentHours] = useState(0);
-  const [currentMinutes, setCurrentMinutes] = useState(0);
-  const [currentSeconds, setCurrentSeconds] = useState(0);
-
-  // 타이머 기능
-  const timer = () => {
-    const checkMinutes = Math.floor(count / 60);
-    const hours = Math.floor(count / 3600);
-    const minutes = checkMinutes % 60;
-    const seconds = count % 60;
-
-    setCurrentHours(hours);
-    setCurrentMinutes(minutes);
-    setCurrentSeconds(seconds);
-  };
+const Header = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [asmrShow, setAsmrShow] = useState(false)
 
   const onClick = () => {
     setIsLogin(!isLogin);
   };
-  useEffect(timer, [count]);
+
+  if (window.location.pathname === '/intro') return null;
+  if (window.location.pathname === '/login') return null;
+  if (window.location.pathname === 'kakaoLogin') return null;
+  if (window.location.pathname === 'naverLogin') return null;
+  if (window.location.pathname === 'googleLogin') return null;
+
   return (
-    <>  <HeaderContainer>
+    <>  
+    <HeaderContainer>
       <HeaderLogoContainer>
         <HeaderLogo>Logo</HeaderLogo>
       </HeaderLogoContainer>
       {isLogin && (
         <HeaderTimerContainer>
           <HeaderTimer>
-            <h1>
-              {currentHours < 10 ? `0${currentHours}` : currentHours} :
-              {currentMinutes < 10 ? `0${currentMinutes}` : currentMinutes} :
-              {currentSeconds < 10 ? `0${currentSeconds}` : currentSeconds}
-            </h1>
+            <StopWatch />
           </HeaderTimer>
-          {/* <CheckIn /> */}
         </HeaderTimerContainer>
       )}
-      <OnAsmrBtn />
-      <Asmr/>
+      <OnAsmrBtn onClick={()=>setAsmrShow(!asmrShow)}/>
+      {asmrShow && <Asmr/>}
     </HeaderContainer> 
  </>
   
@@ -59,6 +47,7 @@ const Header = ({start, stop}:props) => {
 };
 
 const HeaderContainer = styled.div`
+  position:relative;
   display: flex;
   justify-content: space-between;
   align-items: center;

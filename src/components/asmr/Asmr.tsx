@@ -42,9 +42,11 @@ export default Asmr;
 
 const AsmrSelectBox = styled.div`
 position: relative;
-top: 100px;
+top: 65px;
+right: 200px;
 width: 312px;
 height:100%;
+
 `
 const BtnArrow = styled.div`
     margin: auto;

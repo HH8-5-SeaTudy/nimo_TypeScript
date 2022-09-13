@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "react-calendar/dist/Calendar.css";
-import "./CalendarEl.css";
+import "./Calendars.css"
 import Calendar from "react-calendar";
 import moment from "moment";
 import { updateDate } from "../../redux/modules/searchDate";
@@ -33,7 +33,6 @@ const Calendars = () => {
 
   return (
     <Layer>
-      <p>{moment(value).format("YYYY년 MM월 DD일")}</p>
       <div>
         <Calendar
           onChange={onChange}

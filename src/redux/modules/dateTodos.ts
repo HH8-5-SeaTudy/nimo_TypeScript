@@ -160,7 +160,7 @@ export const deleteTodo: any = createAsyncThunk(
   async (payload: any, thunkAPI) => {
     try {
       const data = await axios.delete(
-        `http://43.200.115.252/api/v1/todoLists/${payload.todoId}`,
+        `${BASE_URL}/api/v1/todoLists/${payload.todoId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -205,7 +205,6 @@ export const getDateTodoSlice = createSlice({
         );
       })
       .addCase(postTodo.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.dateTodos.map((list) =>
           list.categoryId === action.payload.categoryId
             ? list.todoList.push(action.payload)
@@ -213,11 +212,21 @@ export const getDateTodoSlice = createSlice({
         );
       })
       .addCase(deleteTodo.fulfilled, (state, action) => {
-        state.dateTodos.map((list)=>
-        {
+        state.dateTodos.map((list)=>{
         if( list.categoryId === action.payload.categoryId ) {
         return list.todoList = list.todoList.filter((todo)=>todo.todoId !== action.payload.todoId)
         }
+        }
+        )
+      })
+      .addCase(doneTodo.fulfilled, (state, action) => {
+        state.dateTodos.map((list)=>
+        {
+          if( list.categoryId === action.payload.categoryId ) {
+            return list.todoList = list.todoList.map((todo)=> todo.todoId == action.payload.todoId
+            ? {...todo, done: action.payload.done}
+            : todo )
+          }
         }
         )
       });
