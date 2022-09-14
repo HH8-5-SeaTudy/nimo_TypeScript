@@ -1,13 +1,10 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import TodoModal from "./TodoModal";
-import BurgerSidebar from "../components/sidebar/BurgerSidebar";
-import CalendarSidebar from "../components/sidebar/CalendarSidebar";
-import ProfileSidebar from "../components/sidebar/ProfileSidebar";
-import TodoSidebar from "../components/sidebar/TodoSidebar";
+
 import Google from "../components/social/Google";
 import Kakao from "../components/social/Kakao";
 import Naver from "../components/social/Naver";
+
 
 export default function Login() {
   return (
@@ -26,14 +23,9 @@ export default function Login() {
   </Bubbles> */}
 
       <div>
-        <TodoModal />
         <Kakao />
         <Naver />
         <Google />
-        <ProfileSidebar />
-        <BurgerSidebar />
-        <TodoSidebar />
-        <CalendarSidebar />
       </div>
     </Body>
   );

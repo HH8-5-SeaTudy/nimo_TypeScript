@@ -24,18 +24,18 @@ export default BurgerSidebar;
 const BurgerSide = styled.div`
   position: absolute;
   width: 25px;
-  height: 554px;
+  height: 420px;
   left: 0px;
-  top: 467px;
+  top: 493px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
 `;
 
 const BurgerIconBox = styled.div`
   position: absolute;
-  width: 50px;
-  height: 80px;
-  left: 0;
+  width: 60px;
+  height: 75px;
+  left: -5px;
   top: 35%;
   display: flex;
   align-items: center;
@@ -55,9 +55,9 @@ interface BurgerLayerProps {
 const BurgerLayer = styled.div<BurgerLayerProps>`
   position: absolute;
   display: flex;
-  top: 467px;
+  top: 493px;
   width: 359px;
-  height: 554px;
+  height: 420px;
   transition: all 0.5s;
   z-index: 1;
   left: ${({ show }) => (show ? "0px" : "-359px")};
@@ -69,8 +69,9 @@ const CloseBtn = styled.div`
 `;
 const BugerBox = styled.div`
   border: solid red 1px;
+  padding: 3px 0px;
   width: 335px;
-  height: 554px;
+  height: 100%;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
 `;
