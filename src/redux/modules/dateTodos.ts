@@ -1,10 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IDateTodosInitialState, ITodos } from "../../api";
+import { getCookie } from '../../components/social/Cookie';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token: string = process.env.REACT_APP_TOKEN as string;
+// const token: string = process.env.REACT_APP_TOKEN as string;
+const token: string = getCookie('token') as string;
 
+console.log(token)
 //일자별 목록 조회
 export const __getDateTodo: any = createAsyncThunk(
   // 성공시 리턴 타입

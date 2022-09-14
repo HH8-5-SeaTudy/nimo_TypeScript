@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { ReactComponent as BurgerIcon } from "../../assets/icon/BurgerIcon.svg";
 
@@ -12,7 +13,9 @@ const BurgerSidebar = () => {
         </BurgerIconBox>
       </BurgerSide>
       <BurgerLayer show={show}>
-        <BugerBox></BugerBox>
+        <BugerBox>
+          <Link to='/statistics' style={{ textDecoration: 'none' }}><p>통계페이지로 이동!!!!</p></Link>
+        </BugerBox>
         <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
       </BurgerLayer>
     </div>
@@ -74,4 +77,9 @@ const BugerBox = styled.div`
   height: 100%;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
+    p{
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
 `;

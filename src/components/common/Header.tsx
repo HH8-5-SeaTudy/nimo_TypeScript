@@ -1,46 +1,40 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import { Itime } from '../../api';
 import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
 import Asmr from '../asmr/Asmr';
-import StopWatch from '../stopwatch/StopWatch';
+import { Link } from 'react-router-dom';
 
 
-interface props {
-  start?: () => void;
-  stop?: () => void;
-}
 
+const Header = ({ timeHH, timeMM, timeSS }:Itime) => {
 
-const Header = () => {
-  const [isLogin, setIsLogin] = useState(true);
   const [asmrShow, setAsmrShow] = useState(false)
-
-  const onClick = () => {
-    setIsLogin(!isLogin);
-  };
 
   if (window.location.pathname === '/intro') return null;
   if (window.location.pathname === '/login') return null;
-  if (window.location.pathname === 'kakaoLogin') return null;
-  if (window.location.pathname === 'naverLogin') return null;
-  if (window.location.pathname === 'googleLogin') return null;
+  if (window.location.pathname === '/kakaoLogin') return null;
+  if (window.location.pathname === '/naverLogin') return null;
+  if (window.location.pathname === '/googleLogin') return null;
 
   return (
-
     <>  
     <HeaderContainer>
       <HeaderLogoContainer>
         <HeaderLogo>Logo</HeaderLogo>
       </HeaderLogoContainer>
-      {isLogin && (
         <HeaderTimerContainer>
           <HeaderTimer>
-            <StopWatch/>
+          <Layer>
+            <Link to='/statistics' style={{ textDecoration: 'none' }}>    
+            <span>{("0" + Math.floor(timeHH % 24)).slice(-2)}:</span>
+            <span>{("0" + Math.floor(timeMM % 60)).slice(-2)}:</span>
+            <span>{("0" + Math.floor(timeSS % 60)).slice(-2)}</span>
+            </Link>
+          </Layer>
           </HeaderTimer>
         </HeaderTimerContainer>
-      )}
       <OnAsmrBtn onClick={()=>setAsmrShow(!asmrShow)}/>
       {asmrShow && <Asmr/>}
     </HeaderContainer> 
@@ -49,6 +43,11 @@ const Header = () => {
 
   );
 };
+const Layer = styled.div`
+  span {
+     color: white;
+  }
+`
 
 const HeaderContainer = styled.div`
   position:relative;

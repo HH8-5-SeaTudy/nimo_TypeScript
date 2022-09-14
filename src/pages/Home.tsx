@@ -1,17 +1,22 @@
 import React from "react";
 import styled from "styled-components";
+import { Ivoid } from '../api';
 import BurgerSidebar from "../components/sidebar/BurgerSidebar";
 import CalendarSidebar from "../components/sidebar/CalendarSidebar";
 import ProfileSidebar from "../components/sidebar/ProfileSidebar";
 import TodoSidebar from "../components/sidebar/TodoSidebar";
 
 
-export default function Home() {
+export default function Home( {startHandler , endHandler}:Ivoid) {
+
   return (
     <>
     <Layer>
       <ButtonBox>
-        <CheckInBall></CheckInBall>
+        <CheckInBall>
+          <button onClick={()=>startHandler()}>start</button>
+          <button onClick={()=>endHandler()}> stop</button>
+        </CheckInBall>
         <button>서버1</button>
         <button>서버2</button>
         <button>서버3</button>

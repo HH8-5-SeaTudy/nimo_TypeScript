@@ -3,7 +3,7 @@ import styled from "styled-components";
 import moment from "moment";
 import { ReactComponent as PlusIcon } from "../../assets/icon/PlusIcon.svg";
 import { useAppDispatch,  useAppSelector } from "../../components/hooks/reduxHooks";
-import { getDateTodo } from '../../redux/modules/dateTodos';
+import { __getDateTodo } from '../../redux/modules/dateTodos';
 import TodoModal from '../../pages/TodoModal';
 
 const TodoSidebar = () => {
@@ -12,7 +12,7 @@ const TodoSidebar = () => {
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
 
   useEffect(() => {
-    dispatch(getDateTodo(moment(date).format("YYYY-MM-DD")));
+    dispatch(__getDateTodo(moment(date).format("YYYY-MM-DD")));
   }, [date]);
 
   const [show, setShow] = useState(false);
@@ -33,7 +33,7 @@ const TodoSidebar = () => {
       <TodoLayer show={show}>
         <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
         <TodoBox>
-          <p onClick={()=>{modalHandler()}}>작성하기</p>
+          <p onClick={()=>{modalHandler()}}>작성하기버튼임</p>
           <div>
           {dateTodos &&
           dateTodos.map((list) => (
@@ -120,5 +120,8 @@ const TodoBox = styled.div`
     #264b7e;
   p{
     margin:0;
+    font-size: 30px;
+      color: white;
+      cursor: pointer;
   }
 `;
