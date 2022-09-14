@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
@@ -20,11 +20,11 @@ function ChatRoom() {
   const location = useLocation();
 
   const { id }: any = location.state;
-  console.log("id is ",id);
 
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();
-  const [message, setMessage] = useState("");
+  const message = useRef("");
+  // const [message, setMessage] = useState("");
   const chat = useAppSelector((state) => state.socket.chat);
 
   const headers = {
@@ -34,29 +34,35 @@ function ChatRoom() {
   const socket = new SockJS(`${BASE_URL}/api/v1/chat/connections`);
   const client = Stomp.over(socket);
 
+  console.log("00000");
   const roomIdHandler = () => {
+  console.log("11111");
+
     window.location.reload();
     dispatch(__getChatroom(id));
   };
 
   //렌더되면 소켓 연결실행
-  useEffect(() => {
+  useLayoutEffect(() => {
+  console.log("2222");
+
     onConneted();
     return () => {
       disConneted();
     };
-  }, [id]);
+  }, []);
 
   const handleEnterPress = (e: any) => {
-    // if (message.trim() === "") {
-    // }
-    if (e.code === "Enter" && e.shiftKey == false) {
+    if (e.code === "Enter" && e.shiftKey === false) {
+      console.log("3333");
       sendMessage();
     }
   };
 
   //연결&구독
-  function onConneted() {
+  const onConneted = ()=> {
+  console.log("4444");
+
     try {
       client.connect(headers, () => {
         client.subscribe(
@@ -81,22 +87,27 @@ function ChatRoom() {
 
   //메시지 보내기
   const sendMessage = () => {
+  console.log("5555");
+
     waitForConnection(client, function () {
       client.send(
         `/pub/chat/message`,
         headers,
         JSON.stringify({
           roomId: id,
-          message: message,
+          message: message.current,
         })
       );
     });
 
-    setMessage("");
+    // setMessage("");
+    message.current = "";
   };
 
   // 연결해제, 구독해제
   function disConneted() {
+  console.log("7666666");
+
     try {
       client.disconnect(
         () => {
@@ -110,6 +121,8 @@ function ChatRoom() {
   }
 
   function waitForConnection(client: any, callback: any) {
+  console.log("888888");
+
     setTimeout(function () {
       if (client.ws.readyState === 1) {
         callback();
@@ -120,7 +133,9 @@ function ChatRoom() {
   }
 
   const onChange = (e: any) => {
-    setMessage(e.target.value);
+  console.log("999999");
+    // setMessage(e.target.value);
+    message.current = e.target.value;
   };
 
   return (
@@ -205,7 +220,6 @@ function ChatRoom() {
           <MessageForm>
             <textarea
               onKeyDown={handleEnterPress}
-              value={message}
               onChange={onChange}
             />
             <ButtonContainer>
