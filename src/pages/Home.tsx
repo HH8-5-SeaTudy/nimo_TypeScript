@@ -39,6 +39,7 @@ export default function Home() {
           }}>start</button>
           <button onClick={()=>{
             dispatch(__getCheckOutTimer());
+            dispatch(__getUserinquire());
           }}> stop</button>
           </CheckInBall>
           <button
