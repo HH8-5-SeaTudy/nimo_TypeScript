@@ -12,10 +12,11 @@ const KakaoLogin = () => {
     const kakao = async () => {
       return await axios
         .get(`http://43.200.115.252/api/v1/members/kakaoLogin?code=${code}`)
-        .then((res) => {
-          setCookie("token", res.headers.authorization);
-          navigate("/");
-        })
+        .then((res) => setCookie("token", res.headers.authorization))
+          .then(() => {
+            navigate("/");
+          })
+
     };
     if (code) {
       kakao();
