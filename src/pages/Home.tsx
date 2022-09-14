@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Ivoid } from '../api';
@@ -6,6 +6,9 @@ import BurgerSidebar from "../components/sidebar/BurgerSidebar";
 import CalendarSidebar from "../components/sidebar/CalendarSidebar";
 import ProfileSidebar from "../components/sidebar/ProfileSidebar";
 import TodoSidebar from "../components/sidebar/TodoSidebar";
+import { __getCheckInTimer, __getCheckOutTimer } from "../redux/modules/timer";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
+import { useSelector } from "react-redux";
 
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;
@@ -15,15 +18,25 @@ const roomId5 = process.env.REACT_APP_ROOMID5;
 
 
 
-export default function Home( {startHandler , endHandler}:Ivoid ) {
+export default function Home() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  // const time = useAppSelector((state) => state.timer);
+
+  // useEffect(()=>{
+  //   console.log(time);
+  // },[JSON.stringify(time)])
   return (
     <>
       <Layer>
         <ButtonBox>
           <CheckInBall>
-          <button onClick={()=>startHandler()}>start</button>
-          <button onClick={()=>endHandler()}> stop</button>
+          <button onClick={()=>{
+            dispatch(__getCheckInTimer());
+          }}>start</button>
+          <button onClick={()=>{
+            dispatch(__getCheckOutTimer());
+          }}> stop</button>
           </CheckInBall>
           <button
             onClick={() => {

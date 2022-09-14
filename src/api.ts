@@ -40,6 +40,7 @@ export type Itimer = {
   dayStudyTime: string;
   totalStudyTime: string;
   todayLogs: todayLogs[];
+  isStudy : boolean;
 };
 
 export type todayLogs = {

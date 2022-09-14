@@ -69,6 +69,7 @@ const initialState: Itimer = {
   dayStudyTime: "",
   totalStudyTime: "",
   todayLogs: [],
+  isStudy : false,
 };
 
 export const timerSlice = createSlice({
@@ -81,10 +82,10 @@ export const timerSlice = createSlice({
         state.dayStudyTime = action.payload.dayStudyTime;
       })
       .addCase(__getCheckInTimer.fulfilled, (state, action) => {
-        // state.timer = action.payload;
+        state.isStudy = true;
       })
       .addCase(__getCheckOutTimer.fulfilled, (state, action) => {
-        state = { ...state, ...action.payload };
+        state.isStudy = false;
       });
   },
 });

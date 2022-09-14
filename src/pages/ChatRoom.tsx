@@ -20,6 +20,7 @@ function ChatRoom() {
   const location = useLocation();
 
   const { id }: any = location.state;
+  console.log("id is ",id);
 
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();

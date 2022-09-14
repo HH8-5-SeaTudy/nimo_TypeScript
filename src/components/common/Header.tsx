@@ -7,12 +7,62 @@ import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
 
 import Asmr from '../asmr/Asmr';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { __getCheckInTimer, __getCheckOutTimer, __getUserinquire } from "../../redux/modules/timer";
 
 
 
-const Header = ({ timeHH, timeMM, timeSS }:Itime) => {
+const Header = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const time = useAppSelector((state) => state.timer);
   const [asmrShow, setAsmrShow] = useState(false)
+
+  const [hh, mm, ss] = String(time.dayStudyTime)
+    .split(":")
+    .map((v) => +v);
+
+  const [timeSS, setTimeSS] = useState<number>(0);
+  const [timeMM, setTimeMM] = useState<number>(0);
+  const [timeHH, setTimeHH] = useState<number>(0);
+
+  useEffect(() => {
+    dispatch(__getUserinquire());
+
+    return (()=>{
+      dispatch(__getCheckOutTimer());
+    })
+  }, []);
+
+  useEffect(() => {
+    setTimeSS(ss);
+    setTimeMM(mm);
+    setTimeHH(hh); 
+
+  }, [time]);
+
+  useEffect(() => {
+    let interval:any = null;
+    if (time.isStudy) {
+      interval = setInterval(() => {
+        setTimeSS((ss) => ss + 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+    if ( timeSS % 60 == 0 && timeSS !== 0 ) {
+      setTimeMM((mm) => mm + 1);
+    }
+
+    return () => clearInterval(interval);
+  }, [JSON.stringify(time), timeSS,]);
+
+  useEffect(()=>{
+    if (timeMM % 60 == 0 && timeMM !== 0) {
+      setTimeHH((hh) => hh + 1);
+    }
+  },[timeMM])
+
 
   if (window.location.pathname === '/intro') return null;
   if (window.location.pathname === '/login') return null;
