@@ -15,13 +15,16 @@ const roomId5 = process.env.REACT_APP_ROOMID5;
 
 
 
-export default function Home() {
+export default function Home( {startHandler , endHandler}:Ivoid ) {
   const navigate = useNavigate();
   return (
     <>
       <Layer>
         <ButtonBox>
-          <CheckInBall></CheckInBall>
+          <CheckInBall>
+          <button onClick={()=>startHandler()}>start</button>
+          <button onClick={()=>endHandler()}> stop</button>
+          </CheckInBall>
           <button
             onClick={() => {
               navigate("/chat", {
