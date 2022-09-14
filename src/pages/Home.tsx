@@ -22,9 +22,9 @@ export default function Home() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   // const time = useAppSelector((state) => state.timer);
-  useEffect(()=>{
-    dispatch(__getUserinquire());
-  },[])
+  // useEffect(()=>{
+  //   dispatch(__getUserinquire());
+  // },[])
 
   // useEffect(()=>{
   //   console.log(time);
@@ -39,7 +39,6 @@ export default function Home() {
           }}>start</button>
           <button onClick={()=>{
             dispatch(__getCheckOutTimer());
-            dispatch(__getUserinquire());
           }}> stop</button>
           </CheckInBall>
           <button

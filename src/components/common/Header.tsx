@@ -27,12 +27,15 @@ const Header = () => {
   const [timeMM, setTimeMM] = useState<number>(0);
   const [timeHH, setTimeHH] = useState<number>(0);
 
+  console.log(time)
+
   useEffect(() => {
     dispatch(__getUserinquire());
-    dispatch(__getCheckInTimer());
-    // return (()=>{
-    //   dispatch(__getCheckOutTimer());
-    // })
+    dispatch(__getCheckInTimer())
+    
+    return (()=>{
+      dispatch(__getCheckOutTimer());
+    })
   }, []);
 
   useEffect(() => {

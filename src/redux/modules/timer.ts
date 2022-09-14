@@ -16,6 +16,7 @@ export const __getUserinquire: any = createAsyncThunk(
           Authorization: token,
         },
       });
+      console.log('정보',response)
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -28,14 +29,14 @@ export const __getCheckInTimer: any = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/v1/checkIns`,
-        payload,
+        `${BASE_URL}/api/v1/checkIns`,{},
         {
           headers: {
             Authorization: token,
           },
         }
       );
+      console.log('체크인',response)
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -48,14 +49,14 @@ export const __getCheckOutTimer: any = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/v1/checkOuts`,
-        payload,
+        `${BASE_URL}/api/v1/checkOuts`,{},
         {
           headers: {
             Authorization: token,
           },
         }
       );
+      console.log('체크아웃',response)
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -85,6 +86,7 @@ export const timerSlice = createSlice({
         state.isStudy = true;
       })
       .addCase(__getCheckOutTimer.fulfilled, (state, action) => {
+        state.dayStudyTime = action.payload.timeWatch
         state.isStudy = false;
       });
   },
