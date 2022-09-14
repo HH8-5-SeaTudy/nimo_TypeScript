@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import {
-  postCategory,
-  deleteCategory,
-  _editCategory,
-  postTodo,
-  doneTodo,
-  deleteTodo,
+  __getDateTodo,
+  __postCategory,
+  __deleteCategory,
+  __editCategory,
+  __postTodo,
+  __doneTodo,
+  __deleteTodo,
 } from "../../redux/modules/dateTodos";
-import { getDateTodo } from "../../redux/modules/dateTodos";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 const TodoList = () => {
@@ -21,43 +21,54 @@ const TodoList = () => {
   const [category, setCategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
   const [todo, setTodo] = useState("");
-  const [input, setInput] = useState("");
 
   const onSubmitHandler = (e: any) => {
+    if (category.length < 2) {
+      alert("2글자 이상 입력");
+      return;
+    }
     if (dateTodos.length < 4)
-      dispatch(postCategory({ categoryName: category, selectDate: date }));
+      dispatch(__postCategory({ categoryName: category, selectDate: date }));
     else {
       alert("4개까지만 생성가능");
     }
     e.preventDefault();
-    setInput("");
+    setTodo("");
   };
 
   const onSubmitEditHandler = (id: any) => {
     dispatch(
-      _editCategory({
+      __editCategory({
         categoryName: editCategory,
         categoryId: id,
       })
     );
   };
   const onSubmitTodoHandler = (id: any) => {
+    if (todo.length < 4) {
+      alert("너무 짧습니다");
+      return;
+    }
     dispatch(
-      postTodo({
+      __postTodo({
         categoryId: id,
         selectDate: moment(date).format("YYYY-MM-DD"),
         content: todo,
       })
     );
+    setTodo("");
   };
-  const onChangeInput = (e: any) => {
-    setInput(e.target.value);
+  const onChangeCategoryInput = (e: any) => {
     setCategory(e.target.value);
+  };
+
+  const onChangeTodoInput = (e: any) => {
+    setTodo(e.target.value);
   };
 
   // 캘린더에서 선택되는 날짜 받아와서 정보불러오기 (기본값 오늘날짜)
   useEffect(() => {
-    dispatch(getDateTodo(moment(date).format("YYYY-MM-DD")));
+    dispatch(__getDateTodo(moment(date).format("YYYY-MM-DD")));
   }, [date]);
 
   return (
@@ -66,10 +77,12 @@ const TodoList = () => {
         <BtnGroup>
           카테고리생성
           <form onSubmit={onSubmitHandler}>
-            <input type="text" value={input} onChange={onChangeInput} />
-            <button type="submit" onClick={onSubmitHandler}>
-              +
-            </button>
+            <input
+              type="text"
+              value={category}
+              onChange={onChangeCategoryInput}
+            />
+            <button type="submit">+</button>
           </form>
         </BtnGroup>
       </AddCategory>
@@ -81,7 +94,7 @@ const TodoList = () => {
                 <div></div>
                 <p>{list.categoryName}</p>
                 <button
-                  onClick={() => dispatch(deleteCategory(list.categoryId))}
+                  onClick={() => dispatch(__deleteCategory(list.categoryId))}
                 >
                   x
                 </button>
@@ -103,12 +116,14 @@ const TodoList = () => {
                   onSubmit={(e) => {
                     e.preventDefault();
                     onSubmitTodoHandler(list.categoryId);
+                    setTodo("");
                   }}
                 >
                   투두
                   <input
                     type="text"
-                    onChange={(e) => setTodo(e.target.value)}
+                    value={todo}
+                    onChange={onChangeTodoInput}
                   />
                   <button type="submit">추가</button>
                 </form>
@@ -119,14 +134,17 @@ const TodoList = () => {
                     <>
                       <CategoryListBox key={item.todoId}>
                         <p>{item.content}</p>
-                        <div onClick={() => dispatch(doneTodo(item.todoId))}>
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() => dispatch(__doneTodo(item.todoId))}
+                        >
                           {item.done === 1 ? "완료" : null}
                         </div>
                       </CategoryListBox>
                       <button
                         onClick={() =>
                           dispatch(
-                            deleteTodo({
+                            __deleteTodo({
                               todoId: item.todoId,
                               categoryId: list.categoryId,
                             })

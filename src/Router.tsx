@@ -16,6 +16,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route path={EnumPages.HOME} element={<Home />}/>
         <Route path={EnumPages.INTRO} element={<Intro />} />
         <Route path={EnumPages.MAIN} element={<Main />} />
@@ -26,6 +27,7 @@ const Router = () => {
         <Route path={EnumPages.NAVERLOGIN} element={<NaverLogin />} />
         <Route path={EnumPages.GOOGLELOGIN} element={<GoogleLogin />} />
         <Route path={EnumPages.WAVE} element={<Wave />} />
+
       </Routes>
     </BrowserRouter>
   );

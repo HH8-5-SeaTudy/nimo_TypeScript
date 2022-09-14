@@ -6,14 +6,17 @@ import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
 import Asmr from '../asmr/Asmr';
 import StopWatch from '../stopwatch/StopWatch';
 
+
 interface props {
-  start? : ()=>void,
-  stop? : ()=>void
+  start?: () => void;
+  stop?: () => void;
 }
+
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [asmrShow, setAsmrShow] = useState(false)
+
   const onClick = () => {
     setIsLogin(!isLogin);
   };
@@ -25,6 +28,7 @@ const Header = () => {
   if (window.location.pathname === 'googleLogin') return null;
 
   return (
+
     <>  
     <HeaderContainer>
       <HeaderLogoContainer>
@@ -42,6 +46,7 @@ const Header = () => {
     </HeaderContainer> 
  </>
   
+
   );
 };
 
