@@ -1,27 +1,38 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import styled from "styled-components";
 import { RootState } from "../redux/config/configStore";
 import { addMessage } from "../redux/modules/socket";
 
-const BASE_URL = "http://43.200.115.252";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const token: string = process.env.REACT_APP_TOKEN as string;
+
 function ChatRoom() {
+  const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const roomId1 = "UGFjaWZpY09jZWFu";
+  const roomId2 = "QXRsYW50aWNPY2Vhbg==";
+  const roomId3 = "SW5kaWFuT2NlYW4=";
+  const roomId4 = "QXJjdGljT2NlYW4=";
+  const roomId5 = "QW50YXJjdGljT2NlYW4=";
+
+  const { id }: any = location.state;
+  console.log(id);
+
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useDispatch();
-  const [message, setMessage] = useState("d");
+  const [message, setMessage] = useState("");
   const headers = {
-    Authorization:
-      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBnbWFpbC5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNjA2MjEwfQ.IHaY6U-3-UQJzwggQtCzVVv6Dh45WH8VNm5fZShQpzo",
+    Authorization: token,
   };
   const socket = new SockJS(`${BASE_URL}/api/v1/chat/connections`);
   const client = Stomp.over(socket);
 
-  const chatList = useSelector((state: RootState) => state);
-
-  const roomId = useParams();
   //렌더되면 소켓 연결실행
   useEffect(() => {
     onConneted();
@@ -30,13 +41,11 @@ function ChatRoom() {
     };
   }, []);
 
-  //axios로 데이터 불러오는 용
-
   const handleEnterPress = (e: any) => {
-    if (message.trim() === "") {
-      e.preventDefault();
-    }
-    if (e.keyCode === 13 && e.shiftKey == false) {
+    // if (message.trim() === "") {
+    //   e.preventDefault();
+    // }
+    if (e.code === "Enter" && e.shiftKey == false) {
       sendMessage();
     }
   };
@@ -46,12 +55,19 @@ function ChatRoom() {
     try {
       client.connect(headers, () => {
         client.subscribe(
-          `/sub/chat/room/hello`,
+          `/sub/chat/room/${id}`,
           (data) => {
             const newMessage = JSON.parse(data.body);
             dispatch(addMessage(newMessage));
           },
           headers
+        );
+        client.send(
+          `/pub/chat/enter`,
+          headers,
+          JSON.stringify({
+            roomId: id,
+          })
         );
       });
     } catch (error) {}
@@ -63,7 +79,7 @@ function ChatRoom() {
       `/pub/chat/message`,
       headers,
       JSON.stringify({
-        roomId: "hello",
+        roomId: id,
         message: message,
       })
     );
@@ -76,22 +92,84 @@ function ChatRoom() {
 
   return (
     <MessageContainer>
+      <button
+        onClick={() => {
+          window.location.reload();
+          navigate("/chat", {
+            state: {
+              id: roomId1,
+            },
+          });
+        }}
+      >
+        서버3
+      </button>
+      <button
+        onClick={() => {
+          window.location.reload();
+          navigate("/chat", {
+            state: {
+              id: roomId2,
+            },
+          });
+        }}
+      >
+        서버3
+      </button>
+      <button
+        onClick={() => {
+          window.location.reload();
+          navigate("/chat", {
+            state: {
+              id: roomId3,
+            },
+          });
+        }}
+      >
+        서버3
+      </button>
+      <button
+        onClick={() => {
+          window.location.reload();
+          navigate("/chat", {
+            state: {
+              id: roomId4,
+            },
+          });
+        }}
+      >
+        서버3
+      </button>
+      <button
+        onClick={() => {
+          window.location.reload();
+          navigate("/chat", {
+            state: {
+              id: roomId5,
+            },
+          });
+        }}
+      >
+        서버3
+      </button>
       <MessageFormContainer>
-        <div
-          style={{ width: "100%", height: "100%", border: "2px solid black" }}
-        >
-          {message}
-        </div>
-        <MessageForm>
-          <textarea
-            value={message}
-            onChange={onChange}
-            onKeyDown={handleEnterPress}
-          />
-          <ButtonContainer>
-            <button onClick={sendMessage}>전송</button>
-          </ButtonContainer>
-        </MessageForm>
+        {/* 왼쪽 section */}
+        <SeaContainer></SeaContainer>
+
+        {/* 오른쪽 section */}
+        <ChatContainer>
+          <MessageWrapper>{/* 채팅보이는 곳 */}</MessageWrapper>
+          <MessageForm>
+            <textarea
+              onKeyDown={handleEnterPress}
+              value={message}
+              onChange={onChange}
+            />
+            <ButtonContainer>
+              <button onClick={handleEnterPress}>전송</button>
+            </ButtonContainer>
+          </MessageForm>
+        </ChatContainer>
       </MessageFormContainer>
     </MessageContainer>
   );
@@ -99,7 +177,7 @@ function ChatRoom() {
 
 const MessageContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 `;
@@ -118,24 +196,38 @@ const MessageWrapper = styled.div`
 const MessageFormContainer = styled.div`
   width: 100%;
   height: 100%;
-  flex: 1;
   background-color: white;
-  border: 1px solid black;
-  margin-top: 200px;
+  display: flex;
+`;
+
+const SeaContainer = styled.section`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex: 2.5;
+`;
+const ChatContainer = styled.section`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex: 1.5;
+  flex-direction: column;
+  border: 2px solid black;
 `;
 
 const MessageForm = styled.form`
   display: flex;
   width: 100%;
   height: 100%;
+  flex: 1;
   textarea {
     resize: none;
     width: 100%;
-    height: 100%;
     border: none;
-  }
-  textarea:focus {
-    outline: none;
+    font-size: 1.5em;
+    &:focus {
+      outline: none;
+    }
   }
 `;
 

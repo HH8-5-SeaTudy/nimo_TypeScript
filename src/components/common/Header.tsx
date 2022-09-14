@@ -3,14 +3,14 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { useCounter } from "../../pages/CheckIn";
 import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
-import Asmr from '../asmr/Asmr';
+import Asmr from "../asmr/Asmr";
 
 interface props {
-  start? : ()=>void,
-  stop? : ()=>void
+  start?: () => void;
+  stop?: () => void;
 }
 
-const Header = ({start, stop}:props) => {
+const Header = ({ start, stop }: props) => {
   const [isLogin, setIsLogin] = useState(false);
   const { count } = useCounter(0, 1000);
   const [currentHours, setCurrentHours] = useState(0);
@@ -34,27 +34,27 @@ const Header = ({start, stop}:props) => {
   };
   useEffect(timer, [count]);
   return (
-    <>  <HeaderContainer>
-      <HeaderLogoContainer>
-        <HeaderLogo>Logo</HeaderLogo>
-      </HeaderLogoContainer>
-      {isLogin && (
-        <HeaderTimerContainer>
-          <HeaderTimer>
-            <h1>
-              {currentHours < 10 ? `0${currentHours}` : currentHours} :
-              {currentMinutes < 10 ? `0${currentMinutes}` : currentMinutes} :
-              {currentSeconds < 10 ? `0${currentSeconds}` : currentSeconds}
-            </h1>
-          </HeaderTimer>
-          {/* <CheckIn /> */}
-        </HeaderTimerContainer>
-      )}
-      <OnAsmrBtn />
-      <Asmr/>
-    </HeaderContainer> 
- </>
-  
+    <>
+      <HeaderContainer>
+        <HeaderLogoContainer>
+          <HeaderLogo>Logo</HeaderLogo>
+        </HeaderLogoContainer>
+        {isLogin && (
+          <HeaderTimerContainer>
+            <HeaderTimer>
+              <h1>
+                {currentHours < 10 ? `0${currentHours}` : currentHours} :
+                {currentMinutes < 10 ? `0${currentMinutes}` : currentMinutes} :
+                {currentSeconds < 10 ? `0${currentSeconds}` : currentSeconds}
+              </h1>
+            </HeaderTimer>
+            {/* <CheckIn /> */}
+          </HeaderTimerContainer>
+        )}
+        <OnAsmrBtn />
+        {/* <Asmr /> */}
+      </HeaderContainer>
+    </>
   );
 };
 

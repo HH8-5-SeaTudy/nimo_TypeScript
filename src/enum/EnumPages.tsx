@@ -7,6 +7,6 @@ export const enum EnumPages {
   NAVERLOGIN = "naverLogin",
   GOOGLELOGIN = "googleLogin",
   CHATROOM = "/chat",
-  STATISTICS = 'statistics',
-  WAVE = 'wave',
+  STATISTICS = "statistics",
+  WAVE = "wave",
 }
