@@ -6,7 +6,7 @@ import BurgerSidebar from "../components/sidebar/BurgerSidebar";
 import CalendarSidebar from "../components/sidebar/CalendarSidebar";
 import ProfileSidebar from "../components/sidebar/ProfileSidebar";
 import TodoSidebar from "../components/sidebar/TodoSidebar";
-import { __getCheckInTimer, __getCheckOutTimer } from "../redux/modules/timer";
+import { __getCheckInTimer, __getCheckOutTimer, __getUserinquire } from "../redux/modules/timer";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { useSelector } from "react-redux";
 
@@ -22,6 +22,9 @@ export default function Home() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   // const time = useAppSelector((state) => state.timer);
+  useEffect(()=>{
+    dispatch(__getUserinquire());
+  },[])
 
   // useEffect(()=>{
   //   console.log(time);

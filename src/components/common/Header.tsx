@@ -9,6 +9,7 @@ import Asmr from '../asmr/Asmr';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { __getCheckInTimer, __getCheckOutTimer, __getUserinquire } from "../../redux/modules/timer";
+import { getCookie } from "../social/Cookie";
 
 
 
@@ -17,7 +18,6 @@ const Header = () => {
   const navigate = useNavigate();
   const time = useAppSelector((state) => state.timer);
   const [asmrShow, setAsmrShow] = useState(false)
-
   const [hh, mm, ss] = String(time.dayStudyTime)
     .split(":")
     .map((v) => +v);

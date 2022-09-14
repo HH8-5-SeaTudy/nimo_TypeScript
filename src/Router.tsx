@@ -25,11 +25,11 @@ const Router = () => {
 
       <Header/>
       <Routes>
-        <Route path={EnumPages.HOME} element={<PrivateRoute token={token} component={<Home/>}/>}/>
+        <Route path={EnumPages.HOME} element={<PrivateRoute component={<Home/>}/>}/>
         <Route path={EnumPages.INTRO} element={<Intro />} />
-        <Route path={EnumPages.MAIN} element={<PrivateRoute token={token} component={<Main />}/>} />
-        <Route path={EnumPages.CHATROOM} element={<PrivateRoute token={token} component={<ChatRoom />}/>} />
-        <Route path={EnumPages.STATISTICS} element={<PrivateRoute token={token} component={<Statistics />}/>} />
+        <Route path={EnumPages.MAIN} element={<PrivateRoute component={<Main />}/>} />
+        <Route path={EnumPages.CHATROOM} element={<PrivateRoute component={<ChatRoom />}/>} />
+        <Route path={EnumPages.STATISTICS} element={<PrivateRoute component={<Statistics />}/>} />
         <Route path={EnumPages.LOGIN} element={<Login />} />
         <Route path={EnumPages.KAKAOLOGIN} element={<KakaoLogin />} />
         <Route path={EnumPages.NAVERLOGIN} element={<NaverLogin />} />
