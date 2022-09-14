@@ -6,6 +6,7 @@ import {
   __getUserinquire,
 } from "../../redux/modules/timer";
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const StopWatch = () => {
   const dispatch = useAppDispatch();
@@ -18,11 +19,16 @@ const StopWatch = () => {
     .map((v) => +v);
 
 
-
   const [timeSS, setTimeSS] = useState(0);
   const [timeMM, setTimeMM] = useState(0);
   const [timeHH, setTimeHH] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
+
+
+  // 수정해야하는 부분 
+  // 1. 로그인 직후 받아오는값이 00:00:00 일땐 타이머가 off 여야 한다.
+  // 2. 현재 코드에선 화면이 로드 될 경우 바로 통신과 체크인이 이뤄진다. 때문에 Stop을 해도 페이지 전환시 다시 시작됨.
+
 
   const startHandler = () => {
     dispatch(__getCheckInTimer());
@@ -34,9 +40,10 @@ const StopWatch = () => {
     setTimerOn(false);
   }
 
+
   useEffect(() => {
     dispatch(__getUserinquire());
-    setTimerOn(true);
+    startHandler()
   }, []);
 
   useEffect(() => {
@@ -70,9 +77,11 @@ const StopWatch = () => {
 
   return (
     <Layer>
+      <Link to='/statistics' style={{ textDecoration: 'none' }}>    
       <span>{("0" + Math.floor(timeHH % 24)).slice(-2)}:</span>
       <span>{("0" + Math.floor(timeMM % 60)).slice(-2)}:</span>
       <span>{("0" + Math.floor(timeSS % 60)).slice(-2)}</span>
+      </Link>
       <button onClick={() => startHandler()}>start</button>
       <button onClick={() => endHandler()}>stop</button>
     </Layer>

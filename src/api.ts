@@ -46,3 +46,16 @@ export type todayLogs = {
   checkIn: string;
   checkOut: string;
 };
+
+//StopWatch Time
+export type Itime = {
+  timeHH: number;
+  timeMM: number;
+  timeSS: number;
+};
+
+//StopWatch function
+export type Ivoid = {
+  startHandler(): void;
+  endHandler(): void;
+};

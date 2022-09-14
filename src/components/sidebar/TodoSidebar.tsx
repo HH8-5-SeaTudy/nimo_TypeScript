@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import { ReactComponent as PlusIcon } from "../../assets/icon/PlusIcon.svg";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../components/hooks/reduxHooks";
-import { __getDateTodo } from "../../redux/modules/dateTodos";
-import TodoModal from "../../pages/TodoModal";
+import { useAppDispatch,  useAppSelector } from "../../components/hooks/reduxHooks";
+import { __getDateTodo } from '../../redux/modules/dateTodos';
+import TodoModal from '../../pages/TodoModal';
+
 
 const TodoSidebar = () => {
   const dispatch = useAppDispatch();
@@ -36,13 +34,8 @@ const TodoSidebar = () => {
       <TodoLayer show={show}>
         <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
         <TodoBox>
-          <p
-            onClick={() => {
-              modalHandler();
-            }}
-          >
-            작성하기
-          </p>
+          <p onClick={()=>{modalHandler()}}>작성하기버튼임</p>
+
           <div>
             {dateTodos &&
               dateTodos.map((list) => (
@@ -127,7 +120,12 @@ const TodoBox = styled.div`
   height: 420px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
-  p {
-    margin: 0;
+
+  p{
+    margin:0;
+    font-size: 30px;
+      color: white;
+      cursor: pointer;
+
   }
 `;
