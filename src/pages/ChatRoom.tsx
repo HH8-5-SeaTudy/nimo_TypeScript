@@ -1,49 +1,53 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import styled from "styled-components";
-import { RootState } from "../redux/config/configStore";
-import { addMessage } from "../redux/modules/socket";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
+import { addUser, __getChatroom } from "../redux/modules/socket";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = process.env.REACT_APP_TOKEN as string;
 
+const roomId1 = process.env.REACT_APP_ROOMID1;
+const roomId2 = process.env.REACT_APP_ROOMID2;
+const roomId3 = process.env.REACT_APP_ROOMID3;
+const roomId4 = process.env.REACT_APP_ROOMID4;
+const roomId5 = process.env.REACT_APP_ROOMID5;
+
 function ChatRoom() {
   const navigate = useNavigate();
-
   const location = useLocation();
 
-  const roomId1 = "UGFjaWZpY09jZWFu";
-  const roomId2 = "QXRsYW50aWNPY2Vhbg==";
-  const roomId3 = "SW5kaWFuT2NlYW4=";
-  const roomId4 = "QXJjdGljT2NlYW4=";
-  const roomId5 = "QW50YXJjdGljT2NlYW4=";
-
   const { id }: any = location.state;
-  console.log(id);
 
   //기본설정---헤더, 토큰, 주소설정
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [message, setMessage] = useState("");
+  const chat = useAppSelector((state) => state.socket.chat);
+
   const headers = {
     Authorization: token,
   };
+
   const socket = new SockJS(`${BASE_URL}/api/v1/chat/connections`);
   const client = Stomp.over(socket);
+
+  const roomIdHandler = () => {
+    window.location.reload();
+    dispatch(__getChatroom(id));
+  };
 
   //렌더되면 소켓 연결실행
   useEffect(() => {
     onConneted();
     return () => {
-      onConneted();
+      disConneted();
     };
-  }, []);
+  }, [id]);
 
   const handleEnterPress = (e: any) => {
     // if (message.trim() === "") {
-    //   e.preventDefault();
     // }
     if (e.code === "Enter" && e.shiftKey == false) {
       sendMessage();
@@ -57,8 +61,8 @@ function ChatRoom() {
         client.subscribe(
           `/sub/chat/room/${id}`,
           (data) => {
-            const newMessage = JSON.parse(data.body);
-            dispatch(addMessage(newMessage));
+            const user = JSON.parse(data.body);
+            dispatch(addUser(user));
           },
           headers
         );
@@ -69,22 +73,50 @@ function ChatRoom() {
             roomId: id,
           })
         );
+        sendMessage();
       });
     } catch (error) {}
   }
 
   //메시지 보내기
   const sendMessage = () => {
-    client.send(
-      `/pub/chat/message`,
-      headers,
-      JSON.stringify({
-        roomId: id,
-        message: message,
-      })
-    );
+    waitForConnection(client, function () {
+      client.send(
+        `/pub/chat/message`,
+        headers,
+        JSON.stringify({
+          roomId: id,
+          message: message,
+        })
+      );
+    });
+
     setMessage("");
   };
+
+  // 연결해제, 구독해제
+  function disConneted() {
+    try {
+      client.disconnect(
+        () => {
+          client.unsubscribe("sub-0");
+        },
+        { token: token }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function waitForConnection(client: any, callback: any) {
+    setTimeout(function () {
+      if (client.ws.readyState === 1) {
+        callback();
+      } else {
+        waitForConnection(client, callback);
+      }
+    }, 1);
+  }
 
   const onChange = (e: any) => {
     setMessage(e.target.value);
@@ -92,73 +124,83 @@ function ChatRoom() {
 
   return (
     <MessageContainer>
-      <button
-        onClick={() => {
-          window.location.reload();
-          navigate("/chat", {
-            state: {
-              id: roomId1,
-            },
-          });
-        }}
-      >
-        서버3
-      </button>
-      <button
-        onClick={() => {
-          window.location.reload();
-          navigate("/chat", {
-            state: {
-              id: roomId2,
-            },
-          });
-        }}
-      >
-        서버3
-      </button>
-      <button
-        onClick={() => {
-          window.location.reload();
-          navigate("/chat", {
-            state: {
-              id: roomId3,
-            },
-          });
-        }}
-      >
-        서버3
-      </button>
-      <button
-        onClick={() => {
-          window.location.reload();
-          navigate("/chat", {
-            state: {
-              id: roomId4,
-            },
-          });
-        }}
-      >
-        서버3
-      </button>
-      <button
-        onClick={() => {
-          window.location.reload();
-          navigate("/chat", {
-            state: {
-              id: roomId5,
-            },
-          });
-        }}
-      >
-        서버3
-      </button>
       <MessageFormContainer>
         {/* 왼쪽 section */}
-        <SeaContainer></SeaContainer>
+        <SeaContainer>
+          <div>
+            <button
+              onClick={() => {
+                roomIdHandler();
+                navigate("/chat", {
+                  state: {
+                    id: roomId1,
+                  },
+                });
+              }}
+            >
+              서버1
+            </button>
+            <button
+              onClick={() => {
+                roomIdHandler();
+                navigate("/chat", {
+                  state: {
+                    id: roomId2,
+                  },
+                });
+              }}
+            >
+              서버2
+            </button>
+            <button
+              onClick={() => {
+                roomIdHandler();
+                navigate("/chat", {
+                  state: {
+                    id: roomId3,
+                  },
+                });
+              }}
+            >
+              서버3
+            </button>
+            <button
+              onClick={() => {
+                roomIdHandler();
+                navigate("/chat", {
+                  state: {
+                    id: roomId4,
+                  },
+                });
+              }}
+            >
+              서버4
+            </button>
+            <button
+              onClick={() => {
+                roomIdHandler();
+                navigate("/chat", {
+                  state: {
+                    id: roomId5,
+                  },
+                });
+              }}
+            >
+              서버5
+            </button>
+          </div>
+        </SeaContainer>
 
         {/* 오른쪽 section */}
         <ChatContainer>
-          <MessageWrapper>{/* 채팅보이는 곳 */}</MessageWrapper>
+          <MessageWrapper>
+            {chat &&
+              chat.map((list: any, index: number) => (
+                <MessageListContainer key={index}>
+                  {list.message}
+                </MessageListContainer>
+              ))}
+          </MessageWrapper>
           <MessageForm>
             <textarea
               onKeyDown={handleEnterPress}
@@ -180,24 +222,32 @@ const MessageContainer = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  border: 4px solid green;
 `;
 
 const MessageWrapper = styled.div`
-  flex: 4;
   width: 100%;
   height: 100%;
   overflow-y: scroll;
   display: flex;
-  padding: 10px;
+  /* padding: 20px 10px; */
+  /* flex: 4; */
   flex-direction: column-reverse;
   background-color: #b2c7d9;
+`;
+
+const MessageListContainer = styled.span`
+  width: 100%;
+  border: 1px solid black;
 `;
 
 const MessageFormContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: #eee;
   display: flex;
+  border: 2px solid red;
+  margin-top: 60px;
 `;
 
 const SeaContainer = styled.section`
@@ -219,7 +269,9 @@ const MessageForm = styled.form`
   display: flex;
   width: 100%;
   height: 100%;
-  flex: 1;
+  /* flex: 1; */
+  border: 4px solid yellow;
+  resize: none;
   textarea {
     resize: none;
     width: 100%;
