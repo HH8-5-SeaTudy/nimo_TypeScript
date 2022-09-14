@@ -102,9 +102,9 @@ const Router = () => {
         <Route path={EnumPages.CHATROOM} element={<PrivateRoute token={token} component={<ChatRoom />}/>} />
         <Route path={EnumPages.STATISTICS} element={<PrivateRoute token={token} component={<Statistics />}/>} />
         <Route path={EnumPages.LOGIN} element={<Login />} />
-        <Route path={EnumPages.KAKAOLOGIN} element={<PrivateRoute token={token} component={<KakaoLogin />}/>} />
-        <Route path={EnumPages.NAVERLOGIN} element={<PrivateRoute token={token} component={<NaverLogin />}/>} />
-        <Route path={EnumPages.GOOGLELOGIN} element={<PrivateRoute token={token} component={<GoogleLogin />}/>} />
+        <Route path={EnumPages.KAKAOLOGIN} element={<KakaoLogin />} />
+        <Route path={EnumPages.NAVERLOGIN} element={<NaverLogin />} />
+        <Route path={EnumPages.GOOGLELOGIN} element={<GoogleLogin />} />
         <Route path={EnumPages.WAVE} element={<Wave />} />
       </Routes>
     </BrowserRouter>
