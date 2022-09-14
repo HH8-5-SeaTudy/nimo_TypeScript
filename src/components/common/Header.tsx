@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { __getCheckInTimer, __getCheckOutTimer, __getUserinquire } from "../../redux/modules/timer";
 import { getCookie } from "../social/Cookie";
+import StopWatch from '../stopwatch/StopWatch';
 
 
 
@@ -26,9 +27,12 @@ const Header = () => {
   const [timeMM, setTimeMM] = useState<number>(0);
   const [timeHH, setTimeHH] = useState<number>(0);
 
+  console.log(time)
+
   useEffect(() => {
     dispatch(__getUserinquire());
-
+    dispatch(__getCheckInTimer())
+    
     return (()=>{
       dispatch(__getCheckOutTimer());
     })
@@ -40,6 +44,8 @@ const Header = () => {
     setTimeHH(hh); 
 
   }, [time]);
+
+  console.log(time.isStudy)
 
   useEffect(() => {
     let interval:any = null;

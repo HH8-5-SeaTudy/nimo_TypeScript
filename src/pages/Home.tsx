@@ -22,9 +22,9 @@ export default function Home() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   // const time = useAppSelector((state) => state.timer);
-  useEffect(()=>{
-    dispatch(__getUserinquire());
-  },[])
+  // useEffect(()=>{
+  //   dispatch(__getUserinquire());
+  // },[])
 
   // useEffect(()=>{
   //   console.log(time);

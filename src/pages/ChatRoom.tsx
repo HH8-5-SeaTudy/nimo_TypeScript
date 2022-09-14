@@ -47,9 +47,9 @@ function ChatRoom() {
   console.log("2222");
 
     onConneted();
-    return () => {
-      disConneted();
-    };
+    // return () => {
+    //   disConneted();
+    // };
   }, []);
 
   const handleEnterPress = (e: any) => {
@@ -219,7 +219,7 @@ function ChatRoom() {
           </MessageWrapper>
           <MessageForm>
             <textarea
-              onKeyDown={handleEnterPress}
+              onKeyUp={handleEnterPress}
               onChange={onChange}
             />
             <ButtonContainer>
