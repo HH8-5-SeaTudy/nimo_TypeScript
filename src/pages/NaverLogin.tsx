@@ -14,7 +14,7 @@ const NaverLogin = () => {
     const naver = async () => {
       return await axios
         .get(
-          `http://43.200.115.252/api/v1/members/naverLogin?code=${code}&state=${state}`
+          `${BASE_URL}/api/v1/members/naverLogin?code=${code}&state=${state}`
         )
         .then((res) => setCookie("token", res.headers.authorization))
         .then(() => {
