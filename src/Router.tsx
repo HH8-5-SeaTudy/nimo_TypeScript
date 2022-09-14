@@ -22,7 +22,6 @@ const Router = () => {
 
   return (
     <BrowserRouter>
-
       <Header/>
       <Routes>
         <Route path={EnumPages.HOME} element={<PrivateRoute token={token} component={<Home/>}/>}/>
