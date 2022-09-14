@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
 import Asmr from '../asmr/Asmr';
@@ -14,7 +14,6 @@ interface props {
 const Header = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [asmrShow, setAsmrShow] = useState(false)
-
   const onClick = () => {
     setIsLogin(!isLogin);
   };
@@ -34,7 +33,7 @@ const Header = () => {
       {isLogin && (
         <HeaderTimerContainer>
           <HeaderTimer>
-            <StopWatch />
+            <StopWatch/>
           </HeaderTimer>
         </HeaderTimerContainer>
       )}
