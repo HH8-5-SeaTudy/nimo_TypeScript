@@ -7,11 +7,12 @@ import { useNavigate } from 'react-router-dom';
 const KakaoLogin = () => {
   const navigate = useNavigate()
   const code : string | null = new URL(window.location.href).searchParams.get("code");
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const kakao = async () => {
       return await axios
-        .get(`http://43.200.115.252/api/v1/members/kakaoLogin?code=${code}`)
+        .get(`${BASE_URL}/api/v1/members/kakaoLogin?code=${code}`)
         .then((res) => setCookie("token", res.headers.authorization))
           .then(() => {
             navigate("/");
