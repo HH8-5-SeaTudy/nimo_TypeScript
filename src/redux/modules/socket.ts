@@ -4,14 +4,12 @@ import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = process.env.REACT_APP_TOKEN as string;
 
-const roomId = `hello`;
-
 export const __getChatroom: any = createAsyncThunk(
   "get/chatroom",
-  async (payload: any, { rejectWithValue }) => {
+  async (payload, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/v1/chat/room/${roomId}`,
+        `${BASE_URL}/api/v1/chat/room/${payload}`,
         {
           headers: {
             contentType: "application/json",
@@ -19,14 +17,38 @@ export const __getChatroom: any = createAsyncThunk(
           },
         }
       );
-      return response.data.data.roomId;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return thunkAPI.fulfillWithValue(response.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
-const initialState = {
+export const __getChatenter: any = createAsyncThunk(
+  "get/chatenter",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/pub/chat/enter`, {
+        headers: {
+          contentType: "application/json",
+          authorization: token,
+        },
+      });
+      console.log(response);
+      return thunkAPI.fulfillWithValue(response.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export type IChat = {
+  isLoading: boolean;
+  error: null;
+  chat: any;
+};
+
+const initialState: IChat = {
   isLoading: false,
   error: null,
   chat: [],
@@ -36,17 +58,18 @@ export const preChatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
-    addMessage: (state, action) => {
-      state.chat.concat(action.payload);
+    addUser: (state, action) => {
+      state.chat = [action.payload, ...state.chat];
+      // console.log(state, action.payload);
     },
   },
   extraReducers: {
     [__getChatroom.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // state.roomId = action.payload;
+      state.chat = action.payload;
     },
   },
 });
 
-export const { addMessage } = preChatSlice.actions;
+export const { addUser } = preChatSlice.actions;
 export default preChatSlice.reducer;

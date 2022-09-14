@@ -11,13 +11,14 @@ import { EnumPages } from "./enum/EnumPages";
 import ChatRoom from "./pages/ChatRoom";
 import Statistics from "./pages/Statistics";
 import Wave from "./pages/Wave";
+import Header from "./components/common/Header";
 
 const Router = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
-
-        <Route path={EnumPages.HOME} element={<Home />}/>
+        <Route path={EnumPages.HOME} element={<Home />} />
         <Route path={EnumPages.INTRO} element={<Intro />} />
         <Route path={EnumPages.MAIN} element={<Main />} />
         <Route path={EnumPages.CHATROOM} element={<ChatRoom />} />
@@ -27,7 +28,6 @@ const Router = () => {
         <Route path={EnumPages.NAVERLOGIN} element={<NaverLogin />} />
         <Route path={EnumPages.GOOGLELOGIN} element={<GoogleLogin />} />
         <Route path={EnumPages.WAVE} element={<Wave />} />
-
       </Routes>
     </BrowserRouter>
   );
