@@ -1,10 +1,11 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import { ReactComponent as PlusIcon } from "../../assets/icon/PlusIcon.svg";
 import { useAppDispatch,  useAppSelector } from "../../components/hooks/reduxHooks";
 import { __getDateTodo } from '../../redux/modules/dateTodos';
 import TodoModal from '../../pages/TodoModal';
+
 
 const TodoSidebar = () => {
   const dispatch = useAppDispatch();
@@ -16,12 +17,12 @@ const TodoSidebar = () => {
   }, [date]);
 
   const [show, setShow] = useState(false);
-  const [modalShow,setModalShow] = useState(false)
+  const [modalShow, setModalShow] = useState(false);
 
   const modalHandler = () => {
-    setModalShow(!modalShow)
-    setShow(false)
-  }
+    setModalShow(!modalShow);
+    setShow(false);
+  };
 
   return (
     <div>
@@ -34,29 +35,30 @@ const TodoSidebar = () => {
         <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
         <TodoBox>
           <p onClick={()=>{modalHandler()}}>작성하기버튼임</p>
+
           <div>
-          {dateTodos &&
-          dateTodos.map((list) => (
-            <div key={list.categoryId}>
-              <div>
-                <p>카테고리이름:{list.categoryName}</p>
-              </div>
-              <div>
-                {list.todoList &&
-                  list.todoList.map((item) => (
-                    <>
-                      <div key={item.todoId}>
-                        <p>{item.content}</p>
-                      </div>
-                    </>
-                  ))}
-              </div>
-            </div>
-          ))}
+            {dateTodos &&
+              dateTodos.map((list) => (
+                <div key={list.categoryId}>
+                  <div>
+                    <p>카테고리이름:{list.categoryName}</p>
+                  </div>
+                  <div>
+                    {list.todoList &&
+                      list.todoList.map((item) => (
+                        <>
+                          <div key={item.todoId}>
+                            <p>{item.content}</p>
+                          </div>
+                        </>
+                      ))}
+                  </div>
+                </div>
+              ))}
           </div>
         </TodoBox>
       </TodoLayer>
-      {modalShow && <TodoModal modalHandler={modalHandler}/>}
+      {modalShow && <TodoModal modalHandler={modalHandler} />}
     </div>
   );
 };
@@ -118,10 +120,12 @@ const TodoBox = styled.div`
   height: 420px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
+
   p{
     margin:0;
     font-size: 30px;
       color: white;
       cursor: pointer;
+
   }
 `;

@@ -11,6 +11,7 @@ import { EnumPages } from "./enum/EnumPages";
 import ChatRoom from "./pages/ChatRoom";
 import Statistics from "./pages/Statistics";
 import Wave from "./pages/Wave";
+
 import Header from './components/common/Header';
 import PrivateRoute from "./PrivateRoute";
 import { getCookie } from './components/social/Cookie';
@@ -20,6 +21,7 @@ import {
   __getCheckOutTimer,
   __getUserinquire,
 } from "./redux/modules/timer";
+
 
 
 
@@ -91,6 +93,7 @@ const Router = () => {
 
   return (
     <BrowserRouter>
+
       <Header timeHH={timeHH} timeMM={timeMM} timeSS={timeSS}/>
       <Routes>
         <Route path={EnumPages.HOME} element={<PrivateRoute token={token} component={<Home startHandler={startHandler} endHandler={endHandler}/>}/>}/>
@@ -103,7 +106,6 @@ const Router = () => {
         <Route path={EnumPages.NAVERLOGIN} element={<PrivateRoute token={token} component={<NaverLogin />}/>} />
         <Route path={EnumPages.GOOGLELOGIN} element={<PrivateRoute token={token} component={<GoogleLogin />}/>} />
         <Route path={EnumPages.WAVE} element={<Wave />} />
-
       </Routes>
     </BrowserRouter>
   );

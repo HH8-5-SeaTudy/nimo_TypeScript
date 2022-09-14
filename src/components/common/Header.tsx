@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Itime } from '../../api';
 import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
+
 import Asmr from '../asmr/Asmr';
 import { Link } from 'react-router-dom';
 
 
 
 const Header = ({ timeHH, timeMM, timeSS }:Itime) => {
-
+  const navigate = useNavigate();
   const [asmrShow, setAsmrShow] = useState(false)
 
   if (window.location.pathname === '/intro') return null;
@@ -22,7 +24,7 @@ const Header = ({ timeHH, timeMM, timeSS }:Itime) => {
     <>  
     <HeaderContainer>
       <HeaderLogoContainer>
-        <HeaderLogo>Logo</HeaderLogo>
+       <HeaderLogo onClick={() => navigate("/")}>Logo</HeaderLogo>
       </HeaderLogoContainer>
         <HeaderTimerContainer>
           <HeaderTimer>
@@ -40,7 +42,6 @@ const Header = ({ timeHH, timeMM, timeSS }:Itime) => {
     </HeaderContainer> 
  </>
   
-
   );
 };
 const Layer = styled.div`
@@ -50,7 +51,7 @@ const Layer = styled.div`
 `
 
 const HeaderContainer = styled.div`
-  position:relative;
+  position: absolute;
   display: flex;
   justify-content: space-between;
   align-items: center;
