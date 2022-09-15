@@ -68,7 +68,7 @@ export default TodoSidebar;
 const TodoSide = styled.div`
   position: absolute;
   width: 25px;
-  height: 420px;
+  height: 47%;
   right: 0px;
   top: 65px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
@@ -100,7 +100,7 @@ const TodoLayer = styled.div<TodoLayerProps>`
   display: flex;
   top: 65px;
   width: 359px;
-  height: 420px;
+  height: 47%;
   transition: all 0.5s;
   z-index: 1;
   right: ${({ show }) => (show ? "0px" : "-359px")};
@@ -117,7 +117,7 @@ const TodoBox = styled.div`
   font-size: 20px;
   box-sizing: border-box;
   width: 335px;
-  height: 420px;
+  height: 100%;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
 

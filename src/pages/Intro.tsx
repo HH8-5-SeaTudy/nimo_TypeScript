@@ -320,6 +320,7 @@ const WaveWrapper = styled.div`
       height: 200px;
       position: absolute;
       width: 200px;
+      border: solid rgba(255, 255, 255, .5) 1px; 
     }
 
     .bubble:after {
@@ -342,12 +343,12 @@ const WaveWrapper = styled.div`
       background: radial-gradient(
         ellipse at center,
         transparent 0%,
-        rgba(255, 255, 255, 0) 70%
+        rgba(255, 255, 255, 0) 90%
       );
 
       border-radius: 50%;
 
-      box-shadow: inset 0 20px 30px rgba(26, 58, 94, 0.322);
+      box-shadow: inset 0 -20px -30px rgba(26, 58, 94, 0.322);
 
       content: "";
       height: 180px;

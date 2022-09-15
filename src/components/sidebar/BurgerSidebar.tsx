@@ -27,9 +27,10 @@ export default BurgerSidebar;
 const BurgerSide = styled.div`
   position: absolute;
   width: 25px;
-  height: 420px;
+height: 47%;  
+  bottom: 0;
   left: 0px;
-  top: 493px;
+
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
 `;
@@ -58,9 +59,9 @@ interface BurgerLayerProps {
 const BurgerLayer = styled.div<BurgerLayerProps>`
   position: absolute;
   display: flex;
-  top: 493px;
+  bottom: 0;
   width: 359px;
-  height: 420px;
+  height: 47%;  
   transition: all 0.5s;
   z-index: 1;
   left: ${({ show }) => (show ? "0px" : "-359px")};
