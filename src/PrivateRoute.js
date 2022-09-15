@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { getCookie } from '../components/social/Cookie';
+import { getCookie } from './components/social/Cookie';
 
 function PrivateRoute({ component: Component }) {
   const token = getCookie('token');
