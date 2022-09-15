@@ -25,9 +25,10 @@ const BurgerSidebar = () => {
 export default BurgerSidebar;
 
 const BurgerSide = styled.div`
+border:solid red 1px;
   position: absolute;
   width: 25px;
-height: 47%;  
+height: 50%;  
   bottom: 0;
   left: 0px;
 
@@ -61,7 +62,7 @@ const BurgerLayer = styled.div<BurgerLayerProps>`
   display: flex;
   bottom: 0;
   width: 359px;
-  height: 47%;  
+  height: 50vh;  
   transition: all 0.5s;
   z-index: 1;
   left: ${({ show }) => (show ? "0px" : "-359px")};
