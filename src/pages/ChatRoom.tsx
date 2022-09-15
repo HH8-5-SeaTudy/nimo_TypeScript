@@ -23,7 +23,7 @@ function ChatRoom() {
 
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();
-  const message = useRef("");
+  const message = useRef<any>(null);
   // const [message, setMessage] = useState("");
   const chat = useAppSelector((state) => state.socket.chat);
 
@@ -47,9 +47,9 @@ function ChatRoom() {
   console.log("2222");
 
     onConneted();
-    // return () => {
-    //   disConneted();
-    // };
+    return () => {
+      disConneted();
+    };
   }, []);
 
   const handleEnterPress = (e: any) => {
@@ -80,28 +80,27 @@ function ChatRoom() {
             roomId: id,
           })
         );
-        sendMessage();
       });
     } catch (error) {}
   }
 
   //메시지 보내기
   const sendMessage = () => {
-  console.log("5555");
-
+    console.log("5555");
+    const res = JSON.stringify({
+      roomId: id,
+      message: message.current.value,
+    })
     waitForConnection(client, function () {
       client.send(
         `/pub/chat/message`,
         headers,
-        JSON.stringify({
-          roomId: id,
-          message: message.current,
-        })
+        res,
       );
     });
 
     // setMessage("");
-    message.current = "";
+    message.current.value = "";
   };
 
   // 연결해제, 구독해제
@@ -131,12 +130,6 @@ function ChatRoom() {
       }
     }, 1);
   }
-
-  const onChange = (e: any) => {
-  console.log("999999");
-    // setMessage(e.target.value);
-    message.current = e.target.value;
-  };
 
   return (
     <MessageContainer>
@@ -220,8 +213,8 @@ function ChatRoom() {
           <MessageForm>
             <textarea
               onKeyUp={handleEnterPress}
-              onChange={onChange}
-            />
+              ref={message}
+              />
             <ButtonContainer>
               <button onClick={handleEnterPress}>전송</button>
             </ButtonContainer>
