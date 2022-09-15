@@ -1,99 +1,232 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import styled from "styled-components";
-import { RootState } from "../redux/config/configStore";
-import { addMessage } from "../redux/modules/socket";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
+import { addUser, __getChatroom } from "../redux/modules/socket";
 
-const BASE_URL = "http://43.200.115.252";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const token: string = process.env.REACT_APP_TOKEN as string;
+
+const roomId1 = process.env.REACT_APP_ROOMID1;
+const roomId2 = process.env.REACT_APP_ROOMID2;
+const roomId3 = process.env.REACT_APP_ROOMID3;
+const roomId4 = process.env.REACT_APP_ROOMID4;
+const roomId5 = process.env.REACT_APP_ROOMID5;
+
 function ChatRoom() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { id }: any = location.state;
+
   //기본설정---헤더, 토큰, 주소설정
-  const dispatch = useDispatch();
-  const [message, setMessage] = useState("d");
+  const dispatch = useAppDispatch();
+  const message = useRef("");
+  // const [message, setMessage] = useState("");
+  const chat = useAppSelector((state) => state.socket.chat);
+
   const headers = {
-    Authorization:
-      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJobGltOTAyMkBnbWFpbC5jb20iLCJpc3MiOiJoYW5naGFlNV9zZWF0dWR5IiwiZXhwIjoxNjYyNjA2MjEwfQ.IHaY6U-3-UQJzwggQtCzVVv6Dh45WH8VNm5fZShQpzo",
+    Authorization: token,
   };
+
   const socket = new SockJS(`${BASE_URL}/api/v1/chat/connections`);
   const client = Stomp.over(socket);
 
-  const chatList = useSelector((state: RootState) => state);
+  console.log("00000");
+  const roomIdHandler = () => {
+  console.log("11111");
 
-  console.log(chatList);
+    window.location.reload();
+    dispatch(__getChatroom(id));
+  };
 
-  const roomId = useParams();
   //렌더되면 소켓 연결실행
-  useEffect(() => {
+  useLayoutEffect(() => {
+  console.log("2222");
+
     onConneted();
-    return () => {
-      onConneted();
-    };
+    // return () => {
+    //   disConneted();
+    // };
   }, []);
 
-  //axios로 데이터 불러오는 용
-
   const handleEnterPress = (e: any) => {
-    if (message.trim() === "") {
-      e.preventDefault();
-    }
-    if (e.keyCode === 13 && e.shiftKey == false) {
+    if (e.code === "Enter" && e.shiftKey === false) {
+      console.log("3333");
       sendMessage();
     }
   };
 
   //연결&구독
-  function onConneted() {
+  const onConneted = ()=> {
+  console.log("4444");
+
     try {
       client.connect(headers, () => {
         client.subscribe(
-          `/sub/chat/room/hello`,
+          `/sub/chat/room/${id}`,
           (data) => {
-            const newMessage = JSON.parse(data.body);
-            dispatch(addMessage(newMessage));
+            const user = JSON.parse(data.body);
+            dispatch(addUser(user));
           },
           headers
         );
+        client.send(
+          `/pub/chat/enter`,
+          headers,
+          JSON.stringify({
+            roomId: id,
+          })
+        );
+        sendMessage();
       });
     } catch (error) {}
   }
 
   //메시지 보내기
   const sendMessage = () => {
-    client.send(
-      `/pub/chat/message`,
-      headers,
-      JSON.stringify({
-        roomId: "hello",
-        message: message,
-      })
-    );
-    setMessage("");
+  console.log("5555");
+
+    waitForConnection(client, function () {
+      client.send(
+        `/pub/chat/message`,
+        headers,
+        JSON.stringify({
+          roomId: id,
+          message: message.current,
+        })
+      );
+    });
+
+    // setMessage("");
+    message.current = "";
   };
 
+  // 연결해제, 구독해제
+  function disConneted() {
+  console.log("7666666");
+
+    try {
+      client.disconnect(
+        () => {
+          client.unsubscribe("sub-0");
+        },
+        { token: token }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function waitForConnection(client: any, callback: any) {
+  console.log("888888");
+
+    setTimeout(function () {
+      if (client.ws.readyState === 1) {
+        callback();
+      } else {
+        waitForConnection(client, callback);
+      }
+    }, 1);
+  }
+
   const onChange = (e: any) => {
-    setMessage(e.target.value);
+  console.log("999999");
+    // setMessage(e.target.value);
+    message.current = e.target.value;
   };
 
   return (
     <MessageContainer>
       <MessageFormContainer>
-        <div
-          style={{ width: "100%", height: "100%", border: "2px solid black" }}
-        >
-          {message}
-        </div>
-        <MessageForm>
-          <textarea
-            value={message}
-            onChange={onChange}
-            onKeyDown={handleEnterPress}
-          />
-          <ButtonContainer>
-            <button onClick={sendMessage}>전송</button>
-          </ButtonContainer>
-        </MessageForm>
+        {/* 왼쪽 section */}
+        <SeaContainer>
+          <div>
+            <button
+              onClick={() => {
+                roomIdHandler();
+                navigate("/chat", {
+                  state: {
+                    id: roomId1,
+                  },
+                });
+              }}
+            >
+              서버1
+            </button>
+            <button
+              onClick={() => {
+                roomIdHandler();
+                navigate("/chat", {
+                  state: {
+                    id: roomId2,
+                  },
+                });
+              }}
+            >
+              서버2
+            </button>
+            <button
+              onClick={() => {
+                roomIdHandler();
+                navigate("/chat", {
+                  state: {
+                    id: roomId3,
+                  },
+                });
+              }}
+            >
+              서버3
+            </button>
+            <button
+              onClick={() => {
+                roomIdHandler();
+                navigate("/chat", {
+                  state: {
+                    id: roomId4,
+                  },
+                });
+              }}
+            >
+              서버4
+            </button>
+            <button
+              onClick={() => {
+                roomIdHandler();
+                navigate("/chat", {
+                  state: {
+                    id: roomId5,
+                  },
+                });
+              }}
+            >
+              서버5
+            </button>
+          </div>
+        </SeaContainer>
+
+        {/* 오른쪽 section */}
+        <ChatContainer>
+          <MessageWrapper>
+            {chat &&
+              chat.map((list: any, index: number) => (
+                <MessageListContainer key={index}>
+                  {list.message}
+                </MessageListContainer>
+              ))}
+          </MessageWrapper>
+          <MessageForm>
+            <textarea
+              onKeyUp={handleEnterPress}
+              onChange={onChange}
+            />
+            <ButtonContainer>
+              <button onClick={handleEnterPress}>전송</button>
+            </ButtonContainer>
+          </MessageForm>
+        </ChatContainer>
       </MessageFormContainer>
     </MessageContainer>
   );
@@ -101,43 +234,67 @@ function ChatRoom() {
 
 const MessageContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  border: 4px solid green;
 `;
 
 const MessageWrapper = styled.div`
-  flex: 4;
   width: 100%;
   height: 100%;
   overflow-y: scroll;
   display: flex;
-  padding: 10px;
+  /* padding: 20px 10px; */
+  /* flex: 4; */
   flex-direction: column-reverse;
   background-color: #b2c7d9;
+`;
+
+const MessageListContainer = styled.span`
+  width: 100%;
+  border: 1px solid black;
 `;
 
 const MessageFormContainer = styled.div`
   width: 100%;
   height: 100%;
-  flex: 1;
-  background-color: white;
-  border: 1px solid black;
-  margin-top: 200px;
+  background-color: #eee;
+  display: flex;
+  border: 2px solid red;
+  margin-top: 60px;
+`;
+
+const SeaContainer = styled.section`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex: 2.5;
+`;
+const ChatContainer = styled.section`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex: 1.5;
+  flex-direction: column;
+  border: 2px solid black;
 `;
 
 const MessageForm = styled.form`
   display: flex;
   width: 100%;
   height: 100%;
+  /* flex: 1; */
+  border: 4px solid yellow;
+  resize: none;
   textarea {
     resize: none;
     width: 100%;
-    height: 100%;
     border: none;
-  }
-  textarea:focus {
-    outline: none;
+    font-size: 1.5em;
+    &:focus {
+      outline: none;
+    }
   }
 `;
 

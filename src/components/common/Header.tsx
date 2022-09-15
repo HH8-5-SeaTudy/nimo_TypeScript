@@ -1,63 +1,113 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useCounter } from "../../pages/CheckIn";
+import { Itime } from '../../api';
+import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
 
-interface props {
-  start? : ()=>void,
-  stop? : ()=>void
-}
+import Asmr from '../asmr/Asmr';
+import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { __getCheckInTimer, __getCheckOutTimer, __getUserinquire } from "../../redux/modules/timer";
+import { getCookie } from "../social/Cookie";
+import StopWatch from '../stopwatch/StopWatch';
 
-const Header = ({start, stop}:props) => {
-  const [isLogin, setIsLogin] = useState(false);
-  const { count } = useCounter(0, 1000);
-  const [currentHours, setCurrentHours] = useState(0);
-  const [currentMinutes, setCurrentMinutes] = useState(0);
-  const [currentSeconds, setCurrentSeconds] = useState(0);
 
-  // 타이머 기능
-  const timer = () => {
-    const checkMinutes = Math.floor(count / 60);
-    const hours = Math.floor(count / 3600);
-    const minutes = checkMinutes % 60;
-    const seconds = count % 60;
 
-    setCurrentHours(hours);
-    setCurrentMinutes(minutes);
-    setCurrentSeconds(seconds);
-  };
+const Header = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const time = useAppSelector((state) => state.timer);
+  const [asmrShow, setAsmrShow] = useState(false)
+  const [hh, mm, ss] = String(time.dayStudyTime)
+    .split(":")
+    .map((v) => +v);
 
-  const onClick = () => {
-    setIsLogin(!isLogin);
-  };
-  useEffect(timer, [count]);
+  const [timeSS, setTimeSS] = useState<number>(0);
+  const [timeMM, setTimeMM] = useState<number>(0);
+  const [timeHH, setTimeHH] = useState<number>(0);
+
+  console.log(time)
+
+  useEffect(() => {
+    dispatch(__getUserinquire());
+    dispatch(__getCheckInTimer())
+    
+    return (()=>{
+      dispatch(__getCheckOutTimer());
+    })
+  }, []);
+
+  useEffect(() => {
+    setTimeSS(ss);
+    setTimeMM(mm);
+    setTimeHH(hh); 
+
+  }, [time]);
+
+  console.log(time.isStudy)
+
+  useEffect(() => {
+    let interval:any = null;
+    if (time.isStudy) {
+      interval = setInterval(() => {
+        setTimeSS((ss) => ss + 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+    if ( timeSS % 60 == 0 && timeSS !== 0 ) {
+      setTimeMM((mm) => mm + 1);
+    }
+
+    return () => clearInterval(interval);
+  }, [JSON.stringify(time), timeSS,]);
+
+  useEffect(()=>{
+    if (timeMM % 60 == 0 && timeMM !== 0) {
+      setTimeHH((hh) => hh + 1);
+    }
+  },[timeMM])
+
+
+  if (window.location.pathname === '/intro') return null;
+  if (window.location.pathname === '/login') return null;
+  if (window.location.pathname === '/kakaoLogin') return null;
+  if (window.location.pathname === '/naverLogin') return null;
+  if (window.location.pathname === '/googleLogin') return null;
+
   return (
+    <>  
     <HeaderContainer>
       <HeaderLogoContainer>
-        <HeaderLogo>Logo</HeaderLogo>
+       <HeaderLogo onClick={() => navigate("/")}>Logo</HeaderLogo>
       </HeaderLogoContainer>
-      {isLogin ? (
         <HeaderTimerContainer>
           <HeaderTimer>
-            <h1>
-              {currentHours < 10 ? `0${currentHours}` : currentHours} :
-              {currentMinutes < 10 ? `0${currentMinutes}` : currentMinutes} :
-              {currentSeconds < 10 ? `0${currentSeconds}` : currentSeconds}
-            </h1>
+          <Layer>
+            <Link to='/statistics' style={{ textDecoration: 'none' }}>    
+            <span>{("0" + Math.floor(timeHH % 24)).slice(-2)}:</span>
+            <span>{("0" + Math.floor(timeMM % 60)).slice(-2)}:</span>
+            <span>{("0" + Math.floor(timeSS % 60)).slice(-2)}</span>
+            </Link>
+          </Layer>
           </HeaderTimer>
-          {/* <CheckIn /> */}
         </HeaderTimerContainer>
-      ) : (
-        <HeaderLoginContainer>
-          <HeaderLoginButton onClick={onClick}>Log in</HeaderLoginButton>
-          <HeaderSigninButton>Sign in</HeaderSigninButton>
-        </HeaderLoginContainer>
-      )}
-    </HeaderContainer>
+      <OnAsmrBtn onClick={()=>setAsmrShow(!asmrShow)}/>
+      {asmrShow && <Asmr/>}
+    </HeaderContainer> 
+ </>
+  
   );
 };
+const Layer = styled.div`
+  span {
+     color: white;
+  }
+`
 
 const HeaderContainer = styled.div`
+  position: absolute;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -79,29 +129,6 @@ const HeaderLogo = styled.span`
   color: #fff;
 `;
 
-const HeaderLoginContainer = styled.div`
-  display: flex;
-`;
-
-const HeaderLoginButton = styled.button`
-  border: 2px solid blue;
-  font-size: 20px;
-  padding: 5px 15px;
-  border-radius: 20px;
-  background-color: transparent;
-  cursor: pointer;
-  margin-right: 10px;
-`;
-
-const HeaderSigninButton = styled.button`
-  border: 2px solid blue;
-  font-size: 20px;
-  padding: 5px 15px;
-  border-radius: 20px;
-  background-color: transparent;
-  cursor: pointer;
-`;
-
 const HeaderTimerContainer = styled.div`
   display: flex;
   align-items: center;
@@ -111,6 +138,11 @@ const HeaderTimerContainer = styled.div`
 const HeaderTimer = styled.span`
   color: #fff;
   font-size: 32px;
+`;
+
+const OnAsmrBtn = styled(onAsmrIcon)`
+  position: absolute;
+  right: 400px;
 `;
 
 export default Header;
