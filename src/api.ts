@@ -60,3 +60,11 @@ export type Ivoid = {
   startHandler(): void;
   endHandler(): void;
 };
+
+export type Ilocation = {
+  hash: string;
+  key: string;
+  pathname: string;
+  search: string;
+  state: {id: string;}
+};
