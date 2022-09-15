@@ -35,7 +35,6 @@ const TodoSidebar = () => {
         <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
         <TodoBox>
           <p onClick={()=>{modalHandler()}}>작성하기버튼임</p>
-
           <div>
             {dateTodos &&
               dateTodos.map((list) => (

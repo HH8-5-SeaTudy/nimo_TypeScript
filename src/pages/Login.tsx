@@ -26,7 +26,7 @@ export default function Login() {
             </LoginBtn>
             
           </LoginBox>
-       
+
         </Right>
         
       </Layer>
@@ -41,7 +41,7 @@ display:flex;
 
 `
 const Left = styled.div`
-  border: solid red 1px;
+  border: solid red 3px;
   width:50%;
   padding-top: 15%;
 `
@@ -56,9 +56,9 @@ const Right = styled.div`
   width:50%;
 `
 const TitleBox = styled.div`
-  border: solid red 1px;
+  border: solid red 3px;
   height: 40%;
-  padding-top: 300px;
+  padding-top: 200px;
 
   h1 {
     border: solid red 1px;
@@ -67,7 +67,7 @@ const TitleBox = styled.div`
   }
 `
 const LoginBox = styled.div`
-  border: solid red 1px;
+  border: solid red 3px;
   height: 60%;
 
 `
