@@ -72,7 +72,7 @@ const TodoList = () => {
   }, [date]);
 
   return (
-    <>
+    <Layer>
       <AddCategory>
         <BtnGroup>
           카테고리생성
@@ -92,7 +92,7 @@ const TodoList = () => {
             <CategoryBox key={list.categoryId}>
               <CategoryTitle>
                 <div></div>
-                <p>{list.categoryName}</p>
+                <p>{list.categoryName}ddd</p>
                 <button
                   onClick={() => dispatch(__deleteCategory(list.categoryId))}
                 >
@@ -159,38 +159,28 @@ const TodoList = () => {
             </CategoryBox>
           ))}
       </TodoListBox>
-    </>
+    </Layer>
   );
 };
 
 export default React.memo(TodoList);
 
-const AddCategory = styled.div``;
+const Layer = styled.div`
+  height:100%;
+  border:solid black 5px;
+`
+const AddCategory = styled.div`
+border: solid blue 1px;
+`;
 
 const BtnGroup = styled.div`
   display: flex;
-  div {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    &:first-child {
-      background: red;
-    }
-    &:nth-child(2) {
-      background: yellow;
-    }
-    &:nth-child(3) {
-      background: blue;
-    }
-    &:nth-child(4) {
-      background: green;
-    }
-  }
+
 `;
 
 const TodoListBox = styled.section`
   width: 100%;
-  height: 100%;
+  height: 100px;
   border: solid red 3px;
   padding: 10px 0;
 `;

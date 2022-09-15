@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const Statistics = () => {
   return (
     <StatisticsLayer>
-      <LeftSide>
+    <Layer>
+        <LeftSide>
         <TimeBox>
           <p>9월 2022년</p>
           <table>
@@ -52,9 +53,13 @@ const Statistics = () => {
         </PointBox>
       </LeftSide>
       <RightSide>
-        <Chart>뭘넣어야지</Chart>
+        <Chart>랭킹</Chart>
         <Graph>뭘넣어야지</Graph>
       </RightSide>
+    </Layer>
+       
+
+     
     </StatisticsLayer>
   );
 };
@@ -62,42 +67,46 @@ const Statistics = () => {
 export default Statistics;
 
 const StatisticsLayer = styled.section`
-  position: absolute;
+  border: solid red 1px;
   width:100%;
-  height:954px;
-  top: 67px;
-  padding: 19px;
+  height:100vh;
+  padding: 130px 100px 100px 100px;
   background: #D0DEEA;
-  display:flex;
+`
+const Layer = styled.div`
+border: solid blue 1px;
+  width: 1800px;
+  height: 1000px;
+  display: flex;
+  margin: auto;
 `
 
 const LeftSide = styled.div`
-  position:relative;
   border: solid red 1px;
-  width: 407px;
+  width: 30%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 const TimeBox = styled.div`
-  position:absolute;
-  width: 407px;
-  height: 244px;
+  width: 100%;
+  height: 30%;
   background: rgba(255, 255, 255, 0.71);
   border-radius: 20px;
-  padding:10px;
+  padding:20px;
+  margin-bottom:20px;
   p{
     margin:0;
   }
 `
 
 const PointBox = styled.div`
- position:absolute;
- bottom:0px;
-width: 407px;
-height: 654px;
+width: 100%;
+height: 70%;
 background: rgba(255, 255, 255, 0.71);
 border-radius: 20px;
-padding:10px;
 `
 const Point = styled.div`
     border: solid red 1px;
@@ -137,7 +146,7 @@ border-radius: 20px
 const RightSide = styled.div`
   border: solid red 1px;
   position: relative;
-  width: 961px;
+  width: 70%;
   height: 100%;
   margin-left: 25px;
   

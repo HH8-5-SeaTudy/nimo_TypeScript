@@ -29,7 +29,7 @@ export default ProfileSidebar;
 const ProfileSide = styled.div`
   position: absolute;
   width: 25px;
-  height: 420px;
+  height: 47%;
   left: 0px;
   top: 65px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
@@ -62,7 +62,7 @@ const ProfileLayer = styled.div<ProfileLayerProps>`
   display: flex;
   top: 65px;
   width: 359px;
-  height: 420px;
+  height: 47%;
   transition: all 0.5s;
   z-index: 1;
   left: ${({ show }) => (show ? "0px" : "-359px")};
@@ -73,7 +73,7 @@ const ProfileLayer = styled.div<ProfileLayerProps>`
 const ProfileBox = styled.div`
   box-sizing: border-box;
   border: solid red 1px;
-  padding: 21px;
+  padding-top: 100px;
   width: 335px;
   height: 100%;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),

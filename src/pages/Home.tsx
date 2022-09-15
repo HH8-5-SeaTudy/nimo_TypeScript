@@ -9,6 +9,7 @@ import TodoSidebar from "../components/sidebar/TodoSidebar";
 import { __getCheckInTimer, __getCheckOutTimer, __getUserinquire } from "../redux/modules/timer";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { useSelector } from "react-redux";
+import sss from "../assets/sss.png"
 
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;
@@ -31,7 +32,8 @@ export default function Home() {
   // },[JSON.stringify(time)])
   return (
     <>
-      <Layer>
+      <Layer> 
+
         <ButtonBox>
           <CheckInBall>
           <button onClick={()=>{
@@ -109,21 +111,31 @@ export default function Home() {
 const Layer = styled.section`
   border: solid red 3px;
   width: 100%;
-  height: 1000px;
-`;
+  height: 100vh;
+  background: url('https://i.pinimg.com/564x/74/14/83/741483bb55e4277719c3b9a80e92bcc9.jpg');
+  background-size: 100% 100vh;
+  
+  `
+
 const ButtonBox = styled.div`
   border: solid red 1px;
+  
   width: 200px;
   height: 400px;
-  margin: 200px auto;
+  margin:600px auto;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 `;
 const CheckInBall = styled.div`
-  border: solid red 1px;
-  background-color: red;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
+button{
+  width: 50%;
+  height: 50px;
+  &:first-child{
+    background-color: green;
+  }
+  background-color:red;
+}
+
 `;
+
