@@ -74,9 +74,9 @@ const StatisticsLayer = styled.section`
   background: #D0DEEA;
 `
 const Layer = styled.div`
-border: solid blue 1px;
-  width: 1800px;
-  height: 1000px;
+border: solid blue 4px;
+  width: 1400px;
+  height: 700px;
   display: flex;
   margin: auto;
 `
