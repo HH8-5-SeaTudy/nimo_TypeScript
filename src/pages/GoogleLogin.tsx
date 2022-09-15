@@ -16,7 +16,7 @@ const GoogleLogin = () => {
         .get(`${BASE_URL}/api/v1/members/googleLogin?code=${code}`)
         .then((res) => setCookie("token", res.headers.authorization))
         .then(() => {
-          navigate("/");
+          navigate("/home");
         })
 
     };
