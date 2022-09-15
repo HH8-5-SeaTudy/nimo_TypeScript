@@ -80,7 +80,7 @@ const Header = () => {
     <>  
     <HeaderContainer>
       <HeaderLogoContainer>
-       <HeaderLogo onClick={() => navigate("/")}>Logo</HeaderLogo>
+       <HeaderLogo onClick={() => navigate("/home")}>Logo</HeaderLogo>
       </HeaderLogoContainer>
         <HeaderTimerContainer>
           <HeaderTimer>

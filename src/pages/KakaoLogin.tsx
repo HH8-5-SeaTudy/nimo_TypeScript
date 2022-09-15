@@ -15,7 +15,7 @@ const KakaoLogin = () => {
         .get(`${BASE_URL}/api/v1/members/kakaoLogin?code=${code}`)
         .then((res) => setCookie("token", res.headers.authorization))
           .then(() => {
-            navigate("/");
+            navigate("/home");
           })
 
     };

@@ -18,7 +18,7 @@ const NaverLogin = () => {
         )
         .then((res) => setCookie("token", res.headers.authorization))
         .then(() => {
-          navigate("/projectList");
+          navigate("/home");
         })
 
     };
