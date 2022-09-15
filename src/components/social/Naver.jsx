@@ -21,7 +21,9 @@ const Naver = () => {
   return (
   <NaverLoginButtonContainer onClick={loginHandler}>
     <NaverLogo/>
-    <NaverKor>네이버 로그인</NaverKor>
+    <NaverKor>
+      네이버 로그인
+      </NaverKor>
   </NaverLoginButtonContainer>
   )
 };

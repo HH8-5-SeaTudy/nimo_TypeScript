@@ -62,7 +62,7 @@ const Wave = () => {
           </Ocean2>
         </WavePart2>
 
-        {/* <WavePart3>
+        <WavePart3>
           <Ocean3 partThree={partThree}>
             <div></div>
             <div></div>
@@ -83,7 +83,7 @@ const Wave = () => {
               위로
             </Button>
           </Ocean4>
-        </WavePart4> */}
+        </WavePart4>
       </Layer>
     </>
   );

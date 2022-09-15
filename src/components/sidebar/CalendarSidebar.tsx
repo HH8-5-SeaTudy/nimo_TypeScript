@@ -26,9 +26,9 @@ export default CalendarSidebar;
 const CalendarSide = styled.div`
   position: absolute;
   width: 25px;
-  height: 420px;
+  height: 47%;
   right: 0px;
-  top: 493px;
+  bottom: 0;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
 `;
@@ -55,9 +55,9 @@ interface CalendarLayerProps {
 const CalendarLayer = styled.div<CalendarLayerProps>`
   position: absolute;
   display: flex;
-  top: 493px;
+bottom:0;
   width: 359px;
-  height: 420px;
+  height: 47%;
   transition: all 0.5s;
   z-index: 1;
   right: ${({ show }) => (show ? "0px" : "-359px")};
@@ -71,7 +71,7 @@ const CalendarBox = styled.div`
 border: solid red 1px;
 box-sizing: border-box;
   width: 335px;
-  height: 420px;
+  height: 100%;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
 `;

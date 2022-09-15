@@ -47,7 +47,7 @@ p{
 }
 `
 const TodoBox = styled.div`
-border: solid red 1px;
+border: solid red 3px;
 width:50%;
 padding: 0 30px;
 `
