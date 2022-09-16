@@ -81,6 +81,7 @@ export const timerSlice = createSlice({
     builder
       .addCase(__getUserinquire.fulfilled, (state, action) => {
         state.dayStudyTime = action.payload.dayStudyTime;
+        state.isStudy = action.payload.isStudy
       })
       .addCase(__getCheckInTimer.fulfilled, (state, action) => {
         state.isStudy = true;
