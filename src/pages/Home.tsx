@@ -20,6 +20,7 @@ const Home = () => {
   //Todo zone
   const date = useAppSelector((state) => state.updateDate.date);
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
+
   useEffect(() => {
     dispatch(__getDateTodo(moment(date).format("YYYY-MM-DD")));
   }, [date]);
@@ -441,7 +442,7 @@ const ButtonBox = styled.div`
   position: absolute;
   border: solid red 1px; 
   width: 200px;
-  height: 400px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
