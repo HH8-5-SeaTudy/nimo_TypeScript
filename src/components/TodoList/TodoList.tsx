@@ -92,7 +92,7 @@ const TodoList = () => {
             <CategoryBox key={list.categoryId}>
               <CategoryTitle>
                 <div></div>
-                <p>{list.categoryName}ddd</p>
+                <p>{list.categoryName}</p>
                 <button
                   onClick={() => dispatch(__deleteCategory(list.categoryId))}
                 >
