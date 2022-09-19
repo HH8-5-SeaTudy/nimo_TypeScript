@@ -49,12 +49,12 @@ function ChatRoom() {
 
   const handleEnterPress = (e: any) => {
     if (e.code === "Enter" && e.shiftKey === false) {
-      console.log("3333");
       sendMessage();
     }
   };
 
   //연결&구독
+
   const onConneted = () => {
     try {
       client.connect(headers, () => {
