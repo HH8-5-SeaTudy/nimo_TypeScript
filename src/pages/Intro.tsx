@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import HeadFish from "../components/fish/HeadFish";
 import tree from "../assets/tree/tree.png";
-import wave5 from "../assets/Wave/wave5.svg";
-import Wave from "./Wave";
-
 export default function Intro() {
   const [scroll, setScroll] = useState(false);
   const [bubble, setBubble] = useState(false);
@@ -14,6 +11,10 @@ export default function Intro() {
   const [bubble4, setBubble4] = useState(false);
   const [bubble5, setBubble5] = useState(false);
   const [bubble6, setBubble6] = useState(false);
+  const [button, setButton] = useState(false);
+
+  const [info, setInfo] = useState(false);
+  const [info2, setInfo2] = useState(false);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -24,69 +25,110 @@ export default function Intro() {
 
   const handleScroll = () => {
     // 스크롤이 Top에서 50px 이상 내려오면 true값을 useState에 넣어줌
-    console.log(window.scrollY, scroll);
-    if (window.scrollY >= 2000) {
+    console.log(window.scrollY);
+    if (window.scrollY >= 400) {
+      setInfo(true);
+    }
+    if (window.scrollY >= 1000) {
+      // setBubble1(true);
+      setInfo2(true);
+    }
+    if (window.scrollY >= 1800) {
+      setButton(true);
       setBubble(true);
     }
-    if (window.scrollY >= 2200) {
+    if (window.scrollY >= 1900) {
       setBubble1(true);
     }
-    if (window.scrollY >= 2400) {
+    if (window.scrollY >= 2000) {
       setBubble2(true);
     }
-    if (window.scrollY >= 2600) {
+    if (window.scrollY >= 2100) {
       setBubble3(true);
     }
-    if (window.scrollY >= 2800) {
+    if (window.scrollY >= 2200) {
       setBubble4(true);
     }
-    if (window.scrollY >= 3000) {
+    if (window.scrollY >= 2300) {
       setBubble5(true);
     }
-    if (window.scrollY >= 3200) {
+    if (window.scrollY >= 2400) {
       setBubble6(true);
     }
   };
 
   return (
     <IntroContainer>
-      <IntroTitleContainer>
+      {/* <IntroTitleContainer>
         <IntroTitleWrapper>
-          <TreeIconContainer>
-            <TreeIcon />
-          </TreeIconContainer>
-          <div
-            style={{
-              width: "100%",
-              height: "100%",
-              backgroundColor: "yellow",
-              border: "1px solid black",
-            }}
-          >
-            asfasf
-          </div>
+          <TreeIconContainer></TreeIconContainer>
+          <TreeIcon></TreeIcon>
         </IntroTitleWrapper>
-      </IntroTitleContainer>
+      </IntroTitleContainer> */}
       <WaveContainer>
         <WaveWrapper>
           <FirstWave>
             {/* wave animation */}
-            {/* <div
-              style={{
-                overflow: "hidden",
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                zIndex: "1",
-              }}
-            ></div> */}
+
             <div
               style={{
                 height: "100%",
                 paddingTop: "15%",
               }}
             >
-              <SeatudySticky>
+              <TitleContainer>
+                <SetudyWrapper scroll={bubble}>
+                  <span>
+                    <SeatudyContainerBubble />S
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper scroll={bubble1}>
+                  <span>
+                    <SeatudyContainerBubble />E
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper scroll={bubble2}>
+                  <span>
+                    <SeatudyContainerBubble />A
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper scroll={bubble3}>
+                  <span>
+                    <SeatudyContainerBubble />T
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper scroll={bubble4}>
+                  <span>
+                    <SeatudyContainerBubble />U
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper scroll={bubble5}>
+                  <span>
+                    <SeatudyContainerBubble />D
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper scroll={bubble6}>
+                  <span>
+                    <SeatudyContainerBubble />Y
+                  </span>
+                </SetudyWrapper>
+              </TitleContainer>
+              <FirstInfoContainer scroll={info}>
+                <span>SeaTudy란?</span>
+                <span>사람들이 함께 모여서 공부를 하는 사이트 입니다.</span>
+              </FirstInfoContainer>
+              <SecondInfoContainer scroll={info2}>
+                <span>공부도 하고 물고기도 모아봐요!</span>
+                <span>
+                  SeaTudy 시작해보기
+                  <div className="scroll-downs">
+                    <div className="mousey">
+                      <div className="scroller"></div>
+                    </div>
+                  </div>
+                </span>
+              </SecondInfoContainer>
+              <SeatudySticky scroll={button}>
                 <SeatudyContainer>
                   <SetudyWrapper scroll={bubble}>
                     <span>
@@ -130,36 +172,16 @@ export default function Intro() {
               </SeatudySticky>
             </div>
             <div className="background-wrap">
-              <div className="bubble x1">
-                <span>S</span>
-              </div>
-              <div className="bubble x2">
-                <span>E</span>
-              </div>
-              <div className="bubble x3">
-                <span>A</span>
-              </div>
-              <div className="bubble x4">
-                <span>T</span>
-              </div>
-              <div className="bubble x5">
-                <span>U</span>
-              </div>
-              <div className="bubble x6">
-                <span>D</span>
-              </div>
-              <div className="bubble x7">
-                <span>Y</span>
-              </div>
-              <div className="bubble x8">
-                <span>S</span>
-              </div>
-              <div className="bubble x9">
-                <span>E</span>
-              </div>
-              <div className="bubble x10">
-                <span>A</span>
-              </div>
+              <div className="bubble x1"></div>
+              <div className="bubble x2"></div>
+              <div className="bubble x3"></div>
+              <div className="bubble x4"></div>
+              <div className="bubble x5"></div>
+              <div className="bubble x6"></div>
+              <div className="bubble x7"></div>
+              <div className="bubble x8"></div>
+              <div className="bubble x9"></div>
+              <div className="bubble x10"></div>
             </div>
           </FirstWave>
         </WaveWrapper>
@@ -168,10 +190,10 @@ export default function Intro() {
   );
 }
 interface IboxshadowProps {
-  boxshadow: boolean;
+  info: boolean;
 }
 
-interface ProfileLayerProps {
+interface IscrollTextProps {
   scroll: boolean;
 }
 
@@ -183,39 +205,65 @@ const IntroContainer = styled.div`
 
 const IntroTitleContainer = styled.div`
   width: 100%;
-  padding: 15% 10%;
-  transform: perspective(750px) translate3d(0px, 0px, -250px) rotateX(27deg)
-    scale(0.9, 0.9);
-  border-radius: 20px;
-  border: 5px solid #e6e6e6;
-  box-shadow: 0 70px 40px -20px rgba(0, 0, 0, 0.2);
-  transition: 0.4s ease-in-out transform;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const SunContainer = styled.div`
+  width: 100%;
+  height: 70vh;
+  /* background: #22c4ffb9; */
+  margin: 0, 5%;
+  background-image: linear-gradient(to bottom, #0984e3, #81ecec);
+`;
+
+const Cloud = styled.div`
+  width: 10%;
+  height: 1%;
+`;
+
+const Sun = styled.div`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
   margin-top: 10%;
+  margin-left: 10%;
+  box-shadow: 0px 20px 250px #f10707;
+  background-color: #c75f19;
 `;
 
 const IntroTitleWrapper = styled.section`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
-  border: 2px solid black;
+  height: 100vh;
+  margin-top: 30%;
 `;
 
 const TreeIconContainer = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const TreeIcon = styled.div`
-  background: url(${tree});
-  background-position: center;
-  background-size: cover;
-  width: 500px;
-  height: 800px;
-  z-index: 5;
-  transform: perspective(750px) translate3d(0px, 0px, 0px) rotateX(27deg)
-    scale(0.9, 0.2);
+  position: relative;
+  width: 100%;
+  height: 120vh;
+  /* background-color: #32fbff; */
+  /* transform-style: preserve-3d;
+  perspective: 100px; */
+  /* transform: rotateX(50deg); */
+  padding: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const animateBubble = keyframes`
@@ -236,6 +284,17 @@ const sideWays = keyframes`
     }
 `;
 
+const infoslide = keyframes`
+0%{
+    opacity: 0;
+    transform:scale(0);
+  }
+  100%{
+    opacity: 1;
+        transform:scale(1);
+  }
+`;
+
 const textslide = keyframes`
   0%{
     opacity: 0;
@@ -244,6 +303,21 @@ const textslide = keyframes`
   100%{
     opacity: 1;
     transform:translate(0%, 0);
+  }
+`;
+
+const borderslide = keyframes`
+  0%{
+    opacity: 0;
+    display:none;
+    border:none;
+  }
+  100%{
+    display:flex;
+    opacity: 1;
+    border: 5px solid white;
+    border-radius: 9999px;
+
   }
 `;
 
@@ -275,7 +349,7 @@ const WaveWrapper = styled.div`
       animation: ${animateBubble} 25s linear infinite,
         ${sideWays} 2s ease-in-out infinite alternate;
       left: -5%;
-      top: 5%;
+      top: 45%;
       transform: scale(0.6);
     }
 
@@ -299,7 +373,7 @@ const WaveWrapper = styled.div`
       animation: ${animateBubble} 22s linear infinite,
         ${sideWays} 3s ease-in-out infinite alternate;
       left: 20%;
-      top: 0;
+      top: 54%;
       transform: scale(0.3);
     }
 
@@ -315,7 +389,7 @@ const WaveWrapper = styled.div`
       animation: ${animateBubble} 21s linear infinite,
         ${sideWays} 2s ease-in-out infinite alternate;
       left: 50%;
-      top: 0;
+      top: 60%;
       transform: scale(0.8);
     }
 
@@ -331,7 +405,7 @@ const WaveWrapper = styled.div`
       animation: ${animateBubble} 22s linear infinite,
         ${sideWays} 3s ease-in-out infinite alternate;
       left: 80%;
-      top: 10%;
+      top: 56%;
       transform: scale(0.3);
     }
 
@@ -416,18 +490,13 @@ const FirstWave = styled.div`
   height: 100%;
   background-image: linear-gradient(
     to bottom,
-    #79abdd,
-    #709dce,
-    #678ebe,
-    #5f81af,
-    #5673a0,
-    #4e6993,
-    #455f87,
-    #3d557b,
-    #334c6e,
-    #2a4362,
-    #213a55,
-    #183149
+    #ffffff68,
+    #e7c9a5,
+    #42f4f7d1,
+    #07b4ff,
+    #0195fe,
+    #4939d0,
+    #15385d
   );
   /* overflow: hidden; */
   .wave1 {
@@ -444,7 +513,6 @@ const FirstWave = styled.div`
     animation-name: ${rotate};
     animation-iteration-count: infinite;
     animation-timing-function: linear;
-    border: 2px solid white;
   }
 
   .wave2 {
@@ -466,40 +534,151 @@ const FirstWave = styled.div`
   }
 `;
 
-const SeatudySticky = styled.div`
+const TitleContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 27%;
+  position: relative;
+  span {
+    z-index: 15;
+    cursor: pointer;
+    position: relative;
+    filter: blur(2px);
+    text-align: center;
+    font-size: 8em;
+    /* background-image: linear-gradient(to bottom, #e7c9a5, #42f4f7d1); */
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2px white;
+    &:hover {
+      filter: blur(0px);
+      transition: 0.5s;
+      color: white;
+      background-color: white;
+      i::before {
+        content: "";
+        position: absolute;
+        top: 30px;
+        width: 2px;
+        height: 8px;
+        left: 12px;
+        background-color: white;
+        box-shadow: 0px 93px #fff, 95px 93px #fff, 95px 0px #fff;
+      }
+      i::after {
+        content: "";
+        position: absolute;
+        top: 30px;
+        width: 8px;
+        height: 2px;
+        left: 12px;
+        background-color: white;
+        box-shadow: 0px 100px white, 89px 100px white, 89px 0 white;
+      }
+    }
+  }
+`;
+
+const FirstInfoContainer = styled.div<IscrollTextProps>`
+  width: 80vw;
+  height: 70vh;
+  margin-top: 40%;
+  z-index: 1;
+  border-radius: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  display: ${({ scroll }) => (scroll ? "flex" : "none")};
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: ${infoslide} 1s linear alternate;
+
+  span {
+    font-size: 2em;
+    margin-top: 5%;
+    color: #eee;
+  }
+`;
+
+const scroll = keyframes`
+  0% { opacity: 0; }
+  10% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(15px); opacity: 0;}
+`;
+
+const SecondInfoContainer = styled.div<IscrollTextProps>`
+  width: 80vw;
+  height: 70vh;
+  margin-top: 30%;
+  z-index: 1;
+  border-radius: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  display: ${({ scroll }) => (scroll ? "flex" : "none")};
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: ${infoslide} 1s linear alternate;
+  .scroll-downs {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+
+    width: 34px;
+    height: 55px;
+  }
+  .mousey {
+    width: 3px;
+    padding: 10px 15px;
+    height: 35px;
+    border: 4px solid #fff;
+    border-radius: 25px;
+    opacity: 0.75;
+    box-sizing: content-box;
+  }
+  .scroller {
+    width: 4px;
+    height: 10px;
+    border-radius: 25%;
+    background-color: #fff;
+    animation-name: ${scroll};
+    animation-duration: 2.2s;
+    animation-timing-function: cubic-bezier(0.15, 0.41, 0.69, 0.94);
+    animation-iteration-count: infinite;
+  }
+`;
+
+const SeatudySticky = styled.div<IscrollTextProps>`
   position: sticky;
   position: -webkit-sticky;
-  top: 0;
+  top: 30%;
   width: 100%;
   height: 50vh;
   background: transparent;
   z-index: 5;
-`;
-
-const textBounce = keyframes`
-  0%   { transform: scale(1,1) translateY(0); }
-  10%  { transform: scale(1.1,.9) translateY(0); }
-  30%  { transform: scale(.9,1.1)   translateY(-55px);}
-  50%  { transform: scale(1.05,.95) translateY(0); }
-  58%  { transform: scale(1,1) translateY(-7px);}
-  65%  { transform: scale(1,1) translateY(0);}
-  100% { transform: scale(1,1) translateY(0);} 
-
-`;
-
-const SeatudyContainer = styled.h2`
-  position: relative;
-  display: flex;
-  /* padding-left: 2%; */
+  display: ${({ scroll }) => (scroll ? "flex" : "none")};
   align-items: center;
   justify-content: center;
-  width: 100%;
-  font-size: 4em;
+`;
+
+const SeatudyContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  font-size: 7em;
   box-sizing: border-box;
-  height: 100%;
-  transform: perspective(700px) rotateX(-15deg);
-  border-radius: 6px;
   z-index: 3;
+  border: none;
+  /* background-color: #40649b; */
+  animation: ${borderslide} 1s forwards;
   span {
     cursor: pointer;
     position: relative;
@@ -514,30 +693,28 @@ const SeatudyContainer = styled.h2`
       i::before {
         content: "";
         position: absolute;
-        top: 0;
-        left: 0px;
+        top: 20px;
         width: 2px;
         height: 8px;
-        left: 10px;
+        left: 12px;
         background-color: white;
-        box-shadow: 0px 63px #fff, 65px 63px #fff, 65px 0px #fff;
+        box-shadow: 0px 93px #fff, 95px 93px #fff, 95px 0px #fff;
       }
       i::after {
         content: "";
         position: absolute;
-        top: 0;
-        left: 0px;
+        top: 20px;
         width: 8px;
         height: 2px;
-        left: 10px;
+        left: 12px;
         background-color: white;
-        box-shadow: 0px 70px white, 59px 70px white, 59px 0 white;
+        box-shadow: 0px 100px white, 89px 100px white, 89px 0 white;
       }
     }
   }
 `;
 
-const SetudyWrapper = styled.div<ProfileLayerProps>`
+const SetudyWrapper = styled.div<IscrollTextProps>`
   display: flex;
   align-items: center;
   justify-content: center;

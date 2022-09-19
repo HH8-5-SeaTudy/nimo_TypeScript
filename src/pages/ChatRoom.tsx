@@ -4,6 +4,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
+import { Button } from "../elements";
 import { addUser, __getChatroom } from "../redux/modules/socket";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -66,19 +67,22 @@ function ChatRoom() {
           },
           headers
         );
-        client.send(
-          `/pub/chat/enter`,
-          headers,
-          JSON.stringify({
-            roomId: id,
-          })
-        );
+        // client.send(
+        //   `/pub/chat/enter`,
+        //   headers,
+        //   JSON.stringify({
+        //     roomId: id,
+        //   })
+        // );
       });
     } catch (error) {}
   };
 
   //메시지 보내기
   const sendMessage = () => {
+    if (message.current.value === "") {
+      return;
+    }
     const res = JSON.stringify({
       roomId: id,
       message: message.current.value,
