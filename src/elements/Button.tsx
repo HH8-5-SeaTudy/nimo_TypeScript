@@ -9,7 +9,7 @@ export type IButtonProps = {
 
     fontColor : string;
     fontSize : number;
-
+    children : any;
     ref : any;
     onClick : ()=> void;
     disabled : boolean;
@@ -17,7 +17,7 @@ export type IButtonProps = {
     theme : any;
 };
 
-const Button : any = ({
+const Button  = ({
     width,
     height,
     margin,
@@ -27,6 +27,7 @@ const Button : any = ({
     fontSize,
 
     ref,
+    children,
     onClick,
     disabled = false,
 
@@ -48,8 +49,9 @@ const Button : any = ({
             ref={ref}
             >
             <Btn
-                onClick={onClick}
-            />
+            onClick={onClick}
+            >{children}
+            </Btn>
         </BtnContainer>
     );
 }

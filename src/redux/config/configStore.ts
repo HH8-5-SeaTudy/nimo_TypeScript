@@ -3,7 +3,7 @@ import allTodos from "../modules/allTodos";
 import dateTodos from "../modules/dateTodos";
 import timer from "../modules/timer";
 import updateDate from "../modules/searchDate";
-
+import userData from '../modules/userData';
 import socket from "../modules/socket";
 
 const store = configureStore({
@@ -13,6 +13,7 @@ const store = configureStore({
     dateTodos,
     timer,
     socket,
+    userData,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
