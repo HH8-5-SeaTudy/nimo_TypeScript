@@ -24,8 +24,27 @@ export default function Intro() {
 
   const handleScroll = () => {
     // 스크롤이 Top에서 50px 이상 내려오면 true값을 useState에 넣어줌
-    if (window.scrollY >= 500) {
-      setScroll(true);
+    console.log(window.scrollY, scroll);
+    if (window.scrollY >= 2000) {
+      setBubble(true);
+    }
+    if (window.scrollY >= 2200) {
+      setBubble1(true);
+    }
+    if (window.scrollY >= 2400) {
+      setBubble2(true);
+    }
+    if (window.scrollY >= 2600) {
+      setBubble3(true);
+    }
+    if (window.scrollY >= 2800) {
+      setBubble4(true);
+    }
+    if (window.scrollY >= 3000) {
+      setBubble5(true);
+    }
+    if (window.scrollY >= 3200) {
+      setBubble6(true);
     }
   };
 
@@ -69,54 +88,40 @@ export default function Intro() {
             >
               <SeatudySticky>
                 <SeatudyContainer>
+                  <SetudyWrapper scroll={bubble}>
+                    <span>
+                      <SeatudyContainerBubble />S
+                    </span>
+                  </SetudyWrapper>
                   <span>
-                    <SeatudyContainerBubble
-                      boxshadow={bubble}
-                      onClick={() => setBubble(true)}
-                    />
-                    S
+                    <SetudyWrapper scroll={bubble1}>
+                      <SeatudyContainerBubble />E
+                    </SetudyWrapper>
                   </span>
                   <span>
-                    <SeatudyContainerBubble
-                      boxshadow={bubble1}
-                      onClick={() => setBubble1(true)}
-                    />
-                    E
+                    <SetudyWrapper scroll={bubble2}>
+                      <SeatudyContainerBubble />A
+                    </SetudyWrapper>
                   </span>
                   <span>
-                    <SeatudyContainerBubble
-                      boxshadow={bubble2}
-                      onClick={() => setBubble2(true)}
-                    />
-                    A
+                    <SetudyWrapper scroll={bubble3}>
+                      <SeatudyContainerBubble />T
+                    </SetudyWrapper>
                   </span>
                   <span>
-                    <SeatudyContainerBubble
-                      boxshadow={bubble3}
-                      onClick={() => setBubble3(true)}
-                    />
-                    T
+                    <SetudyWrapper scroll={bubble4}>
+                      <SeatudyContainerBubble />U
+                    </SetudyWrapper>
                   </span>
                   <span>
-                    <SeatudyContainerBubble
-                      boxshadow={bubble4}
-                      onClick={() => setBubble4(true)}
-                    />
-                    U
+                    <SetudyWrapper scroll={bubble5}>
+                      <SeatudyContainerBubble />D
+                    </SetudyWrapper>
                   </span>
                   <span>
-                    <SeatudyContainerBubble
-                      boxshadow={bubble5}
-                      onClick={() => setBubble5(true)}
-                    />
-                    D
-                  </span>
-                  <span>
-                    <SeatudyContainerBubble
-                      boxshadow={bubble6}
-                      onClick={() => setBubble6(true)}
-                    />
-                    Y
+                    <SetudyWrapper scroll={bubble6}>
+                      <SeatudyContainerBubble />Y
+                    </SetudyWrapper>
                   </span>
                 </SeatudyContainer>
                 {/* <FishContainer>
@@ -125,16 +130,36 @@ export default function Intro() {
               </SeatudySticky>
             </div>
             <div className="background-wrap">
-              <div className="bubble x1" />
-              <div className="bubble x2" />
-              <div className="bubble x3" />
-              <div className="bubble x4" />
-              <div className="bubble x5" />
-              <div className="bubble x6" />
-              <div className="bubble x7" />
-              <div className="bubble x8" />
-              <div className="bubble x9" />
-              <div className="bubble x10" />
+              <div className="bubble x1">
+                <span>S</span>
+              </div>
+              <div className="bubble x2">
+                <span>E</span>
+              </div>
+              <div className="bubble x3">
+                <span>A</span>
+              </div>
+              <div className="bubble x4">
+                <span>T</span>
+              </div>
+              <div className="bubble x5">
+                <span>U</span>
+              </div>
+              <div className="bubble x6">
+                <span>D</span>
+              </div>
+              <div className="bubble x7">
+                <span>Y</span>
+              </div>
+              <div className="bubble x8">
+                <span>S</span>
+              </div>
+              <div className="bubble x9">
+                <span>E</span>
+              </div>
+              <div className="bubble x10">
+                <span>A</span>
+              </div>
             </div>
           </FirstWave>
         </WaveWrapper>
@@ -144,6 +169,10 @@ export default function Intro() {
 }
 interface IboxshadowProps {
   boxshadow: boolean;
+}
+
+interface ProfileLayerProps {
+  scroll: boolean;
 }
 
 const IntroContainer = styled.div`
@@ -207,6 +236,17 @@ const sideWays = keyframes`
     }
 `;
 
+const textslide = keyframes`
+  0%{
+    opacity: 0;
+    transform:translate(50%, 0);
+  }
+  100%{
+    opacity: 1;
+    transform:translate(0%, 0);
+  }
+`;
+
 const rotate = keyframes`
   0% {transform: translate(-50%, 0) rotateZ(0deg);}
   50% {transform: translate(-50%, -3%) rotateZ(180deg);}
@@ -228,7 +268,6 @@ const WaveWrapper = styled.div`
     bottom: 0;
     left: 0;
     position: absolute;
-    right: 0;
     z-index: 2;
     overflow: hidden;
 
@@ -316,11 +355,24 @@ const WaveWrapper = styled.div`
       -webkit-border-radius: 50%;
       -moz-border-radius: 50%;
       border-radius: 50%;
-      box-shadow: 0 10px 20px #99c0f9, inset 0px 10px 30px 5px #8dd7f755;
+      box-shadow: 0 0px 20px #fff, inset 0px 10px 30px 5px #add9ec54;
       height: 200px;
       position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 200px;
-      border: solid rgba(255, 255, 255, .5) 1px; 
+      border: solid rgba(255, 255, 255, 0.5) 1px;
+      span {
+        cursor: pointer;
+        position: relative;
+        filter: blur(5px);
+        padding: 0.5px;
+        transition: 0.5s;
+        color: rgba(255, 255, 255, 0.4);
+        text-align: center;
+        font-size: 4em;
+      }
     }
 
     .bubble:after {
@@ -438,14 +490,16 @@ const textBounce = keyframes`
 const SeatudyContainer = styled.h2`
   position: relative;
   display: flex;
-  padding-left: 2%;
+  /* padding-left: 2%; */
   align-items: center;
+  justify-content: center;
   width: 100%;
   font-size: 4em;
   box-sizing: border-box;
   height: 100%;
   transform: perspective(700px) rotateX(-15deg);
   border-radius: 6px;
+  z-index: 3;
   span {
     cursor: pointer;
     position: relative;
@@ -453,31 +507,7 @@ const SeatudyContainer = styled.h2`
     padding: 0.5px;
     transition: 0.5s;
     color: rgba(255, 255, 255, 0.4);
-    margin-right: 20px;
     text-align: center;
-    &:nth-child(1) {
-      animation: ${textBounce} 4s ease infinite 0.5s;
-    }
-    &:nth-child(2) {
-      animation: ${textBounce} 4s ease infinite 1s;
-    }
-    &:nth-child(3) {
-      animation: ${textBounce} 4s ease infinite 1.5s;
-    }
-    &:nth-child(4) {
-      animation: ${textBounce} 4s ease infinite 2s;
-    }
-    &:nth-child(5) {
-      animation: ${textBounce} 4s ease infinite 2.5s;
-    }
-    &:nth-child(6) {
-      animation: ${textBounce} 4s ease infinite 3s;
-    }
-    &:nth-child(7) {
-      animation: ${textBounce} 4s ease infinite 3.5s;
-    }
-    i {
-    }
     &:hover {
       filter: blur(0px);
       transition: 0.5s;
@@ -507,7 +537,15 @@ const SeatudyContainer = styled.h2`
   }
 `;
 
-const SeatudyContainerBubble = styled.i<IboxshadowProps>`
+const SetudyWrapper = styled.div<ProfileLayerProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: ${({ scroll }) => (scroll ? "flex" : "none")};
+  animation: ${textslide} 3s linear alternate;
+`;
+
+const SeatudyContainerBubble = styled.i`
   position: absolute;
   inset: 0;
   background-color: transparent;
@@ -517,8 +555,4 @@ const SeatudyContainerBubble = styled.i<IboxshadowProps>`
   height: 80px;
   width: 80px;
   border-radius: 9999px;
-  box-shadow: ${({ boxshadow }) =>
-    boxshadow
-      ? "none"
-      : "0 5px 20px #99c0f9, inset 0px 10px 10px 0px #8dd7f755"};
 `;

@@ -34,18 +34,13 @@ function ChatRoom() {
   const socket = new SockJS(`${BASE_URL}/api/v1/chat/connections`);
   const client = Stomp.over(socket);
 
-  console.log("00000");
   const roomIdHandler = () => {
-  console.log("11111");
-
     window.location.reload();
     dispatch(__getChatroom(id));
   };
 
   //렌더되면 소켓 연결실행
   useLayoutEffect(() => {
-  console.log("2222");
-
     onConneted();
     return () => {
       disConneted();
@@ -60,9 +55,7 @@ function ChatRoom() {
   };
 
   //연결&구독
-  const onConneted = ()=> {
-  console.log("4444");
-
+  const onConneted = () => {
     try {
       client.connect(headers, () => {
         client.subscribe(
@@ -82,21 +75,16 @@ function ChatRoom() {
         );
       });
     } catch (error) {}
-  }
+  };
 
   //메시지 보내기
   const sendMessage = () => {
-    console.log("5555");
     const res = JSON.stringify({
       roomId: id,
       message: message.current.value,
-    })
+    });
     waitForConnection(client, function () {
-      client.send(
-        `/pub/chat/message`,
-        headers,
-        res,
-      );
+      client.send(`/pub/chat/message`, headers, res);
     });
 
     // setMessage("");
@@ -105,8 +93,6 @@ function ChatRoom() {
 
   // 연결해제, 구독해제
   function disConneted() {
-  console.log("7666666");
-
     try {
       client.disconnect(
         () => {
@@ -120,8 +106,6 @@ function ChatRoom() {
   }
 
   function waitForConnection(client: any, callback: any) {
-  console.log("888888");
-
     setTimeout(function () {
       if (client.ws.readyState === 1) {
         callback();
@@ -211,10 +195,7 @@ function ChatRoom() {
               ))}
           </MessageWrapper>
           <MessageForm>
-            <textarea
-              onKeyUp={handleEnterPress}
-              ref={message}
-              />
+            <textarea onKeyUp={handleEnterPress} ref={message} />
             <ButtonContainer>
               <button onClick={handleEnterPress}>전송</button>
             </ButtonContainer>
