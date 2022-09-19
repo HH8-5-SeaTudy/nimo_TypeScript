@@ -65,7 +65,6 @@ const Header = () => {
     }
   },[timeMM])
 
-
   if (window.location.pathname === '/intro') return null;
   if (window.location.pathname === '/') return null;
   if (window.location.pathname === '/kakaoLogin') return null;
@@ -83,8 +82,8 @@ const Header = () => {
           <Layer>
             <Link to='/statistics' style={{ textDecoration: 'none' }}>    
             <span>{("0" + Math.floor(timeHH % 24)).slice(-2)}:</span>
-            <span>{("0" + Math.floor(timeMM % 60)).slice(-2)}:</span>
-            <span>{("0" + Math.floor(timeSS % 60)).slice(-2)}</span>
+            <span>{timeMM === undefined ? "00" : ("0" + Math.floor(timeMM % 60)).slice(-2)}:</span>
+            <span>{timeSS === undefined ? "00" : ("0" + Math.floor(timeSS % 60)).slice(-2)}</span>
             </Link>
           </Layer>
           </HeaderTimer>
