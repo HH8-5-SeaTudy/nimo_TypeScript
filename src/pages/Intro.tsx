@@ -26,34 +26,14 @@ export default function Intro() {
   const handleScroll = () => {
     // 스크롤이 Top에서 50px 이상 내려오면 true값을 useState에 넣어줌
     console.log(window.scrollY);
-    if (window.scrollY >= 400) {
+    if (window.scrollY >= 500) {
       setInfo(true);
     }
-    if (window.scrollY >= 1000) {
-      // setBubble1(true);
+    if (window.scrollY >= 1100) {
       setInfo2(true);
     }
-    if (window.scrollY >= 1800) {
+    if (window.scrollY >= 1700) {
       setButton(true);
-      setBubble(true);
-    }
-    if (window.scrollY >= 1900) {
-      setBubble1(true);
-    }
-    if (window.scrollY >= 2000) {
-      setBubble2(true);
-    }
-    if (window.scrollY >= 2100) {
-      setBubble3(true);
-    }
-    if (window.scrollY >= 2200) {
-      setBubble4(true);
-    }
-    if (window.scrollY >= 2300) {
-      setBubble5(true);
-    }
-    if (window.scrollY >= 2400) {
-      setBubble6(true);
     }
   };
 
@@ -74,40 +54,41 @@ export default function Intro() {
               style={{
                 height: "100%",
                 paddingTop: "15%",
+                marginTop: "-20%",
               }}
             >
               <TitleContainer>
-                <SetudyWrapper scroll={bubble}>
+                <SetudyWrapper className="xs">
                   <span>
                     <SeatudyContainerBubble />S
                   </span>
                 </SetudyWrapper>
-                <SetudyWrapper scroll={bubble1}>
+                <SetudyWrapper className="xe">
                   <span>
                     <SeatudyContainerBubble />E
                   </span>
                 </SetudyWrapper>
-                <SetudyWrapper scroll={bubble2}>
+                <SetudyWrapper className="xa">
                   <span>
                     <SeatudyContainerBubble />A
                   </span>
                 </SetudyWrapper>
-                <SetudyWrapper scroll={bubble3}>
+                <SetudyWrapper className="xt">
                   <span>
                     <SeatudyContainerBubble />T
                   </span>
                 </SetudyWrapper>
-                <SetudyWrapper scroll={bubble4}>
+                <SetudyWrapper className="xu">
                   <span>
                     <SeatudyContainerBubble />U
                   </span>
                 </SetudyWrapper>
-                <SetudyWrapper scroll={bubble5}>
+                <SetudyWrapper className="xd">
                   <span>
                     <SeatudyContainerBubble />D
                   </span>
                 </SetudyWrapper>
-                <SetudyWrapper scroll={bubble6}>
+                <SetudyWrapper className="xy">
                   <span>
                     <SeatudyContainerBubble />Y
                   </span>
@@ -119,17 +100,21 @@ export default function Intro() {
               </FirstInfoContainer>
               <SecondInfoContainer scroll={info2}>
                 <span>공부도 하고 물고기도 모아봐요!</span>
-                <span>
-                  SeaTudy 시작해보기
-                  <div className="scroll-downs">
-                    <div className="mousey">
-                      <div className="scroller"></div>
-                    </div>
-                  </div>
-                </span>
+                <span>SeaTudy 시작해보기</span>
               </SecondInfoContainer>
-              <SeatudySticky scroll={button}>
-                <SeatudyContainer>
+              <MouseScrollAnimation className="scroll-downs">
+                <div className="mousey">
+                  <div className="scroller"></div>
+                </div>
+              </MouseScrollAnimation>
+
+              {/* 다음페이지 이동 버튼 */}
+              <SeatudySticky>
+                <ButtonContainer scroll={button}>
+                  <span>Button</span>
+                  <div className="liquid"></div>
+                </ButtonContainer>
+                {/* <SeatudyContainer>
                   <SetudyWrapper scroll={bubble}>
                     <span>
                       <SeatudyContainerBubble />S
@@ -165,7 +150,7 @@ export default function Intro() {
                       <SeatudyContainerBubble />Y
                     </SetudyWrapper>
                   </span>
-                </SeatudyContainer>
+                </SeatudyContainer> */}
                 {/* <FishContainer>
                   <HeadFish />
                 </FishContainer> */}
@@ -298,26 +283,13 @@ const infoslide = keyframes`
 const textslide = keyframes`
   0%{
     opacity: 0;
-    transform:translate(50%, 0);
-  }
-  100%{
-    opacity: 1;
-    transform:translate(0%, 0);
-  }
-`;
-
-const borderslide = keyframes`
-  0%{
-    opacity: 0;
     display:none;
-    border:none;
+    transform:translate(0%, 100%);
   }
   100%{
-    display:flex;
     opacity: 1;
-    border: 5px solid white;
-    border-radius: 9999px;
-
+    display:flex;
+    transform:translate(0%, 0%);
   }
 `;
 
@@ -498,40 +470,6 @@ const FirstWave = styled.div`
     #4939d0,
     #15385d
   );
-  /* overflow: hidden; */
-  .wave1 {
-    bottom: 55vh;
-    border-radius: 55%;
-    animation-duration: 10s;
-    content: "";
-    position: absolute;
-    left: 0;
-    top: -10%;
-    width: 40vw;
-    height: 70vh;
-    background-color: white;
-    animation-name: ${rotate};
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-  }
-
-  .wave2 {
-    bottom: 55vh;
-    opacity: 0.5;
-    top: -10%;
-    border-radius: 47%;
-    animation-duration: 10s;
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 40vw;
-    height: 70vh;
-    background-color: white;
-    animation-name: ${rotate};
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    border: 2px solid white;
-  }
 `;
 
 const TitleContainer = styled.div`
@@ -541,10 +479,33 @@ const TitleContainer = styled.div`
   justify-content: center;
   margin-top: 27%;
   position: relative;
+  z-index: 5;
+  .xs {
+    animation-delay: 1s;
+  }
+  .xe {
+    animation-delay: 1.5s;
+  }
+  .xa {
+    animation-delay: 2s;
+  }
+  .xt {
+    animation-delay: 2.5s;
+  }
+  .xu {
+    animation-delay: 3s;
+  }
+  .xd {
+    animation-delay: 3.5s;
+  }
+  .xy {
+    animation-delay: 4s;
+  }
+
   span {
-    z-index: 15;
     cursor: pointer;
     position: relative;
+
     filter: blur(2px);
     text-align: center;
     font-size: 8em;
@@ -585,7 +546,7 @@ const TitleContainer = styled.div`
 const FirstInfoContainer = styled.div<IscrollTextProps>`
   width: 80vw;
   height: 70vh;
-  margin-top: 40%;
+  margin-top: 20%;
   z-index: 1;
   border-radius: 20px;
   margin-left: auto;
@@ -595,8 +556,8 @@ const FirstInfoContainer = styled.div<IscrollTextProps>`
   align-items: center;
   justify-content: center;
   animation: ${infoslide} 1s linear alternate;
-
   span {
+    font-weight: bold;
     font-size: 2em;
     margin-top: 5%;
     color: #eee;
@@ -612,8 +573,9 @@ const scroll = keyframes`
 const SecondInfoContainer = styled.div<IscrollTextProps>`
   width: 80vw;
   height: 70vh;
-  margin-top: 30%;
+  /* margin-top: 15%; */
   z-index: 1;
+  color: white;
   border-radius: 20px;
   margin-left: auto;
   margin-right: auto;
@@ -622,17 +584,24 @@ const SecondInfoContainer = styled.div<IscrollTextProps>`
   align-items: center;
   justify-content: center;
   animation: ${infoslide} 1s linear alternate;
-  .scroll-downs {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-
-    width: 34px;
-    height: 55px;
+  span {
+    font-weight: bold;
+    font-size: 2em;
+    margin-top: 5%;
+    color: #eee;
   }
+`;
+
+const MouseScrollAnimation = styled.div`
+  position: absolute;
+  top: 20%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+
+  width: 34px;
+  height: 55px;
   .mousey {
     width: 3px;
     padding: 10px 15px;
@@ -654,17 +623,86 @@ const SecondInfoContainer = styled.div<IscrollTextProps>`
   }
 `;
 
-const SeatudySticky = styled.div<IscrollTextProps>`
+const SeatudySticky = styled.div`
   position: sticky;
   position: -webkit-sticky;
-  top: 30%;
+  top: 50%;
   width: 100%;
   height: 50vh;
   background: transparent;
   z-index: 5;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10%;
+`;
+
+const animate = keyframes`
+    0% {
+    transform: translate(-50%, -75%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -75%) rotate(360deg);
+  }
+`;
+
+const ButtonContainer = styled.div<IscrollTextProps>`
+  position: relative;
+  padding: 20px 50px;
+  display: block;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 300px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 40px;
+  margin-left: auto;
+  margin-right: auto;
   display: ${({ scroll }) => (scroll ? "flex" : "none")};
   align-items: center;
   justify-content: center;
+  span {
+    position: relative;
+    color: #fff;
+    font-size: 20px;
+    font-family: Arial;
+    letter-spacing: 8px;
+    z-index: 1;
+    font-weight: bold;
+  }
+  .liquid {
+    position: absolute;
+    top: -80px;
+    left: 0;
+    width: 300px;
+    height: 400px;
+    background: #0195fe;
+    box-shadow: inset 0 0 50px rgba(255, 255, 255, 0.5);
+    transition: 0.5s;
+  }
+  .liquid::after,
+  .liquid::before {
+    content: "";
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -75%);
+    background: #fffefeb2;
+  }
+  .liquid::before {
+    border-radius: 45%;
+    background: #fffefeb2;
+    animation: ${animate} 5s linear infinite;
+  }
+  .liquid::after {
+    border-radius: 40%;
+    background: #fffefeb2;
+    animation: ${animate} 10s linear infinite;
+  }
+  &:hover .liquid {
+    top: -120px;
+  }
 `;
 
 const SeatudyContainer = styled.div`
@@ -678,7 +716,6 @@ const SeatudyContainer = styled.div`
   z-index: 3;
   border: none;
   /* background-color: #40649b; */
-  animation: ${borderslide} 1s forwards;
   span {
     cursor: pointer;
     position: relative;
@@ -714,12 +751,11 @@ const SeatudyContainer = styled.div`
   }
 `;
 
-const SetudyWrapper = styled.div<IscrollTextProps>`
+const SetudyWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  display: ${({ scroll }) => (scroll ? "flex" : "none")};
-  animation: ${textslide} 3s linear alternate;
+  animation: ${textslide} 2s backwards;
 `;
 
 const SeatudyContainerBubble = styled.i`

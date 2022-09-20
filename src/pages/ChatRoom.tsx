@@ -80,8 +80,8 @@ function ChatRoom() {
 
   //메시지 보내기
   const sendMessage = () => {
-    if (message.current.value === "") {
-      return;
+    if (message.current.value.trim() === "") {
+      return null;
     }
     const res = JSON.stringify({
       roomId: id,
