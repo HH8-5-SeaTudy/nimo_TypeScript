@@ -20,7 +20,9 @@ const Home = () => {
   //Todo zone
   const date = useAppSelector((state) => state.updateDate.date);
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
+  const userData = useAppSelector((state) => state.userData.userData);
 
+  console.log('userData',userData)
   useEffect(() => {
     dispatch(__getDateTodo(moment(date).format("YYYY-MM-DD")));
   }, [date]);

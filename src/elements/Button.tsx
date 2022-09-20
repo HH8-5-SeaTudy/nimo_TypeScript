@@ -9,9 +9,8 @@ export type IButtonProps = {
 
   fontColor: string;
   fontSize: number;
-
-  ref: any;
   children: any;
+  ref: any;
   onClick: () => void;
   disabled: boolean;
 

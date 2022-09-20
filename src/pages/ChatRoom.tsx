@@ -9,6 +9,7 @@ import { addUser, __getChatroom } from "../redux/modules/socket";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = process.env.REACT_APP_TOKEN as string;
+// const token: string = getCookie('token') as string;
 
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;
