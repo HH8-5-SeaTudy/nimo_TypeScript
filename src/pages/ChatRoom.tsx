@@ -4,6 +4,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
+import { Button } from "../elements";
 import { addUser, __getChatroom } from "../redux/modules/socket";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -36,14 +37,12 @@ function ChatRoom() {
   const client = Stomp.over(socket);
 
   const roomIdHandler = () => {
-
     window.location.reload();
     dispatch(__getChatroom(id));
   };
 
   //렌더되면 소켓 연결실행
   useLayoutEffect(() => {
-
     onConneted();
     return () => {
       disConneted();
@@ -57,8 +56,8 @@ function ChatRoom() {
   };
 
   //연결&구독
-  const onConneted = ()=> {
 
+  const onConneted = () => {
     try {
       client.connect(headers, () => {
         client.subscribe(
@@ -69,29 +68,28 @@ function ChatRoom() {
           },
           headers
         );
-        client.send(
-          `/pub/chat/enter`,
-          headers,
-          JSON.stringify({
-            roomId: id,
-          })
-        );
+        // client.send(
+        //   `/pub/chat/enter`,
+        //   headers,
+        //   JSON.stringify({
+        //     roomId: id,
+        //   })
+        // );
       });
     } catch (error) {}
-  }
+  };
 
   //메시지 보내기
   const sendMessage = () => {
+    if (message.current.value.trim() === "") {
+      return null;
+    }
     const res = JSON.stringify({
       roomId: id,
       message: message.current.value,
-    })
+    });
     waitForConnection(client, function () {
-      client.send(
-        `/pub/chat/message`,
-        headers,
-        res,
-      );
+      client.send(`/pub/chat/message`, headers, res);
     });
 
     // setMessage("");
@@ -100,7 +98,6 @@ function ChatRoom() {
 
   // 연결해제, 구독해제
   function disConneted() {
-
     try {
       client.disconnect(
         () => {
@@ -114,7 +111,6 @@ function ChatRoom() {
   }
 
   function waitForConnection(client: any, callback: any) {
-
     setTimeout(function () {
       if (client.ws.readyState === 1) {
         callback();
@@ -204,10 +200,7 @@ function ChatRoom() {
               ))}
           </MessageWrapper>
           <MessageForm>
-            <textarea
-              onKeyUp={handleEnterPress}
-              ref={message}
-              />
+            <textarea onKeyUp={handleEnterPress} ref={message} />
             <ButtonContainer>
               <button onClick={handleEnterPress}>전송</button>
             </ButtonContainer>

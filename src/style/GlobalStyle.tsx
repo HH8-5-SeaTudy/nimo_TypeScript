@@ -6,7 +6,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: "Helvetica", "Arial", sans-serif;
+    font-family: "DungGeunMo";
     line-height: 1.5;
     margin: 0;
     padding: 0;
