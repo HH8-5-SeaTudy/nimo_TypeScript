@@ -100,24 +100,21 @@ export default function Intro() {
                   <div className="scroller"></div>
                 </div>
               </MouseScrollAnimation>
-
               {/* 다음페이지 이동 버튼 */}
-              <SeatudySticky>
+
+              <SeatudySticky scroll={button}>
                 <ButtonWrapper>
                   <ButtonWrapperEyeContainer>
                     <ButtonWrapperEye>
-                      <span></span>
+                      <span />
                     </ButtonWrapperEye>
                     <ButtonWrapperEye>
-                      <span></span>
+                      <span />
                     </ButtonWrapperEye>
                   </ButtonWrapperEyeContainer>
                   <ButtonWrapperTitleContainer>
                     <span>게임 속으로...</span>
-                    <ButtonContainer
-                      scroll={button}
-                      onClick={() => navigate("/")}
-                    >
+                    <ButtonContainer onClick={() => navigate("/")}>
                       <span>입장하기</span>
                       <div className="liquid"></div>
                     </ButtonContainer>
@@ -245,6 +242,15 @@ const animatedText = keyframes`
 const animatedCursor = keyframes`
  0%{border-right-color: #2b2b8d}
   100%{border-right-color: transparent}
+`;
+
+const animate = keyframes`
+    0% {
+    transform: translate(-50%, -75%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -75%) rotate(360deg);
+  }
 `;
 
 const IntroContainer = styled.div`
@@ -529,7 +535,7 @@ const FirstInfoContainer = styled.div<IscrollTextProps>`
     color: rgba(255, 255, 255, 0.7);
   }
   .firstSpan {
-    animation: ${animatedFirstText} 2s steps(12, end) 1s 1 normal both,
+    animation: ${animatedFirstText} 2s steps(12, end) 0.5s 1 normal both,
       ${animatedCursor} 600ms steps(12, end) infinite;
   }
   .secondSpan {
@@ -597,7 +603,7 @@ const MouseScrollAnimation = styled.div`
   }
 `;
 
-const SeatudySticky = styled.div`
+const SeatudySticky = styled.div<IscrollTextProps>`
   position: sticky;
   position: -webkit-sticky;
   top: 50%;
@@ -608,15 +614,7 @@ const SeatudySticky = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 10%;
-`;
-
-const animate = keyframes`
-    0% {
-    transform: translate(-50%, -75%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -75%) rotate(360deg);
-  }
+  display: ${({ scroll }) => (scroll ? "flex" : "none")};
 `;
 
 const ButtonWrapper = styled.div`
@@ -667,18 +665,17 @@ const ButtonWrapperTitleContainer = styled.div`
   margin-top: 10%;
 `;
 
-const ButtonContainer = styled.div<IscrollTextProps>`
+const ButtonContainer = styled.div`
   position: relative;
-  display: block;
   text-decoration: none;
   text-transform: uppercase;
   width: 200px;
   height: 100px;
   overflow: hidden;
   border-radius: 40px;
-  display: ${({ scroll }) => (scroll ? "flex" : "none")};
   align-items: center;
   justify-content: center;
+  display: flex;
   cursor: pointer;
   span {
     position: relative;

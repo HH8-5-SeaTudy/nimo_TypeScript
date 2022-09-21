@@ -4,7 +4,7 @@ import "./Calendars.css";
 import Calendar from "react-calendar";
 import moment from "moment";
 import { updateDate } from "../../redux/modules/searchDate";
-import { getAllTodo } from "../../redux/modules/allTodos";
+import { getAllTodo } from "../../redux/modules/dateTodos";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 

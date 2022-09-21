@@ -3,6 +3,8 @@ import styled, { keyframes } from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import { images } from "./image";
+import fishbowl from "../assets/background/fishbowl.png";
+import purpleBorder from "../assets/background/purpleborderpx.png";
 
 function FishUnLock() {
   const [visible, setVisible] = useState(1);
@@ -25,6 +27,8 @@ function FishUnLock() {
           {/* 첫번째 cardView */}
           <FishSliderBorder>
             <BorderTitleContainer>
+              <PreButton onClick={() => paginate(1)}>왼쪽</PreButton>
+
               <BorderTitleWrapper>
                 <span>S</span>
                 <span>e</span>
@@ -61,11 +65,11 @@ function FishUnLock() {
                   }
                 }}
               />
+              <FishbolwContainer></FishbolwContainer>
+              <NextButton onClick={() => paginate(-1)}>"오른쪽"</NextButton>
             </FishSliderSecondShadow>
           </FishSliderBorder>
         </FishSliderContainer>
-        <div onClick={() => paginate(1)}>"왼쪽"</div>
-        <div onClick={() => paginate(-1)}>"오른쪽"</div>
       </AnimatePresence>
     </FishUnLockContainer>
   );
@@ -74,12 +78,15 @@ function FishUnLock() {
 const variants = {
   hidden: (direction: boolean) => ({
     x: direction ? window.outerWidth - 5 : -window.outerWidth + 5,
+    opacity: 0,
   }),
   visible: {
     x: 0,
+    opacity: 1,
   },
   exit: (direction: boolean) => ({
     x: direction ? -window.outerWidth + 5 : window.outerWidth - 5,
+    opacity: 0,
   }),
 };
 
@@ -171,12 +178,22 @@ const BorderTitleWrapper = styled.div`
 
 const FishSliderSecondShadow = styled.div`
   border: 8px solid black;
-  width: 50vw;
-  height: 80%;
+  width: 600px;
+  /* max-width: 100vw; */
+  height: 504px;
+  /* max-height: 100vh; */
   top: 10%;
   left: 40%;
   border-radius: 40px;
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url(${purpleBorder}) no-repeat;
+  /* background-position: center; */
+  object-fit: cover;
+  background-size: cover;
+  padding: 160px;
 `;
 
 const FishCardWrapper = styled(motion.img)`
@@ -184,7 +201,38 @@ const FishCardWrapper = styled(motion.img)`
   border: 13px solid yellow;
   position: absolute;
   left: -10%;
+`;
+
+const FishbolwContainer = styled.div`
+  width: 320px;
+  height: 370px;
+  position: absolute;
+  left: 0%;
+  background: url(${fishbowl});
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+
+const PreButton = styled.button`
+  position: absolute;
   z-index: 5;
+  left: -10%;
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 9999px;
+`;
+
+const NextButton = styled.button`
+  position: absolute;
+  z-index: 5;
+  right: -7%;
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 9999px;
 `;
 
 export default FishUnLock;
