@@ -4,12 +4,12 @@ import { IDateTodosInitialState, ITodos } from "../../api";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token: string = process.env.REACT_APP_TOKEN as string;
-// const token: string = getCookie('token') as string;
+// const token: string = process.env.REACT_APP_TOKEN as string;
+const token: string = getCookie('token') as string;
 
 //전체 목록 조회
 export const getAllTodo: any = createAsyncThunk(
-  "todo/getTodo",
+  "all/allGetTodo",
   async (payload, thunkAPI) => {
     try {
       const getData = await axios.get(`${BASE_URL}/api/v1/todoCategories`, {
@@ -93,7 +93,6 @@ export const __deleteCategory: any = createAsyncThunk(
           },
         }
       );
-      console.log(payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -219,7 +218,7 @@ export const getDateTodoSlice = createSlice({
         state.dateTodos = state.dateTodos.filter(
           (list) => list.categoryId !== action.payload
         );
-        state.allTodos = state.dateTodos.filter(
+        state.allTodos = state.allTodos.filter(
           (list) => list.categoryId !== action.payload
         );
       })

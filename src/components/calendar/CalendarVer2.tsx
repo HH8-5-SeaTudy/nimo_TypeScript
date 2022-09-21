@@ -25,7 +25,7 @@ const CalendarVer2 = () => {
   }, []);
   const allTodos =  useAppSelector((state) => state.dateTodos.allTodos)
   // const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
-
+  console.log ('전체데이터',allTodos)
   const [getMoment, setMoment] = useState(moment());
   const [DD,setDD] = useState('')
   const today = getMoment;
@@ -45,6 +45,9 @@ const CalendarVer2 = () => {
   //TodoList
   useEffect(() => {
     // dispatch(__getDateTodo(date)); //컴포넌트분리시사용
+    if (DD == ""){
+      return;
+    }
     dispatch(__getDateTodo(DD));
   }, [DD]);
 
@@ -54,9 +57,8 @@ const CalendarVer2 = () => {
   const [editCategoryShow,setEditCategoryShow] = useState(false)
   const [category, setCategory] = useState("");  
   const [editCategory, setEditCategory] = useState("");
-
   const [todo, setTodo] = useState("");
-
+  console.log ('날짜데이터',dateTodos)
   const onSubmitHandler = () => {
     // if (category.length < 2) {
     //   alert("2글자 이상 입력");
@@ -292,7 +294,7 @@ const CalendarVer2 = () => {
                       </AddEventBtnHidden>}
                       <AddCategory categoryInputShow={categoryInputShow}>
                         {/* <Input height={30} /> */}
-                        <input type="text" placeholder='카테고리를 입력하세요.' onChange={onChangeCategoryInput} />
+                        <input style={{fontSize: '20px'}} type="text" placeholder='카테고리' onChange={onChangeCategoryInput} />
                       </AddCategory>
                     </HiddenAddBtn>
                   </form>
@@ -517,7 +519,7 @@ const CalendarVer2 = () => {
     font-size: 25px;
     text-decoration: none;
     text-align: center;
-    line-height: 16px;
+    line-height: 18px;
     border: 2px solid #fff;
     border-radius: 50%;
     z-index:1;
@@ -540,7 +542,7 @@ interface TodoInputShowProps {
     font-size: 40px;
     text-decoration: none;
     text-align: center;
-    line-height: 15px;
+    line-height: 9px;
     border: 2px solid #fff;
     border-radius: 50%;
     right: 35px;
@@ -628,7 +630,7 @@ interface TodoProps {
     font-size: 25px;
     text-decoration: none;
     text-align: center;
-    line-height: 16px;
+    line-height: 19px;
     border: 2px solid #fff;
     border-radius: 50%;
     z-index:1;
@@ -663,6 +665,7 @@ interface TodoProps {
     display: flex;
     justify-content: flex-start;
     font-weight:700;
+    font-size: 20px;
   `;
   const CalendarCol = styled.div`
 
@@ -755,7 +758,7 @@ const HiddenAddBtn = styled.div<CategoryInputShowProps>`
             font-size: 35px;
             text-decoration: none;
             text-align: center;
-            line-height: 25px;
+            line-height: 28px;
             border: 5px solid #fff;
             border-radius: 50%;
             transition: .2s ease-in-out;
@@ -774,7 +777,7 @@ const HiddenAddBtn = styled.div<CategoryInputShowProps>`
             font-size: 35px;
             text-decoration: none;
             text-align: center;
-            line-height: 25px;
+            line-height: 28px;
             border: 5px solid #fff;
             border-radius: 50%;
             right:-10px;

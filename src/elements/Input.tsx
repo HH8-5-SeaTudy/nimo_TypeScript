@@ -3,14 +3,14 @@ import { StringLiteral } from 'typescript';
 
 
 export type IInputProps = {
-  width : number;
-  height : number;
-  margin : number;
-  padding : number;
+  width : string;
+  height : string;
+  margin : string;
+  padding : string;
   display: string;
   border : string;
-  borderRadius : number;
-  defaultValue : any;
+  borderRadius : string;
+  defaultValue : string;
   type:string;
   placeholder:string;
   ref : any;
