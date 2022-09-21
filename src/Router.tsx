@@ -17,8 +17,8 @@ import PrivateRoute from "./PrivateRoute";
 
 
 const Router = () => {
-  const token: string = process.env.REACT_APP_TOKEN as string;
-  // const token: string = getCookie('token') as string;
+  // const token: string = process.env.REACT_APP_TOKEN as string;
+  const token: string = getCookie('token') as string;
 
   return (
     <BrowserRouter>

@@ -70,6 +70,8 @@ const Header = () => {
   if (window.location.pathname === '/kakaoLogin') return null;
   if (window.location.pathname === '/naverLogin') return null;
   if (window.location.pathname === '/googleLogin') return null;
+  if (window.location.pathname === '/main') return null;
+  if (window.location.pathname === '/home') return null;
 
   return (
     <>  

@@ -22,7 +22,6 @@ const KakaoLogin = () => {
         .then(() => {
           navigate("/home");
         })
-
     };
     if (code) {
       kakao();

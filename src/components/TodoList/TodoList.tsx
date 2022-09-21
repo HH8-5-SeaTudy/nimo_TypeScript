@@ -33,7 +33,6 @@ const TodoList = () => {
       alert("4개까지만 생성가능");
     }
     e.preventDefault();
-    setTodo("");
   };
 
   const onSubmitEditHandler = (id: any) => {

@@ -4,7 +4,7 @@ import "./Calendars.css"
 import Calendar from "react-calendar";
 import moment from "moment";
 import { updateDate } from "../../redux/modules/searchDate";
-import { getAllTodo } from "../../redux/modules/allTodos";
+import { getAllTodo } from "../../redux/modules/dateTodos";
 import styled from "styled-components";
 import { RootState } from "../../redux/config/configStore";
 import { lstat } from "fs/promises";
@@ -17,7 +17,7 @@ const Calendars = () => {
   const [value, onChange] = useState(new Date());
 
   const allTodos = useAppSelector((state) => state.dateTodos.dateTodos);
-  const todoLength = useAppSelector((state) => state.allTodos.allTodos);
+  const todoLength = useAppSelector((state) => state.dateTodos.allTodos);
 
   useEffect(() => {
     dispatch(updateDate(moment(value).format("YYYY-MM-DD")));
