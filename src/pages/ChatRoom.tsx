@@ -6,10 +6,10 @@ import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { Button } from "../elements";
 import { addUser, __getChatroom } from "../redux/modules/socket";
-
+import { getCookie } from '../components/social/Cookie';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token: string = process.env.REACT_APP_TOKEN as string;
-// const token: string = getCookie('token') as string;
+// const token: string = process.env.REACT_APP_TOKEN as string;
+const token: string = getCookie('token') as string;
 
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;

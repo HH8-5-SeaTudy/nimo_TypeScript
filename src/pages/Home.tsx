@@ -12,6 +12,8 @@ import { ReactComponent as ProfileIcon } from "../assets/icon/ProfileIcon.svg";
 import { ReactComponent as PlusIcon } from "../assets/icon/PlusIcon.svg";
 import { ReactComponent as BurgerIcon } from "../assets/icon/BurgerIcon.svg";
 import { ReactComponent as CalendarIcon } from "../assets/icon/CalendarIcon.svg";
+import test2 from '../assets/pixel/test2.png'
+
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -124,6 +126,7 @@ const Home = () => {
             </CalendarClose>
           </CalendarHiddenLayer>
         </CalendarLayer>
+       
         <ButtonBox>
           <CheckInBall>
           <button onClick={()=>{
@@ -188,14 +191,16 @@ const Home = () => {
           >
             서버5
           </button>
-        </ButtonBox>
-      </Bottom>
-    </MainBox>
+        </ButtonBox> 
+      </Bottom>   
+    </MainBox> 
+
   </Layer>
   );
 };
 
 export default Home;
+
 interface ProfileLayerProps {
 profileShow: boolean;
 }
@@ -213,7 +218,7 @@ const Layer = styled.section`
   width: 100%;
   height: 100vh;
   padding-top: 65px;
-  background: url('https://i.pinimg.com/564x/74/14/83/741483bb55e4277719c3b9a80e92bcc9.jpg');
+  background: url(${test2});
   background-size: 100% 100vh;
 `
 

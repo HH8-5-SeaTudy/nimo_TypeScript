@@ -6,6 +6,28 @@ import { getCookie } from "../../components/social/Cookie";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = process.env.REACT_APP_TOKEN as string;
 // const token: string = getCookie('token') as string;
+
+//전체 목록 조회
+export const getAllTodo: any = createAsyncThunk(
+  "todo/getTodo",
+  async (payload, thunkAPI) => {
+    try {
+      const getData = await axios.get(`${BASE_URL}/api/v1/todoCategories`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+
+      const data = getData.data.data;
+
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 //일자별 목록 조회
 export const __getDateTodo: any = createAsyncThunk(
   // 성공시 리턴 타입
@@ -183,14 +205,21 @@ export const getDateTodoSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // * Category Reducer
+      .addCase(getAllTodo.fulfilled, (state, action) => {
+        state.allTodos = action.payload;
+      })
       .addCase(__getDateTodo.fulfilled, (state, action) => {
         state.dateTodos = action.payload;
       })
       .addCase(__postCategory.fulfilled, (state, action) => {
         state.dateTodos.push(action.payload);
+        state.allTodos.push(action.payload);
       })
       .addCase(__deleteCategory.fulfilled, (state, action) => {
         state.dateTodos = state.dateTodos.filter(
+          (list) => list.categoryId !== action.payload
+        );
+        state.allTodos = state.dateTodos.filter(
           (list) => list.categoryId !== action.payload
         );
       })
@@ -209,6 +238,11 @@ export const getDateTodoSlice = createSlice({
             ? list.todoList && list.todoList.push(action.payload)
             : list
         );
+        state.allTodos.map((list) =>
+          list.categoryId === action.payload.categoryId
+            ? list.todoList && list.todoList.push(action.payload)
+            : list
+        );
       })
       .addCase(__doneTodo.fulfilled, (state, action) => {
         state.dateTodos.map((list) => {
@@ -220,9 +254,25 @@ export const getDateTodoSlice = createSlice({
             ));
           }
         });
+        state.allTodos.map((list) => {
+          if (list.categoryId === action.payload.categoryId) {
+            return (list.todoList = list.todoList.map((todo) =>
+              todo.todoId === action.payload.todoId
+                ? { ...todo, done: action.payload.done }
+                : todo
+            ));
+          }
+        });
       })
       .addCase(__deleteTodo.fulfilled, (state, action) => {
         state.dateTodos.map((list) => {
+          if (list.categoryId === action.payload.categoryId) {
+            return (list.todoList = list.todoList.filter(
+              (todo) => todo.todoId !== action.payload.todoId
+            ));
+          }
+        });
+        state.allTodos.map((list) => {
           if (list.categoryId === action.payload.categoryId) {
             return (list.todoList = list.todoList.filter(
               (todo) => todo.todoId !== action.payload.todoId
