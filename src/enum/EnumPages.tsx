@@ -1,12 +1,12 @@
 export const enum EnumPages {
   MAIN = "/main",
-  HOME = "/",
-  LOGIN = "/login",
+  HOME = "/home",
+  LOGIN = "/",
   INTRO = "/intro",
   KAKAOLOGIN = "kakaoLogin",
   NAVERLOGIN = "naverLogin",
   GOOGLELOGIN = "googleLogin",
   CHATROOM = "/chat",
-  STATISTICS = 'statistics',
-  WAVE = 'wave',
+  STATISTICS = "statistics",
+  WAVE = "wave",
 }

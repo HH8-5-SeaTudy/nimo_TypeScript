@@ -10,9 +10,8 @@ const ProfileSidebar = () => {
       <ProfileSide onClick={() => setShow(!show)}>
         <ProfileIconBox>
           <Profile />
-        </ProfileIconBox>
-      </ProfileSide>
-      <ProfileLayer show={show}>
+        </ProfileIconBox>      
+        <ProfileLayer show={show}>
         <ProfileBox>
           <ProfileImg></ProfileImg>
           <PlayerName>플레이어 이름</PlayerName>
@@ -20,6 +19,8 @@ const ProfileSidebar = () => {
         </ProfileBox>
         <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
       </ProfileLayer>
+      </ProfileSide>
+
     </div>
   );
 };
@@ -27,20 +28,21 @@ const ProfileSidebar = () => {
 export default ProfileSidebar;
 
 const ProfileSide = styled.div`
+  border: solid red 1px;
   position: absolute;
   width: 25px;
-  height: 394px;
+  height: 50%;
   left: 0px;
-  top: 64px;
+  top: 65px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
 `;
 
 const ProfileIconBox = styled.div`
-  position: relative;
-  width: 50px;
-  height: 80px;
-  left: 0;
+  position: absolute;
+  width: 60px;
+  height: 75px;
+  left: -5px;
   top: 35%;
   display: flex;
   align-items: center;
@@ -60,9 +62,8 @@ interface ProfileLayerProps {
 const ProfileLayer = styled.div<ProfileLayerProps>`
   position: absolute;
   display: flex;
-  top: 64px;
   width: 359px;
-  height: 394px;
+  height: 90%;
   transition: all 0.5s;
   z-index: 1;
   left: ${({ show }) => (show ? "0px" : "-359px")};
@@ -73,9 +74,9 @@ const ProfileLayer = styled.div<ProfileLayerProps>`
 const ProfileBox = styled.div`
   box-sizing: border-box;
   border: solid red 1px;
-  padding: 21px;
+  padding-top: 50px;
   width: 335px;
-  height: 394px;
+  height: 100%;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
 `;

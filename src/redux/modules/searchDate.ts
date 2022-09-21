@@ -4,19 +4,19 @@ const initialState = {
   date: [],
 };
 
-
-export const dateSlice = createSlice({
+export const __dateSlice = createSlice({
   name: "date",
   initialState,
   reducers: {
     updateDate: (state, action) => {
-      state.date = action.payload; 
-    }
+      state.date = action.payload;
+    },
+    selectDate: (state, action) => {
+      state.date = action.payload;
+    },
   },
-  extraReducers: {
-},
-}
-);
+  extraReducers: {},
+});
 
-export const {updateDate} = dateSlice.actions;
-export default dateSlice.reducer; 
+export const { updateDate,selectDate } = __dateSlice.actions;
+export default __dateSlice.reducer;

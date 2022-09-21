@@ -1,16 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import HeadFish from "../components/fish/HeadFish";
+import tree from "../assets/tree/tree.png";
+import wave5 from "../assets/Wave/wave5.svg";
+import Wave from "./Wave";
 
 export default function Intro() {
+  const [scroll, setScroll] = useState(false);
+  const [bubble, setBubble] = useState(false);
+  const [bubble1, setBubble1] = useState(false);
+  const [bubble2, setBubble2] = useState(false);
+  const [bubble3, setBubble3] = useState(false);
+  const [bubble4, setBubble4] = useState(false);
+  const [bubble5, setBubble5] = useState(false);
+  const [bubble6, setBubble6] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll); //clean up
+    };
+  }, []);
+
+  const handleScroll = () => {
+    // 스크롤이 Top에서 50px 이상 내려오면 true값을 useState에 넣어줌
+    if (window.scrollY >= 500) {
+      setScroll(true);
+    }
+  };
+
   return (
     <IntroContainer>
       <IntroTitleContainer>
         <IntroTitleWrapper>
-          <span>여기는 설명</span>
+          <TreeIconContainer>
+            <TreeIcon />
+          </TreeIconContainer>
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: "yellow",
+              border: "1px solid black",
+            }}
+          >
+            asfasf
+          </div>
         </IntroTitleWrapper>
       </IntroTitleContainer>
-
       <WaveContainer>
         <WaveWrapper>
           <FirstWave>
@@ -30,34 +67,62 @@ export default function Intro() {
                 paddingTop: "15%",
               }}
             >
-              <FishSticky>
+              <SeatudySticky>
                 <SeatudyContainer>
                   <span>
-                    <i></i>S
+                    <SeatudyContainerBubble
+                      boxshadow={bubble}
+                      onClick={() => setBubble(true)}
+                    />
+                    S
                   </span>
                   <span>
-                    <i></i>E
+                    <SeatudyContainerBubble
+                      boxshadow={bubble1}
+                      onClick={() => setBubble1(true)}
+                    />
+                    E
                   </span>
                   <span>
-                    <i></i>A
+                    <SeatudyContainerBubble
+                      boxshadow={bubble2}
+                      onClick={() => setBubble2(true)}
+                    />
+                    A
                   </span>
                   <span>
-                    <i></i>T
+                    <SeatudyContainerBubble
+                      boxshadow={bubble3}
+                      onClick={() => setBubble3(true)}
+                    />
+                    T
                   </span>
                   <span>
-                    <i></i>U
+                    <SeatudyContainerBubble
+                      boxshadow={bubble4}
+                      onClick={() => setBubble4(true)}
+                    />
+                    U
                   </span>
                   <span>
-                    <i></i>D
+                    <SeatudyContainerBubble
+                      boxshadow={bubble5}
+                      onClick={() => setBubble5(true)}
+                    />
+                    D
                   </span>
                   <span>
-                    <i></i>Y
+                    <SeatudyContainerBubble
+                      boxshadow={bubble6}
+                      onClick={() => setBubble6(true)}
+                    />
+                    Y
                   </span>
                 </SeatudyContainer>
                 {/* <FishContainer>
                   <HeadFish />
                 </FishContainer> */}
-              </FishSticky>
+              </SeatudySticky>
             </div>
             <div className="background-wrap">
               <div className="bubble x1" />
@@ -77,6 +142,9 @@ export default function Intro() {
     </IntroContainer>
   );
 }
+interface IboxshadowProps {
+  boxshadow: boolean;
+}
 
 const IntroContainer = styled.div`
   width: 100%;
@@ -87,8 +155,13 @@ const IntroContainer = styled.div`
 const IntroTitleContainer = styled.div`
   width: 100%;
   padding: 15% 10%;
-  background-color: #ffff96;
-  margin-top: 20%;
+  transform: perspective(750px) translate3d(0px, 0px, -250px) rotateX(27deg)
+    scale(0.9, 0.9);
+  border-radius: 20px;
+  border: 5px solid #e6e6e6;
+  box-shadow: 0 70px 40px -20px rgba(0, 0, 0, 0.2);
+  transition: 0.4s ease-in-out transform;
+  margin-top: 10%;
 `;
 
 const IntroTitleWrapper = styled.section`
@@ -97,7 +170,23 @@ const IntroTitleWrapper = styled.section`
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding: 10%;
+  border: 2px solid black;
+`;
+
+const TreeIconContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const TreeIcon = styled.div`
+  background: url(${tree});
+  background-position: center;
+  background-size: cover;
+  width: 500px;
+  height: 800px;
+  z-index: 5;
+  transform: perspective(750px) translate3d(0px, 0px, 0px) rotateX(27deg)
+    scale(0.9, 0.2);
 `;
 
 const animateBubble = keyframes`
@@ -125,7 +214,6 @@ const rotate = keyframes`
 `;
 
 const WaveContainer = styled.div`
-  top: 0;
   width: 100%;
   height: 100%;
 `;
@@ -228,12 +316,11 @@ const WaveWrapper = styled.div`
       -webkit-border-radius: 50%;
       -moz-border-radius: 50%;
       border-radius: 50%;
-      box-shadow: 0 20px 30px transparent,
-        inset 0px 10px 30px 5px rgba(255, 255, 255, 0.3);
-
+      box-shadow: 0 10px 20px #99c0f9, inset 0px 10px 30px 5px #8dd7f755;
       height: 200px;
       position: absolute;
       width: 200px;
+      border: solid rgba(255, 255, 255, .5) 1px; 
     }
 
     .bubble:after {
@@ -256,12 +343,12 @@ const WaveWrapper = styled.div`
       background: radial-gradient(
         ellipse at center,
         transparent 0%,
-        rgba(255, 255, 255, 0) 70%
+        rgba(255, 255, 255, 0) 90%
       );
 
       border-radius: 50%;
 
-      box-shadow: inset 0 20px 30px rgba(26, 58, 94, 0.322);
+      box-shadow: inset 0 -20px -30px rgba(26, 58, 94, 0.322);
 
       content: "";
       height: 180px;
@@ -270,17 +357,6 @@ const WaveWrapper = styled.div`
       width: 180px;
     }
   }
-`;
-
-const FishContainer = styled.div`
-  width: 20vw;
-  height: 30vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
-  position: relative;
 `;
 
 const FirstWave = styled.div`
@@ -338,15 +414,25 @@ const FirstWave = styled.div`
   }
 `;
 
-const FishSticky = styled.div`
+const SeatudySticky = styled.div`
   position: sticky;
   position: -webkit-sticky;
   top: 0;
   width: 100%;
   height: 50vh;
   background: transparent;
-  border: 2px solid black;
   z-index: 5;
+`;
+
+const textBounce = keyframes`
+  0%   { transform: scale(1,1) translateY(0); }
+  10%  { transform: scale(1.1,.9) translateY(0); }
+  30%  { transform: scale(.9,1.1)   translateY(-55px);}
+  50%  { transform: scale(1.05,.95) translateY(0); }
+  58%  { transform: scale(1,1) translateY(-7px);}
+  65%  { transform: scale(1,1) translateY(0);}
+  100% { transform: scale(1,1) translateY(0);} 
+
 `;
 
 const SeatudyContainer = styled.h2`
@@ -355,25 +441,42 @@ const SeatudyContainer = styled.h2`
   padding-left: 2%;
   align-items: center;
   width: 100%;
-  color: white;
   font-size: 4em;
   box-sizing: border-box;
   height: 100%;
+  transform: perspective(700px) rotateX(-15deg);
+  border-radius: 6px;
   span {
     cursor: pointer;
     position: relative;
     filter: blur(5px);
     padding: 0.5px;
     transition: 0.5s;
-    color: #225279;
-    margin-right: 10px;
-
+    color: rgba(255, 255, 255, 0.4);
+    margin-right: 20px;
+    text-align: center;
+    &:nth-child(1) {
+      animation: ${textBounce} 4s ease infinite 0.5s;
+    }
+    &:nth-child(2) {
+      animation: ${textBounce} 4s ease infinite 1s;
+    }
+    &:nth-child(3) {
+      animation: ${textBounce} 4s ease infinite 1.5s;
+    }
+    &:nth-child(4) {
+      animation: ${textBounce} 4s ease infinite 2s;
+    }
+    &:nth-child(5) {
+      animation: ${textBounce} 4s ease infinite 2.5s;
+    }
+    &:nth-child(6) {
+      animation: ${textBounce} 4s ease infinite 3s;
+    }
+    &:nth-child(7) {
+      animation: ${textBounce} 4s ease infinite 3.5s;
+    }
     i {
-      position: absolute;
-      inset: 0;
-      background-color: transparent;
-      left: -10px;
-      top: 10px;
     }
     &:hover {
       filter: blur(0px);
@@ -385,6 +488,7 @@ const SeatudyContainer = styled.h2`
         left: 0px;
         width: 2px;
         height: 8px;
+        left: 10px;
         background-color: white;
         box-shadow: 0px 63px #fff, 65px 63px #fff, 65px 0px #fff;
       }
@@ -395,9 +499,26 @@ const SeatudyContainer = styled.h2`
         left: 0px;
         width: 8px;
         height: 2px;
+        left: 10px;
         background-color: white;
         box-shadow: 0px 70px white, 59px 70px white, 59px 0 white;
       }
     }
   }
+`;
+
+const SeatudyContainerBubble = styled.i<IboxshadowProps>`
+  position: absolute;
+  inset: 0;
+  background-color: transparent;
+  display: flex;
+  left: -20px;
+  top: 10px;
+  height: 80px;
+  width: 80px;
+  border-radius: 9999px;
+  box-shadow: ${({ boxshadow }) =>
+    boxshadow
+      ? "none"
+      : "0 5px 20px #99c0f9, inset 0px 10px 10px 0px #8dd7f755"};
 `;

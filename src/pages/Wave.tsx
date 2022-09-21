@@ -23,7 +23,6 @@ const Wave = () => {
     // 스크롤이 Top에서 50px 이상 내려오면 true값을 useState에 넣어줌
     if (window.scrollY >= 500) {
       setScroll(true);
-      console.log(window.scrollY);
     }
     if (window.scrollY >= 600) {
       setPartTwo(true);
@@ -39,13 +38,13 @@ const Wave = () => {
   return (
     <>
       <Layer>
-        <WavePart>
+        {/* <WavePart>
           <Ocean>
             <div></div>
             <div></div>
             <p>sadasdas</p>
           </Ocean>
-        </WavePart>
+        </WavePart> */}
 
         <WavePart1>
           <Ocean1 scroll={scroll}>
@@ -63,7 +62,7 @@ const Wave = () => {
           </Ocean2>
         </WavePart2>
 
-        {/* <WavePart3>
+        <WavePart3>
           <Ocean3 partThree={partThree}>
             <div></div>
             <div></div>
@@ -84,7 +83,7 @@ const Wave = () => {
               위로
             </Button>
           </Ocean4>
-        </WavePart4> */}
+        </WavePart4>
       </Layer>
     </>
   );
@@ -122,11 +121,9 @@ const swellAnimation = keyframes`
   }
 `;
 
-const Layer = styled.section`
-
+const Layer = styled.section``;
 
 const WavePart = styled.div``;
-
 
 const Ocean = styled.div`
   height: 900px;
@@ -134,7 +131,7 @@ const Ocean = styled.div`
   position: relative;
   top: 400px;
   left: 0;
-  background: #96e6fe;
+  background: white;
   div {
     background: url(${wave1});
     position: absolute;

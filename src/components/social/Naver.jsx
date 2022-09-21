@@ -1,9 +1,10 @@
 import React from "react";
-import { 
+import {
   NaverLoginButtonContainer,
   NaverLogo,
   NaverKor,
- } from "./LoginButtonStyle";
+} from "./LoginButtonStyle";
+
 const Naver = () => {
   //지역변수로 빼서 보안관리.
 
@@ -19,11 +20,11 @@ const Naver = () => {
     window.location.href = naverAuthUrl;
   };
   return (
-  <NaverLoginButtonContainer onClick={loginHandler}>
-    <NaverLogo/>
-    <NaverKor>네이버 로그인</NaverKor>
-  </NaverLoginButtonContainer>
-  )
+    <NaverLoginButtonContainer onClick={loginHandler}>
+      <NaverLogo />
+      <NaverKor>네이버 로그인</NaverKor>
+    </NaverLoginButtonContainer>
+  );
 };
 
 export default Naver;

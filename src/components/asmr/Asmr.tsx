@@ -11,14 +11,65 @@ import  WaveIcon from "../../assets/icon/AsmrWave.svg";
 
 const Asmr = () => {
 
-  const [onWave,setOnWave] = useState(false)
+  const waveAudio = new Audio('https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3')
+  const rainAudio = new Audio('https://cdn.pixabay.com/download/audio/2021/07/28/audio_ef43a9f6fd.mp3?filename=the-memory-of-water-meditation-5739.mp3')
+  const birdsAudio = new Audio('https://cdn.pixabay.com/download/audio/2022/02/10/audio_7a07ee0e79.mp3?filename=birds-19624.mp3')
+  const gardenAudio = new Audio('https://cdn.pixabay.com/download/audio/2021/12/04/audio_18efe9bcc6.mp3?filename=a-meditation-in-a-japanese-water-garden-11658.mp3')
+  const companyAudio = new Audio('https://cdn.pixabay.com/audio/2022/03/09/audio_56b61d9f86.mp3')
+
   
-  const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3')
-  const start = () => { 
-    audio.play()
-    audio.loop = true}
+  const waveStart = () => { 
+    waveAudio.play();
+    rainAudio.pause();
+    birdsAudio.pause();
+    gardenAudio.pause();
+    companyAudio.pause();
+    waveAudio.loop = true
+  }
+  
+  const rainStart = () => { 
+    rainAudio.play();
+    waveAudio.pause();
+    birdsAudio.pause();
+    gardenAudio.pause();
+    companyAudio.pause();
+    rainAudio.loop = true
+  }
+  
+  const birdsStart = () => { 
+    birdsAudio.play();
+    waveAudio.pause();
+    rainAudio.pause();
+    gardenAudio.pause();
+    companyAudio.pause();
+    birdsAudio.loop = true
+  }
+  
+  const gardenStart = () => { 
+    gardenAudio.play();
+    waveAudio.pause();
+    rainAudio.pause();
+    birdsAudio.pause();
+    companyAudio.pause();
+    gardenAudio.loop = true
+  }
+  
+  const companyStart = () => { 
+    companyAudio.play();
+    waveAudio.pause();
+    rainAudio.pause();
+    birdsAudio.pause();
+    gardenAudio.pause();
+    companyAudio.loop = true
+  }
+
+  
   const pause = () => { 
-    audio.pause()
+    waveAudio.pause();
+    rainAudio.pause();
+    birdsAudio.pause();
+    gardenAudio.pause();
+    companyAudio.pause();
   }
   
   return (
@@ -26,11 +77,11 @@ const Asmr = () => {
       <AsmrSelectBox>
         <BtnArrow></BtnArrow>
         <BtnGroup>
-          <AsmrBtn onClick={start}><img src={WaveIcon}/></AsmrBtn>
-          <AsmrBtn><img src={BirdIcon}/></AsmrBtn>
-          <AsmrBtn><img src={FireIcon}/></AsmrBtn>
-          <AsmrBtn><img src={WaterIcon}/></AsmrBtn>
-          <AsmrBtn><img src={CompanyIcon}/></AsmrBtn>
+          <AsmrBtn onClick={waveStart}><img src={WaveIcon}/></AsmrBtn>
+          <AsmrBtn onClick={birdsStart}><img src={BirdIcon}/></AsmrBtn>
+          <AsmrBtn onClick={gardenStart}><img src={FireIcon}/></AsmrBtn>
+          <AsmrBtn onClick={rainStart} ><img src={WaterIcon}/></AsmrBtn>
+          <AsmrBtn onClick={companyStart}><img src={CompanyIcon}/></AsmrBtn>
           <AsmrBtn onClick={pause}><img src={CloseIcon}/></AsmrBtn>
         </BtnGroup>
     </AsmrSelectBox>
@@ -42,9 +93,11 @@ export default Asmr;
 
 const AsmrSelectBox = styled.div`
 position: relative;
-top: 100px;
+top: 65px;
+right: 200px;
 width: 312px;
 height:100%;
+
 `
 const BtnArrow = styled.div`
     margin: auto;

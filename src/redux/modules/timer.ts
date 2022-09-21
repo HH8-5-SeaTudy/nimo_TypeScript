@@ -1,23 +1,42 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Itimer } from "../../api";
+import { getCookie } from '../../components/social/Cookie';
 
-const BASE_URL = process.env.BASE_URL;
-const token: any = process.env.REACT_APP_TOKEN;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+// const token: string = process.env.REACT_APP_TOKEN as string;
+const token: string = getCookie('token') as string;
+
+export const __getUserinquire: any = createAsyncThunk(
+  "timer/userInquire",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/checkIns`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log('정보',response)
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const __getCheckInTimer: any = createAsyncThunk(
-  "timer/postTimer",
+  "timer/postCheckIn",
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/v1/checkIns`,
-        payload,
+        `${BASE_URL}/api/v1/checkIns`,{},
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      console.log("checkin", response);
+      console.log('체크인',response)
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -26,19 +45,18 @@ export const __getCheckInTimer: any = createAsyncThunk(
 );
 
 export const __getCheckOutTimer: any = createAsyncThunk(
-  "timer/postTimer",
+  "timer/postCheckOut",
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/v1/checkOuts`,
-        payload,
+        `${BASE_URL}/api/v1/checkOuts`,{},
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      console.log("checkOut", response.data);
+      console.log('체크아웃',response)
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -47,48 +65,32 @@ export const __getCheckOutTimer: any = createAsyncThunk(
 );
 
 // 초기 상태 타입
-export type Itimer = {
-  checkOut?: string;
-  checkIn?: string;
-  hh: number;
-  mm: number;
-  ss: number;
-  timeWatch: string;
-};
 
 const initialState: Itimer = {
-  checkOut: "",
-  checkIn: "",
-  hh: 0,
-  mm: 0,
-  ss: 0,
-  timeWatch: "",
+  dayStudyTime: "",
+  totalStudyTime: "",
+  todayLogs: [],
+  isStudy : false,
 };
 
 export const timerSlice = createSlice({
   name: "timer",
   initialState,
-  extraReducers: {
-    [__getCheckInTimer.fulfilled.type]: (
-      state,
-      action: PayloadAction<Itimer>
-    ) => {
-      state = action.payload;
-      console.log("In", state);
-      console.log(action.payload);
-      return state;
-    },
-    [__getCheckOutTimer.fulfilled.type]: (
-      state,
-      action: PayloadAction<Itimer>
-    ) => {
-      state = { ...state, ...action.payload };
-      console.log("out", state);
-      console.log(action.payload);
-      return state;
-    },
-  },
   reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(__getUserinquire.fulfilled, (state, action) => {
+        state.dayStudyTime = action.payload.dayStudyTime;
+        state.isStudy = action.payload.isStudy
+      })
+      .addCase(__getCheckInTimer.fulfilled, (state, action) => {
+        state.isStudy = true;
+      })
+      .addCase(__getCheckOutTimer.fulfilled, (state, action) => {
+        state.dayStudyTime = action.payload.timeWatch
+        state.isStudy = false;
+      });
+  },
 });
 
 export default timerSlice.reducer;
