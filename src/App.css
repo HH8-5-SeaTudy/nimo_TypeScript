@@ -39,5 +39,17 @@
 
 @font-face {
   font-family: "DungGeunMo";
-  src: url("./style/fonts/DungGeunMo.woff2");
+  src: url("./style/fonts/DungGeunMo.ttf") format("ttf"),
+    url("./style/fonts/DungGeunMo.eot") format("eot"),
+    url("./style/fonts/DungGeunMo.woff2") format("woff2");
 }
+/* 
+@font-face {
+  font-family: "DungGeunMoEo";
+  src: url("./style/fonts/DungGeunMo.eot");
+}
+
+@font-face {
+  font-family: "DungGeunMoWo2";
+  src: url("./style/fonts/DungGeunMo.woff2");
+} */

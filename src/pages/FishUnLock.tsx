@@ -178,10 +178,8 @@ const BorderTitleWrapper = styled.div`
 
 const FishSliderSecondShadow = styled.div`
   border: 8px solid black;
-  width: 600px;
-  /* max-width: 100vw; */
-  height: 504px;
-  /* max-height: 100vh; */
+  width: 100%;
+  height: 80%;
   top: 10%;
   left: 40%;
   border-radius: 40px;
@@ -192,7 +190,7 @@ const FishSliderSecondShadow = styled.div`
   background: url(${purpleBorder}) no-repeat;
   /* background-position: center; */
   object-fit: cover;
-  background-size: cover;
+  background-size: 100% 100%;
   padding: 160px;
 `;
 
@@ -201,16 +199,19 @@ const FishCardWrapper = styled(motion.img)`
   border: 13px solid yellow;
   position: absolute;
   left: -10%;
-`;
-
-const FishbolwContainer = styled.div`
-  width: 320px;
-  height: 370px;
-  position: absolute;
-  left: 0%;
   background: url(${fishbowl});
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 50% 50%;
+`;
+
+const FishbolwContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0%;
+
+  border: 2px solid red;
 `;
 
 const PreButton = styled.button`

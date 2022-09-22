@@ -11,8 +11,6 @@ const NaverLogin = () => {
   const dispatch = useAppDispatch();
   const code = new URL(window.location.href).searchParams.get("code");
   const state = new URL(window.location.href).searchParams.get("state");
-  console.log(code);
-  console.log(state);
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   useEffect(() => {
     const naver = async () => {
@@ -22,6 +20,7 @@ const NaverLogin = () => {
         )
         .then((res) => {
           setCookie("token", res.headers.authorization);
+          setCookie("userData", res.data.data);
           dispatch(updateUser(res.data.data));
         })
         .then(() => {

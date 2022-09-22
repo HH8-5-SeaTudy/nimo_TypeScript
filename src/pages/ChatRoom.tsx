@@ -1,15 +1,14 @@
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
-import { Button } from "../elements";
 import { addUser, __getChatroom } from "../redux/modules/socket";
-import { getCookie } from '../components/social/Cookie';
+import { getCookie } from "../components/social/Cookie";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 // const token: string = process.env.REACT_APP_TOKEN as string;
-const token: string = getCookie('token') as string;
+const token: string = getCookie("token") as string;
 
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;
@@ -26,7 +25,6 @@ function ChatRoom() {
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
-  // const [message, setMessage] = useState("");
   const chat = useAppSelector((state) => state.socket.chat);
 
   const headers = {
@@ -50,7 +48,9 @@ function ChatRoom() {
   }, []);
 
   const handleEnterPress = (e: any) => {
+    if (e.isComposing || e.keyCode === 229) return;
     if (e.code === "Enter" && e.shiftKey === false) {
+      e.preventDefault();
       sendMessage();
     }
   };
@@ -68,13 +68,6 @@ function ChatRoom() {
           },
           headers
         );
-        // client.send(
-        //   `/pub/chat/enter`,
-        //   headers,
-        //   JSON.stringify({
-        //     roomId: id,
-        //   })
-        // );
       });
     } catch (error) {}
   };
@@ -92,7 +85,6 @@ function ChatRoom() {
       client.send(`/pub/chat/message`, headers, res);
     });
 
-    // setMessage("");
     message.current.value = "";
   };
 
