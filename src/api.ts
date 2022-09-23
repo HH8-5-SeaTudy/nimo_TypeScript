@@ -55,6 +55,7 @@ export type Itime = {
 // * UserData
 export type IUser = {
   userData: IUserData[];
+  userProfile: IUserData;
 };
 
 export type IUserData = {
@@ -62,8 +63,7 @@ export type IUserData = {
   email: string;
   nickname: string;
   defaultFish: string;
-  loginType: string;
-  point: string;
+  point: number;
 };
 
 // * StopWatch function
@@ -78,6 +78,18 @@ export type Ilocation = {
   pathname: string;
   search: string;
   state: { id: string };
+};
+
+//D-day Data
+export type IDdayInitialState = {
+  DdayData: IDday[];
+};
+
+export type IDday = {
+  ddayId: number;
+  title: string;
+  dday: number;
+  targetDay: string;
 };
 
 // * Button Type
@@ -163,16 +175,4 @@ export type IGridProps = {
   cursor: string;
   children: any;
   onClick: () => void;
-};
-
-//D-day Data
-export type IDdayInitialState = {
-  DdayData: IDday[];
-};
-
-export type IDday = {
-  ddayId: number;
-  title: string;
-  dday: number;
-  targetDay: string;
 };
