@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import blueborderPX from "../assets/background/blueborderpx.png";
-import backgroundImage from "../assets/background/introbackground.jpeg";
+// import backgroundImage from "../assets/background/introbackground.jpeg";
 export default function Intro() {
   const navigate = useNavigate();
   const [button, setButton] = useState(false);
@@ -265,7 +265,6 @@ const IntroTopBackgroundContainer = styled.div`
 `;
 
 const IntroBackgroundImage = styled.div`
-  background: url(${backgroundImage});
   width: 100%;
   height: 100%;
   background-position: center;

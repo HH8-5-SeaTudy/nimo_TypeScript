@@ -332,7 +332,7 @@ const InventoryBox =styled.div<InventoryLayerProps>`
   position:absolute;
   height:400px;
   left: ${({ inventoryShow }) => (  inventoryShow ? "-450px" : "0px")};
-  transition: 0.2;
+  transition: all 0.3s;
 `
 const Handle = styled.div`
  border: solid red 1px;

@@ -348,7 +348,6 @@ const onSubmitDdayHandler = () => {
                           <div>{list.title}</div>
                           <p>
                             D{list.targetDay == DD ? 'day' : list.targetDay > DD ? list.dday : '+'+list.dday }</p>
-                          
                         </Dday>
                         </>
                         )}
