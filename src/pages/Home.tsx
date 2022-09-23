@@ -13,6 +13,7 @@ import { ReactComponent as CalendarIcon } from "../assets/icon/CalendarIcon.svg"
 import backimg from '../assets/pixel/backimg.jpeg'
 import CalendarVer2 from '../components/calendar/CalendarVer2';
 import SideBarVer2 from '../components/sidebar/SideBarVer2';
+import MiniCalendar from '../components/calendar/MiniCalendar';
 
 
 
@@ -22,7 +23,6 @@ const Home = () => {
 
   //Todo zone
   const date = useAppSelector((state) => state.updateDate.date);
-  const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const userData = useAppSelector((state) => state.userData.userData);
 
   console.log('userData',userData)
@@ -41,7 +41,7 @@ const Home = () => {
   const [todoShow, setTodoShow] = useState(false);
   const [burgerShow, setBurgerShow] = useState(false);
   const [calendarShow, setCalendarShow] = useState(false);
-
+  const [inventoryShow,setInventoryShow] = useState(false)
   //server zone
   const roomId1 = process.env.REACT_APP_ROOMID1;
   const roomId2 = process.env.REACT_APP_ROOMID2;
@@ -131,11 +131,31 @@ const Home = () => {
           </ProfileRight>
         </SideProfileBox>
         <SideCalendar onClick={() => setCalendarShow(!calendarShow)}>캘린더헤더</SideCalendar>
-        <SideCalendarBox calendarShow={calendarShow}></SideCalendarBox>
+        <SideCalendarBox calendarShow={calendarShow}>
+          <MiniCalendar></MiniCalendar>
+        </SideCalendarBox>
         <SideTodoList onClick={() => setTodoShow(!todoShow)}>투두리스트헤더</SideTodoList>
-        <SideTodoListBox todoShow={todoShow}></SideTodoListBox>
+        <SideTodoListBox todoShow={todoShow}>
+          <Todo>
+            <TodoCheck></TodoCheck>
+            <TodoTitle></TodoTitle>
+            <TodoDelete></TodoDelete>
+          </Todo>
+        </SideTodoListBox>
         <SideInventory  onClick={() => setBurgerShow(!burgerShow)}>인벤토리헤더</SideInventory>
-        <SideInventoryBox burgerShow={burgerShow}></SideInventoryBox>
+        <SideInventoryBox burgerShow={burgerShow}>
+          <InventoryLayer>     
+            <OpenHandle onClick={() => setInventoryShow(!inventoryShow)}></OpenHandle>
+            <NextFishBox>
+              <NextFish></NextFish>
+            </NextFishBox> 
+          <InventoryBox inventoryShow={inventoryShow}>
+            <Inventory></Inventory>
+            <Handle onClick={() => setInventoryShow(!inventoryShow)}></Handle>
+          </InventoryBox>
+          </InventoryLayer>
+         
+        </SideInventoryBox>
       </SideBar>
     </MainBox> 
 
@@ -157,6 +177,9 @@ interface TodoLayerProps {
 interface CalendarLayerProps {
 calendarShow: boolean;
 }
+interface InventoryLayerProps {
+inventoryShow: boolean;
+}
 
 const Layer = styled.section`
   width: 100%;
@@ -175,7 +198,7 @@ const SideBar = styled.div`
   position: relative;
   border: solid red 3px;
   background-color: white;
-  width: 500px;
+  width: 450px;
   height: 100%;
 `
 const SideProfile = styled.div`
@@ -197,26 +220,26 @@ const SideInventory = styled.div`
 //
 const SideProfileBox = styled.div<ProfileLayerProps>`
      border: solid red 1px;
-     height: 300px;
-     display: ${({ profileShow }) => (profileShow ? "none" : "flex")};
+     height: 250px;
+     display: ${({ profileShow }) => (profileShow ? "flex" : "none")};
 `
 const ProfileLeft = styled.div`
    border: solid red 1px;
-   width:50%;
+   width:40%;
    height: 100%;
    display: flex;
    align-items: center;
 `
 const ProfileFish = styled.div`
   border: solid red 1px;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   margin:auto;
 `
 const ProfileRight = styled.div`
   border: solid red 1px;
-  width:50%;
+  width:60%;
   height: 100%;
   display:flex;
   flex-direction:column;
@@ -225,35 +248,101 @@ const ProfileRight = styled.div`
 const Name = styled.div`
   border: solid red 1px;
   width:60%;
-  height: 80px;
+  height: 40px;
   margin:auto;
 `
 const Info = styled.div`
   border: solid red 1px;
   width:60%;
-  height: 80px;
+  height: 40px;
   margin:auto;
 `
 const StudyTime = styled.div`
   border: solid red 1px;
   width:60%;
-  height: 80px;
+  height: 40px;
   margin:auto;
 `
 
 
 const SideCalendarBox = styled.div<CalendarLayerProps>`
    border: solid red 1px;
-   height: 300px;
-   display: ${({calendarShow }) => (calendarShow ? "none" : "block")};
+   height: 400px;
+   display: ${({calendarShow }) => (calendarShow ? "block" : "none")};
 `
 const SideTodoListBox = styled.div<TodoLayerProps>`
    border: solid red 1px;
-   height: 300px;
-   display: ${({ todoShow }) => (todoShow ? "none" : "block")};
+   display: ${({ todoShow }) => (todoShow ? "block" : "none")};
+
+`
+const Todo = styled.div`
+  border: solid red 1px;
+  height:50px;
+  padding:0 10px;
+  display: flex;
+  justify-content:space-between;
+`
+const TodoCheck  = styled.div`
+  border: solid red 1px;
+  width:50px;
+  height:50px;
+`
+const TodoTitle = styled.div`
+  border: solid red 1px;
+  width:300px;
+  height:50px;
+`
+const TodoDelete = styled.div`
+  border: solid red 1px; 
+  width:50px;
+  height:50px;
 `
 const SideInventoryBox = styled.div<BurgerLayerProps>`
    border: solid red 1px;
-   height: 300px;
-   display: ${({ burgerShow }) => (  burgerShow ? "none" : "block")};
+   height: 400px;
+   display: ${({ burgerShow }) => (  burgerShow ? "block" : "none")};
+
+`
+const InventoryLayer =styled.div`
+  display:flex;
+  justify-content:end;
+  height: 100%;
+`
+const NextFishBox = styled.div`
+  border: solid red 3px;
+  width: calc(100% - 20px);
+  height:100%;
+  display: flex;
+  align-items: center;
+`
+const NextFish = styled.div`
+  border: solid red 1px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  margin:auto;
+`
+const OpenHandle = styled.div`
+ border: solid red 1px;
+  width:20px;
+  height:100%;
+`
+const InventoryBox =styled.div<InventoryLayerProps>`
+  display:flex;
+  position:absolute;
+  height:400px;
+  left: ${({ inventoryShow }) => (  inventoryShow ? "-450px" : "0px")};
+  transition: 0.2;
+`
+const Handle = styled.div`
+ border: solid red 1px;
+  width:20px;
+  height:400px;
+  background-color: lightgray;
+`
+const Inventory = styled.div`
+   border: solid red 1px;
+   width: 430px;
+  background-color: lightgray;
+
 `
