@@ -8,7 +8,7 @@ const token: string = getCookie("token") as string;
 
 //전체 목록 조회
 export const getAllTodo: any = createAsyncThunk(
-  "todo/getTodo",
+  "all/allGetTodo",
   async (payload, thunkAPI) => {
     try {
       const getData = await axios.get(`${BASE_URL}/api/v1/todoCategories`, {
@@ -56,6 +56,7 @@ export const __getDateTodo: any = createAsyncThunk(
 export const __postCategory: any = createAsyncThunk(
   "category/postCategory",
   async (payload: any, thunkAPI) => {
+    console.log(payload);
     try {
       const data = await axios.post(
         `${BASE_URL}/api/v1/todoCategories`,
@@ -91,7 +92,6 @@ export const __deleteCategory: any = createAsyncThunk(
           },
         }
       );
-      console.log(payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -217,7 +217,7 @@ export const getDateTodoSlice = createSlice({
         state.dateTodos = state.dateTodos.filter(
           (list) => list.categoryId !== action.payload
         );
-        state.allTodos = state.dateTodos.filter(
+        state.allTodos = state.allTodos.filter(
           (list) => list.categoryId !== action.payload
         );
       })

@@ -106,21 +106,28 @@ export type IButtonProps = {
 
 // * Input Type
 export type IInputProps = {
-  width: string;
+  width: any;
   height: string;
-
-  border: string;
-  borderRadius: string;
-
-  display: string;
-
   margin: string;
   padding: string;
-  defaultValue: any;
+  display: string;
+  border: string;
+  borderRadius: string;
+  defaultValue: string;
   type: string;
   placeholder: string;
   ref: any;
-  onChange: () => void | {} | undefined;
+  onChange: (e: any) => void;
+  onClick: (e: any) => void;
+  fontSize: string;
+  outline: string;
+  transition: string;
+  readOnly: boolean;
+  value: any;
+  color: string;
+  fontWeight: string;
+  cursor: string;
+  backgroundColor: string;
 };
 
 // * Grid Type
@@ -156,4 +163,16 @@ export type IGridProps = {
   cursor: string;
   children: any;
   onClick: () => void;
+};
+
+//D-day Data
+export type IDdayInitialState = {
+  DdayData: IDday[];
+};
+
+export type IDday = {
+  ddayId: number;
+  title: string;
+  dday: number;
+  targetDay: string;
 };

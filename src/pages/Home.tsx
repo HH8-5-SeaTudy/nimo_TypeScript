@@ -9,15 +9,13 @@ import {
   __getCheckOutTimer,
   __getUserinquire,
 } from "../redux/modules/timer";
-import TodoModal from "../pages/TodoModal";
-import Calendars from "../components/calendar/Calendars";
 //아이콘
 import { ReactComponent as ProfileIcon } from "../assets/icon/ProfileIcon.svg";
 import { ReactComponent as PlusIcon } from "../assets/icon/PlusIcon.svg";
 import { ReactComponent as BurgerIcon } from "../assets/icon/BurgerIcon.svg";
 import { ReactComponent as CalendarIcon } from "../assets/icon/CalendarIcon.svg";
 import test2 from "../assets/pixel/test2.png";
-import Input from "../elements/Input";
+import CalendarVer2 from "../components/calendar/CalendarVer2";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -104,7 +102,6 @@ const Home = () => {
                       </div>
                     ))}
                 </div>
-                {modalShow && <TodoModal modalHandler={modalHandler} />}
               </TodoInfo>
               <TodoClose onClick={() => setTodoShow(!todoShow)}></TodoClose>
             </TodoHiddenLayer>
@@ -131,9 +128,7 @@ const Home = () => {
               <Calendar />
             </CalendarIconBox>
             <CalendarHiddenLayer calendarShow={calendarShow}>
-              <CalendarInfo>
-                <Calendars />
-              </CalendarInfo>
+              <CalendarInfo>{/* <CalendarVer2 /> */}</CalendarInfo>
               <CalendarClose
                 onClick={() => setCalendarShow(!calendarShow)}
               ></CalendarClose>
@@ -154,6 +149,7 @@ const Home = () => {
                   dispatch(__getCheckOutTimer());
                 }}
               >
+                {" "}
                 stop
               </button>
             </CheckInBall>

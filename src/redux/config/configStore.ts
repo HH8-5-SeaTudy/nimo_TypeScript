@@ -4,6 +4,7 @@ import timer from "../modules/timer";
 import updateDate from "../modules/searchDate";
 import userData from '../modules/userData';
 import socket from "../modules/socket";
+import dday from '../modules/dday';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     timer,
     socket,
     userData,
+    dday,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

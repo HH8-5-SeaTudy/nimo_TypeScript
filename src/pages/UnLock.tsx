@@ -1,18 +1,15 @@
-import React, { useEffect } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { useEffect } from "react";
 import "swiper/css";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import styled, { keyframes } from "styled-components";
-import fishbowl from "../assets/background/fishbowl.png";
 import fish01 from "../assets/fish/fish01.png";
 import fish02 from "../assets/fish/fish02.png";
 import purpleBorder from "../assets/background/purpleborderpx.png";
-import Grid from "../elements/Grid";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getUserProfile } from "../redux/modules/userData";
-import theme from "../style/Theme";
 import Fishs from "../components/fish/Fishs";
 import { EnumFishs } from "../enum/EnumFishs";
+import { fishImages } from "../components/fish/FishImages";
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -40,72 +37,22 @@ const UnLock = () => {
           </BorderTitleContainer>
         </FishSliderBorder>
       </FirstBorderContainer>
-      <Swiper
-        style={{
-          width: "50%",
-          height: "70%",
-          marginLeft: "35%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        spaceBetween={50}
-        slidesPerView={1}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
-      >
-        <SwiperSlide>
-          <FishSliderSecondBorder>
-            <UnLockContainer></UnLockContainer>
-            <FishContainer>
-              <FishCardWrapper>
-                <Fishs type={EnumFishs.SunFish} />
-                {/* <Grid background={fish01}></Grid> */}
-              </FishCardWrapper>
-              <FishInfoContainer>
-                <TitleContainer>
-                  <InfoTitle>이름:나모</InfoTitle>
-                </TitleContainer>
 
-                <TitleContainer>
-                  <InfoTitle>특징:</InfoTitle>
-                  <InfoTitle>귀여움</InfoTitle>
-                </TitleContainer>
+      <FishSliderSecondBorder>
+        {/* <UnLockContainer></UnLockContainer> */}
+        <FishContainer>
+          {/* 물고기 자세히 보기 */}
+          <FishDetailContainer>
+            {/* {fishImages.map((data) => {})} */}
+            {/* <Fishs type={EnumFishs.BigFish01} /> */}
+          </FishDetailContainer>
 
-                <TitleContainer>
-                  <InfoTitle>나이:3</InfoTitle>
-                </TitleContainer>
-              </FishInfoContainer>
-            </FishContainer>
-          </FishSliderSecondBorder>
-        </SwiperSlide>
-        <SwiperSlide>
-          <FishSliderSecondBorder>
-            <UnLockContainer></UnLockContainer>
-            <FishContainer>
-              <FishCardWrapper>
-                <Fish2 />
-              </FishCardWrapper>
-              <FishInfoContainer>
-                <TitleContainer>
-                  <InfoTitle>이름:복이</InfoTitle>
-                </TitleContainer>
-
-                <TitleContainer>
-                  <InfoTitle>특징:독이 있음</InfoTitle>
-                </TitleContainer>
-
-                <TitleContainer>
-                  <InfoTitle>나이:5</InfoTitle>
-                </TitleContainer>
-              </FishInfoContainer>
-            </FishContainer>
-          </FishSliderSecondBorder>
-        </SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-      </Swiper>
+          {/* 물고기 리스트 보여주는 곳 */}
+          <FishListContainer>
+            <Fishs type={EnumFishs.Fish01} />
+          </FishListContainer>
+        </FishContainer>
+      </FishSliderSecondBorder>
     </UnClockContainer>
   );
 };
@@ -194,16 +141,14 @@ const BorderTitleWrapper = styled.div`
 `;
 
 const FishSliderSecondBorder = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 60%;
+  height: 80%;
   display: flex;
+  left: 15%;
   flex-direction: column;
   align-items: center;
-  background: url(${purpleBorder}) no-repeat;
-  background-size: 100% 100%;
-  padding: 5%;
   position: relative;
-  border: 1px solid red;
+  border: 6px solid red;
 `;
 
 const UnLockContainer = styled.div`
@@ -217,37 +162,24 @@ const FishContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
+  background: linear-gradient(-65deg, #f3f5f0 50%, #dfe8eb 50%);
 `;
 
-const FishCardWrapper = styled.div`
+const FishFirstBackgroundContainer = styled.div`
   width: 100%;
   height: 100%;
-  left: 0;
-  /* position: absolute; */
-  background: url(${fishbowl});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 50% 50%;
-  ${({ theme }) => theme.common.flexCenter};
 `;
 
-const Fish = styled.div`
-  width: 50%;
-  height: 50%;
-  background: url(${fish01});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 50% 50%;
+const FishDetailContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 2px solid green;
 `;
 
-const Fish2 = styled.div`
-  width: 50%;
-  height: 50%;
-  background: url(${fish02});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 50% 50%;
+const FishListContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
 `;
 
 const FishInfoContainer = styled.div`

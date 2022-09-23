@@ -9,26 +9,54 @@ type Ifish = {
 };
 
 const Fishs: any = ({ type, ...props }: Partial<Ifish>) => {
-  console.log(type, EnumFishs.Nimo);
-  if (type === EnumFishs.Nimo) {
-    return <Nimo />;
-  } else if (type === EnumFishs.BlowFish) {
-    return <BlowFish />;
-  } else if (type === EnumFishs.SunFish) return <SunFish />;
+  const FishArray = [
+    {
+      name: "니모",
+      image: fish01,
+    },
+    {
+      name: "드모",
+      image: fish02,
+    },
+  ];
+  // if (type === EnumFishs.Fish01) {
+  //   return <Fish01 />;
+  // } else if (type === EnumFishs.BigFish01) {
+  //   return <BigFish01 />;
+  // } else if (type === EnumFishs.Fish02) {
+  //   return <Fish02 />;
+  // } else if (type === EnumFishs.Fish03) return <Fish03 />;
+  switch (type) {
+    case EnumFishs.Fish01:
+      return <Fish01 />;
+    case EnumFishs.BigFish01:
+      return <BigFish01 />;
+    case EnumFishs.Fish02:
+      return <Fish02 />;
+    // case EnumFishs.Fish01:
+    //   return <Fish01 />;
+  }
 };
 
 export default Fishs;
 
-const Nimo = styled.div`
-  width: 50%;
-  height: 50%;
+const Fish01 = styled.div`
+  width: 50px;
+  height: 50px;
   background: url(${fish01});
-  background-position: center;
   background-repeat: no-repeat;
   background-size: 50% 50%;
 `;
 
-const BlowFish = styled.div`
+const BigFish01 = styled.div`
+  width: 150px;
+  height: 150px;
+  background: url(${fish01});
+  background-repeat: no-repeat;
+  background-size: 50% 50%;
+`;
+
+const Fish02 = styled.div`
   width: 50%;
   height: 50%;
   background: url(${fish02});
@@ -37,7 +65,7 @@ const BlowFish = styled.div`
   background-size: 50% 50%;
 `;
 
-const SunFish = styled.div`
+const Fish03 = styled.div`
   width: 50%;
   height: 50%;
   background: url(${fish03});

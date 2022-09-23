@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import Input from "../../elements/Input";
@@ -14,10 +14,12 @@ import {
   __editCategory,
   __deleteCategory,
 } from "../../redux/modules/dateTodos";
-// import { getAllTodo,allPostCategory,allDeleteCategory,allPostTodo,allDeleteTodo,allDoneTodo } from '../../redux/modules/allTodos';
+import { __getDday, __postDday } from "../../redux/modules/dday";
 import calBg from "../../assets/pixel/calBg.png";
 import left from "../../assets/pixel/left.png";
 import right from "../../assets/pixel/right.png";
+import textbox from "../../assets/pixel/textbox.png";
+import SideBarVer2 from "../sidebar/SideBarVer2";
 
 export type Iresault = {
   result: [];
@@ -25,17 +27,13 @@ export type Iresault = {
 
 const CalendarVer2 = () => {
   const dispatch = useAppDispatch();
-  //달력
-  //오늘 날짜 저장
-  useEffect(() => {
-    // dispatch(updateDate(today.format("YYYY-MM-DD")));//컴포넌트분리시사용
-    setDD(today.format("YYYY-MM-DD"));
-    dispatch(getAllTodo());
-  }, []);
   const allTodos = useAppSelector((state) => state.dateTodos.allTodos);
-
   // const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
+  const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
+  const DdayData = useAppSelector((state) => state.dday.DdayData);
 
+  //Calendar
+  //오늘 날짜 저장
   const [getMoment, setMoment] = useState(moment());
   const [DD, setDD] = useState("");
   const today = getMoment;
@@ -53,42 +51,43 @@ const CalendarVer2 = () => {
   };
 
   //TodoList
-  useEffect(() => {
-    // dispatch(__getDateTodo(date)); //컴포넌트분리시사용
-    if (DD === "") {
-      return;
-    }
-    dispatch(__getDateTodo(DD));
-  }, [DD]);
-
-  const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
-
   const [categoryInputShow, setCategoryInputShow] = useState(false);
-  const [todoInputShow, setTodoInputShow] = useState(false);
+  const [todoInputShow, setTodoInputShow] = useState<any>([
+    false,
+    false,
+    false,
+    false,
+  ]);
   const [editCategoryShow, setEditCategoryShow] = useState(false);
+  const [DdayShow, setDdayShow] = useState(false);
   const [category, setCategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
-
   const [todo, setTodo] = useState("");
+  const [ddayTitle, setDdayTitle] = useState("");
+
+  const todoBoxIndex = (index: number) => {
+    let temp = [...todoInputShow];
+    temp[index] = !temp[index];
+    setTodoInputShow(temp);
+  };
 
   const onSubmitHandler = () => {
-    // if (category.length < 2) {
-    //   alert("2글자 이상 입력");
-    // }
-    // if (dateTodos.length < 4)
-    //   dispatch(__postCategory({ categoryName: category, selectDate: date }));
-    // else {
-    //   alert("4개까지만 생성가능");
-    // }
-    dispatch(__postCategory({ categoryName: category, selectDate: DD }));
+    if (category.length < 2) {
+      alert("2글자 이상 입력");
+    }
+    if (dateTodos.length < 4)
+      dispatch(__postCategory({ categoryName: category, selectDate: DD }));
+    else {
+      alert("4개까지만 생성가능");
+    }
     setCategory("");
   };
 
   const onChangeCategoryInput = (e: any) => {
     setCategory(e.target.value);
   };
-  const onSubmitTodoHandler = (id: number) => {
-    if (todo.length < 2) {
+  const onSubmitTodoHandler = (id: any) => {
+    if (todo.length < 4) {
       alert("너무 짧습니다");
       return;
     }
@@ -99,14 +98,9 @@ const CalendarVer2 = () => {
         content: todo,
       })
     );
-    onChgateaa();
   };
   const onChangeTodoInput = (e: any) => {
     setTodo(e.target.value);
-  };
-
-  const onChgateaa = () => {
-    setTodo("");
   };
 
   const onSubmitEditHandler = (id: any) => {
@@ -118,6 +112,27 @@ const CalendarVer2 = () => {
     );
     setEditCategoryShow(false);
   };
+
+  //D-day
+  const onSubmitDdayHandler = () => {
+    dispatch(__postDday({ title: ddayTitle, ddayDate: DD }));
+    setDdayTitle("");
+  };
+
+  useEffect(() => {
+    // dispatch(updateDate(today.format("YYYY-MM-DD")));//컴포넌트분리시사용
+    setDD(today.format("YYYY-MM-DD"));
+    dispatch(getAllTodo());
+    dispatch(__getDday());
+  }, []);
+
+  useEffect(() => {
+    // dispatch(__getDateTodo(date)); //컴포넌트분리시사용
+    if (DD == "") {
+      return;
+    }
+    dispatch(__getDateTodo(DD));
+  }, [DD]);
 
   const calendarArr = () => {
     let result: any = [];
@@ -392,9 +407,39 @@ const CalendarVer2 = () => {
   };
   return (
     <>
+      {/* <SideBarVer2></SideBarVer2> */}
       <Layer>
         <Wrapper>
           <Calendar>
+            {DdayShow && (
+              <DayTextBox>
+                <DdayTextBoxCloseBtn>
+                  <Dtoday>{DD}</Dtoday>
+                  <div onClick={() => setDdayShow(false)}>닫기</div>
+                </DdayTextBoxCloseBtn>
+                <DdayInputBox>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      onSubmitDdayHandler();
+                    }}
+                  >
+                    <DdayInput>
+                      <Input
+                        type="text"
+                        onChange={(e) => setDdayTitle(e.target.value)}
+                        border="solid black 3px"
+                        outline="none"
+                        height="30px"
+                      />
+                    </DdayInput>
+                    <DdayInputBtn>
+                      <button>등록</button>
+                    </DdayInputBtn>
+                  </form>
+                </DdayInputBox>
+              </DayTextBox>
+            )}
             <CalendarRight>
               <Main>
                 <CalendarRow>
@@ -461,114 +506,140 @@ const CalendarVer2 = () => {
                       </AddEventBtn>
                       {category && <AddEventBtnHidden>+</AddEventBtnHidden>}
                       <AddCategory categoryInputShow={categoryInputShow}>
-                        {/* <Input height={30} /> */}
-                        <input
-                          style={{
-                            fontFamily: "DungGeunMo",
-                            fontSize: "25px",
-                          }}
-                          type="text"
-                          placeholder="카테고리"
+                        <Input
                           onChange={onChangeCategoryInput}
+                          value={category}
+                          transition="width .2s .3s , height .3s"
+                          width={categoryInputShow ? "140px" : "0px"}
+                          height={categoryInputShow ? "25px" : "0px"}
+                          placeholder="카테고리"
+                          fontSize="20px"
+                          border="none"
+                          outline="none"
                         />
                       </AddCategory>
                     </HiddenAddBtn>
                   </form>
+                  <DayBtn onClick={() => setDdayShow(true)}></DayBtn>
                   <Today>{DD.slice(-2)}</Today>
                 </TopBox>
-
                 <LeftSideDay>
+                  <DdayList>
+                    {DdayData &&
+                      DdayData.map((list, index) => (
+                        <>
+                          <Dday key={list.ddayId}>
+                            <div>{list.title}</div>
+                            <p>
+                              D
+                              {list.targetDay == DD
+                                ? "day"
+                                : list.targetDay > DD
+                                ? list.dday
+                                : "+" + list.dday}
+                            </p>
+                          </Dday>
+                        </>
+                      ))}
+                  </DdayList>
                   {dateTodos &&
-                    dateTodos.map((list) => (
-                      <TodoListBox key={list.categoryId}>
-                        <CategoryBox>
-                          <CategoryTitle
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              onSubmitEditHandler(list.categoryId);
-                            }}
-                          >
-                            <input
-                              style={{
-                                fontFamily: "DungGeunMo",
-                                fontSize: "20px",
-                                padding: "5px 0",
+                    dateTodos.map((list, index) => {
+                      return (
+                        <TodoListBox key={list.categoryId}>
+                          <CategoryBox>
+                            <CategoryTitle
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                onSubmitEditHandler(list.categoryId);
                               }}
-                              readOnly={editCategoryShow ? false : true}
-                              onClick={() => setEditCategoryShow(true)}
-                              onChange={(e) => setEditCategory(e.target.value)}
-                              type="text"
-                              defaultValue={list.categoryName}
-                            />
-                          </CategoryTitle>
-                          {/* input show 하는 부분 */}
-                          <BtnGroup>
-                            <CategoryDeleteBtn
-                              onClick={() =>
-                                dispatch(__deleteCategory(list.categoryId))
-                              }
                             >
-                              +
-                            </CategoryDeleteBtn>
-                            <TodoPopBtn
-                              onClick={() => {
-                                setTodoInputShow(!todoInputShow);
-                              }}
-                              todoInputShow={todoInputShow}
-                            >
-                              ›
-                            </TodoPopBtn>
-                          </BtnGroup>
-                        </CategoryBox>
-                        {todoInputShow && (
-                          <HiddenTodoAddBox
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              onSubmitTodoHandler(list.categoryId);
-                              setTodo("");
-                            }}
-                          >
-                            <input
-                              type="text"
-                              value={todo}
-                              onChange={onChangeTodoInput}
-                            />
-                            <TodoAddBtn todo={todo}>+</TodoAddBtn>
-                          </HiddenTodoAddBox>
-                        )}
-                        {list.todoList &&
-                          list.todoList.map((item) => (
-                            <TodoList key={item.todoId}>
-                              <DoneBtn
-                                style={{
-                                  backgroundColor:
-                                    item.done === 1 ? "#32de5d" : "transparent",
-                                }}
+                              <Input
+                                readOnly={editCategoryShow ? false : true}
+                                onClick={() => setEditCategoryShow(true)}
+                                onChange={(e) =>
+                                  setEditCategory(e.target.value)
+                                }
+                                type="text"
+                                defaultValue={list.categoryName}
+                                backgroundColor="#388FFF"
+                                border="none"
+                                outline="none"
+                                color="white"
+                                fontSize="20px"
+                                fontWeight="700"
+                                width="150px"
+                                cursor="pointer"
+                              />
+                            </CategoryTitle>
+                            <BtnGroup>
+                              <CategoryDeleteBtn
                                 onClick={() =>
-                                  dispatch(__doneTodo(item.todoId))
+                                  dispatch(__deleteCategory(list.categoryId))
                                 }
                               >
-                                {" "}
-                              </DoneBtn>
-                              <Todo>{item.content}</Todo>
-                              <TodoBtn>
-                                <DeleteBtn
+                                +
+                              </CategoryDeleteBtn>
+                              <TodoPopBtn
+                                onClick={() => {
+                                  todoBoxIndex(index);
+                                }}
+                                todoInputShow={todoInputShow[index]}
+                              >
+                                ›
+                              </TodoPopBtn>
+                            </BtnGroup>
+                          </CategoryBox>
+                          {todoInputShow[index] && (
+                            <HiddenTodoAddBox
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                onSubmitTodoHandler(list.categoryId);
+                              }}
+                            >
+                              <Input
+                                type="text"
+                                onChange={onChangeTodoInput}
+                                width="250px"
+                              />
+                              <TodoAddBtn todo={todo}>+</TodoAddBtn>
+                            </HiddenTodoAddBox>
+                          )}
+                          {list.todoList &&
+                            list.todoList.map((item) => (
+                              <TodoList key={item.todoId}>
+                                <DoneBtn
+                                  style={{
+                                    backgroundColor:
+                                      item.done === 1
+                                        ? "#32de5d"
+                                        : "transparent",
+                                  }}
                                   onClick={() =>
-                                    dispatch(
-                                      __deleteTodo({
-                                        todoId: item.todoId,
-                                        categoryId: list.categoryId,
-                                      })
-                                    )
+                                    dispatch(__doneTodo(item.todoId))
                                   }
                                 >
-                                  +
-                                </DeleteBtn>
-                              </TodoBtn>
-                            </TodoList>
-                          ))}
-                      </TodoListBox>
-                    ))}
+                                  {" "}
+                                </DoneBtn>
+                                <Todo>{item.content}</Todo>
+                                <TodoBtn>
+                                  <DeleteBtn
+                                    onClick={() =>
+                                      dispatch(
+                                        __deleteTodo({
+                                          todoId: item.todoId,
+                                          categoryId: list.categoryId,
+                                        })
+                                      )
+                                    }
+                                  >
+                                    +
+                                  </DeleteBtn>
+                                </TodoBtn>
+                              </TodoList>
+                            ))}
+                        </TodoListBox>
+                      );
+                    })}
                 </LeftSideDay>
               </CalendarLeft>
             </LeftLayer>
@@ -591,7 +662,6 @@ const Layer = styled.div`
   background-repeat: no-repeat;
   background-size: 1200px 700px;
   background-position: center;
-  font-family: "DungGeunMo";
 `;
 
 const MonthYear = styled.div`
@@ -608,8 +678,10 @@ const MonthYear = styled.div`
 const Month = styled.div`
   /* border: solid red 1px; */
   width: 180px;
-  ${({ theme }) => theme.common.flexCenter};
+  display: flex;
+  justify-content: space-between;
   text-align: center;
+  align-items: center;
 `;
 const TodayMon = styled.div`
   font-size: 23px;
@@ -619,8 +691,8 @@ const YearBox = styled.div`
   /* border: solid red 1px; */
   display: flex;
   justify-content: space-between;
-  align-items: center;
   text-align: center;
+  align-items: center;
   width: 150px;
 `;
 const TodayYear = styled.div`
@@ -639,15 +711,56 @@ const NextBtn = styled.img`
 `;
 
 const Wrapper = styled.div`
-  position: absolute;
   top: 117px;
-  /* border: solid red 3px; */
   display: block;
   position: relative;
   max-width: 1100px;
   width: 100%;
   margin: 0 auto;
   color: #ffffff;
+`;
+const DayTextBox = styled.div`
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  background-image: url(${textbox});
+  z-index: 5;
+  top: 180px;
+  padding: 35px;
+`;
+const DdayTextBoxCloseBtn = styled.div`
+  width: 230px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  color: black;
+  text-align: end;
+  cursor: pointer;
+`;
+const Dtoday = styled.p`
+  font-size: 20px;
+  font-weight: 700;
+`;
+const DdayInputBox = styled.div`
+  width: 200px;
+  height: 100px;
+  margin: auto;
+`;
+const DdayInput = styled.div`
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+const DdayInputBtn = styled.div`
+  margin-top: 20px;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Calendar = styled.div`
@@ -670,6 +783,19 @@ const CalendarLeft = styled.div`
   display: block;
   height: 700px;
 `;
+const DayBtn = styled.div`
+  position: absolute;
+  border-radius: 5px 15px 15px 5px;
+  border: solid white 2px;
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  top: 7px;
+  right: 24px;
+  cursor: pointer;
+  z-index: 3;
+`;
+
 const Today = styled.div`
   /* border:solid red 1px; */
   position: absolute;
@@ -689,6 +815,37 @@ const LeftSideDay = styled.div`
   }
   max-height: 400px;
 `;
+const DdayList = styled.div`
+  display: flex;
+  justify-content: end;
+  flex-wrap: wrap;
+  font-weight: 500;
+`;
+const Dday = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  line-height: 19px;
+  div {
+    font-size: 15px;
+    color: black;
+  }
+  p {
+    color: white;
+    font-size: 20px;
+    margin: 0 5px 0 2px;
+    font-weight: 700;
+  }
+`;
+const DayTextBoxEdit = styled.div`
+  position: relative;
+  width: 300px;
+  height: 200px;
+  background-image: url(${textbox});
+  z-index: 5;
+  top: 0px;
+  padding: 35px;
+`;
 
 const TodoListBox = styled.div`
   margin-top: 10px;
@@ -706,16 +863,6 @@ const CategoryBox = styled.div`
 const CategoryTitle = styled.form`
   color: white;
   padding-top: 5px;
-  input {
-    background-color: #388fff;
-    border: none;
-    outline: none;
-    color: white;
-    font-size: 20px;
-    font-weight: 700;
-    width: 200px;
-    cursor: pointer;
-  }
 `;
 const BtnGroup = styled.div`
   display: flex;
@@ -733,7 +880,7 @@ const CategoryDeleteBtn = styled.div`
   font-size: 25px;
   text-decoration: none;
   text-align: center;
-  line-height: 16px;
+  line-height: 18px;
   border: 2px solid #fff;
   border-radius: 50%;
   z-index: 1;
@@ -754,11 +901,10 @@ const TodoPopBtn = styled.div<TodoInputShowProps>`
   font-size: 40px;
   text-decoration: none;
   text-align: center;
-  justify-content: center;
-  align-items: center;
-  line-height: 15px;
+  line-height: 9px;
   border: 2px solid #fff;
   border-radius: 50%;
+  right: 35px;
   transform: ${({ todoInputShow }) =>
     todoInputShow ? `rotate(-90deg)` : `rotate(90deg)`};
   transition: transform 0.2s ease-in-out;
@@ -774,9 +920,6 @@ const HiddenTodoAddBox = styled.form`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  input {
-    width: 250px;
-  }
 `;
 interface TodoProps {
   todo: string;
@@ -809,8 +952,7 @@ const TodoList = styled.div`
 
 const DoneBtn = styled.div`
   box-sizing: border-box;
-  /* float: left; */
-  display: flex;
+  float: left;
   width: 18px;
   height: 18px;
   color: #fff;
@@ -843,7 +985,7 @@ const DeleteBtn = styled.div`
   font-size: 25px;
   text-decoration: none;
   text-align: center;
-  line-height: 16px;
+  line-height: 19px;
   border: 2px solid #fff;
   border-radius: 50%;
   z-index: 1;
@@ -877,12 +1019,12 @@ const CalendarRow = styled.div`
   display: flex;
   justify-content: flex-start;
   font-weight: 700;
+  font-size: 20px;
 `;
 const CalendarCol = styled.div`
   width: calc(100% / 7);
   text-align: center;
   height: 50px;
-  font-size: 1.5em;
   line-height: 50px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -892,7 +1034,6 @@ const CalendarCel = styled.div`
   width: calc(100% / 7);
   height: 75px;
   text-align: center;
-  font-size: 1.4em;
   cursor: pointer;
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 `;
@@ -971,7 +1112,7 @@ const AddEventBtn = styled.div<CategoryInputShowProps>`
   font-size: 35px;
   text-decoration: none;
   text-align: center;
-  line-height: 25px;
+  line-height: 28px;
   border: 5px solid #fff;
   border-radius: 50%;
   transition: 0.2s ease-in-out;
@@ -990,7 +1131,7 @@ const AddEventBtnHidden = styled.button`
   font-size: 35px;
   text-decoration: none;
   text-align: center;
-  line-height: 25px;
+  line-height: 28px;
   border: 5px solid #fff;
   border-radius: 50%;
   right: -10px;
@@ -1003,13 +1144,5 @@ const AddCategory = styled.div<CategoryInputShowProps>`
   margin: 0;
   height: 40px;
   padding: 8px 29px 0 0;
-  font-size: 0;
   line-height: 1.25;
-  input {
-    width: ${({ categoryInputShow }) => (categoryInputShow ? "140px" : "0px")};
-    height: ${({ categoryInputShow }) => (categoryInputShow ? "25px" : "0px")};
-    transition: width 0.2s 0.3s, height 0.3s;
-    border: none;
-    outline: none;
-  }
 `;

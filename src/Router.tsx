@@ -13,7 +13,6 @@ import Wave from "./pages/Wave";
 import { getCookie } from "./components/social/Cookie";
 import Header from "./components/common/Header";
 import PrivateRoute from "./PrivateRoute";
-import FishUnLock from "./pages/FishUnLock";
 import UnLock from "./pages/UnLock";
 
 const Router = () => {
