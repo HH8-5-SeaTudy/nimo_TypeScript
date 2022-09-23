@@ -10,7 +10,10 @@ import { ReactComponent as ProfileIcon } from "../assets/icon/ProfileIcon.svg";
 import { ReactComponent as PlusIcon } from "../assets/icon/PlusIcon.svg";
 import { ReactComponent as BurgerIcon } from "../assets/icon/BurgerIcon.svg";
 import { ReactComponent as CalendarIcon } from "../assets/icon/CalendarIcon.svg";
-import test2 from '../assets/pixel/test2.png'
+import backimg from '../assets/pixel/backimg.jpeg'
+import CalendarVer2 from '../components/calendar/CalendarVer2';
+import SideBarVer2 from '../components/sidebar/SideBarVer2';
+
 
 
 const Home = () => {
@@ -49,81 +52,7 @@ const Home = () => {
 
   return (
   <Layer>
-    <MainBox>
-      <TopBox>
-        <ProfileLayer>
-          <ProfileIconBox onClick={() => setProfileShow(!profileShow)}>
-            <Profile />
-          </ProfileIconBox>
-          <ProfileHiddenLayer profileShow={profileShow}>
-            <ProfileInfo>
-              <ProfileImg></ProfileImg>
-              <ProfileName></ProfileName>
-              <ProfileMsg></ProfileMsg>
-            </ProfileInfo>
-            <ProfileClose onClick={() => setProfileShow(!profileShow)}>
-            </ProfileClose>
-          </ProfileHiddenLayer>
-        </ProfileLayer>
-        <TodoLayer>
-          <TodoIconBox onClick={() => setTodoShow(!todoShow)}>
-          <Plus />
-          </TodoIconBox>
-          <TodoHiddenLayer todoShow={todoShow} >
-            <TodoInfo>
-            <button onClick={()=>{modalHandler()}}>작성하기버튼</button>
-              <div>
-                {dateTodos &&
-                  dateTodos.map((list) => (
-                    <div key={list.categoryId}>
-                      <div>
-                        <p>카테고리이름:{list.categoryName}</p>
-                      </div>
-                      <div>
-                        {list.todoList &&
-                          list.todoList.map((item) => (
-                            <>
-                              <div key={item.todoId}>
-                                <p>{item.content}</p>
-                              </div>
-                            </>
-                          ))}
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </TodoInfo>
-            <TodoClose  onClick={() => setTodoShow(!todoShow)}>
-            </TodoClose>
-          </TodoHiddenLayer>
-        </TodoLayer>
-      </TopBox>
-      <Bottom>
-      <BurgerLayer>
-          <BurgerIconBox onClick={() => setBurgerShow(!burgerShow)}>
-          <Burger />
-          </BurgerIconBox>
-          <BurgerHiddenLayer burgerShow={burgerShow}>
-            <BurgerInfo>
-              <button onClick={()=>navigate('/statistics')}>통계페이지로이동</button>
-            </BurgerInfo>
-            <BurgerClose onClick={() => setBurgerShow(!burgerShow)}>
-            </BurgerClose>
-          </BurgerHiddenLayer>
-        </BurgerLayer>
-        <CalendarLayer>
-          <CalendarIconBox onClick={() => setCalendarShow(!calendarShow)}>
-          <Calendar />
-          </CalendarIconBox>
-          <CalendarHiddenLayer calendarShow={calendarShow} >
-            <CalendarInfo>
-            </CalendarInfo>
-            <CalendarClose onClick={() => setCalendarShow(!calendarShow)}>
-            </CalendarClose>
-          </CalendarHiddenLayer>
-        </CalendarLayer>
-
-        <ButtonBox>
+    {/* <ButtonBox>
           <CheckInBall>
           <button onClick={()=>{
             dispatch(__getCheckInTimer());
@@ -187,8 +116,27 @@ const Home = () => {
           >
             서버5
           </button>
-        </ButtonBox> 
-      </Bottom>   
+        </ButtonBox>  */}
+    <MainBox>  
+      <SideBar>
+        <SideProfile onClick={() => setProfileShow(!profileShow)}>프로필헤더</SideProfile>
+        <SideProfileBox profileShow={profileShow}>
+          <ProfileLeft>
+            <ProfileFish></ProfileFish>
+          </ProfileLeft>
+          <ProfileRight>
+            <Name>name</Name>
+            <Info>info</Info>
+            <StudyTime>총 공부시간</StudyTime>
+          </ProfileRight>
+        </SideProfileBox>
+        <SideCalendar onClick={() => setCalendarShow(!calendarShow)}>캘린더헤더</SideCalendar>
+        <SideCalendarBox calendarShow={calendarShow}></SideCalendarBox>
+        <SideTodoList onClick={() => setTodoShow(!todoShow)}>투두리스트헤더</SideTodoList>
+        <SideTodoListBox todoShow={todoShow}></SideTodoListBox>
+        <SideInventory  onClick={() => setBurgerShow(!burgerShow)}>인벤토리헤더</SideInventory>
+        <SideInventoryBox burgerShow={burgerShow}></SideInventoryBox>
+      </SideBar>
     </MainBox> 
 
   </Layer>
@@ -214,7 +162,7 @@ const Layer = styled.section`
   width: 100%;
   height: 100vh;
   padding-top: 65px;
-  background: url(${test2});
+  background: url(${backimg});
   background-size: 100% 100vh;
 `
 
@@ -223,241 +171,89 @@ const MainBox = styled.div`
     height: 100%;
 
 ` 
-
-const TopBox = styled.div`
-    border: solid red 1px; 
-    height: 50%;
-    display: flex;
-    justify-content: space-between;
-`
-
-
-const ProfileLayer = styled.div`
-   position:relative;
-   background:#264b7e;
-   width: 25px;
-`
-const ProfileIconBox = styled.div`
-  background:#264b7e;
-  width: 60px;
-  height: 75px;
-  position: absolute;
-  left: -5px;
-  top: 38%;
-  border-radius: 40px;
-`
-const Profile = styled(ProfileIcon)`
-  position: absolute;
-  top:30%;
-  right:13px;
-`;
-
-const ProfileHiddenLayer = styled.div<ProfileLayerProps>`
-  border: solid blue 1px;
-  width: 359px;
+const SideBar = styled.div`
+  position: relative;
+  border: solid red 3px;
+  background-color: white;
+  width: 500px;
   height: 100%;
-  display:flex;
-  position:absolute;
-  left: ${({ profileShow }) => (profileShow ? "0px" : "-359px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
 `
-const ProfileInfo = styled.div`
+const SideProfile = styled.div`
+     border: solid red 1px;
+     height: 50px;
+`
+const SideCalendar = styled.div`
+   border: solid red 1px;
+   height: 50px;
+`
+const SideTodoList = styled.div`
+   border: solid red 1px;
+   height: 50px;
+`
+const SideInventory = styled.div`
+   border: solid red 1px;
+   height: 50px;
+`
+//
+const SideProfileBox = styled.div<ProfileLayerProps>`
+     border: solid red 1px;
+     height: 300px;
+     display: ${({ profileShow }) => (profileShow ? "none" : "flex")};
+`
+const ProfileLeft = styled.div`
+   border: solid red 1px;
+   width:50%;
+   height: 100%;
+   display: flex;
+   align-items: center;
+`
+const ProfileFish = styled.div`
   border: solid red 1px;
-  height: 100%;
-  width: 334px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-
-`
-const ProfileImg = styled.div`
-  border: 2px solid #ffffff;
-  background: #bababa;
-  width: 175px;
-  height: 175px;
-  border-radius: 50%;
-  margin: 0 auto;
-  `
-const ProfileName = styled.div`
-  border: 2px solid #ffffff;
-  background: #bababa;
-  width: 123px;
-  height: 50px;
-  margin: 0 auto;
-`
-const ProfileMsg = styled.div`
-border: 2px solid #ffffff;
-background: #bababa;
-  width: 250px;
-  height: 87px;
-  margin: 0 auto;
-`
-const ProfileClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-
-const TodoLayer = styled.div`
-   width: 25px;
-   position:relative;
-   background:#264b7e;
-`
-
-const TodoIconBox = styled.div`
-  position: absolute; 
-  width: 60px;
-  height: 75px;
-  right: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background:#264b7e;
-`
-const Plus = styled(PlusIcon)`
-  position: absolute;
-  top:30%;
-  left:13px;
-`;
-
-const TodoHiddenLayer = styled.div<TodoLayerProps>`
-  position:absolute;
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display:flex;
-  flex-direction: row-reverse;
-  left: ${({ todoShow }) => (todoShow ? "-334px" : "25px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-
-const TodoInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`
-
-const TodoClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-
-
-const Bottom =styled.div`
-    border: solid red 2px; 
-    height: 50%;
-    display: flex;
-    justify-content: space-between;
-`
-
-const BurgerLayer = styled.div`
-   position:relative;
-   width: 25px;
-   background:#264b7e;
-`
-const BurgerIconBox = styled.div`
-  width: 60px;
-  height: 75px;
-  position: absolute;
-  left: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background:#264b7e;
-`
-const Burger = styled(BurgerIcon)`
-    position: absolute;
-  top:30%;
-  right:13px;
-`;
-
-const BurgerHiddenLayer = styled.div<BurgerLayerProps>`
-    border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display:flex;
-  position:absolute;
-  left: ${({ burgerShow }) => (burgerShow ? "0px" : "-359px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-const BurgerInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`
-const BurgerClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-
-const CalendarLayer = styled.div`
-   width: 25px;
-   position:relative;
-   background:#264b7e;
-`
-
-const CalendarIconBox = styled.div`
-  position: absolute; 
-  width: 60px;
-  height: 75px;
-  right: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background:#264b7e;
-`
-const Calendar = styled(CalendarIcon)`
-   position: absolute;
-  top:30%;
-  left:13px;
-`;
-
-const CalendarHiddenLayer = styled.div<CalendarLayerProps>`
-  position:absolute;
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display:flex;
-  flex-direction: row-reverse;
-  left: ${({ calendarShow }) => (calendarShow ? "-334px" : "25px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-
-const CalendarInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`
-
-const CalendarClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-const ButtonBox = styled.div`
-  position: absolute;
-  border: solid red 1px; 
   width: 200px;
   height: 200px;
-  display: flex;
-  flex-direction: column;
+  border-radius: 50%;
+  margin:auto;
+`
+const ProfileRight = styled.div`
+  border: solid red 1px;
+  width:50%;
+  height: 100%;
+  display:flex;
+  flex-direction:column;
   justify-content: space-around;
-  left: 45%;
-`;
-const CheckInBall = styled.div`
-button{
-  width: 50%;
-  height: 50px;
-  &:first-child{
-    background-color: green;
-  }
-  background-color:red;
-}
+`
+const Name = styled.div`
+  border: solid red 1px;
+  width:60%;
+  height: 80px;
+  margin:auto;
+`
+const Info = styled.div`
+  border: solid red 1px;
+  width:60%;
+  height: 80px;
+  margin:auto;
+`
+const StudyTime = styled.div`
+  border: solid red 1px;
+  width:60%;
+  height: 80px;
+  margin:auto;
+`
+
+
+const SideCalendarBox = styled.div<CalendarLayerProps>`
+   border: solid red 1px;
+   height: 300px;
+   display: ${({calendarShow }) => (calendarShow ? "none" : "block")};
+`
+const SideTodoListBox = styled.div<TodoLayerProps>`
+   border: solid red 1px;
+   height: 300px;
+   display: ${({ todoShow }) => (todoShow ? "none" : "block")};
+`
+const SideInventoryBox = styled.div<BurgerLayerProps>`
+   border: solid red 1px;
+   height: 300px;
+   display: ${({ burgerShow }) => (  burgerShow ? "none" : "block")};
 `
