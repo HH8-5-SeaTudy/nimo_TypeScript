@@ -68,3 +68,15 @@ export type Ilocation = {
   search: string;
   state: {id: string;}
 };
+
+//D-day Data
+export type IDdayInitialState  = {
+  DdayData: IDday[]
+};
+
+export type IDday = {
+  ddayId: number;            
+  title: string;
+  dday: number;
+  targetDay: string;
+};

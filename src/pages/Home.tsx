@@ -5,8 +5,6 @@ import moment from "moment";
 import { useAppDispatch,  useAppSelector } from "../components/hooks/reduxHooks";
 import { __getDateTodo } from '../redux/modules/dateTodos';
 import { __getCheckInTimer, __getCheckOutTimer, __getUserinquire } from "../redux/modules/timer";
-import TodoModal from '../pages/TodoModal';
-import Calendars from '../components/calendar/Calendars';
 //아이콘
 import { ReactComponent as ProfileIcon } from "../assets/icon/ProfileIcon.svg";
 import { ReactComponent as PlusIcon } from "../assets/icon/PlusIcon.svg";
@@ -94,7 +92,6 @@ const Home = () => {
                     </div>
                   ))}
               </div>
-              {modalShow && <TodoModal modalHandler={modalHandler} />}
             </TodoInfo>
             <TodoClose  onClick={() => setTodoShow(!todoShow)}>
             </TodoClose>
@@ -120,13 +117,12 @@ const Home = () => {
           </CalendarIconBox>
           <CalendarHiddenLayer calendarShow={calendarShow} >
             <CalendarInfo>
-            <Calendars/>
             </CalendarInfo>
             <CalendarClose onClick={() => setCalendarShow(!calendarShow)}>
             </CalendarClose>
           </CalendarHiddenLayer>
         </CalendarLayer>
-       
+
         <ButtonBox>
           <CheckInBall>
           <button onClick={()=>{

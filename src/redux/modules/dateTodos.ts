@@ -58,6 +58,7 @@ export const __getDateTodo: any = createAsyncThunk(
 export const __postCategory: any = createAsyncThunk(
   "category/postCategory",
   async (payload: any, thunkAPI) => {
+    console.log(payload)
     try {
       const data = await axios.post(
         `${BASE_URL}/api/v1/todoCategories`,
