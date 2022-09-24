@@ -105,6 +105,7 @@ const UnLock = () => {
                 {fishImage && <BigFish src={fishImage.image} alt="" />}
               </FishDetailContainer>
 
+              
               {/* 물고기 리스트 보여주는 곳 */}
               <FishListContainer>
                 {fishImages.map((data: any, index: any) => {
