@@ -6,7 +6,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
 
 export const __getFishList: any = createAsyncThunk(
-  "user/getfishlist",
+  "fish/getfishlist",
   async (payload, thunkAPI) => {
     try {
       const response = await axios.get(
@@ -18,7 +18,6 @@ export const __getFishList: any = createAsyncThunk(
           },
         }
       );
-
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -26,19 +25,19 @@ export const __getFishList: any = createAsyncThunk(
   }
 );
 
-export type IFishImage = {
-  fishName: string;
-  image: string;
+export type IFhsh = {
+  fishInfo: IFishImage;
 };
 
-export type IFhsh = {
-  imageInfo: IFishImage;
+export type IFishImage = {
+  fishName: string;
+  fishImageUrl: string;
 };
 
 const initialState: IFhsh = {
-  imageInfo: {
+  fishInfo: {
     fishName: "",
-    image: "",
+    fishImageUrl: "",
   },
 };
 
@@ -48,7 +47,8 @@ export const fishList = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(__getFishList.fulfilled, (state, action) => {
-      state.imageInfo = action.palyload;
+      state.fishInfo = action.payload;
+      console.log(action.payload);
     });
   },
 });
