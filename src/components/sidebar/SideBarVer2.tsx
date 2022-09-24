@@ -86,8 +86,8 @@ const SideBarBtn = styled.div`
 `
 const Layer = styled.div`
   background-color:red;
-  position: absolute;
-  height: 100vh;
+  position: relative;
+  height: 100vh - 65px;
   width: 30vw;
   /* left: -30vw; */
   z-index:5;

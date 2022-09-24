@@ -5,7 +5,7 @@ import Input from '../../elements/Input';
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 // import { updateDate,selectDate } from '../../redux/modules/searchDate';
 import { getAllTodo,__postCategory,__getDateTodo,__postTodo,__deleteTodo,__doneTodo,__editCategory,__deleteCategory } from '../../redux/modules/dateTodos';
-import { __getDday,__postDday } from '../../redux/modules/dday';
+import { __deleteDday, __editDday, __getDday,__postDday } from '../../redux/modules/dday';
 import calBg from '../../assets/pixel/calBg.png'
 import left from '../../assets/pixel/left.png'
 import right from '../../assets/pixel/right.png'
@@ -22,6 +22,19 @@ const CalendarVer2 = () => {
   // const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
+  //
+  const [categoryInputShow,setCategoryInputShow] = useState(false)
+  const [todoInputShow,setTodoInputShow] = useState<any>([false,false,false,false])
+  const [editCategoryShow,setEditCategoryShow] = useState(false)
+  const [DdayShow,setDdayShow] = useState(false)
+  const [DdayEditShow,setDdayEditShow] = useState(false)
+  const [category, setCategory] = useState("");  
+  const [editCategory, setEditCategory] = useState("");
+  const [todo, setTodo] = useState("");
+  const [ddayTitle,setDdayTitle] = useState("");
+  const [selectDdayID,setSelectDdayID] = useState<number>();
+  const [DdayEditTitle,setDdayEditTitle] = useState("");
+ 
 
   //Calendar 
   //오늘 날짜 저장
@@ -42,14 +55,6 @@ const CalendarVer2 = () => {
   }
 
   //TodoList
-  const [categoryInputShow,setCategoryInputShow] = useState(false)
-  const [todoInputShow,setTodoInputShow] = useState<any>([false,false,false,false])
-  const [editCategoryShow,setEditCategoryShow] = useState(false)
-  const [DdayShow,setDdayShow] = useState(false)
-  const [category, setCategory] = useState("");  
-  const [editCategory, setEditCategory] = useState("");
-  const [todo, setTodo] = useState("");
-  const [ddayTitle,setDdayTitle] = useState("");
 
   const todoBoxIndex = (index:number) => {
     let temp = [...todoInputShow]
@@ -99,18 +104,32 @@ const CalendarVer2 = () => {
     setEditCategoryShow(false)
   };
 
-  //D-day
+//D-day
+
 const onSubmitDdayHandler = () => {
   dispatch(__postDday({title: ddayTitle,ddayDate: DD}))
   setDdayTitle("")
 }
+const onSubmitEditDataHandler = (id:number) => {
+  setSelectDdayID(id);
+  setDdayShow(false);
+  setDdayEditShow(true);
+}
+const selectDdayData = DdayData.filter((x)=>x.ddayId == selectDdayID)
 
-  
+const onSubmitDdayEditHandler = (id:number,targetDay:string) => {
+  dispatch(__editDday({
+    title: DdayEditTitle,
+    targetDay:targetDay,
+    id,
+  }))
+}
+
+//useEffect
   useEffect(() => {
     // dispatch(updateDate(today.format("YYYY-MM-DD")));//컴포넌트분리시사용
     setDD(today.format("YYYY-MM-DD"));
     dispatch(getAllTodo());
-    dispatch(__getDday())
   }, []);
 
   useEffect(() => {
@@ -119,8 +138,10 @@ const onSubmitDdayHandler = () => {
       return;
     }
     dispatch(__getDateTodo(DD));
+    dispatch(__getDday(DD))
   }, [DD]);
 
+console.log(selectDdayData)
 
   const calendarArr = () => {
     let result:any = [];
@@ -161,7 +182,7 @@ const onSubmitDdayHandler = () => {
                           cy="100"
                           r="48"
                           fill="transparent"
-                          stroke="#f6730e"
+                          stroke="#ff9100"
                           strokeWidth="90"
                           strokeDasharray= {`${diameter * allTodos.filter((x)=>x.selectDate == days.format("YYYY-MM-DD")).map((y)=>y.todoList).filter((z)=>z.length).map((a)=>a.filter((b)=>b.done == 1).length).reduce((a,b)=>a+b,0) 
                           / allTodos.filter((x)=>x.selectDate == days.format("YYYY-MM-DD")).map((y)=>y.todoList.length).reduce((a,b)=>a+b,0)} ${
@@ -171,7 +192,7 @@ const onSubmitDdayHandler = () => {
                           strokeDashoffset={diameter * 0.25}
                         />
                       </svg> }
-                      <P  style={{ backgroundColor: "#ff6f00"}}  >{days.format("D")}</P>
+                      <P  style={{ backgroundColor: "#ff9100"}}  >{days.format("D")}</P>
                     </CalendarCel>
                   );
                 } else if (days.format("MM") !== today.format("MM")) {
@@ -196,7 +217,7 @@ const onSubmitDdayHandler = () => {
                           cy="100"
                           r="48"
                           fill="transparent"
-                          stroke="#46BDF9"
+                          stroke="#00D7FF"
                           strokeWidth="90"
                           strokeDasharray={`${diameter * allTodos.filter((x)=>x.selectDate == days.format("YYYY-MM-DD")).map((y)=>y.todoList).filter((z)=>z.length).map((a)=>a.filter((b)=>b.done == 1).length).reduce((a,b)=>a+b,0) 
                           / allTodos.filter((x)=>x.selectDate == days.format("YYYY-MM-DD")).map((y)=>y.todoList.length).reduce((a,b)=>a+b,0)} ${
@@ -206,7 +227,7 @@ const onSubmitDdayHandler = () => {
                           strokeDashoffset={diameter * 0.25}
                         />
                       </svg> }
-                      <P style={{ backgroundColor: "#46befa" }} >
+                      <P style={{ backgroundColor: "#00D7FF" }} >
                         {days.format("D")}</P>
                     </CalendarCel>
                   );
@@ -260,6 +281,7 @@ const onSubmitDdayHandler = () => {
         <Layer>
           <Wrapper>
             <Calendar>
+              {/* DdayModal */}
               {DdayShow &&  
               <DayTextBox>
                 <DdayTextBoxCloseBtn>
@@ -280,6 +302,33 @@ const onSubmitDdayHandler = () => {
                   </form>
                 </DdayInputBox>
               </DayTextBox>}
+              {/* DdayEditModal */}
+              {DdayEditShow &&
+              selectDdayData?.map((list)=> 
+              <DayEditTextBox>
+                  <DdayTextBoxCloseBtn>
+                  <Dtoday>{DD}<span>D{list.dday == 0 ? '-day' : list.dday > 0 ? '+'+list.dday : list.dday }</span></Dtoday>
+                  <div onClick={()=>setDdayEditShow(false)}>닫기</div>
+                  </DdayTextBoxCloseBtn>
+                <DdayInputBox>
+                  <form onSubmit={(e)=>{
+                      e.preventDefault();
+                      onSubmitDdayEditHandler(list.ddayId,list.targetDay);
+                      }}>
+                  <DdayInput>
+                    <Input type="text" onChange={(e)=>setDdayEditTitle(e.target.value)} border='solid black 3px' outline='none' height='30px' defaultValue={list.title}/>
+                  </DdayInput>
+                  <DdayInputBtn>
+                    <button >수정</button>  
+                    <button type='button' onClick={()=>{dispatch(__deleteDday(list.ddayId))}}>삭제</button>
+                  </DdayInputBtn>
+                  </form>
+               
+                </DdayInputBox>
+              </DayEditTextBox>)
+              }
+            
+              {/* 달력 */}
               <CalendarRight>
                 <Main>
                   <CalendarRow>
@@ -336,20 +385,21 @@ const onSubmitDdayHandler = () => {
                       </AddCategory>
                     </HiddenAddBtn>
                   </form>
-                    <DayBtn onClick={()=>setDdayShow(true)}></DayBtn>
+                    <DayBtn onClick={()=>{
+                      setDdayShow(true);
+                      setDdayEditShow(false);}}></DayBtn>
                     <Today>{DD.slice(-2)}</Today>
                   </TopBox>
                   <LeftSideDay>
+                    {/* 디데이 */}
                       <DdayList >
                         {DdayData && 
-                        DdayData.map((list,index)=> 
+                        DdayData.map((list)=> 
                         <>
-                        <Dday key={list.ddayId}>
-                          <div>{list.title}</div>
-                          <p>
-                            D{list.targetDay == DD ? 'day' : list.targetDay > DD ? list.dday : '+'+list.dday }</p>
-                          
-                        </Dday>
+                          <Dday key={list.ddayId} onClick={()=>onSubmitEditDataHandler(list.ddayId)}>
+                            <div>{list.title}</div>
+                            <p>D{list.dday == 0 ? '-day' : list.dday > 0 ? '+'+list.dday : list.dday }</p>
+                          </Dday>
                         </>
                         )}
                       </DdayList>
@@ -366,7 +416,7 @@ const onSubmitDdayHandler = () => {
                           onClick={()=>setEditCategoryShow(true)} 
                           onChange={(e) => setEditCategory(e.target.value)} 
                           type="text" defaultValue={list.categoryName} 
-                          backgroundColor = '#388FFF'
+                          backgroundColor = '#0096FF'
                           border='none'
                           outline='none'
                           color='white'
@@ -423,19 +473,22 @@ const onSubmitDdayHandler = () => {
 
 
   const Layer = styled.div`
-    border: solid red 5px;
-    margin: auto;
-    height: 850px;
-    width: 1350px;
+  position: absolute;
+    border: solid red 1px;
+    left: 300px;
+    top: 150px;
+    height: 650px;
+    width: 1150px;
     color: #ffffff;
     background-image: url(${calBg});
     background-repeat: no-repeat;
     background-size: 1200px 700px;
     background-position: center;
+    z-index:20;
   `;
   
   const MonthYear = styled.div`
-    background-color: #388FFF;
+    background-color: #0096FF;
     /* border: solid black 3px; */
     height: 70px;
     border-radius: 6px;
@@ -481,7 +534,7 @@ const onSubmitDdayHandler = () => {
   `
   
   const Wrapper = styled.div`
-    top:117px;
+    top:25px;
     display: block;
     position: relative;
     max-width: 1100px;
@@ -495,6 +548,7 @@ const onSubmitDdayHandler = () => {
     width:300px;
     height:200px;
     background-image: url(${textbox});
+    background-repeat:no-repeat;
     z-index: 5;
     top: 180px;
     padding: 35px ;
@@ -514,6 +568,10 @@ const onSubmitDdayHandler = () => {
   const Dtoday =styled.p`
     font-size: 20px;
     font-weight: 700;
+    span{
+      margin-left:5px;
+      color: red;
+    }
   `
   const DdayInputBox =styled.div`
 
@@ -522,6 +580,7 @@ const onSubmitDdayHandler = () => {
     margin: auto;
   `
   const DdayInput = styled.div`
+    border: solid red 1px;
     height:50%;
     display:flex;
     justify-content:center;
@@ -530,13 +589,28 @@ const onSubmitDdayHandler = () => {
   `
 
   const DdayInputBtn =styled.div`
+     border: solid red 1px;
     margin-top:20px;
     height:50%;
     display:flex;
     justify-content:center;
     align-items:center;
+    button {
+      margin: 0 10px;
+    }
   `
+  //디데이 수정박스
+    const DayEditTextBox = styled.div`
+    position:absolute;
+      width:300px;
+      height:200px;
+      background-image: url(${textbox});
+      background-repeat:no-repeat;
+      z-index: 5;
+      top: 180px;
+      padding: 35px ;
   
+    `
   
   const Calendar = styled.div`
     /* border: solid red 1px; */
@@ -551,7 +625,7 @@ const onSubmitDdayHandler = () => {
   position:relative;
     width: 350px;
     padding: 20px;
-    background-color: #388FFF;
+    background-color: #0096FF;
     box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);
     margin: 20px;
     border-radius: 6px;
@@ -626,7 +700,7 @@ const onSubmitDdayHandler = () => {
   
   const TodoListBox =styled.div`
     margin-top:10px;
-    border:solid #000 3px;
+    border:solid black 3px;
     border-radius: 6px;
   `
   const CategoryBox =styled.div`
@@ -708,8 +782,8 @@ interface TodoProps {
 }
   const TodoAddBtn =styled.button<TodoProps>`
     
-    background-color: #f6730e;
-    background-color: ${({todo})=>(todo.length > 1 ? `#0E75F8` : '#f6730e')};
+    background-color: #ff9100;
+    background-color: ${({todo})=>(todo.length > 1 ? `#0E75F8` : '#ff9100')};
     box-sizing: border-box;
     float: left;
     width: 25px;
@@ -783,7 +857,7 @@ interface TodoProps {
     overflow: hidden;
     margin: 20px;
     padding: 10px;
-    background-color: #388FFF;
+    background-color: #0096FF;
     box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);
     border-radius: 6px;
     display: block;
