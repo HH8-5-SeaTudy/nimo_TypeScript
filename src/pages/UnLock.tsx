@@ -19,7 +19,7 @@ const UnLock = () => {
   const [lock, setLock] = useState(false);
   const [image, setImage] = useState(false);
 
-  console.log(fishImage);
+  console.log(fishImage && fishImage.image);
 
   const onClickLock = () => {
     for (let i = 0; i < fishImages.length; i++) {
@@ -102,7 +102,7 @@ const UnLock = () => {
             <FishWrapper>
               <FishDetailContainer>
                 {/* <Fishs type={EnumFishs.BigFish01} /> */}
-                {fishImage && <FishBowlImagge src={fishImage.image} alt="" />}
+                {fishImage && <BigFish src={fishImage.image} alt="" />}
               </FishDetailContainer>
 
               {/* 물고기 리스트 보여주는 곳 */}
@@ -356,6 +356,11 @@ const FishDetailContainer = styled.div`
   display: flex;
   border-right: 2px solid #ccc;
   flex-direction: column;
+`;
+
+const BigFish = styled.img`
+  width: 200px;
+  height: 200px;
 `;
 
 const FishListContainer = styled.div`
