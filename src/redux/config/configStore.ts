@@ -2,8 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import dateTodos from "../modules/dateTodos";
 import timer from "../modules/timer";
 import updateDate from "../modules/searchDate";
-import userData from '../modules/userData';
+import userData from "../modules/userData";
 import socket from "../modules/socket";
+import dday from "../modules/dday";
+import fishList from "../modules/fishList";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +14,8 @@ const store = configureStore({
     timer,
     socket,
     userData,
+    dday,
+    fishList,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

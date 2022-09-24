@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as BurgerIcon } from "../../assets/icon/BurgerIcon.svg";
 
@@ -14,7 +14,9 @@ const BurgerSidebar = () => {
       </BurgerSide>
       <BurgerLayer show={show}>
         <BugerBox>
-          <Link to='/statistics' style={{ textDecoration: 'none' }}><p>통계페이지로 이동!!!!</p></Link>
+          <Link to="/statistics" style={{ textDecoration: "none" }}>
+            <p>통계페이지로 이동!!!!</p>
+          </Link>
         </BugerBox>
         <CloseBtn onClick={() => setShow(!show)}></CloseBtn>
       </BurgerLayer>
@@ -25,10 +27,10 @@ const BurgerSidebar = () => {
 export default BurgerSidebar;
 
 const BurgerSide = styled.div`
-border:solid red 1px;
+  border: solid red 1px;
   position: absolute;
   width: 25px;
-height: 50%;  
+  height: 50%;
   bottom: 0;
   left: 0px;
 
@@ -42,9 +44,7 @@ const BurgerIconBox = styled.div`
   height: 75px;
   left: -5px;
   top: 35%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${({ theme }) => theme.common.flexCenter};
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
   border-radius: 40px;
@@ -62,7 +62,7 @@ const BurgerLayer = styled.div<BurgerLayerProps>`
   display: flex;
   bottom: 0;
   width: 359px;
-  height: 50vh;  
+  height: 50vh;
   transition: all 0.5s;
   z-index: 1;
   left: ${({ show }) => (show ? "0px" : "-359px")};
@@ -79,9 +79,9 @@ const BugerBox = styled.div`
   height: 100%;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
-    p{
-      font-size: 30px;
-      color: white;
-      cursor: pointer;
-    }
+  p {
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+  }
 `;

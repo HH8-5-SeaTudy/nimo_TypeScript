@@ -1,11 +1,14 @@
+import { ThemeProvider } from "styled-components";
 import "./App.css";
-import Header from "./components/common/Header";
+import theme from "./style/Theme";
 import Router from "./Router";
 
 function App() {
   return (
     <>
-      <Router />
+      <ThemeProvider theme={theme}>
+        <Router />
+      </ThemeProvider>
     </>
   );
 }

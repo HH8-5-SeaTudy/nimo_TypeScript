@@ -1,5 +1,20 @@
 const calcRem = (size: number) => `${size / 16}rem`;
 
+// 중앙정렬
+const common = {
+  flexCenter: `
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  `,
+  flexCenterColumn: `
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  `,
+};
+
 const fontSizes = {
   small: calcRem(14),
   base: calcRem(16),
@@ -63,6 +78,7 @@ const theme = {
   margins,
   interval,
   verticalInterval,
+  common,
 };
 
 export default theme;
