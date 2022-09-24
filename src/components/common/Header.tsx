@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Itime } from "../../api";
 import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
-
 import Asmr from "../asmr/Asmr";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
@@ -27,7 +26,6 @@ const Header = () => {
   const [timeMM, setTimeMM] = useState<number>(0);
   const [timeHH, setTimeHH] = useState<number>(0);
 
-  console.log(time);
 
   useEffect(() => {
     dispatch(__getUserinquire());
@@ -71,7 +69,6 @@ const Header = () => {
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
   if (window.location.pathname === "/main") return null;
-  if (window.location.pathname === "/home") return null;
 
   return (
     <>
@@ -100,29 +97,32 @@ const Header = () => {
           </HeaderTimer>
         </HeaderTimerContainer>
         <OnAsmrBtn onClick={() => setAsmrShow(!asmrShow)} />
-        {asmrShow && <Asmr />}
-      </HeaderContainer>
+            {asmrShow && <Asmr />}
+        </HeaderContainer> 
+
     </>
   );
 };
 const Layer = styled.div`
-  span {
+  span{
     color: white;
   }
 `;
 
 const HeaderContainer = styled.div`
-  /* position: absolute; */
+  border: solid red 2px;
+  position: absolute;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 65px;
-  background-color: #28293a;
+  background-color: transparent;
   padding: 0px 56px;
 `;
 
 const HeaderLogoContainer = styled.div`
+  border: solid red 2px;
   display: flex;
 `;
 
@@ -142,7 +142,7 @@ const HeaderTimerContainer = styled.div`
 
 const HeaderTimer = styled.span`
   color: #fff;
-  font-size: 32px;
+  font-size: 50px;
 `;
 
 const OnAsmrBtn = styled(onAsmrIcon)`

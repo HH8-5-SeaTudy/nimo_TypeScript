@@ -1,65 +1,66 @@
 import React from 'react';
 import styled from 'styled-components';
+import FishBowl from '../components/statistics/FishBowl';
+import Month from '../components/statistics/Month';
+import MyResponsiveCalendar from '../components/statistics/MyResponsiveCalendar';
+import Weekly from '../components/statistics/Weekly';
 
 const Statistics = () => {
   return (
     <StatisticsLayer>
-    <Layer>
-        <LeftSide>
-        <TimeBox>
-          <p>9월 2022년</p>
-          <table>
-            <th></th>
-            <th>전체시간</th>
-            <th>평균시간</th>
-            <tr>
-                <td>일</td>
-                <td>01:15</td>
-                <td>01:15</td>
-            </tr>
-            <tr>
-                <td>주</td>
-                <td>01:15</td>
-                <td>01:15</td>
-            </tr>
-        </table>
-        </TimeBox>
-        <PointBox>
-          <Point>
-            <p>누적포인트</p>
-            <div>1,1111Point</div>
-          </Point>
-          <Fish>
-            <p>해금물고기</p>
-            <FishLock>
-              <p>물고기사진</p>
-              <p>해금완료</p>
-            </FishLock>
-            <FishLock>
-              <p>물고기사진</p>
-              <p>해금완료</p>
-            </FishLock>
-            <FishLock>
-              <p>물고기사진</p>
-              <p>해금완료</p>
-            </FishLock>
-            <FishLock>
-              <p>물고기사진</p>
-              <p>해금완료</p>
-            </FishLock>
-            
-          </Fish>
-          <button>상점으로이동</button>
-        </PointBox>
-      </LeftSide>
-      <RightSide>
-        <Chart>랭킹</Chart>
-        <Graph>뭘넣어야지</Graph>
-      </RightSide>
-    </Layer>
-       
-
-     
+      <Layer> 
+        <TopLayer>
+          <RankSide>
+          <RankTitle>주간랭킹</RankTitle>
+          <RankBox>
+            <Rank>
+              <RankNum><Num></Num></RankNum>
+              <RankProfile></RankProfile>
+              <RankInfo>
+                <NickName>이중표</NickName>
+                <Point>10000P</Point>
+              </RankInfo>
+            </Rank>
+          </RankBox>
+          <NextBtn>스크롤버튼</NextBtn>
+        </RankSide>
+        <RankSide>
+          <RankTitle>월간랭킹</RankTitle>
+          <RankBox>
+            <Rank>
+              <RankNum><Num></Num></RankNum>
+              <RankProfile></RankProfile>
+              <RankInfo>
+                <NickName>이중표</NickName>
+                <Point>10000P</Point>
+              </RankInfo>
+            </Rank>
+          </RankBox>
+          <NextBtn>스크롤버튼</NextBtn>
+        </RankSide>
+        <TotalSide>
+          <TopBox>
+            <TotalTime>
+              <p>TotalTime</p>
+              <span>777,777,777</span>
+            </TotalTime>
+          </TopBox>
+          <BottomBox>
+            <NextFish>
+              <FishBowl></FishBowl>
+            </NextFish>
+            <Week>
+              <Weekly/>
+            </Week>
+            <MonthBox>
+              <Month/>
+            </MonthBox>
+          </BottomBox>
+        </TotalSide>
+        </TopLayer>
+        <BottomLayer><MyResponsiveCalendar/></BottomLayer>
+        
+      </Layer>
     </StatisticsLayer>
   );
 };
@@ -67,105 +68,156 @@ const Statistics = () => {
 export default Statistics;
 
 const StatisticsLayer = styled.section`
-  border: solid red 1px;
   width:100%;
   height:100vh;
-  padding: 130px 100px 100px 100px;
-  background: #D0DEEA;
+  padding: 65px 0 0 0;
+  background: #0096FF;
+  
 `
 const Layer = styled.div`
-border: solid blue 4px;
-  width: 1400px;
-  height: 700px;
-  display: flex;
+  width: 100vw;
+  height: 100%;
   margin: auto;
+  padding: 30px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+`
+const TopLayer =styled.div`
+height: 70%;
+margin-bottom:10px;
+display:flex;
 `
 
-const LeftSide = styled.div`
-  border: solid red 1px;
-  width: 30%;
-  height: 100%;
+const BottomLayer =styled.div`
+
+height: 30%;
+background-color:#0096FF;
+border-radius: 8px;
+box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);`
+
+const RankSide =styled.div`
+
+  width: 25%;
+  margin-right: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: #0096FF;
+  border-radius: 8px;
+    box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);
 `
 
-const TimeBox = styled.div`
-  width: 100%;
-  height: 30%;
-  background: rgba(255, 255, 255, 0.71);
-  border-radius: 20px;
-  padding:20px;
-  margin-bottom:20px;
-  p{
-    margin:0;
-  }
+const RankTitle = styled.div`
+  border-radius: 8px 8px 0 0;
+  height: 70px;
+  background-color: #0096FF;
+
+`
+const NextBtn =styled.div `
+border-radius:  0 0 8px 8px;
+  height: 30px;
+  background-color: #0096FF;
+
 `
 
-const PointBox = styled.div`
-width: 100%;
-height: 70%;
-background: rgba(255, 255, 255, 0.71);
-border-radius: 20px;
+const TotalSide = styled.div`
+  width: 70%;
+`
+const RankBox = styled.div`
+  border-left: solid #1975F8 3px; 
+  border-right: solid #1975F8 3px; 
+  height: 100%;
+  box-shadow:inset 0 0 5px #b3e5fc,inset 0 0 25px #03e9f4,inset 0 0 50px #03e9f4,
+  inset 0 0 100px #b3e5fc, inset 1px 1px 1px 0px rgba(255, 255, 255, 0.819);
+`
+const Rank = styled.div`
+  height: 50px;
+  display: flex;
+  justify-content:space-between;
+`
+const RankNum =styled.div`
+  border: solid red 1px;
+  width:50px;
+  display:flex;
+  justify-content:center;
+`
+const Num =styled.div`
+  border: solid red 1px;
+  height:40px;
+  width:40px;
+  margin: auto;
+  border-radius:50%;
+`
+const RankProfile =styled.div`
+  border: solid red 1px;
+  width:50px;
+`
+const RankInfo =styled.div`
+  border: solid red 1px;
+  width:200px;
+  display:flex;
+`
+const NickName =styled.div`
+  border: solid red 1px;
+width:50%;
+  text-align: center;
 `
 const Point = styled.div`
-    border: solid red 1px;
-    height: 15%;
-    p {
-      font-size:20px;
-      margin:0;
-    }
-    div {
-      text-align:center;
-      height: 50%;
-    }
-`
-
-const Fish = styled.div`
   border: solid red 1px;
-  p {
-    font-size:20px;
-      margin:0;
-  }
+  width:50%;
+  text-align: center;
 `
-const FishLock =styled.div`
+const TopBox =styled.div`
+  height:50%;
+  padding-bottom:10px;
+`
+const TotalTime =styled.div`
+  height:100%;
+  border-radius: 8px;
+  box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);
+  color: white;
   display:flex;
-  justify-content:space-between;
-  padding-right:20px;
-  margin-top: 10px;
-
+  flex-direction:column;
+  text-align:center;
+  justify-content: center;
   p{
-    &:first-child{
-      width: 163px;
-height: 48px;
-background: rgba(217, 217, 217, 0.8);
-border-radius: 20px
-    }
+    font-size: 50px;
+  }
+  span {
+    font-size : 100px;
   }
 `
-const RightSide = styled.div`
-  border: solid red 1px;
-  position: relative;
-  width: 70%;
-  height: 100%;
-  margin-left: 25px;
-  
-`
 
-const Chart = styled.div`
-  border: solid red 1px;
-  height: 65%;
-  width:100%;
-  background: rgba(255, 255, 255, 0.71);
-  border-radius: 20px 20px 0 0;
-`
+const BottomBox =styled.div`
 
-const Graph = styled.div`
-border: solid red 1px;
-position:absolute;
-bottom: 0px;
-  height: 33%;
-  width:100%;
-  background: rgba(255, 255, 255, 0.71);
-  border-radius: 0 0 20px 20px ;
+  height:50%;
+  display:flex;
+`
+const NextFish =styled.div`
+
+  width:35%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:0 5px 0 0;
+  background-color:#0096FF;
+  border-radius: 8px;
+  box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);
+`
+const Week =styled.div`
+
+  width:35%;
+  margin:0 5px;
+  background-color:#ff9100;
+  border-radius: 8px;
+  box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);
+`
+const MonthBox =styled.div`
+
+  width:35%;
+  margin:0 0 0 5px;
+  background-color:#00D7FF;
+  border-radius: 8px;
+  box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);
 `

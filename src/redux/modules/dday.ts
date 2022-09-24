@@ -12,7 +12,8 @@ export const __getDday: any = createAsyncThunk(
   "Dday/__getDday",
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/v1/ddays`, {
+      const response = await axios.get(`${BASE_URL}/api/v1/ddays/dates?selectDate=${payload}`,
+      {
         headers: {
           Authorization: token,
         },
@@ -47,6 +48,49 @@ export const __postDday: any = createAsyncThunk(
     }
   }
 );
+export const __deleteDday: any = createAsyncThunk(
+  "Dday/__deleteDday",
+  async (payload: any, thunkAPI) => {
+    try {
+      const data = await axios.delete(
+        `${BASE_URL}/api/v1/ddays/${payload}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      return thunkAPI.fulfillWithValue(payload);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const __editDday: any = createAsyncThunk(
+  "Dday/__editDday",
+  async (payload: any, thunkAPI) => {
+    try {
+      const data = await axios.put(
+        `${BASE_URL}/api/v1/ddays/${payload.id}`,
+        {
+          title: payload.title,
+          targetDay: payload.targetDay,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      return thunkAPI.fulfillWithValue(data.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 // 초기 상태 타입
 
 const initialState: IDdayInitialState = {
@@ -63,8 +107,19 @@ export const DdaySlice = createSlice({
         state.DdayData = action.payload;
       })
       .addCase(__postDday.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.DdayData.push(action.payload);
+      })
+      .addCase(__editDday.fulfilled, (state, action) => {
+        state.DdayData = state.DdayData.map((list) =>
+        list.ddayId === action.payload.ddayId
+          ? { ...list, title: action.payload.title }
+          : list
+      );
+      })
+      .addCase(__deleteDday.fulfilled, (state, action) => {
+        state.DdayData = state.DdayData.filter(
+          (list) => list.ddayId !== action.payload
+        );
       })
   },
 });

@@ -92,9 +92,9 @@ const Asmr = () => {
 export default Asmr;
 
 const AsmrSelectBox = styled.div`
-position: relative;
+position: absolute;
 top: 65px;
-right: 200px;
+right: 255px;
 width: 312px;
 height:100%;
 

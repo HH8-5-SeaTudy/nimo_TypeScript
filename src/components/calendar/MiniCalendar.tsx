@@ -4,8 +4,7 @@ import "./MiniCalendar.css"
 import Calendar from "react-calendar";
 import moment from "moment";
 import { updateDate } from "../../redux/modules/searchDate";
-import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { useAppDispatch} from "../hooks/reduxHooks";
 
 
 const MiniCalendar = () => {
