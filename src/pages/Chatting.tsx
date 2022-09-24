@@ -18,7 +18,6 @@ function Chatting() {
   const location = useLocation();
 
   const { id }: any = location.state;
-
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
