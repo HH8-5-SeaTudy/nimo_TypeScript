@@ -1,32 +1,46 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "swiper/css";
-import SwiperCore, { Navigation, Pagination } from "swiper";
 import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getUserProfile } from "../redux/modules/userData";
 import fishImages from "../components/fish/FishImages";
 import fishbowl from "../assets/fish/fishbowl.png";
-
-SwiperCore.use([Navigation, Pagination]);
+import Grid from "../elements/Grid";
+import Fishs from "../components/fish/Fishs";
+import { EnumFishs } from "../enum/EnumFishs";
+import fishList, { __getFishList } from "../redux/modules/fishList";
 
 const UnLock = () => {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
+  const fishPoint = fishImages.map((data) => data.point);
+  const fishImage = useAppSelector((state) => state.fishList.imageInfo);
   const [lock, setLock] = useState(false);
+  const [image, setImage] = useState(false);
+
+  console.log(fishImage);
 
   const onClickLock = () => {
+    for (let i = 0; i < fishImages.length; i++) {
+      if (userPoint >= fishPoint[i]) {
+        setLock(true);
+      }
+    }
+  };
+
+  // const onClickImage = (e: any) => {
+  //   dispatch(__getFishList(data.)));
+  // };
+
+  useEffect(() => {
     const fishPoint = fishImages.map((data) => data.point);
     for (let i = 0; i < fishImages.length; i++) {
       if (userPoint >= fishPoint[i]) {
         setLock(true);
       }
     }
-    console.log(lock);
-    console.log(fishPoint);
-    console.log(userPoint);
-    console.log();
-  };
+  }, []);
 
   useEffect(() => {
     dispatch(__getUserProfile());
@@ -34,7 +48,35 @@ const UnLock = () => {
   return (
     <UnClockContainer>
       <FirstBorderContainer>
-        <FishSliderBorder>
+        <UserInfoContainer>
+          <UserProfile>{userData.defaultFish}</UserProfile>
+          <UserWrapper>
+            <UserTitle>이메일:</UserTitle>
+            <Grid
+              width="100%"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <UserEmail>{userData.email}</UserEmail>
+            </Grid>
+          </UserWrapper>
+
+          <UserNickname>{userData.nickname}</UserNickname>
+          <UserWrapper>
+            <UserTitle>포인트:</UserTitle>
+            <Grid
+              width="100%"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <UserPoint>{userData.point}</UserPoint>
+            </Grid>
+          </UserWrapper>
+        </UserInfoContainer>
+
+        {/* <FishSliderBorder>
           <BorderTitleContainer>
             <BorderTitleWrapper>
               <span>S</span>
@@ -46,78 +88,86 @@ const UnLock = () => {
               <span>y</span>
             </BorderTitleWrapper>
           </BorderTitleContainer>
-        </FishSliderBorder>
-      </FirstBorderContainer>
+        </FishSliderBorder> */}
 
-      <FishSliderSecondBorder>
-        <FishContainer>
-          <FishIllustratedBookTitleContainer>
-            <FishIllustratedLeftWrapper></FishIllustratedLeftWrapper>
-            {/* 오른쪽 타이틀 */}
-            <FishIllustratedRightWrapper>
-              <span>물고기 도감</span>
-            </FishIllustratedRightWrapper>
-          </FishIllustratedBookTitleContainer>
-          {/* 물고기 자세히 보기 */}
-          <FishWrapper>
-            <FishDetailContainer>
-              {/* <Fishs type={EnumFishs.BigFish01} /> */}
-            </FishDetailContainer>
+        <FishSliderSecondBorder>
+          <FishContainer>
+            <FishIllustratedBookTitleContainer>
+              {/* 오른쪽 타이틀 */}
+              <FishIllustratedRightWrapper>
+                <span>물고기 도감</span>
+              </FishIllustratedRightWrapper>
+            </FishIllustratedBookTitleContainer>
+            {/* 물고기 자세히 보기 */}
+            <FishWrapper>
+              <FishDetailContainer>
+                {/* <Fishs type={EnumFishs.BigFish01} /> */}
+                {fishImage && <FishBowlImagge src={fishImage.image} alt="" />}
+              </FishDetailContainer>
 
-            {/* 물고기 리스트 보여주는 곳 */}
-            <FishListContainer>
-              {fishImages.map((data: any, index: any) => {
-                if (userPoint >= data.point) {
-                  return (
-                    <FishListWrapper key={index}>
-                      {lock ? (
-                        <>
-                          <FishImageNumberContainer>
-                            <FishNumber>No.{index + 1}</FishNumber>
-                            <FishImage src={data.image} alt="" />
-                          </FishImageNumberContainer>
-                          <FishName>{data.fishName}</FishName>
-                          <FishBowlImagge src={fishbowl} alt="" />
-                        </>
-                      ) : (
-                        <>
-                          <FishImageNumberContainer>
-                            <FishNumber>No.{index + 1}</FishNumber>
-                            <FishImage src={data.image} alt="" />
-                          </FishImageNumberContainer>
-                          <LockAnimation onClick={onClickLock}>
-                            <span className="key"></span>
-                          </LockAnimation>
-
-                          <FishName>{data.fishName}</FishName>
-                          <FishBowlImagge src={fishbowl} alt="" />
-                        </>
-                      )}
-                    </FishListWrapper>
-                  );
-                } else {
+              {/* 물고기 리스트 보여주는 곳 */}
+              <FishListContainer>
+                {fishImages.map((data: any, index: any) => {
                   if (userPoint >= data.point) {
+                    // 물고기 해제
+                    return (
+                      <FishListWrapper
+                        key={index}
+                        onClick={() => {
+                          dispatch(__getFishList(data.fishName));
+                        }}
+                      >
+                        {lock ? (
+                          <>
+                            <FishImageNumberContainer>
+                              <FishNumber>No.{index + 1}</FishNumber>
+                              <FishImage src={data.image} alt="" />
+                            </FishImageNumberContainer>
+                            <FishName>{data.fishName}</FishName>
+                            <FishBowlImagge src={fishbowl} alt="" />
+                          </>
+                        ) : (
+                          <>
+                            <FishImageNumberContainer>
+                              <FishNumber>No.{index + 1}</FishNumber>
+                              <FishImage src={data.image} alt="" />
+                              <LockAnimation onClick={onClickLock}>
+                                <span className="key"></span>
+                              </LockAnimation>
+                            </FishImageNumberContainer>
+
+                            <FishName>{data.fishName}</FishName>
+                            <div>{data.point - fishPoint[index]}</div>
+                            {/* <FishBowlImagge src={fishbowl} alt="" /> */}
+                          </>
+                        )}
+                      </FishListWrapper>
+                    );
+                  } else {
+                    // if (userPoint >= data.point) {
+                    // }
+                    // 물고기 잠금
+                    return (
+                      <FishListWrapper key={index}>
+                        <UnLockContainer />
+                        <FishImageNumberContainer>
+                          <FishNumber>No.{index + 1}</FishNumber>
+                          <FishImage src={data.image} alt="" />
+                        </FishImageNumberContainer>
+                        <LockAnimation style={{ pointerEvents: "none" }}>
+                          <span className="key"></span>
+                        </LockAnimation>
+                        <FishName>{data.fishName}</FishName>
+                        <FishBowlImagge src={fishbowl} alt="" />
+                      </FishListWrapper>
+                    );
                   }
-                  return (
-                    <FishListWrapper key={index}>
-                      <UnLockContainer />
-                      <FishImageNumberContainer>
-                        <FishNumber>No.{index + 1}</FishNumber>
-                        <FishImage src={data.image} alt="" />
-                      </FishImageNumberContainer>
-                      <LockAnimation style={{ pointerEvents: "none" }}>
-                        <span className="key"></span>
-                      </LockAnimation>
-                      <FishName>{data.fishName}</FishName>
-                      <FishBowlImagge src={fishbowl} alt="" />
-                    </FishListWrapper>
-                  );
-                }
-              })}
-            </FishListContainer>
-          </FishWrapper>
-        </FishContainer>
-      </FishSliderSecondBorder>
+                })}
+              </FishListContainer>
+            </FishWrapper>
+          </FishContainer>
+        </FishSliderSecondBorder>
+      </FirstBorderContainer>
     </UnClockContainer>
   );
 };
@@ -151,9 +201,52 @@ const FirstBorderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  /* position: absolute; */
   background-color: aliceblue;
-  z-index: 1;
+`;
+
+const UserInfoContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 8px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 3%;
+`;
+
+const UserWrapper = styled.div`
+  width: 100%;
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  margin-top: 5%;
+`;
+
+const UserTitle = styled.span`
+  width: 20%;
+`;
+
+const UserProfile = styled.div`
+  width: 15vw;
+  height: 30vh;
+  border: 5px solid gainsboro;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  margin: 10%;
+`;
+
+const UserEmail = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
+`;
+const UserNickname = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
+`;
+const UserPoint = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
 `;
 
 const FishSliderBorder = styled.div`
@@ -208,13 +301,12 @@ const BorderTitleWrapper = styled.div`
 `;
 
 const FishSliderSecondBorder = styled.div`
-  width: 60%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   display: flex;
-  left: 15%;
-  flex-direction: column;
   align-items: center;
   position: relative;
+  flex: 3;
 `;
 
 const FishContainer = styled.div`
@@ -254,13 +346,16 @@ const FishWrapper = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
+  margin-top: 2%;
+  border: 5px solid black;
 `;
 
 const FishDetailContainer = styled.div`
   width: 100%;
   height: 100%;
-  border: 5px solid green;
   display: flex;
+  border-right: 2px solid #ccc;
+  flex-direction: column;
 `;
 
 const FishListContainer = styled.div`
@@ -269,7 +364,15 @@ const FishListContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  padding-bottom: 5%;
+  margin-top: 2%;
+  padding: 0 2%;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #cccccc;
+  }
 `;
 
 const UnLockContainer = styled.div`
@@ -284,7 +387,7 @@ const FishListWrapper = styled.div`
   width: 100%;
   display: flex;
   padding: 5% 3%;
-  margin-top: 2%;
+  margin-bottom: 2%;
   align-items: center;
   border: 1px solid black;
   justify-content: space-around;
@@ -301,9 +404,8 @@ const FishImageNumberContainer = styled.div`
 
 const LockAnimation = styled.div`
   position: absolute;
-  width: 50px;
-  height: 50px;
-  bottom: 0;
+  width: 40px;
+  height: 40px;
   background-color: #000;
   display: flex;
   flex-direction: column;
@@ -316,21 +418,21 @@ const LockAnimation = styled.div`
   &::after {
     position: absolute;
     content: "";
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     border-top: 5px solid #1a1a1a;
     border-bottom: 5px solid #1a1a1a;
     border-left: 5px solid #1a1a1a;
     border-right: 5px solid #1a1a1a;
-    top: -20px;
+    top: -15px;
     left: 8px;
     transform: all 0.8s;
     z-index: -1;
   }
   .key {
-    width: 16px;
-    height: 8px;
+    width: 12px;
+    height: 4px;
     background-color: #fff;
     margin: 10px auto 0;
     border-radius: 15px;
@@ -344,7 +446,7 @@ const LockAnimation = styled.div`
     font-weight: bolder;
     color: #fff;
     letter-spacing: 2px;
-    left: 12.5px;
+    left: 6px;
     top: 5px;
   }
 `;

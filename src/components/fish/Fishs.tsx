@@ -9,16 +9,6 @@ type Ifish = {
 };
 
 const Fishs: any = ({ type, ...props }: Partial<Ifish>) => {
-  const FishArray = [
-    {
-      name: "니모",
-      image: fish01,
-    },
-    {
-      name: "드모",
-      image: fish02,
-    },
-  ];
   // if (type === EnumFishs.Fish01) {
   //   return <Fish01 />;
   // } else if (type === EnumFishs.BigFish01) {
