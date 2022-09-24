@@ -15,11 +15,10 @@ const UnLock = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
   const fishPoint = fishImages.map((data) => data.point);
-  const fishImage = useAppSelector((state) => state.fishList.imageInfo);
+  const fishInfo = useAppSelector((state) => state.fishList.imageInfo);
+  const fishName = fishInfo && fishInfo.map((data) => data.fishName);
   const [lock, setLock] = useState(false);
   const [image, setImage] = useState(false);
-
-  console.log(fishImage);
 
   const onClickLock = () => {
     for (let i = 0; i < fishImages.length; i++) {
@@ -28,6 +27,8 @@ const UnLock = () => {
       }
     }
   };
+
+  console.log(fishName);
 
   // const onClickImage = (e: any) => {
   //   dispatch(__getFishList(data.)));
@@ -96,13 +97,47 @@ const UnLock = () => {
               {/* 오른쪽 타이틀 */}
               <FishIllustratedRightWrapper>
                 <span>물고기 도감</span>
+                <span
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    border: "1px solid red",
+                  }}
+                >
+                  {fishName}
+                </span>
               </FishIllustratedRightWrapper>
             </FishIllustratedBookTitleContainer>
             {/* 물고기 자세히 보기 */}
             <FishWrapper>
               <FishDetailContainer>
                 {/* <Fishs type={EnumFishs.BigFish01} /> */}
-                {fishImage && <FishBowlImagge src={fishImage.image} alt="" />}
+                {fishInfo &&
+                  fishInfo.map((data: any) => {
+                    return (
+                      <>
+                        <FishBowlImagge
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            zIndex: "10",
+                          }}
+                          src={data.image}
+                          alt=""
+                        />
+
+                        <div
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            border: "3px solid red",
+                            background:
+                              "https://springblog.s3.ap-northeast-2.amazonaws.com/goldNimo.png",
+                          }}
+                        ></div>
+                      </>
+                    );
+                  })}
               </FishDetailContainer>
 
               {/* 물고기 리스트 보여주는 곳 */}
@@ -354,7 +389,8 @@ const FishDetailContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  border-right: 2px solid #ccc;
+  align-items: center;
+  border-right: 12px solid #ccc;
   flex-direction: column;
 `;
 

@@ -32,7 +32,7 @@ export type IFishImages = {
 };
 
 const fishImages: IFishImages[] = [
-  { id: 0, fishName: "황금니모", image: fish01, point: 0 },
+  { id: 0, fishName: "goldNimo.png", image: fish01, point: 0 },
   { id: 1, fishName: "아추어", image: fish02, point: 5 },
   { id: 2, fishName: "빨간도미", image: fish03, point: 10 },
   { id: 3, fishName: "파랑멸치", image: fish04, point: 15 },

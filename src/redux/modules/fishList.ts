@@ -9,7 +9,6 @@ export const __getFishList: any = createAsyncThunk(
   "user/getfishlist",
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
       const response = await axios.get(
         `${BASE_URL}/api/v1/fishes/images?fishName=${payload}`,
         {
@@ -19,7 +18,6 @@ export const __getFishList: any = createAsyncThunk(
           },
         }
       );
-      console.log(response.data.data);
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -33,17 +31,14 @@ export type IFishImage = {
 };
 
 export type IFhsh = {
-  imageInfo: IFishImage;
+  imageInfo: IFishImage[];
 };
 
 const initialState: IFhsh = {
-  imageInfo: {
-    fishName: "",
-    image: "",
-  },
+  imageInfo: [],
 };
 
-export const __fishList = createSlice({
+export const fishList = createSlice({
   name: "userData",
   initialState,
   reducers: {},
@@ -54,4 +49,4 @@ export const __fishList = createSlice({
   },
 });
 
-export default __fishList.reducer;
+export default fishList.reducer;
