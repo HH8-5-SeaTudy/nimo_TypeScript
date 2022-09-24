@@ -18,6 +18,7 @@ export const __getFishList: any = createAsyncThunk(
           },
         }
       );
+
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -31,11 +32,14 @@ export type IFishImage = {
 };
 
 export type IFhsh = {
-  imageInfo: IFishImage[];
+  imageInfo: IFishImage;
 };
 
 const initialState: IFhsh = {
-  imageInfo: [],
+  imageInfo: {
+    fishName: "",
+    image: "",
+  },
 };
 
 export const fishList = createSlice({

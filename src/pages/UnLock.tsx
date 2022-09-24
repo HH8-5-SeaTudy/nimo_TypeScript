@@ -15,11 +15,20 @@ const UnLock = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
   const fishPoint = fishImages.map((data) => data.point);
+<<<<<<< HEAD
   const fishInfo = useAppSelector((state) => state.fishList.imageInfo);
   const fishName = fishInfo && fishInfo.map((data) => data.fishName);
   const [lock, setLock] = useState(false);
   const [image, setImage] = useState(false);
 
+=======
+  const fishImage = useAppSelector((state) => state.fishList.imageInfo);
+  const [lock, setLock] = useState(false);
+  const [image, setImage] = useState(false);
+
+  console.log(fishImage && fishImage.image);
+
+>>>>>>> c95176c0944d3b59a2de61240eb1e5e8d803b9e7
   const onClickLock = () => {
     for (let i = 0; i < fishImages.length; i++) {
       if (userPoint >= fishPoint[i]) {
@@ -29,6 +38,7 @@ const UnLock = () => {
   };
 
   console.log(fishName);
+
 
   // const onClickImage = (e: any) => {
   //   dispatch(__getFishList(data.)));
@@ -106,6 +116,7 @@ const UnLock = () => {
                 >
                   {fishName}
                 </span>
+
               </FishIllustratedRightWrapper>
             </FishIllustratedBookTitleContainer>
             {/* 물고기 자세히 보기 */}
@@ -139,6 +150,7 @@ const UnLock = () => {
                     );
                   })}
               </FishDetailContainer>
+
 
               {/* 물고기 리스트 보여주는 곳 */}
               <FishListContainer>
@@ -389,9 +401,14 @@ const FishDetailContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
-  border-right: 12px solid #ccc;
+
+  border-right: 2px solid #ccc;
   flex-direction: column;
+`;
+
+const BigFish = styled.img`
+  width: 200px;
+  height: 200px;
 `;
 
 const FishListContainer = styled.div`
