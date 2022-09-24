@@ -25,6 +25,13 @@ export const __getUserProfile: any = createAsyncThunk(
 
 const initialState: IUser = {
   userData: [],
+  userProfile: {
+    id: 0,
+    email: "",
+    nickname: "",
+    defaultFish: "",
+    point: 0,
+  },
 };
 export const __userSlice = createSlice({
   name: "userData",
@@ -36,7 +43,7 @@ export const __userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(__getUserProfile.fulfilled, (state, action) => {
-      state.userData = action.payload;
+      state.userProfile = action.payload;
     });
   },
 });

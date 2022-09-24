@@ -11,12 +11,13 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 // const token: string = process.env.REACT_APP_TOKEN as string;
 const token: string = getCookie("token") as string;
 
+const socket = new SockJS(`${BASE_URL}/api/v1/chat/connections`);
+const client = Stomp.over(socket);
+
 function Chatting() {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const { id }: any = location.state;
-
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
@@ -27,21 +28,13 @@ function Chatting() {
     Authorization: token,
   };
 
-  const socket = new SockJS(`${BASE_URL}/api/v1/chat/connections`);
-  const client = Stomp.over(socket);
-
-  const roomIdHandler = () => {
-    window.location.reload();
-    dispatch(__getChatroom(id));
-  };
-
   //렌더되면 소켓 연결실행
-  // useLayoutEffect(() => {
-  //   onConneted();
-  //   return () => {
-  //     disConneted();
-  //   };
-  // }, []);
+  useLayoutEffect(() => {
+    onConneted();
+    return () => {
+      disConneted();
+    };
+  }, []);
 
   const handleEnterPress = (e: any) => {
     if (e.code === "Enter" && e.shiftKey === false) {

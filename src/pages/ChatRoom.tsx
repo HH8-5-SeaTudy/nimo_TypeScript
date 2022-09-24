@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { addUser, __getChatroom } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
+import Chatting from "./Chatting";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 // const token: string = process.env.REACT_APP_TOKEN as string;
 const token: string = getCookie("token") as string;
@@ -24,93 +25,11 @@ function ChatRoom() {
 
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();
-  const message = useRef<any>(null);
-  const chat = useAppSelector((state) => state.socket.chat);
-
-  const headers = {
-    Authorization: token,
-  };
-
-  const socket = new SockJS(`${BASE_URL}/api/v1/chat/connections`);
-  const client = Stomp.over(socket);
 
   const roomIdHandler = () => {
     window.location.reload();
     dispatch(__getChatroom(id));
   };
-
-  //렌더되면 소켓 연결실행
-  useLayoutEffect(() => {
-    onConneted();
-    return () => {
-      disConneted();
-    };
-  }, []);
-
-  const handleEnterPress = (e: any) => {
-    if (e.isComposing || e.keyCode === 229) return;
-    if (e.code === "Enter" && e.shiftKey === false) {
-      e.preventDefault();
-      sendMessage();
-    }
-  };
-
-  //연결&구독
-
-  const onConneted = () => {
-    try {
-      client.connect(headers, () => {
-        client.subscribe(
-          `/sub/chat/room/${id}`,
-          (data) => {
-            const user = JSON.parse(data.body);
-            dispatch(addUser(user));
-          },
-          headers
-        );
-      });
-    } catch (error) {}
-  };
-
-  //메시지 보내기
-  const sendMessage = () => {
-    if (message.current.value.trim() === "") {
-      return null;
-    }
-    const res = JSON.stringify({
-      roomId: id,
-      message: message.current.value,
-    });
-    waitForConnection(client, function () {
-      client.send(`/pub/chat/message`, headers, res);
-    });
-
-    message.current.value = "";
-  };
-
-  // 연결해제, 구독해제
-  function disConneted() {
-    try {
-      client.disconnect(
-        () => {
-          client.unsubscribe("sub-0");
-        },
-        { token: token }
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  function waitForConnection(client: any, callback: any) {
-    setTimeout(function () {
-      if (client.ws.readyState === 1) {
-        callback();
-      } else {
-        waitForConnection(client, callback);
-      }
-    }, 1);
-  }
 
   return (
     <MessageContainer>
@@ -181,22 +100,9 @@ function ChatRoom() {
           </div>
         </SeaContainer>
 
-        {/* 오른쪽 section */}
+        {/* 채팅 부분 */}
         <ChatContainer>
-          <MessageWrapper>
-            {chat &&
-              chat.map((list: any, index: number) => (
-                <MessageListContainer key={index}>
-                  {list.message}
-                </MessageListContainer>
-              ))}
-          </MessageWrapper>
-          <MessageForm>
-            <textarea onKeyUp={handleEnterPress} ref={message} />
-            <ButtonContainer>
-              <button onClick={handleEnterPress}>전송</button>
-            </ButtonContainer>
-          </MessageForm>
+          <Chatting />
         </ChatContainer>
       </MessageFormContainer>
     </MessageContainer>

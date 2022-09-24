@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as CalendarIcon } from "../../assets/icon/CalendarIcon.svg";
-import Calendars from "../calendar/Calendars";
+// import Calendars from "../calendar/Calendars";
 const CalendarSidebar = () => {
   const [show, setShow] = useState(false);
   return (
@@ -13,9 +13,7 @@ const CalendarSidebar = () => {
       </CalendarSide>
       <CalendarLayer show={show}>
         <CloseBtn onClick={() => setShow(!show)}> </CloseBtn>
-        <CalendarBox>
-          <Calendars />
-        </CalendarBox>
+        <CalendarBox>{/* <Calendars /> */}</CalendarBox>
       </CalendarLayer>
     </div>
   );

@@ -7,7 +7,6 @@ import {
   useAppSelector,
 } from "../../components/hooks/reduxHooks";
 import { __getDateTodo } from "../../redux/modules/dateTodos";
-import TodoModal from "../../pages/TodoModal";
 
 const TodoSidebar = () => {
   const dispatch = useAppDispatch();
@@ -65,7 +64,7 @@ const TodoSidebar = () => {
           </div>
         </TodoBox>
       </TodoLayer>
-      {modalShow && <TodoModal modalHandler={modalHandler} />}
+      {/* {modalShow && <TodoModal modalHandler={modalHandler} />} */}
     </div>
   );
 };

@@ -128,7 +128,7 @@ const CalendarVer2 = () => {
 
   useEffect(() => {
     // dispatch(__getDateTodo(date)); //컴포넌트분리시사용
-    if (DD == "") {
+    if (DD === "") {
       return;
     }
     dispatch(__getDateTodo(DD));
