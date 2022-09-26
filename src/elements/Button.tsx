@@ -16,8 +16,8 @@ export type IButtonProps = {
 
     theme : any;
 };
-
-const Button : any = ({
+/**꺼드라 */
+const Button = ({
     width,
     height,
     margin,
@@ -66,6 +66,5 @@ const BtnContainer = styled.div<Partial<IButtonProps>>`
 const Btn = styled.button`
     cursor: pointer;
 `;
-
 
 export default Button;
