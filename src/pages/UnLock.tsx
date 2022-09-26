@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from "react";
-import "swiper/css";
 import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getUserProfile } from "../redux/modules/userData";
@@ -22,7 +21,7 @@ const UnLock = () => {
   const [lock, setLock] = useState(false);
 
   console.log(fishImage);
-
+  console.log(userPoint)
   const onClickLock = () => {
     for (let i = 0; i < fishImages.length; i++) {
       if (userPoint >= fishPoint[i]) {
@@ -129,7 +128,7 @@ const UnLock = () => {
                               <FishImage src={data.image} alt="" />
                             </FishImageNumberContainer>
                             <FishName>{data.fishName}</FishName>
-                            <FishBowlImagge src={fishbowl} alt="" />
+                            <FishBowlImage src={fishbowl} alt="" />
                           </>
                         ) : (
                           <>
@@ -143,7 +142,7 @@ const UnLock = () => {
 
                             <FishName>{data.fishName}</FishName>
                             <div>{data.point - fishPoint[index]}</div>
-                            {/* <FishBowlImagge src={fishbowl} alt="" /> */}
+                            {/* <FishBowlImage src={fishbowl} alt="" /> */}
                           </>
                         )}
                       </FishListWrapper>
@@ -163,7 +162,7 @@ const UnLock = () => {
                           <span className="key"></span>
                         </LockAnimation>
                         <FishName>{data.fishName}</FishName>
-                        <FishBowlImagge src={fishbowl} alt="" />
+                        <FishBowlImage src={fishbowl} alt="" />
                       </FishListWrapper>
                     );
                   }
@@ -500,7 +499,7 @@ const FishImage = styled.img`
   height: 80%;
 `;
 
-const FishBowlImagge = styled.img`
+const FishBowlImage = styled.img`
   width: 7%;
   height: 70%;
 `;
