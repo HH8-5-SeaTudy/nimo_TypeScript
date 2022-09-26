@@ -114,6 +114,7 @@ const AsmrSelectBox = styled.div`
   right: 200px;
   width: 312px;
   height: 100%;
+  z-index: 3;
 `;
 
 const BtnArrow = styled.div`

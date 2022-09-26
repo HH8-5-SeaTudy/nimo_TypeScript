@@ -48,14 +48,20 @@ const Home = () => {
     <Layer>
       <SideBarVer2 />
       {modalShow && <CalendarVer2 />}
-      {/* <CheckInBall>
-          <button onClick={()=>{
-            dispatch(__getCheckInTimer());
-          }}>start</button>
-          <button onClick={()=>{
-            dispatch(__getCheckOutTimer());
-          }}> stop</button>
-          </CheckInBall> */}
+      <button
+        onClick={() => {
+          dispatch(__getCheckInTimer());
+        }}
+      >
+        start
+      </button>
+      <button
+        onClick={() => {
+          dispatch(__getCheckOutTimer());
+        }}
+      >
+        stop
+      </button>
       <button
         onClick={() => {
           navigate("/chat", {
