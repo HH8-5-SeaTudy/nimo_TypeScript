@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Itime } from "../../api";
 import { ReactComponent as onAsmrIcon } from "../../assets/icon/onAsmr.svg";
-
 import Asmr from "../asmr/Asmr";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
@@ -109,17 +108,19 @@ const Layer = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-  /* position: absolute; */
+  border: solid red 2px;
+  position: absolute;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 65px;
-  background-color: #28293a;
+  background-color: transparent;
   padding: 0px 56px;
 `;
 
 const HeaderLogoContainer = styled.div`
+  border: solid red 2px;
   display: flex;
 `;
 
@@ -139,7 +140,7 @@ const HeaderTimerContainer = styled.div`
 
 const HeaderTimer = styled.span`
   color: #fff;
-  font-size: 32px;
+  font-size: 50px;
 `;
 
 const OnAsmrBtn = styled(onAsmrIcon)`

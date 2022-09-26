@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import Input from "../../elements/Input";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
 // import { updateDate,selectDate } from '../../redux/modules/searchDate';
 import {
   getAllTodo,
@@ -16,12 +14,20 @@ import {
   __editCategory,
   __deleteCategory,
 } from "../../redux/modules/dateTodos";
-import { __getDday, __postDday } from "../../redux/modules/dday";
+import {
+  __deleteDday,
+  __editDday,
+  __getDday,
+  __postDday,
+} from "../../redux/modules/dday";
 import calBg from "../../assets/pixel/calBg.png";
 import left from "../../assets/pixel/left.png";
 import right from "../../assets/pixel/right.png";
 import textbox from "../../assets/pixel/textbox.png";
-import SideBarVer2 from "../sidebar/SideBarVer2";
+
+export type Iresault = {
+  result: [];
+};
 
 const CalendarVer2 = () => {
   const dispatch = useAppDispatch();
@@ -29,18 +35,23 @@ const CalendarVer2 = () => {
   // const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
-
-  const [characters, updateCharacters] = useState(dateTodos);
-
-  function handleOnDragEnd(result: any) {
-    if (!result.destination) return;
-
-    const items = Array.from(characters);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    updateCharacters(items);
-  }
+  //
+  const [categoryInputShow, setCategoryInputShow] = useState(false);
+  const [todoInputShow, setTodoInputShow] = useState<any>([
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [editCategoryShow, setEditCategoryShow] = useState(false);
+  const [DdayShow, setDdayShow] = useState(false);
+  const [DdayEditShow, setDdayEditShow] = useState(false);
+  const [category, setCategory] = useState("");
+  const [editCategory, setEditCategory] = useState("");
+  const [todo, setTodo] = useState("");
+  const [ddayTitle, setDdayTitle] = useState("");
+  const [selectDdayID, setSelectDdayID] = useState<number>();
+  const [DdayEditTitle, setDdayEditTitle] = useState("");
 
   //Calendar
   //오늘 날짜 저장
@@ -61,19 +72,6 @@ const CalendarVer2 = () => {
   };
 
   //TodoList
-  const [categoryInputShow, setCategoryInputShow] = useState(false);
-  const [todoInputShow, setTodoInputShow] = useState<any>([
-    false,
-    false,
-    false,
-    false,
-  ]);
-  const [editCategoryShow, setEditCategoryShow] = useState(false);
-  const [DdayShow, setDdayShow] = useState(false);
-  const [category, setCategory] = useState("");
-  const [editCategory, setEditCategory] = useState("");
-  const [todo, setTodo] = useState("");
-  const [ddayTitle, setDdayTitle] = useState("");
 
   const todoBoxIndex = (index: number) => {
     let temp = [...todoInputShow];
@@ -124,25 +122,45 @@ const CalendarVer2 = () => {
   };
 
   //D-day
+
   const onSubmitDdayHandler = () => {
     dispatch(__postDday({ title: ddayTitle, ddayDate: DD }));
     setDdayTitle("");
   };
+  const onSubmitEditDataHandler = (id: number) => {
+    setSelectDdayID(id);
+    setDdayShow(false);
+    setDdayEditShow(true);
+  };
+  const selectDdayData = DdayData.filter((x) => x.ddayId === selectDdayID);
 
+  const onSubmitDdayEditHandler = (id: number, targetDay: string) => {
+    dispatch(
+      __editDday({
+        title: DdayEditTitle,
+        targetDay: targetDay,
+        id,
+      })
+    );
+  };
+
+  //useEffect
   useEffect(() => {
     // dispatch(updateDate(today.format("YYYY-MM-DD")));//컴포넌트분리시사용
     setDD(today.format("YYYY-MM-DD"));
     dispatch(getAllTodo());
-    dispatch(__getDday());
   }, []);
 
   useEffect(() => {
     // dispatch(__getDateTodo(date)); //컴포넌트분리시사용
-    if (DD === "") {
+    if (DD == "") {
       return;
     }
     dispatch(__getDateTodo(DD));
+    dispatch(__getDday(DD));
   }, [DD]);
+
+  console.log(selectDdayData);
 
   const calendarArr = () => {
     let result: any = [];
@@ -167,11 +185,11 @@ const CalendarVer2 = () => {
                     onClick={() => dateSubmitHandler(days.format("YYYY-MM-DD"))}
                   >
                     {allTodos.find(
-                      (list) => list.selectDate == days.format("YYYY-MM-DD")
+                      (list) => list.selectDate === days.format("YYYY-MM-DD")
                     ) &&
                       allTodos
                         .filter(
-                          (x) => x.selectDate == days.format("YYYY-MM-DD")
+                          (x) => x.selectDate === days.format("YYYY-MM-DD")
                         )
                         .map((y) => y.todoList.length)
                         .reduce((a, b) => a + b, 0) !== 0 && (
@@ -189,25 +207,25 @@ const CalendarVer2 = () => {
                             cy="100"
                             r="48"
                             fill="transparent"
-                            stroke="#f6730e"
+                            stroke="#ff9100"
                             strokeWidth="90"
                             strokeDasharray={`${
                               (diameter *
                                 allTodos
                                   .filter(
                                     (x) =>
-                                      x.selectDate == days.format("YYYY-MM-DD")
+                                      x.selectDate === days.format("YYYY-MM-DD")
                                   )
                                   .map((y) => y.todoList)
                                   .filter((z) => z.length)
                                   .map(
-                                    (a) => a.filter((b) => b.done == 1).length
+                                    (a) => a.filter((b) => b.done === 1).length
                                   )
                                   .reduce((a, b) => a + b, 0)) /
                               allTodos
                                 .filter(
                                   (x) =>
-                                    x.selectDate == days.format("YYYY-MM-DD")
+                                    x.selectDate === days.format("YYYY-MM-DD")
                                 )
                                 .map((y) => y.todoList.length)
                                 .reduce((a, b) => a + b, 0)
@@ -217,18 +235,18 @@ const CalendarVer2 = () => {
                                 allTodos
                                   .filter(
                                     (x) =>
-                                      x.selectDate == days.format("YYYY-MM-DD")
+                                      x.selectDate === days.format("YYYY-MM-DD")
                                   )
                                   .map((y) => y.todoList)
                                   .filter((z) => z.length)
                                   .map(
-                                    (a) => a.filter((b) => b.done == 1).length
+                                    (a) => a.filter((b) => b.done === 1).length
                                   )
                                   .reduce((a, b) => a + b, 0)) /
                                 allTodos
                                   .filter(
                                     (x) =>
-                                      x.selectDate == days.format("YYYY-MM-DD")
+                                      x.selectDate === days.format("YYYY-MM-DD")
                                   )
                                   .map((y) => y.todoList.length)
                                   .reduce((a, b) => a + b, 0)
@@ -237,7 +255,7 @@ const CalendarVer2 = () => {
                           />
                         </svg>
                       )}
-                    <P style={{ backgroundColor: "#ff6f00" }}>
+                    <P style={{ backgroundColor: "#ff9100" }}>
                       {days.format("D")}
                     </P>
                   </CalendarCel>
@@ -250,11 +268,11 @@ const CalendarVer2 = () => {
                     onClick={() => dateSubmitHandler(days.format("YYYY-MM-DD"))}
                   >
                     {allTodos.find(
-                      (list) => list.selectDate == days.format("YYYY-MM-DD")
+                      (list) => list.selectDate === days.format("YYYY-MM-DD")
                     ) &&
                       allTodos
                         .filter(
-                          (x) => x.selectDate == days.format("YYYY-MM-DD")
+                          (x) => x.selectDate === days.format("YYYY-MM-DD")
                         )
                         .map((y) => y.todoList.length)
                         .reduce((a, b) => a + b, 0) !== 0 && (
@@ -272,25 +290,25 @@ const CalendarVer2 = () => {
                             cy="100"
                             r="48"
                             fill="transparent"
-                            stroke="#46BDF9"
+                            stroke="#00D7FF"
                             strokeWidth="90"
                             strokeDasharray={`${
                               (diameter *
                                 allTodos
                                   .filter(
                                     (x) =>
-                                      x.selectDate == days.format("YYYY-MM-DD")
+                                      x.selectDate === days.format("YYYY-MM-DD")
                                   )
                                   .map((y) => y.todoList)
                                   .filter((z) => z.length)
                                   .map(
-                                    (a) => a.filter((b) => b.done == 1).length
+                                    (a) => a.filter((b) => b.done === 1).length
                                   )
                                   .reduce((a, b) => a + b, 0)) /
                               allTodos
                                 .filter(
                                   (x) =>
-                                    x.selectDate == days.format("YYYY-MM-DD")
+                                    x.selectDate === days.format("YYYY-MM-DD")
                                 )
                                 .map((y) => y.todoList.length)
                                 .reduce((a, b) => a + b, 0)
@@ -300,18 +318,18 @@ const CalendarVer2 = () => {
                                 allTodos
                                   .filter(
                                     (x) =>
-                                      x.selectDate == days.format("YYYY-MM-DD")
+                                      x.selectDate === days.format("YYYY-MM-DD")
                                   )
                                   .map((y) => y.todoList)
                                   .filter((z) => z.length)
                                   .map(
-                                    (a) => a.filter((b) => b.done == 1).length
+                                    (a) => a.filter((b) => b.done === 1).length
                                   )
                                   .reduce((a, b) => a + b, 0)) /
                                 allTodos
                                   .filter(
                                     (x) =>
-                                      x.selectDate == days.format("YYYY-MM-DD")
+                                      x.selectDate === days.format("YYYY-MM-DD")
                                   )
                                   .map((y) => y.todoList.length)
                                   .reduce((a, b) => a + b, 0)
@@ -320,7 +338,7 @@ const CalendarVer2 = () => {
                           />
                         </svg>
                       )}
-                    <P style={{ backgroundColor: "#46befa" }}>
+                    <P style={{ backgroundColor: "#00D7FF" }}>
                       {days.format("D")}
                     </P>
                   </CalendarCel>
@@ -333,11 +351,11 @@ const CalendarVer2 = () => {
                     onClick={() => dateSubmitHandler(days.format("YYYY-MM-DD"))}
                   >
                     {allTodos.find(
-                      (list) => list.selectDate == days.format("YYYY-MM-DD")
+                      (list) => list.selectDate === days.format("YYYY-MM-DD")
                     ) &&
                       allTodos
                         .filter(
-                          (x) => x.selectDate == days.format("YYYY-MM-DD")
+                          (x) => x.selectDate === days.format("YYYY-MM-DD")
                         )
                         .map((y) => y.todoList.length)
                         .reduce((a, b) => a + b, 0) !== 0 && (
@@ -362,18 +380,18 @@ const CalendarVer2 = () => {
                                 allTodos
                                   .filter(
                                     (x) =>
-                                      x.selectDate == days.format("YYYY-MM-DD")
+                                      x.selectDate === days.format("YYYY-MM-DD")
                                   )
                                   .map((y) => y.todoList)
                                   .filter((z) => z.length)
                                   .map(
-                                    (a) => a.filter((b) => b.done == 1).length
+                                    (a) => a.filter((b) => b.done === 1).length
                                   )
                                   .reduce((a, b) => a + b, 0)) /
                               allTodos
                                 .filter(
                                   (x) =>
-                                    x.selectDate == days.format("YYYY-MM-DD")
+                                    x.selectDate === days.format("YYYY-MM-DD")
                                 )
                                 .map((y) => y.todoList.length)
                                 .reduce((a, b) => a + b, 0)
@@ -383,18 +401,18 @@ const CalendarVer2 = () => {
                                 allTodos
                                   .filter(
                                     (x) =>
-                                      x.selectDate == days.format("YYYY-MM-DD")
+                                      x.selectDate === days.format("YYYY-MM-DD")
                                   )
                                   .map((y) => y.todoList)
                                   .filter((z) => z.length)
                                   .map(
-                                    (a) => a.filter((b) => b.done == 1).length
+                                    (a) => a.filter((b) => b.done === 1).length
                                   )
                                   .reduce((a, b) => a + b, 0)) /
                                 allTodos
                                   .filter(
                                     (x) =>
-                                      x.selectDate == days.format("YYYY-MM-DD")
+                                      x.selectDate === days.format("YYYY-MM-DD")
                                   )
                                   .map((y) => y.todoList.length)
                                   .reduce((a, b) => a + b, 0)
@@ -420,6 +438,7 @@ const CalendarVer2 = () => {
       <Layer>
         <Wrapper>
           <Calendar>
+            {/* DdayModal */}
             {DdayShow && (
               <DayTextBox>
                 <DdayTextBoxCloseBtn>
@@ -449,6 +468,58 @@ const CalendarVer2 = () => {
                 </DdayInputBox>
               </DayTextBox>
             )}
+            {/* DdayEditModal */}
+            {DdayEditShow &&
+              selectDdayData?.map((list) => (
+                <DayEditTextBox>
+                  <DdayTextBoxCloseBtn>
+                    <Dtoday>
+                      {DD}
+                      <span>
+                        D
+                        {list.dday === 0
+                          ? "-day"
+                          : list.dday > 0
+                          ? "+" + list.dday
+                          : list.dday}
+                      </span>
+                    </Dtoday>
+                    <div onClick={() => setDdayEditShow(false)}>닫기</div>
+                  </DdayTextBoxCloseBtn>
+                  <DdayInputBox>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        onSubmitDdayEditHandler(list.ddayId, list.targetDay);
+                      }}
+                    >
+                      <DdayInput>
+                        <Input
+                          type="text"
+                          onChange={(e) => setDdayEditTitle(e.target.value)}
+                          border="solid black 3px"
+                          outline="none"
+                          height="30px"
+                          defaultValue={list.title}
+                        />
+                      </DdayInput>
+                      <DdayInputBtn>
+                        <button>수정</button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            dispatch(__deleteDday(list.ddayId));
+                          }}
+                        >
+                          삭제
+                        </button>
+                      </DdayInputBtn>
+                    </form>
+                  </DdayInputBox>
+                </DayEditTextBox>
+              ))}
+
+            {/* 달력 */}
             <CalendarRight>
               <Main>
                 <CalendarRow>
@@ -529,31 +600,37 @@ const CalendarVer2 = () => {
                       </AddCategory>
                     </HiddenAddBtn>
                   </form>
-                  <DayBtn onClick={() => setDdayShow(true)}></DayBtn>
+                  <DayBtn
+                    onClick={() => {
+                      setDdayShow(true);
+                      setDdayEditShow(false);
+                    }}
+                  ></DayBtn>
                   <Today>{DD.slice(-2)}</Today>
                 </TopBox>
                 <LeftSideDay>
+                  {/* 디데이 */}
                   <DdayList>
                     {DdayData &&
-                      DdayData.map((list, index) => (
+                      DdayData.map((list) => (
                         <>
-                          <Dday key={list.ddayId}>
+                          <Dday
+                            key={list.ddayId}
+                            onClick={() => onSubmitEditDataHandler(list.ddayId)}
+                          >
                             <div>{list.title}</div>
                             <p>
                               D
-                              {list.targetDay == DD
-                                ? "day"
-                                : list.targetDay > DD
-                                ? list.dday
-                                : "+" + list.dday}
+                              {list.dday == 0
+                                ? "-day"
+                                : list.dday > 0
+                                ? "+" + list.dday
+                                : list.dday}
                             </p>
                           </Dday>
                         </>
                       ))}
                   </DdayList>
-
-                  {/* todoList */}
-                  {/* <DragDropContext onDragEnd={handleOnDragEnd}></DragDropContext> */}
                   {dateTodos &&
                     dateTodos.map((list, index) => {
                       return (
@@ -573,7 +650,7 @@ const CalendarVer2 = () => {
                                 }
                                 type="text"
                                 defaultValue={list.categoryName}
-                                backgroundColor="#388FFF"
+                                backgroundColor="#0096FF"
                                 border="none"
                                 outline="none"
                                 color="white"
@@ -629,9 +706,7 @@ const CalendarVer2 = () => {
                                   onClick={() =>
                                     dispatch(__doneTodo(item.todoId))
                                   }
-                                >
-                                  {" "}
-                                </DoneBtn>
+                                ></DoneBtn>
                                 <Todo>{item.content}</Todo>
                                 <TodoBtn>
                                   <DeleteBtn
@@ -665,19 +740,22 @@ const CalendarVer2 = () => {
 export default CalendarVer2;
 
 const Layer = styled.div`
-  border: solid red 5px;
-  margin: auto;
-  height: 850px;
-  width: 1350px;
+  position: absolute;
+  border: solid red 1px;
+  left: 300px;
+  top: 150px;
+  height: 650px;
+  width: 1150px;
   color: #ffffff;
   background-image: url(${calBg});
   background-repeat: no-repeat;
   background-size: 1200px 700px;
   background-position: center;
+  z-index: 20;
 `;
 
 const MonthYear = styled.div`
-  background-color: #388fff;
+  background-color: #0096ff;
   /* border: solid black 3px; */
   height: 70px;
   border-radius: 6px;
@@ -723,7 +801,7 @@ const NextBtn = styled.img`
 `;
 
 const Wrapper = styled.div`
-  top: 117px;
+  top: 25px;
   display: block;
   position: relative;
   max-width: 1100px;
@@ -736,6 +814,7 @@ const DayTextBox = styled.div`
   width: 300px;
   height: 200px;
   background-image: url(${textbox});
+  background-repeat: no-repeat;
   z-index: 5;
   top: 180px;
   padding: 35px;
@@ -753,6 +832,10 @@ const DdayTextBoxCloseBtn = styled.div`
 const Dtoday = styled.p`
   font-size: 20px;
   font-weight: 700;
+  span {
+    margin-left: 5px;
+    color: red;
+  }
 `;
 const DdayInputBox = styled.div`
   width: 200px;
@@ -760,6 +843,7 @@ const DdayInputBox = styled.div`
   margin: auto;
 `;
 const DdayInput = styled.div`
+  border: solid red 1px;
   height: 50%;
   display: flex;
   justify-content: center;
@@ -768,11 +852,26 @@ const DdayInput = styled.div`
 `;
 
 const DdayInputBtn = styled.div`
+  border: solid red 1px;
   margin-top: 20px;
   height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  button {
+    margin: 0 10px;
+  }
+`;
+//디데이 수정박스
+const DayEditTextBox = styled.div`
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  background-image: url(${textbox});
+  background-repeat: no-repeat;
+  z-index: 5;
+  top: 180px;
+  padding: 35px;
 `;
 
 const Calendar = styled.div`
@@ -788,7 +887,7 @@ const CalendarLeft = styled.div`
   position: relative;
   width: 350px;
   padding: 20px;
-  background-color: #388fff;
+  background-color: #0096ff;
   box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
   margin: 20px;
   border-radius: 6px;
@@ -861,7 +960,7 @@ const DayTextBoxEdit = styled.div`
 
 const TodoListBox = styled.div`
   margin-top: 10px;
-  border: solid #000 3px;
+  border: solid black 3px;
   border-radius: 6px;
 `;
 const CategoryBox = styled.div`
@@ -937,8 +1036,8 @@ interface TodoProps {
   todo: string;
 }
 const TodoAddBtn = styled.button<TodoProps>`
-  background-color: #f6730e;
-  background-color: ${({ todo }) => (todo.length > 1 ? `#0E75F8` : "#f6730e")};
+  background-color: #ff9100;
+  background-color: ${({ todo }) => (todo.length > 1 ? `#0E75F8` : "#ff9100")};
   box-sizing: border-box;
   float: left;
   width: 25px;
@@ -1011,7 +1110,7 @@ const CalendarRight = styled.div`
   overflow: hidden;
   margin: 20px;
   padding: 10px;
-  background-color: #388fff;
+  background-color: #0096ff;
   box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
   border-radius: 6px;
   display: block;
