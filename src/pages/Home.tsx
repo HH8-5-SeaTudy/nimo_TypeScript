@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import moment from "moment";
-import { useAppDispatch,  useAppSelector } from "../components/hooks/reduxHooks";
-import { __getDateTodo } from '../redux/modules/dateTodos';
-import { __getCheckInTimer, __getCheckOutTimer, __getUserinquire } from "../redux/modules/timer";
-import TodoModal from '../pages/TodoModal';
-import Calendars from '../components/calendar/Calendars';
-//아이콘
-import { ReactComponent as ProfileIcon } from "../assets/icon/ProfileIcon.svg";
-import { ReactComponent as PlusIcon } from "../assets/icon/PlusIcon.svg";
-import { ReactComponent as BurgerIcon } from "../assets/icon/BurgerIcon.svg";
-import { ReactComponent as CalendarIcon } from "../assets/icon/CalendarIcon.svg";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
+import { __getDateTodo } from "../redux/modules/dateTodos";
+import {
+  __getCheckInTimer,
+  __getCheckOutTimer,
+  __getUserinquire,
+} from "../redux/modules/timer";
+import backimg from "../assets/pixel/backimg.jpeg";
+import MiniCalendar from "../components/calendar/MiniCalendar";
+import FishBowl from "../components/statistics/FishBowl";
+import CalendarVer2 from "../components/calendar/CalendarVer2";
+import SideBarVer2 from "../components/sidebar/SideBarVer2";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -25,17 +27,14 @@ const Home = () => {
     dispatch(__getDateTodo(moment(date).format("YYYY-MM-DD")));
   }, [date]);
 
-  const [modalShow, setModalShow] = useState(false);
-
-  const modalHandler = () => {
-    setModalShow(!modalShow);
-  };
-
   //SideBar hidden
   const [profileShow, setProfileShow] = useState(false);
   const [todoShow, setTodoShow] = useState(false);
   const [burgerShow, setBurgerShow] = useState(false);
   const [calendarShow, setCalendarShow] = useState(false);
+  const [inventoryShow, setInventoryShow] = useState(false);
+  const [sideBarShow, setSideBarShow] = useState(false);
+  const [modalShow, setModlaShow] = useState(false);
 
   //server zone
   const roomId1 = process.env.REACT_APP_ROOMID1;
@@ -43,159 +42,150 @@ const Home = () => {
   const roomId3 = process.env.REACT_APP_ROOMID3;
   const roomId4 = process.env.REACT_APP_ROOMID4;
   const roomId5 = process.env.REACT_APP_ROOMID5;
-
+  ///////////
 
   return (
-  <Layer>
-    <MainBox>
-      <TopBox>
-        <ProfileLayer>
-          <ProfileIconBox onClick={() => setProfileShow(!profileShow)}>
-            <Profile />
-          </ProfileIconBox>
-          <ProfileHiddenLayer profileShow={profileShow}>
-            <ProfileInfo>
-              <ProfileImg></ProfileImg>
-              <ProfileName></ProfileName>
-              <ProfileMsg></ProfileMsg>
-            </ProfileInfo>
-            <ProfileClose onClick={() => setProfileShow(!profileShow)}>
-            </ProfileClose>
-          </ProfileHiddenLayer>
-        </ProfileLayer>
-        <TodoLayer>
-          <TodoIconBox onClick={() => setTodoShow(!todoShow)}>
-          <Plus />
-          </TodoIconBox>
-          <TodoHiddenLayer todoShow={todoShow} >
-            <TodoInfo>
-            <button onClick={()=>{modalHandler()}}>작성하기버튼</button>
-              <div>
-                {dateTodos &&
-                  dateTodos.map((list) => (
-                    <div key={list.categoryId}>
-                      <div>
-                        <p>카테고리이름:{list.categoryName}</p>
-                      </div>
-                      <div>
-                        {list.todoList &&
-                          list.todoList.map((item) => (
-                            <>
-                              <div key={item.todoId}>
-                                <p>{item.content}</p>
-                              </div>
-                            </>
-                          ))}
-                      </div>
-                    </div>
-                  ))}
-              </div>
-              {modalShow && <TodoModal modalHandler={modalHandler} />}
-            </TodoInfo>
-            <TodoClose  onClick={() => setTodoShow(!todoShow)}>
-            </TodoClose>
-          </TodoHiddenLayer>
-        </TodoLayer>
-      </TopBox>
-      <Bottom>
-      <BurgerLayer>
-          <BurgerIconBox onClick={() => setBurgerShow(!burgerShow)}>
-          <Burger />
-          </BurgerIconBox>
-          <BurgerHiddenLayer burgerShow={burgerShow}>
-            <BurgerInfo>
-              <button onClick={()=>navigate('/statistics')}>통계페이지로이동</button>
-            </BurgerInfo>
-            <BurgerClose onClick={() => setBurgerShow(!burgerShow)}>
-            </BurgerClose>
-          </BurgerHiddenLayer>
-        </BurgerLayer>
-        <CalendarLayer>
-          <CalendarIconBox onClick={() => setCalendarShow(!calendarShow)}>
-          <Calendar />
-          </CalendarIconBox>
-          <CalendarHiddenLayer calendarShow={calendarShow} >
-            <CalendarInfo>
-            <Calendars/>
-            </CalendarInfo>
-            <CalendarClose onClick={() => setCalendarShow(!calendarShow)}>
-            </CalendarClose>
-          </CalendarHiddenLayer>
-        </CalendarLayer>
-        <ButtonBox>
-          <CheckInBall>
+    <Layer>
+      <SideBarVer2 />
+      {modalShow && <CalendarVer2 />}
+      {/* <CheckInBall>
           <button onClick={()=>{
             dispatch(__getCheckInTimer());
           }}>start</button>
           <button onClick={()=>{
             dispatch(__getCheckOutTimer());
           }}> stop</button>
-          </CheckInBall>
-          <button
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId1,
-                },
-              });
-            }}
-          >
-            서버1
-          </button>
-          <button
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId2,
-                },
-              });
-            }}
-          >
-            서버2
-          </button>
-          <button
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId3,
-                },
-              });
-            }}
-          >
-            서버3
-          </button>
-          <button
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId4,
-                },
-              });
-            }}
-          >
-            서버4
-          </button>
-          <button
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId5,
-                },
-              });
-            }}
-          >
-            서버5
-          </button>
-        </ButtonBox>
-      </Bottom>
-    </MainBox>
-  </Layer>
+          </CheckInBall> */}
+      <button
+        onClick={() => {
+          navigate("/chat", {
+            state: {
+              id: roomId1,
+            },
+          });
+        }}
+      >
+        서버1
+      </button>
+      <button
+        onClick={() => {
+          navigate("/chat", {
+            state: {
+              id: roomId2,
+            },
+          });
+        }}
+      >
+        서버2
+      </button>
+      <button
+        onClick={() => {
+          navigate("/chat", {
+            state: {
+              id: roomId3,
+            },
+          });
+        }}
+      >
+        서버3
+      </button>
+      <button
+        onClick={() => {
+          navigate("/chat", {
+            state: {
+              id: roomId4,
+            },
+          });
+        }}
+      >
+        서버4
+      </button>
+      <button
+        onClick={() => {
+          navigate("/chat", {
+            state: {
+              id: roomId5,
+            },
+          });
+        }}
+      >
+        서버5
+      </button>
+      <MainBox>
+        <SideBarLayer style={{ left: sideBarShow ? "-300px" : "0" }}>
+          <SideBar>
+            <SideBar>
+              <SideProfile onClick={() => setProfileShow(!profileShow)}>
+                프로필헤더
+              </SideProfile>
+              <SideProfileBox profileShow={profileShow}>
+                <ProfileLeft>
+                  <ProfileFish></ProfileFish>
+                </ProfileLeft>
+                <ProfileRight>
+                  <Name>name</Name>
+                  <StudyTime>총 공부시간</StudyTime>
+                </ProfileRight>
+              </SideProfileBox>
+              <SideCalendar onClick={() => setCalendarShow(!calendarShow)}>
+                캘린더헤더
+              </SideCalendar>
+              <SideCalendarBox calendarShow={calendarShow}>
+                <MiniCalendar></MiniCalendar>
+              </SideCalendarBox>
+              <SideTodoList draggable>
+                <Title onClick={() => setTodoShow(!todoShow)}>
+                  투두리스트헤더
+                </Title>
+                <CalendarBtn
+                  onClick={() => setModlaShow(!modalShow)}
+                ></CalendarBtn>
+              </SideTodoList>
+              <SideTodoListBox todoShow={todoShow}>
+                {dateTodos &&
+                  dateTodos.map((list) =>
+                    list.todoList?.map((item) => (
+                      <Todo>
+                        <TodoCheck></TodoCheck>
+                        <TodoTitle>{item.content}</TodoTitle>
+                        <TodoDelete></TodoDelete>
+                      </Todo>
+                    ))
+                  )}
+              </SideTodoListBox>
+              <SideInventory onClick={() => setBurgerShow(!burgerShow)}>
+                인벤토리헤더
+              </SideInventory>
+              <SideInventoryBox burgerShow={burgerShow}>
+                <InventoryLayer>
+                  <OpenHandle
+                    onClick={() => setInventoryShow(!inventoryShow)}
+                  ></OpenHandle>
+                  <NextFishBox>
+                    <FishBowl />
+                  </NextFishBox>
+                  <InventoryBox inventoryShow={inventoryShow}>
+                    <Inventory>ddd</Inventory>
+                    <Handle
+                      onClick={() => setInventoryShow(!inventoryShow)}
+                    ></Handle>
+                  </InventoryBox>
+                </InventoryLayer>
+              </SideInventoryBox>
+            </SideBar>
+          </SideBar>
+          <SideBarBtn onClick={() => setSideBarShow(!sideBarShow)}></SideBarBtn>
+        </SideBarLayer>
+      </MainBox>
+    </Layer>
   );
 };
 
 export default Home;
+
+//
 interface ProfileLayerProps {
-profileShow: boolean;
+  profileShow: boolean;
 }
 interface BurgerLayerProps {
   burgerShow: boolean;
@@ -204,257 +194,180 @@ interface TodoLayerProps {
   todoShow: boolean;
 }
 interface CalendarLayerProps {
-calendarShow: boolean;
+  calendarShow: boolean;
+}
+interface InventoryLayerProps {
+  inventoryShow: boolean;
 }
 
 const Layer = styled.section`
   width: 100%;
   height: 100vh;
   padding-top: 65px;
-  background: url('https://i.pinimg.com/564x/74/14/83/741483bb55e4277719c3b9a80e92bcc9.jpg');
+  background: url(${backimg});
   background-size: 100% 100vh;
-`
+`;
 
 const MainBox = styled.div`
-    border: solid red 1px; 
-    height: 100%;
-
-` 
-
-const TopBox = styled.div`
-    border: solid red 1px; 
-    height: 50%;
-    display: flex;
-    justify-content: space-between;
-`
-
-
-const ProfileLayer = styled.div`
-   position:relative;
-   background:#264b7e;
-   width: 25px;
-`
-const ProfileIconBox = styled.div`
-  background:#264b7e;
-  width: 60px;
-  height: 75px;
-  position: absolute;
-  left: -5px;
-  top: 38%;
-  border-radius: 40px;
-`
-const Profile = styled(ProfileIcon)`
-  position: absolute;
-  top:30%;
-  right:13px;
-`;
-
-const ProfileHiddenLayer = styled.div<ProfileLayerProps>`
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display:flex;
-  position:absolute;
-  left: ${({ profileShow }) => (profileShow ? "0px" : "-359px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-const ProfileInfo = styled.div`
   border: solid red 1px;
   height: 100%;
-  width: 334px;
+`;
+const SideBarLayer = styled.div`
+  position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-
-`
-const ProfileImg = styled.div`
-  border: 2px solid #ffffff;
-  background: #bababa;
-  width: 175px;
-  height: 175px;
-  border-radius: 50%;
-  margin: 0 auto;
-  `
-const ProfileName = styled.div`
-  border: 2px solid #ffffff;
-  background: #bababa;
-  width: 123px;
-  height: 50px;
-  margin: 0 auto;
-`
-const ProfileMsg = styled.div`
-border: 2px solid #ffffff;
-background: #bababa;
-  width: 250px;
-  height: 87px;
-  margin: 0 auto;
-`
-const ProfileClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
   height: 100%;
-`
-
-const TodoLayer = styled.div`
-   width: 25px;
-   position:relative;
-   background:#264b7e;
-`
-
-const TodoIconBox = styled.div`
-  position: absolute; 
-  width: 60px;
-  height: 75px;
-  right: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background:#264b7e;
-`
-const Plus = styled(PlusIcon)`
-  position: absolute;
-  top:30%;
-  left:13px;
+  transition: all 0.3s;
 `;
-
-const TodoHiddenLayer = styled.div<TodoLayerProps>`
-  position:absolute;
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display:flex;
-  flex-direction: row-reverse;
-  left: ${({ todoShow }) => (todoShow ? "-334px" : "25px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-
-const TodoInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`
-
-const TodoClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-
-
-const Bottom =styled.div`
-    border: solid red 2px; 
-    height: 50%;
-    display: flex;
-    justify-content: space-between;
-`
-
-const BurgerLayer = styled.div`
-   position:relative;
-   width: 25px;
-   background:#264b7e;
-`
-const BurgerIconBox = styled.div`
-  width: 60px;
-  height: 75px;
-  position: absolute;
-  left: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background:#264b7e;
-`
-const Burger = styled(BurgerIcon)`
-    position: absolute;
-  top:30%;
-  right:13px;
+const SideBarBtn = styled.div`
+  width: 20px;
+  height: 100px;
+  background-color: red;
 `;
-
-const BurgerHiddenLayer = styled.div<BurgerLayerProps>`
-    border: solid blue 1px;
-  width: 359px;
+const SideBar = styled.div`
+  position: relative;
+  border: solid red 3px;
+  background-color: white;
+  width: 300px;
   height: 100%;
-  display:flex;
-  position:absolute;
-  left: ${({ burgerShow }) => (burgerShow ? "0px" : "-359px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-const BurgerInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`
-const BurgerClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-
-const CalendarLayer = styled.div`
-   width: 25px;
-   position:relative;
-   background:#264b7e;
-`
-
-const CalendarIconBox = styled.div`
-  position: absolute; 
-  width: 60px;
-  height: 75px;
-  right: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background:#264b7e;
-`
-const Calendar = styled(CalendarIcon)`
-   position: absolute;
-  top:30%;
-  left:13px;
-`;
-
-const CalendarHiddenLayer = styled.div<CalendarLayerProps>`
-  position:absolute;
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display:flex;
-  flex-direction: row-reverse;
-  left: ${({ calendarShow }) => (calendarShow ? "-334px" : "25px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-
-const CalendarInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`
-
-const CalendarClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-const ButtonBox = styled.div`
-  position: absolute;
-  border: solid red 1px; 
-  width: 200px;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  left: 45%;
-`;
-const CheckInBall = styled.div`
-button{
-  width: 50%;
-  height: 50px;
-  &:first-child{
-    background-color: green;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
   }
-  background-color:red;
-}
-`
+`;
+const SideProfile = styled.div`
+  border: solid red 1px;
+  height: 30px;
+`;
+const SideCalendar = styled.div`
+  border: solid red 1px;
+  height: 30px;
+`;
+const SideTodoList = styled.div`
+  border: solid red 1px;
+  height: 30px;
+  display: flex;
+`;
+const SideInventory = styled.div`
+  border: solid red 1px;
+  height: 30px;
+`;
+//
+const Title = styled.div`
+  width: 90%;
+`;
+const CalendarBtn = styled.div`
+  border: solid red 1px;
+  width: 10%;
+`;
+
+const SideProfileBox = styled.div<ProfileLayerProps>`
+  border: solid red 1px;
+  height: 100px;
+  display: ${({ profileShow }) => (profileShow ? "flex" : "none")};
+`;
+const ProfileLeft = styled.div`
+  border: solid red 1px;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+const ProfileFish = styled.div`
+  border: solid red 1px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: auto;
+`;
+const ProfileRight = styled.div`
+  border: solid red 1px;
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`;
+const Name = styled.div`
+  border: solid red 1px;
+  width: 60%;
+  height: 40px;
+  margin: auto;
+`;
+const StudyTime = styled.div`
+  border: solid red 1px;
+  width: 60%;
+  height: 40px;
+  margin: auto;
+`;
+
+const SideCalendarBox = styled.div<CalendarLayerProps>`
+  border: solid red 1px;
+  display: ${({ calendarShow }) => (calendarShow ? "block" : "none")};
+`;
+const SideTodoListBox = styled.div<TodoLayerProps>`
+  border: solid red 1px;
+  display: ${({ todoShow }) => (todoShow ? "block" : "none")};
+`;
+const Todo = styled.div`
+  border: solid red 1px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+`;
+const TodoCheck = styled.div`
+  border: solid red 1px;
+  width: 50px;
+  height: 30px;
+`;
+const TodoTitle = styled.div`
+  border: solid red 1px;
+  width: 300px;
+  height: 30px;
+`;
+const TodoDelete = styled.div`
+  border: solid red 1px;
+  width: 50px;
+  height: 30px;
+`;
+const SideInventoryBox = styled.div<BurgerLayerProps>`
+  border: solid red 1px;
+  height: 300px;
+  display: ${({ burgerShow }) => (burgerShow ? "block" : "none")};
+`;
+const InventoryLayer = styled.div`
+  display: flex;
+  justify-content: end;
+  height: 100%;
+`;
+const NextFishBox = styled.div`
+  border: solid red 3px;
+  width: calc(100% - 20px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const OpenHandle = styled.div`
+  border: solid red 1px;
+  width: 20px;
+  height: 100%;
+`;
+const InventoryBox = styled.div<InventoryLayerProps>`
+  display: flex;
+  position: absolute;
+  height: 300px;
+  left: ${({ inventoryShow }) => (inventoryShow ? "0px" : "-300px")};
+  transition: all 0.3s;
+  z-index: 5;
+`;
+const Handle = styled.div`
+  border: solid red 1px;
+  width: 20px;
+  height: 300px;
+  background-color: lightgray;
+`;
+const Inventory = styled.div`
+  border: solid red 1px;
+  width: 270px;
+  background-color: lightgray;
+`;

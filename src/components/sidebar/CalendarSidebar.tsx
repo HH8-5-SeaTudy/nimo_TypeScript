@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as CalendarIcon } from "../../assets/icon/CalendarIcon.svg";
-import Calendars from '../calendar/Calendars';
+// import Calendars from "../calendar/Calendars";
 const CalendarSidebar = () => {
   const [show, setShow] = useState(false);
   return (
@@ -13,9 +13,7 @@ const CalendarSidebar = () => {
       </CalendarSide>
       <CalendarLayer show={show}>
         <CloseBtn onClick={() => setShow(!show)}> </CloseBtn>
-        <CalendarBox>
-          <Calendars/>
-        </CalendarBox>
+        <CalendarBox>{/* <Calendars /> */}</CalendarBox>
       </CalendarLayer>
     </div>
   );
@@ -39,9 +37,7 @@ const CalendarIconBox = styled.div`
   height: 75px;
   right: -5px;
   top: 35%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${({ theme }) => theme.common.flexCenter};
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     #264b7e;
   border-radius: 40px;
@@ -55,7 +51,7 @@ interface CalendarLayerProps {
 const CalendarLayer = styled.div<CalendarLayerProps>`
   position: absolute;
   display: flex;
-bottom:0;
+  bottom: 0;
   width: 359px;
   height: 47%;
   transition: all 0.5s;
@@ -68,8 +64,8 @@ const CloseBtn = styled.div`
   width: 25px;
 `;
 const CalendarBox = styled.div`
-border: solid red 1px;
-box-sizing: border-box;
+  border: solid red 1px;
+  box-sizing: border-box;
   width: 335px;
   height: 100%;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),

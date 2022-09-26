@@ -1,3 +1,10 @@
-import Button from "./Button";
+// import Button from "./Button";
 
-export { Button };
+// export { Button };
+import React from "react";
+
+function index() {
+  return <div></div>;
+}
+
+export default index;

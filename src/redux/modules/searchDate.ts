@@ -11,9 +11,12 @@ export const __dateSlice = createSlice({
     updateDate: (state, action) => {
       state.date = action.payload;
     },
+    selectDate: (state, action) => {
+      state.date = action.payload;
+    },
   },
   extraReducers: {},
 });
 
-export const { updateDate } = __dateSlice.actions;
+export const { updateDate,selectDate } = __dateSlice.actions;
 export default __dateSlice.reducer;
