@@ -23,16 +23,24 @@ import right from "../../assets/pixel/right.png";
 import textbox from "../../assets/pixel/textbox.png";
 import SideBarVer2 from "../sidebar/SideBarVer2";
 
-export type Iresault = {
-  result: [];
-};
-
 const CalendarVer2 = () => {
   const dispatch = useAppDispatch();
   const allTodos = useAppSelector((state) => state.dateTodos.allTodos);
   // const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
+
+  const [characters, updateCharacters] = useState(dateTodos);
+
+  function handleOnDragEnd(result: any) {
+    if (!result.destination) return;
+
+    const items = Array.from(characters);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    updateCharacters(items);
+  }
 
   //Calendar
   //오늘 날짜 저장
@@ -545,6 +553,7 @@ const CalendarVer2 = () => {
                   </DdayList>
 
                   {/* todoList */}
+                  {/* <DragDropContext onDragEnd={handleOnDragEnd}></DragDropContext> */}
                   {dateTodos &&
                     dateTodos.map((list, index) => {
                       return (
