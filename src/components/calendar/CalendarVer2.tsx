@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import Input from "../../elements/Input";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 // import { updateDate,selectDate } from '../../redux/modules/searchDate';
 import {
   getAllTodo,
@@ -136,9 +138,8 @@ const CalendarVer2 = () => {
 
   const calendarArr = () => {
     let result: any = [];
-    let week = firstWeek;
 
-    for (week; week <= lastWeek; week++) {
+    for (let week = firstWeek; week <= lastWeek; week++) {
       result = result.concat(
         <CalendarRow key={week}>
           {Array(7)
@@ -542,6 +543,8 @@ const CalendarVer2 = () => {
                         </>
                       ))}
                   </DdayList>
+
+                  {/* todoList */}
                   {dateTodos &&
                     dateTodos.map((list, index) => {
                       return (

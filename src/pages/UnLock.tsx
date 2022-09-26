@@ -15,13 +15,11 @@ const UnLock = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
   const fishPoint = fishImages.map((data) => data.point);
-  const fishInfo = useAppSelector((state) => state.fishList);
+  const bannerImage = fishImages.map((data) => data.image);
   const fishImage = useAppSelector(
     (state) => state.fishList.fishInfo.fishImageUrl
   );
-  // const fa = fishInfo&& fishInfo.map((data) => data.fishName);
   const [lock, setLock] = useState(false);
-  const [image, setImage] = useState(false);
 
   console.log(fishImage);
 
@@ -105,12 +103,11 @@ const UnLock = () => {
             {/* 물고기 자세히 보기 */}
             <FishWrapper>
               <FishDetailContainer>
-                <BigFish src={fishImage} alt="" />
-                {/* <div
-                  style={{
-                    background: `https://springblog.s3.ap-northeast-2.amazonaws.com/goldNimo`,
-                  }}
-                ></div> */}
+                {fishImage ? (
+                  <BigFish src={fishImage} alt="" />
+                ) : (
+                  <BigFish src={bannerImage[0]} alt="" />
+                )}
               </FishDetailContainer>
 
               {/* 물고기 리스트 보여주는 곳 */}
@@ -122,7 +119,7 @@ const UnLock = () => {
                       <FishListWrapper
                         key={index}
                         onClick={() => {
-                          dispatch(__getFishList(data.name));
+                          dispatch(__getFishList(data.fishName));
                         }}
                       >
                         {lock ? (
