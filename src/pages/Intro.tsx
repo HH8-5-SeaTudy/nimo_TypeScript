@@ -376,9 +376,7 @@ const WaveWrapper = styled.div`
       box-shadow: 0 0px 20px #fff, inset 0px 10px 30px 5px #add9ec54;
       height: 200px;
       position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      ${({ theme }) => theme.common.flexCenter};
       width: 200px;
       border: solid rgba(255, 255, 255, 0.5) 1px;
       span {
@@ -446,10 +444,7 @@ const FirstWave = styled.div`
 
 const TitleContainer = styled.div`
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 22%;
+  ${({ theme }) => theme.common.flexCenter};
   position: relative;
   z-index: 5;
   .xs {
@@ -622,10 +617,7 @@ const ButtonWrapper = styled.div`
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  ${({ theme }) => theme.common.flexCenterColumn};
 `;
 
 const ButtonWrapperEyeContainer = styled.div`
@@ -642,9 +634,7 @@ const ButtonWrapperEye = styled.section`
   border-radius: 9999px;
   width: 50px;
   height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    ${({ theme }) => theme.common.flexCenter};
   span {
     width: 10px;
     height: 10px;
@@ -672,9 +662,7 @@ const ButtonContainer = styled.div`
   height: 100px;
   overflow: hidden;
   border-radius: 40px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
+  ${({ theme }) => theme.common.flexCenter};
   cursor: pointer;
   span {
     position: relative;
@@ -724,9 +712,7 @@ const ButtonContainer = styled.div`
 
 const SeatudyContainer = styled.div`
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${({ theme }) => theme.common.flexCenter};
   padding: 30px;
   font-size: 7em;
   box-sizing: border-box;
@@ -769,9 +755,7 @@ const SeatudyContainer = styled.div`
 `;
 
 const SetudyWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${({ theme }) => theme.common.flexCenter};
   animation: ${textslide} 2s backwards;
 `;
 

@@ -1,32 +1,24 @@
 import styled from "styled-components";
-import React from "react";
+import { IButtonProps } from "../api";
 
-export type IButtonProps = {
-  width: number;
-  height: number;
-  margin: number;
-  padding: number;
-
-  fontColor: string;
-  fontSize: number;
-  children: any;
-  ref: any;
-  onClick: () => void;
-  disabled: boolean;
-
-  theme: any;
-};
-
-const Button = ({
+export const Button = ({
   width,
   height,
   margin,
   padding,
 
+  display,
+  alignItems,
+  justifyContent,
+
+  border,
+  borderRadius,
+
   fontColor,
   fontSize,
 
   ref,
+
   children,
   onClick,
   disabled = false,
@@ -44,6 +36,11 @@ const Button = ({
       fontColor={fontColor}
       fontSize={fontSize}
       ref={ref}
+      borderRadius={borderRadius}
+      border={border}
+      display={display}
+      alignItems={alignItems}
+      justifyContent={justifyContent}
     >
       <Btn onClick={onClick}>{children}</Btn>
     </BtnContainer>
@@ -56,8 +53,14 @@ const BtnContainer = styled.div<Partial<IButtonProps>>`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
 
+  display: ${({ display }) => display};
+  align-items: ${({ alignItems }) => alignItems};
+  justify-content: ${({ justifyContent }) => justifyContent};
+
   color: ${({ fontColor }) => fontColor};
   font-size: ${({ fontSize }) => fontSize};
+  border-radius: ${({ borderRadius }) => borderRadius};
+  border: ${({ border }) => border};
 `;
 const Btn = styled.button`
   cursor: pointer;

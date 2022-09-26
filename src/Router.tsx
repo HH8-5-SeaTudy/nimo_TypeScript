@@ -13,7 +13,7 @@ import Wave from "./pages/Wave";
 import { getCookie } from "./components/social/Cookie";
 import Header from "./components/common/Header";
 import PrivateRoute from "./PrivateRoute";
-import FishUnLock from "./pages/FishUnLock";
+import UnLock from "./pages/UnLock";
 
 const Router = () => {
   const token: string = process.env.REACT_APP_TOKEN as string;
@@ -42,7 +42,7 @@ const Router = () => {
         />
         <Route
           path={EnumPages.UNLOCK}
-          element={<PrivateRoute token={token} component={<FishUnLock />} />}
+          element={<PrivateRoute token={token} component={<UnLock />} />}
         />
         <Route path={EnumPages.LOGIN} element={<Login />} />
         <Route path={EnumPages.KAKAOLOGIN} element={<KakaoLogin />} />

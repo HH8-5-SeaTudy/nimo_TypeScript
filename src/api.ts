@@ -28,10 +28,7 @@ export type ITodoList = {
   categoryId: number;
 };
 
-/**
- * Timer API
- */
-
+// * Timer API
 export type ItimerInitialState = {
   timer: Itimer[];
 };
@@ -40,7 +37,7 @@ export type Itimer = {
   dayStudyTime: string;
   totalStudyTime: string;
   todayLogs: todayLogs[];
-  isStudy : boolean;
+  isStudy: boolean;
 };
 
 export type todayLogs = {
@@ -48,14 +45,28 @@ export type todayLogs = {
   checkOut: string;
 };
 
-//StopWatch Time
+// * StopWatch Time
 export type Itime = {
   timeHH: number;
   timeMM: number;
   timeSS: number;
 };
 
-//StopWatch function
+// * UserData
+export type IUser = {
+  userData: IUserData[];
+  userProfile: IUserData;
+};
+
+export type IUserData = {
+  id: number;
+  email: string;
+  nickname: string;
+  defaultFish: string;
+  point: number;
+};
+
+// * StopWatch function
 export type Ivoid = {
   startHandler(): void;
   endHandler(): void;
@@ -66,17 +77,102 @@ export type Ilocation = {
   key: string;
   pathname: string;
   search: string;
-  state: {id: string;}
+  state: { id: string };
 };
 
 //D-day Data
-export type IDdayInitialState  = {
-  DdayData: IDday[]
+export type IDdayInitialState = {
+  DdayData: IDday[];
 };
 
 export type IDday = {
-  ddayId: number;            
+  ddayId: number;
   title: string;
   dday: number;
   targetDay: string;
+};
+
+// * Button Type
+export type IButtonProps = {
+  width: string;
+  height: string;
+  margin: string;
+  padding: string;
+
+  display: string;
+  alignItems: string;
+  justifyContent: string;
+
+  border: string;
+  borderRadius: string;
+
+  fontColor: string;
+  fontSize: string;
+  children: any;
+  ref: any;
+  onClick: () => void;
+  disabled: boolean;
+
+  theme: any;
+};
+
+// * Input Type
+export type IInputProps = {
+  width: any;
+  height: string;
+  margin: string;
+  padding: string;
+  display: string;
+  border: string;
+  borderRadius: string;
+  defaultValue: string;
+  type: string;
+  placeholder: string;
+  ref: any;
+  onChange: (e: any) => void;
+  onClick: (e: any) => void;
+  fontSize: string;
+  outline: string;
+  transition: string;
+  readOnly: boolean;
+  value: any;
+  color: string;
+  fontWeight: string;
+  cursor: string;
+  backgroundColor: string;
+};
+
+// * Grid Type
+export type IGridProps = {
+  width: string;
+  height: string;
+
+  margin: string;
+  padding: string;
+
+  display: string;
+  justifyContent: string;
+  alignItems: string;
+
+  fontColor: string;
+  fontSize: string;
+
+  backgroundColor: string;
+  backgroundSize: string;
+  backgroundPosition: string;
+  backgroundRepeat: string;
+  background: string;
+
+  border: string;
+  borderRadius: string;
+
+  defaultValue: any;
+  placeholder: string;
+  ref: any;
+  disabled: boolean;
+  theme: any;
+
+  cursor: string;
+  children: any;
+  onClick: () => void;
 };

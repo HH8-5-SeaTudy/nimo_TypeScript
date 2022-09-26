@@ -26,7 +26,6 @@ const Header = () => {
   const [timeMM, setTimeMM] = useState<number>(0);
   const [timeHH, setTimeHH] = useState<number>(0);
 
-
   useEffect(() => {
     dispatch(__getUserinquire());
 
@@ -97,14 +96,13 @@ const Header = () => {
           </HeaderTimer>
         </HeaderTimerContainer>
         <OnAsmrBtn onClick={() => setAsmrShow(!asmrShow)} />
-            {asmrShow && <Asmr />}
-        </HeaderContainer> 
-
+        {asmrShow && <Asmr />}
+      </HeaderContainer>
     </>
   );
 };
 const Layer = styled.div`
-  span{
+  span {
     color: white;
   }
 `;
