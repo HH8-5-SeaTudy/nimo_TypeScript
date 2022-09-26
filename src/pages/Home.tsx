@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import moment from "moment";
@@ -9,6 +9,7 @@ import backimg from '../assets/pixel/backimg.jpeg'
 import MiniCalendar from '../components/calendar/MiniCalendar';
 import FishBowl from '../components/statistics/FishBowl';
 import CalendarVer2 from '../components/calendar/CalendarVer2';
+import SideBarVer2 from '../components/sidebar/SideBarVer2';
 
 
 
@@ -40,13 +41,13 @@ const Home = () => {
   const roomId3 = process.env.REACT_APP_ROOMID3;
   const roomId4 = process.env.REACT_APP_ROOMID4;
   const roomId5 = process.env.REACT_APP_ROOMID5;
-  
-  console.log(dateTodos.map((x)=>x.todoList?.map((y)=>y.content)))
+  ///////////
+ 
 
   return (
   <Layer>
+    <SideBarVer2/>
     {modalShow && <CalendarVer2/>}
-    
     {/* <ButtonBox>
           <CheckInBall>
           <button onClick={()=>{
@@ -112,7 +113,7 @@ const Home = () => {
             서버5
           </button>
         </ButtonBox>  */}
-    <MainBox>
+    <MainBox >
       <SideBarLayer style={{ left : sideBarShow ? '-300px': '0'}}>
       <SideBar>
         <SideBar>
@@ -130,7 +131,7 @@ const Home = () => {
         <SideCalendarBox calendarShow={calendarShow}>
           <MiniCalendar></MiniCalendar>
         </SideCalendarBox>
-        <SideTodoList >
+        <SideTodoList    draggable>
           <Title onClick={() => setTodoShow(!todoShow)}>투두리스트헤더</Title>
           <CalendarBtn onClick={()=>setModlaShow(!modalShow)}></CalendarBtn>
           </SideTodoList>
@@ -170,6 +171,10 @@ const Home = () => {
 
 export default Home;
 
+
+
+
+//
 interface ProfileLayerProps {
 profileShow: boolean;
 }

@@ -38,9 +38,9 @@ const MyResponsiveCalendar = () => (
       margin={{ top: 30, right: 10, bottom: 10, left: 10 }}
       yearSpacing={40}
       yearLegendOffset={5}
-      monthBorderColor="#00D7FF"
+      monthBorderColor="#0096FF"
       dayBorderWidth={2}
-      dayBorderColor="#00D7FF"
+      dayBorderColor="#0096FF"
       legends={[
           {
               anchor: 'bottom-right',
