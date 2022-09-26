@@ -68,7 +68,7 @@ const spin = keyframes`
  }
 `;
 const Water = styled.div`
-    top:30%;
+    top:61%;
     box-shadow: 0 0 20px #03a9bc;
     transition: all 1s ease;
     background: #53e3fc7f;

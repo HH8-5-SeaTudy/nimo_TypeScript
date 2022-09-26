@@ -8,8 +8,8 @@ import { ResponsivePie } from '@nivo/pie'
 
 const data = [
   {
-    "id": "Mon",
-    "value": 12,
+    "id": "1주차",
+    "value": 4,
   },
   {
     "id": "Tue",

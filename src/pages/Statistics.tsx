@@ -125,8 +125,8 @@ const TotalSide = styled.div`
   width: 70%;
 `
 const RankBox = styled.div`
-  border-left: solid #1975F8 3px; 
-  border-right: solid #1975F8 3px; 
+  border-left: solid #0096FF 3px; 
+  border-right: solid #0096FF 3px; 
   height: 100%;
   box-shadow:inset 0 0 5px #b3e5fc,inset 0 0 25px #03e9f4,inset 0 0 50px #03e9f4,
   inset 0 0 100px #b3e5fc, inset 1px 1px 1px 0px rgba(255, 255, 255, 0.819);
@@ -160,7 +160,7 @@ const RankInfo =styled.div`
 `
 const NickName =styled.div`
   border: solid red 1px;
-width:50%;
+  width:50%;
   text-align: center;
 `
 const Point = styled.div`
