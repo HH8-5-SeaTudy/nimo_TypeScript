@@ -20,6 +20,8 @@ const dragStartHandler = (e: any) => {
   blankCanvas.classList.add("canvas");
   e.dataTransfer?.setDragImage(blankCanvas, 0, 0);
   document.body?.appendChild(blankCanvas); 
+  const img = new Image();
+  e.dataTransfer.setDragImage(img, 0, 0);
   
   e.dataTransfer.effectAllowed = "move"; // 크롬의그린 +아이콘 제거
   
@@ -74,10 +76,10 @@ const dragEndHandler = (e: any) => {
        canvas.parentNode?.removeChild(canvas);
    }
     // 캔버스로 인해 발생한 스크롤 방지 어트리뷰트 제거
-  document.body.removeAttribute("style");
-   
-    
+  document.body.removeAttribute("style");  
 };
+
+
   return (
     <> 
     <Layer ref={containerRef}>
