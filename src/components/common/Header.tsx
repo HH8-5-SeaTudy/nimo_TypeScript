@@ -109,13 +109,12 @@ const Layer = styled.div`
 
 const HeaderContainer = styled.div`
   border: solid red 2px;
-  /* position: absolute; */
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 65px;
-  background-color: transparent;
+  background-color: #eee;
   padding: 0px 56px;
   height: 10vh;
 `;

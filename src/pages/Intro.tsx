@@ -634,7 +634,7 @@ const ButtonWrapperEye = styled.section`
   border-radius: 9999px;
   width: 50px;
   height: 50px;
-    ${({ theme }) => theme.common.flexCenter};
+  ${({ theme }) => theme.common.flexCenter};
   span {
     width: 10px;
     height: 10px;
