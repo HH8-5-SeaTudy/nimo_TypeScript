@@ -1,40 +1,45 @@
 import React from 'react';
 import styled,{keyframes} from 'styled-components';
 
-const FishBowl = () => {
+
+const FishBowl = (props:any) => {
+  const waterPercent = 100 - props.nextPercent;
+  console.log(waterPercent)
   return (
-    <Layer>
+    <BowlLayer>
       <Bowl>
         <BowlInner>
-          <Percent>39%</Percent>
-          <Water></Water>
+          <Percent>{props.nextPercent}%</Percent>
+          <Water style={{top:`${waterPercent}%`}}></Water>
           <Glare></Glare>
         </BowlInner>
       </Bowl>
-    </Layer>
+    </BowlLayer>
   );
 };
 
 export default FishBowl;
 
-const Layer = styled.div `
+
+const BowlLayer = styled.div `
     box-sizing: border-box;
-    /* margin-top: 15px; */
     display: block;
     font-family: sans-serif;
     font-size: 15px;
     color: #ccc;
     line-height: 1.15;
+    box-sizing:border-box;
 
 `
 const Bowl = styled.div`
   transition: all 1s ease;
   box-shadow: 0 0 20px #028695;
   border: 5px solid #53ebfc;
- width: 200px;
- height: 200px;
+  width: 200px;
+  height: 200px;
   position: relative;
   border-radius: 50%;
+  
 `
 const BowlInner = styled.div`
   transition: all 1s ease;
@@ -68,7 +73,7 @@ const spin = keyframes`
  }
 `;
 const Water = styled.div`
-    top:61%;
+
     box-shadow: 0 0 20px #03a9bc;
     transition: all 1s ease;
     background: #53e3fc7f;

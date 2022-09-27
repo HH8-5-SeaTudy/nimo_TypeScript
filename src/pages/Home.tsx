@@ -11,11 +11,9 @@ import {
 } from "../redux/modules/timer";
 import backimg from "../assets/pixel/backimg.jpeg";
 import MiniCalendar from "../components/calendar/MiniCalendar";
-import CalendarVer2 from "../components/calendar/CalendarVer2";
-import SideBarVer2 from "../components/sidebar/SideBarVer2";
-import FishIventory from "../components/fish/FishIventory";
 import fishImages from "../components/fish/FishImages";
-import { __getUserProfile } from "../redux/modules/userData";
+import { __getUserProfile } from '../redux/modules/userData';
+
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -43,59 +41,63 @@ const Home = () => {
   const roomId3 = process.env.REACT_APP_ROOMID3;
   const roomId4 = process.env.REACT_APP_ROOMID4;
   const roomId5 = process.env.REACT_APP_ROOMID5;
-
+  
   //Inventory
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
 
-  console.log(userPoint);
+  console.log(userPoint)
   useEffect(() => {
     dispatch(__getUserProfile());
   }, []);
 
+
   const containerRef = useRef<HTMLDivElement>(null); // 드래그 할 영역 네모 박스 Ref
-  // const dragComponentRef = useRef<HTMLDivElement>(null); // // 움직일 드래그 박스 Ref
-  const ref: any = useRef<null | HTMLDivElement[]>([]);
-  console.log(ref);
-  console.log(ref.current[0]);
+  const dragComponentRef = useRef([1,2,3]); // // 움직일 드래그 박스 Ref
+  // const items = Array.from({length: 2}, a => useRef(null));
+  // myRefs.current = things.map((element, i) => myRefs.current[i] ?? createRef());
+  const myRefs = useRef([]);
+
+
 
   const [originPos, setOriginPos] = useState({ x: 0, y: 0 }); // 드래그 전 포지션값 (e.target.offset의 상대 위치)
   const [clientPos, setClientPos] = useState({ x: 0, y: 0 }); // 실시간 커서위치인 e.client를 갱신하는값
   const [pos, setPos] = useState({ left: 0, top: 0 }); // 실제 drag할 요소가 위치하는 포지션값
-  const [size, setSize] = useState({ width: "", height: "" }); // 실제 drag할 요소가 위치하는 포지션값
-
-  console.log("드래그 전 포지션값", originPos);
-  console.log("실시간 커서위치", clientPos);
-  console.log("실제 drag할 요소", pos);
-
+  const [size, setSize] = useState({  width:'',height: '',}); // 실제 drag할 요소가 위치하는 포지션값
+  
+  console.log('드래그 전 포지션값',originPos)
+  console.log('실시간 커서위치',clientPos)
+  console.log('실제 drag할 요소',pos)
+  
+  
   const dragStartHandler = (e: any) => {
-    const blankCanvas: any = document.createElement("canvas");
+    const blankCanvas: any = document.createElement('canvas')
     blankCanvas.classList.add("canvas");
     e.dataTransfer?.setDragImage(blankCanvas, 0, 0);
-    document.body?.appendChild(blankCanvas);
+    document.body?.appendChild(blankCanvas); 
     const img = new Image();
     e.dataTransfer.setDragImage(img, 0, 0);
-
+    
     e.dataTransfer.effectAllowed = "move"; // 크롬의그린 +아이콘 제거
-
+    
     const originPosTemp = { ...originPos };
     originPosTemp["x"] = e.target.offsetLeft;
     originPosTemp["y"] = e.target.offsetTop;
     console.log("originPosTemp", originPosTemp);
     setOriginPos(originPosTemp); //드래그 시작할때 드래그 전 위치값을 저장
-
+  
     const clientPosTemp = { ...clientPos };
     clientPosTemp["x"] = e.clientX;
     clientPosTemp["y"] = e.clientY;
     setClientPos(clientPosTemp);
   };
-
+  
   const dragHandler = (e: any) => {
     const PosTemp = { ...pos };
     PosTemp["left"] = e.target.offsetLeft + e.clientX - clientPos.x;
     PosTemp["top"] = e.target.offsetTop + e.clientY - clientPos.y;
     setPos(PosTemp);
-
+  
     const clientPosTemp = { ...clientPos };
     clientPosTemp["x"] = e.clientX;
     clientPosTemp["y"] = e.clientY;
@@ -104,51 +106,46 @@ const Home = () => {
   const dragOverHandler = (e: any) => {
     e.preventDefault(); // 드래그시에 플라잉백하는 고스트이미지를 제거한다
   };
-
-  const isInsideDragArea = (e: any) => {};
-
+  
+  const isInsideDragArea = (e:any) => {
+  
+  } 
+  
   const dragEndHandler = (e: any) => {
-    if (clientPos.x < originPos.x + 50) {
-      // const posTemp = { ...pos };
-      // posTemp["left"] = originPos.x;
-      // posTemp["top"] = originPos.y;
-      // setPos(posTemp);
-    } else {
-      setSize({
-        width: "400px",
-        height: "400px",
-      });
-    }
-
-    // 캔버스 제거
-    const canvases = document.getElementsByClassName("canvas");
-    for (let i = 0; i < canvases.length; i++) {
-      let canvas = canvases[i];
-      canvas.parentNode?.removeChild(canvas);
-    }
-    // 캔버스로 인해 발생한 스크롤 방지 어트리뷰트 제거
-    document.body.removeAttribute("style");
+    // if (clientPos.x < originPos.x + 50) {
+    //    const posTemp = { ...pos };
+    //   posTemp["left"] = originPos.x;
+    //   posTemp["top"] = originPos.y;
+    //   setPos(posTemp);
+    // } else{
+    //   setSize({
+    //     width:'120px',
+    //     height: '120px',
+    //   })
+    // }
+     
+       // 캔버스 제거
+       const canvases = document.getElementsByClassName("canvas");
+       for (let i = 0; i < canvases.length; i++) {
+         let canvas = canvases[i];
+         canvas.parentNode?.removeChild(canvas);
+     }
+      // 캔버스로 인해 발생한 스크롤 방지 어트리뷰트 제거
+    document.body.removeAttribute("style");  
   };
+  
+  
 
   return (
     <Layer>
-      {modalShow && <CalendarVer2 />}
-      <button
-        onClick={() => {
-          dispatch(__getCheckInTimer());
-        }}
-      >
-        start
-      </button>
-      <button
-        onClick={() => {
-          dispatch(__getCheckOutTimer());
-        }}
-      >
-        {" "}
-        stop
-      </button>
-
+      {/* {modalShow && <CalendarVer2 />}
+      <button onClick={()=>{
+        dispatch(__getCheckInTimer());
+      }}>start</button>
+      <button onClick={()=>{
+        dispatch(__getCheckOutTimer());
+      }}> stop</button>
+    
       <button
         onClick={() => {
           navigate("/chat", {
@@ -203,13 +200,34 @@ const Home = () => {
         }}
       >
         서버5
-      </button>
-      <MainBox ref={containerRef}>
-        <SideBarLayer
-          style={{
-            left: sideBarShow ? "-300px" : "0",
-          }}
-        >
+      </button> */}
+      <MainBox  ref={containerRef}>
+        <Inventory>
+        {fishImages.map((data:any, i:any)=>{
+                          return (
+                            <>
+                              <InventoryFish key={i}>
+                                {userPoint >= data.point ? 
+                                <FishItem 
+                                draggable
+                                onDragStart={(e) => dragStartHandler(e)}
+                                onDrag={(e) => dragHandler(e)}
+                                onDragOver={(e) => dragOverHandler(e)}
+                                onDragEnd={(e) => dragEndHandler(e)}
+                                style={{left: pos.left === 0 ? '' : pos.left, top: pos.left === 0 ? '' : pos.top,  width: size.width === '' ? '60px' : size.width, height: size.height === '' ? '50px':size.height  }}
+                                src={data.image}></FishItem>
+                                :<>           
+                                {/* <BoxCover readOnly></BoxCover> */}
+                                <FishItem src={data.image}></FishItem>
+                                </>
+                                }
+                              </InventoryFish>
+                            </>
+                          )
+                      })}
+        </Inventory>
+  
+        <SideBarLayer style={{ left: sideBarShow ? "-300px"  :"0" }}>
           <SideBar>
             <SideBar>
               <SideProfile onClick={() => setProfileShow(!profileShow)}>
@@ -256,42 +274,6 @@ const Home = () => {
               <SideInventoryBox burgerShow={burgerShow}>
                 <InventoryLayer>
                   <NextFishBox>
-                    <InvenLayer>
-                      {fishImages.map((data: any, i: any) => {
-                        return (
-                          <>
-                            <FishBox key={i}>
-                              {userPoint >= data.point ? (
-                                <Box
-                                  ref={ref.current[0]}
-                                  draggable
-                                  onDragStart={(e) => dragStartHandler(e)}
-                                  onDrag={(e) => dragHandler(e)}
-                                  onDragOver={(e) => dragOverHandler(e)}
-                                  onDragEnd={(e) => dragEndHandler(e)}
-                                  style={{
-                                    left: pos.left,
-                                    top: pos.top,
-                                    width:
-                                      size.width === "" ? "100px" : size.width,
-                                    height:
-                                      size.height === ""
-                                        ? "100px"
-                                        : size.height,
-                                  }}
-                                  src={data.image}
-                                ></Box>
-                              ) : (
-                                <>
-                                  {/* <BoxCover readOnly></BoxCover>
-                                  <Box src={data.image}></Box> */}
-                                </>
-                              )}
-                            </FishBox>
-                          </>
-                        );
-                      })}
-                    </InvenLayer>
                   </NextFishBox>
                 </InventoryLayer>
               </SideInventoryBox>
@@ -305,6 +287,7 @@ const Home = () => {
 };
 
 export default Home;
+
 
 //
 interface ProfileLayerProps {
@@ -329,12 +312,38 @@ const Layer = styled.section`
   padding-top: 65px;
   background: url(${backimg});
   background-size: 100% 100vh;
+  overflow: hidden;
 `;
 
 const MainBox = styled.div`
   border: solid red 1px;
-  height: 100%;
+  height: 100vh;
+  position: relative;
+  overflow:hidden;
 `;
+
+const Inventory = styled.div`
+  border: solid red 2px;
+  width: 90vw;
+  height: 50px;
+  position: absolute;
+  display: flex;
+  z-index:6;
+  overflow:hidden ;
+`
+const InventoryFish = styled.div`
+  border: solid red 2px;
+  height:50px;
+  width:60px;
+  display: grid;
+  grid-template-rows: repeat(25, 60px);
+`
+const FishItem =styled.img`
+  width:60px;
+  height:50px;
+  position:fixed;
+`
+
 const SideBarLayer = styled.div`
   position: relative;
   display: flex;
@@ -347,8 +356,8 @@ const SideBarBtn = styled.div`
   background-color: red;
 `;
 const SideBar = styled.div`
-  /* position: relative; */
-  border: solid red 3px;
+  position: relative;
+  border: solid red 1px;
   background-color: white;
   width: 300px;
   height: 100%;
@@ -459,46 +468,46 @@ const SideInventoryBox = styled.div<BurgerLayerProps>`
 `;
 const InventoryLayer = styled.div`
   height: 100%;
-  box-sizing: border-box;
+  box-sizing:border-box;
 `;
 const NextFishBox = styled.div`
-  border: solid red 7px;
+  border: solid red 1px;
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
+  box-sizing:border-box;
 `;
 ////
 const InvenLayer = styled.div`
-  border: solid blue 1px;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns:
-    calc(100% / 5) calc(100% / 5) calc(100% / 5) calc(100% / 5)
-    calc(100% / 5);
-  grid-template-rows:
-    calc(100% / 5) calc(100% / 5) calc(100% / 5) calc(100% / 5)
-    calc(100% / 5);
-`;
-const FishBox = styled.div`
-  box-sizing: border-box;
-  /* position: relative; */
-  cursor: pointer;
-`;
+border: solid blue 1px;
+width: 50vw;
+height: 50px;
+display: grid;
+position: absolute;
+grid-template-columns: calc(100% / 5) calc(100% / 5) calc(100% / 5) calc(100% / 5) calc(100% / 5);
+`
+const FishBox =styled.div`
+box-sizing: border-box;
+cursor: pointer;
+width: 40px;
+position: absolute;
+`
 const Box = styled.img`
-  position: absolute;
-  border: solid blue 1px;
-  width: 100%;
-  height: 100%;
-`;
-const BoxCover = styled.input`
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.4);
-  border: solid blue 1px;
-  width: 100px;
-  height: 100px;
-  box-sizing: border-box;
-  outline: none;
-  border: none;
-  cursor: pointer;
-`;
+position: absolute;
+border: solid blue 1px;
+width: 100%;
+height: 100%;
+
+
+`
+const BoxCover =styled.input`
+position: absolute;
+background-color: rgba(0,0,0,0.4);
+border: solid blue 1px;
+width: 100%;
+height: 100%;
+box-sizing: border-box;
+outline: none;
+border: none;
+cursor: pointer;
+z-index:1;
+`

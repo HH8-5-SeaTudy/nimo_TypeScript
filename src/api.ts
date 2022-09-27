@@ -176,3 +176,15 @@ export type IGridProps = {
   children: any;
   onClick: () => void;
 };
+
+// * Rank IInitialState
+export type IRankInitialState = {
+  dayRank: IRank[];
+  weekRank: IRank[];
+};
+// * Rank Info
+export type IRank = {
+  nickname: string,
+  email: string,
+  dayStudy:string,
+};
