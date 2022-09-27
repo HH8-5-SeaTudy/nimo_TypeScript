@@ -30,12 +30,14 @@ export type IFhsh = {
 };
 
 export type IFishImage = {
+  fishNum: number;
   fishName: string;
   fishImageUrl: string;
 };
 
 const initialState: IFhsh = {
   fishInfo: {
+    fishNum: 0,
     fishName: "",
     fishImageUrl: "",
   },

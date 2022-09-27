@@ -109,7 +109,7 @@ const Layer = styled.div`
 
 const HeaderContainer = styled.div`
   border: solid red 2px;
-  position: absolute;
+  /* position: absolute; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -117,6 +117,7 @@ const HeaderContainer = styled.div`
   height: 65px;
   background-color: transparent;
   padding: 0px 56px;
+  height: 10vh;
 `;
 
 const HeaderLogoContainer = styled.div`

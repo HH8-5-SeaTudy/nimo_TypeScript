@@ -16,7 +16,7 @@ export const __getUserinquire: any = createAsyncThunk(
           Authorization: token,
         },
       });
-      console.log(response)
+      console.log(response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -28,11 +28,15 @@ export const __getCheckInTimer: any = createAsyncThunk(
   "timer/postCheckIn",
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.post(`${BASE_URL}/api/v1/checkIns`,{}, {
-        headers: {
-          Authorization: token,
-        },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/checkIns`,
+        {},
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

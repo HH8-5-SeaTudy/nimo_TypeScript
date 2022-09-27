@@ -43,7 +43,7 @@ const fishImages: IFishImages[] = [
   { id: 8, image: fish09, fishName: "갸라도스", point: 40 },
   { id: 9, image: fish10, fishName: "레인보우잉어", point: 50 },
   { id: 10, image: fish11, fishName: "썽난우럭", point: 60 },
-  { id: 11, image: fish12, fishName: "핑크메기", point: 7 },
+  { id: 11, image: fish12, fishName: "핑크메기", point: 70 },
   { id: 12, image: fish13, fishName: "챔치", point: 80 },
   { id: 13, image: fish14, fishName: "뽈라그", point: 90 },
   { id: 14, image: fish15, fishName: "까매기", point: 100 },
