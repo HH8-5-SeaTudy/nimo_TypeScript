@@ -48,14 +48,14 @@ const Weekly = () => {
   
   const dayStudyData = async () => {
     return await axios
-    .get(`${BASE_URL}/api/v1/weekStudies?date=${dateString}`, {
+    .get(`${BASE_URL}/api/v1/weekStudies/details?date=${dateString}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
       },
     })
     .then((res) => {
-      console.log(res)
+      console.log('요일별',res)
     })
   };
   

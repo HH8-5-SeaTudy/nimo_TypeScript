@@ -38,24 +38,22 @@ const MyResponsiveCalendar = () => {
   const yearFirst = year + '-01-01'
   const yearLast = year + '-12-' +  (new Date(year, 12, 0)).getDate()
 
-
   const yearStudyData = async () => {
     return await axios
-    .get(`${BASE_URL}/api/v1/weekStudies?year=${year}`, {
+    .get(`${BASE_URL}/api/v1/dayStudies?year=${year}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
       },
     })
     .then((res) => {
-      console.log(res)
+      console.log('년도',res)
     })
   };
   
   useEffect(() => {
     yearStudyData();
   }, []);
-
 
   return(
   <ResponsiveCalendar

@@ -13,6 +13,7 @@ import backimg from "../assets/pixel/backimg.jpeg";
 import MiniCalendar from "../components/calendar/MiniCalendar";
 import fishImages from "../components/fish/FishImages";
 import { __getUserProfile } from '../redux/modules/userData';
+import CalendarVer2 from '../components/calendar/CalendarVer2';
 
 
 const Home = () => {
@@ -46,28 +47,25 @@ const Home = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
 
-  console.log(userPoint)
   useEffect(() => {
     dispatch(__getUserProfile());
+    document.body.style.overflow = "hidden";
   }, []);
 
 
   const containerRef = useRef<HTMLDivElement>(null); // 드래그 할 영역 네모 박스 Ref
-  const dragComponentRef = useRef([1,2,3]); // // 움직일 드래그 박스 Ref
-  // const items = Array.from({length: 2}, a => useRef(null));
-  // myRefs.current = things.map((element, i) => myRefs.current[i] ?? createRef());
-  const myRefs = useRef([]);
-
 
 
   const [originPos, setOriginPos] = useState({ x: 0, y: 0 }); // 드래그 전 포지션값 (e.target.offset의 상대 위치)
   const [clientPos, setClientPos] = useState({ x: 0, y: 0 }); // 실시간 커서위치인 e.client를 갱신하는값
   const [pos, setPos] = useState({ left: 0, top: 0 }); // 실제 drag할 요소가 위치하는 포지션값
   const [size, setSize] = useState({  width:'',height: '',}); // 실제 drag할 요소가 위치하는 포지션값
+  const [dTest, setDTest] = useState(Array.from({length : 25}, (v,i)=> {
+    return [60 * i,100]}));
   
-  console.log('드래그 전 포지션값',originPos)
-  console.log('실시간 커서위치',clientPos)
-  console.log('실제 drag할 요소',pos)
+  // console.log('드래그 전 포지션값',originPos)
+  // console.log('실시간 커서위치',clientPos)
+  // console.log('실제 drag할 요소',pos)
   
   
   const dragStartHandler = (e: any) => {
@@ -79,7 +77,7 @@ const Home = () => {
     e.dataTransfer.setDragImage(img, 0, 0);
     
     e.dataTransfer.effectAllowed = "move"; // 크롬의그린 +아이콘 제거
-    
+    console.log('e',e)
     const originPosTemp = { ...originPos };
     originPosTemp["x"] = e.target.offsetLeft;
     originPosTemp["y"] = e.target.offsetTop;
@@ -132,13 +130,12 @@ const Home = () => {
      }
       // 캔버스로 인해 발생한 스크롤 방지 어트리뷰트 제거
     document.body.removeAttribute("style");  
+    document.body.style.overflow = "hidden";
   };
-  
-  
 
   return (
     <Layer>
-      {/* {modalShow && <CalendarVer2 />}
+       {modalShow && <CalendarVer2 />} 
       <button onClick={()=>{
         dispatch(__getCheckInTimer());
       }}>start</button>
@@ -200,23 +197,38 @@ const Home = () => {
         }}
       >
         서버5
-      </button> */}
+      </button> 
+     
       <MainBox  ref={containerRef}>
         <Inventory>
-        {fishImages.map((data:any, i:any)=>{
+          
+     
+        {fishImages.map((data:any, i:number)=>{
                           return (
                             <>
-                              <InventoryFish key={i}>
-                                {userPoint >= data.point ? 
+                              <InventoryFish >
+                                {userPoint >= data.point ?
+                                <>
                                 <FishItem 
                                 draggable
-                                onDragStart={(e) => dragStartHandler(e)}
+                                onDragStart={(e) => {
+                                  dragStartHandler(e);
+                                }}
                                 onDrag={(e) => dragHandler(e)}
                                 onDragOver={(e) => dragOverHandler(e)}
-                                onDragEnd={(e) => dragEndHandler(e)}
-                                style={{left: pos.left === 0 ? '' : pos.left, top: pos.left === 0 ? '' : pos.top,  width: size.width === '' ? '60px' : size.width, height: size.height === '' ? '50px':size.height  }}
+                                onDragEnd={(e) => 
+                                  {
+                                    dragEndHandler(e);
+                                    let tempData = [...dTest];
+                                    tempData[i] = [tempData[i][0]-pos.left,tempData[i][1]-pos.top];
+                                    setDTest([...tempData]);
+                                  }
+                                }
+                                style={{left: dTest[i][0], top: dTest[i][1],  width: size.width === '' ? '60px' : size.width, height: size.height === '' ? '50px':size.height  }}
                                 src={data.image}></FishItem>
-                                :<>           
+                                </>
+                                :
+                                <>           
                                 {/* <BoxCover readOnly></BoxCover> */}
                                 <FishItem src={data.image}></FishItem>
                                 </>
@@ -307,9 +319,9 @@ interface InventoryLayerProps {
 }
 
 const Layer = styled.section`
+ position:relative;
   width: 100%;
-  height: 100vh;
-  padding-top: 65px;
+  height: 90vh;
   background: url(${backimg});
   background-size: 100% 100vh;
   overflow: hidden;
@@ -317,7 +329,7 @@ const Layer = styled.section`
 
 const MainBox = styled.div`
   border: solid red 1px;
-  height: 100vh;
+  height: 90vh;
   position: relative;
   overflow:hidden;
 `;

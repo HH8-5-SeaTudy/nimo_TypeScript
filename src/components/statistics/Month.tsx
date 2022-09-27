@@ -53,7 +53,7 @@ const Month = () => {
         },
       })
         .then((res) => {
-         console.log(res)
+          console.log('주차별',res)
         })
     };
 
