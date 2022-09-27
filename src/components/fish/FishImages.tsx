@@ -31,7 +31,7 @@ export type IFishImages = {
   point: number;
 };
 
-const fishImages: IFishImages[] = [
+const  fishImages: IFishImages[] = [
   { id: 0, image: fish01, fishName: "황금니모", point: 0 },
   { id: 1, image: fish02, fishName: "아추어", point: 5 },
   { id: 2, image: fish03, fishName: "빨간도미", point: 10 },
