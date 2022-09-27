@@ -21,7 +21,6 @@ function Chatting() {
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
-  // const [message, setMessage] = useState("");
   const chat = useAppSelector((state) => state.socket.chat);
 
   const headers = {
@@ -84,9 +83,7 @@ function Chatting() {
         },
         { token: token }
       );
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   function waitForConnection(client: any, callback: any) {
@@ -101,13 +98,22 @@ function Chatting() {
   return (
     <ChatContainer>
       <MessageWrapper>
-        {chat &&
-          chat.map((list: any, index: number) => (
-            <MessageListContainer key={index}>
-              {list.message}
-            </MessageListContainer>
-          ))}
+        <div>
+          {chat &&
+            chat.map((list: any, index: number) => (
+              <MessageListContainer key={index}>
+                {list.message}
+              </MessageListContainer>
+            ))}
+        </div>
       </MessageWrapper>
+      <GameContainer>
+        <GameWrapper>
+          <div className="left-triangle"></div>
+          <button className="push flat"></button>
+          <button className="push skeuo"></button>
+        </GameWrapper>
+      </GameContainer>
       <MessageForm>
         <textarea onKeyUp={handleEnterPress} ref={message} />
         <ButtonContainer>
@@ -121,12 +127,71 @@ function Chatting() {
 const MessageWrapper = styled.div`
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: hidden;
   display: flex;
   /* padding: 20px 10px; */
   /* flex: 4; */
+  padding: 0 10px;
   flex-direction: column-reverse;
-  background-color: #b2c7d9;
+
+  border: 1px solid yellow;
+
+  div {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: #b2c7d9;
+    border: 1px solid yellow;
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 2px;
+      background: #cccccc;
+    }
+  }
+`;
+
+const GameContainer = styled.div`
+  width: 100%;
+  height: 40vh;
+  border: 5px solid black;
+  background-color: aliceblue;
+  display: flex;
+  padding: 5px;
+  transform: perspective(500px) rotateX(10deg);
+`;
+
+const GameWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+  position: relative;
+  .left-triangle {
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 0;
+    border-bottom: 4.5vw solid red;
+    border-top: 4.5vw solid transparent;
+    border-left: 4.5vw solid red;
+    border-right: 4.5vw solid transparent;
+  }
+  .push {
+    position: relative;
+    display: inline-block;
+    width: $push-size;
+    height: $push-size;
+    border: 0;
+    margin: 1em;
+    outline: none;
+    background-color: $push-color;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: box-shadow 200ms;
+  }
 `;
 
 const MessageListContainer = styled.span`
@@ -140,14 +205,12 @@ const ChatContainer = styled.section`
   display: flex;
   flex: 1.5;
   flex-direction: column;
-  border: 2px solid black;
 `;
 
 const MessageForm = styled.form`
   display: flex;
   width: 100%;
-  height: 100%;
-  /* flex: 1; */
+  height: 40%;
   border: 4px solid yellow;
   resize: none;
   textarea {

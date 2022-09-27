@@ -16,6 +16,7 @@ export const __getUserinquire: any = createAsyncThunk(
           Authorization: token,
         },
       });
+      console.log(response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
