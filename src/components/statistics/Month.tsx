@@ -1,4 +1,7 @@
 import { ResponsivePie } from "@nivo/pie";
+import axios from 'axios';
+import { useEffect } from 'react';
+import { getCookie } from '../social/Cookie';
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -36,7 +39,29 @@ const data = [
     value: 9,
   },
 ];
-const Month = () => (
+const Month = () => {
+  
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const token: string = getCookie("token") as string;
+
+    const weekStudyData = async () => {
+      return await axios
+      .get(`${BASE_URL}/api/v1/weekStudies`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      })
+        .then((res) => {
+         console.log(res)
+        })
+    };
+
+  useEffect(() => {
+    weekStudyData();
+  }, []);
+  
+  return(
   <ResponsivePie
     enableArcLinkLabels={false}
     data={data}
@@ -86,5 +111,5 @@ const Month = () => (
       },
     ]}
   />
-);
+)};
 export default Month;

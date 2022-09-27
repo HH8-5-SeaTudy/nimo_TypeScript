@@ -1,4 +1,7 @@
 import { ResponsiveCalendar } from '@nivo/calendar'
+import axios from 'axios';
+import { useEffect } from 'react';
+import { getCookie } from '../social/Cookie';
 
 const data = [
   {
@@ -27,11 +30,38 @@ const data = [
   },
 ]
 
-const MyResponsiveCalendar = () => (
+const MyResponsiveCalendar = () => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const token: string = getCookie("token") as string;
+  const today = new Date();
+  const year = today.getFullYear();
+  const yearFirst = year + '-01-01'
+  const yearLast = year + '-12-' +  (new Date(year, 12, 0)).getDate()
+
+
+  const yearStudyData = async () => {
+    return await axios
+    .get(`${BASE_URL}/api/v1/weekStudies?year=${year}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    })
+    .then((res) => {
+      console.log(res)
+    })
+  };
+  
+  useEffect(() => {
+    yearStudyData();
+  }, []);
+
+
+  return(
   <ResponsiveCalendar
       data={data}
-      from="2022-01-01"
-      to="2022-12-31"
+      from={yearFirst}
+      to={yearLast}
       emptyColor="#eeeeee"
       colors={[ '#61cdbb', '#97e3d5', '#e8c1a0', '#f47560' ]}
       minValue={0}
@@ -54,6 +84,6 @@ const MyResponsiveCalendar = () => (
           }
       ]}
   />
-)
+)}
 
-export default MyResponsiveCalendar
+export default MyResponsiveCalendar;

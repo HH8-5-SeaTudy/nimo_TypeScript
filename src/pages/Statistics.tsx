@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import FishBowl from '../components/statistics/FishBowl';
 import Month from '../components/statistics/Month';
 import MyResponsiveCalendar from '../components/statistics/MyResponsiveCalendar';
 import Weekly from '../components/statistics/Weekly';
+import fishImages from "../components/fish/FishImages";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
+import { __getUserProfile } from '../redux/modules/userData';
+import { __getDayRank, __getWeekRank } from '../redux/modules/rank';
 
 const Statistics = () => {
+  const userData = useAppSelector((state) => state.userData.userProfile);
+  const dayRankData = useAppSelector((state) => state.rank.dayRank);
+  const weekRankData= useAppSelector((state) => state.rank.weekRank);
+  const fishPoint = fishImages.map((data) => data.point);
+  const userPoint = userData.point;
+  const dispatch = useAppDispatch();
+  const nextFishPoint =  fishPoint.filter((x)=> x > userPoint)[0]
+  const nextPercent = userPoint / nextFishPoint * 100
+
+  console.log('일랭',dayRankData)
+  console.log('주랭',weekRankData)
+  useEffect(() => {
+    dispatch(__getUserProfile());
+    dispatch(__getDayRank());
+    dispatch(__getWeekRank());
+  }, []);
+  
   return (
     <StatisticsLayer>
       <Layer> 
@@ -41,13 +62,16 @@ const Statistics = () => {
         <TotalSide>
           <TopBox>
             <TotalTime>
-              <p>TotalTime</p>
-              <span>777,777,777</span>
+              <Title>
+              <p>Total Point</p>
+              <span>1H = 1P</span>
+              </Title>
+              <P>{userPoint}P</P>
             </TotalTime>
           </TopBox>
           <BottomBox>
             <NextFish>
-              <FishBowl></FishBowl>
+              <FishBowl nextPercent={nextPercent}></FishBowl>
             </NextFish>
             <Week>
               <Weekly/>
@@ -59,7 +83,6 @@ const Statistics = () => {
         </TotalSide>
         </TopLayer>
         <BottomLayer><MyResponsiveCalendar/></BottomLayer>
-        
       </Layer>
     </StatisticsLayer>
   );
@@ -177,25 +200,36 @@ const TotalTime =styled.div`
   border-radius: 8px;
   box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);
   color: white;
+`
+const  Title = styled.div`
+
+  height:50%;
+  font-size: 50px;
   display:flex;
   flex-direction:column;
-  text-align:center;
-  justify-content: center;
-  p{
-    font-size: 50px;
-  }
+ justify-content:center;   
+    align-items:center;
+    text-align:center;
+    line-height: 50px;
+    
   span {
-    font-size : 100px;
+    color: #ff9100;
   }
 `
+const P = styled.p`
 
+    height:50%;
+    display:flex;
+   justify-content:center;   
+    align-items:center;
+    font-size: 90px;
+`
 const BottomBox =styled.div`
 
   height:50%;
   display:flex;
 `
 const NextFish =styled.div`
-
   width:35%;
   display:flex;
   justify-content:center;
