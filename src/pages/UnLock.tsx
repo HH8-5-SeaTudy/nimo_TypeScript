@@ -1,33 +1,50 @@
 import React, { Fragment, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
-import { __getUserProfile } from "../redux/modules/userData";
+import { __editUserProfile, __getUserProfile } from "../redux/modules/userData";
 import fishImages from "../components/fish/FishImages";
 import fishbowl from "../assets/fish/fishbowl.png";
 import Grid from "../elements/Grid";
-import Fishs from "../components/fish/Fishs";
-import { EnumFishs } from "../enum/EnumFishs";
-import fishList, { __getFishList } from "../redux/modules/fishList";
+import { __getFishList } from "../redux/modules/fishList";
 
 const UnLock = () => {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userData.userProfile);
+  const fishData = useAppSelector((state) => state.fishList.fishInfo);
   const userPoint = userData.point;
   const fishPoint = fishImages.map((data) => data.point);
   const bannerImage = fishImages.map((data) => data.image);
   const fishImage = useAppSelector(
     (state) => state.fishList.fishInfo.fishImageUrl
   );
+  const [nickname, setNickname] = useState("");
+  const [editNickname, setEditNickname] = useState(false);
   const [lock, setLock] = useState(false);
 
-  console.log(fishImage);
-  console.log(userPoint)
+  console.log(nickname);
+
   const onClickLock = () => {
     for (let i = 0; i < fishImages.length; i++) {
       if (userPoint >= fishPoint[i]) {
         setLock(true);
       }
     }
+  };
+
+  const onClickEditNickname = () => {
+    if (nickname.length > 7) {
+      alert("닉네임은 최대 7글자 입니다");
+
+      return;
+    } else if (nickname.trim() === " ") {
+      alert("빈값 없이 입력해주세요");
+    }
+    setEditNickname(!editNickname);
+    dispatch(__editUserProfile(nickname));
+  };
+
+  const onChangeNickname = (e: any) => {
+    setNickname(e.target.value);
   };
 
   // const onClickImage = (e: any) => {
@@ -50,7 +67,27 @@ const UnLock = () => {
     <UnClockContainer>
       <FirstBorderContainer>
         <UserInfoContainer>
-          <UserProfile>{userData.defaultFish}</UserProfile>
+          <UserProfileImage src={userData.defaultFish} alt="" />
+          <UserWrapper>
+            <UserTitle>닉네임:</UserTitle>
+            <Grid
+              width="100%"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <>
+                {editNickname ? (
+                  <input type="text" onChange={onChangeNickname} />
+                ) : (
+                  <UserProfileTitle>{userData.nickname}</UserProfileTitle>
+                )}
+              </>
+            </Grid>
+            <button onClick={onClickEditNickname}>
+              {editNickname ? "완료" : "수정"}
+            </button>
+          </UserWrapper>
           <UserWrapper>
             <UserTitle>이메일:</UserTitle>
             <Grid
@@ -59,11 +96,10 @@ const UnLock = () => {
               alignItems="center"
               justifyContent="center"
             >
-              <UserEmail>{userData.email}</UserEmail>
+              <UserProfileTitle>{userData.email}</UserProfileTitle>
             </Grid>
           </UserWrapper>
 
-          <UserNickname>{userData.nickname}</UserNickname>
           <UserWrapper>
             <UserTitle>포인트:</UserTitle>
             <Grid
@@ -72,7 +108,7 @@ const UnLock = () => {
               alignItems="center"
               justifyContent="center"
             >
-              <UserPoint>{userData.point}</UserPoint>
+              <UserProfileTitle>{userData.point}</UserProfileTitle>
             </Grid>
           </UserWrapper>
         </UserInfoContainer>
@@ -99,13 +135,40 @@ const UnLock = () => {
                 <span>물고기 도감</span>
               </FishIllustratedRightWrapper>
             </FishIllustratedBookTitleContainer>
+
             {/* 물고기 자세히 보기 */}
             <FishWrapper>
               <FishDetailContainer>
                 {fishImage ? (
-                  <BigFish src={fishImage} alt="" />
+                  <>
+                    <BigFishContainer>
+                      <Grid
+                        width="100%"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <BigFishNum>Lv.{fishData.fishNum}</BigFishNum>
+                        <BigFishName>{fishData.fishName}</BigFishName>
+                      </Grid>
+                      <BigFish src={fishImage} alt="" />
+                    </BigFishContainer>
+                  </>
                 ) : (
-                  <BigFish src={bannerImage[0]} alt="" />
+                  <>
+                    <BigFishContainer>
+                      <Grid
+                        width="100%"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <BigFishNum>Lv.1</BigFishNum>
+                        <BigFishName>황금니모</BigFishName>
+                      </Grid>
+                      <BigFish src={bannerImage[0]} alt="" />
+                    </BigFishContainer>
+                  </>
                 )}
               </FishDetailContainer>
 
@@ -124,7 +187,7 @@ const UnLock = () => {
                         {lock ? (
                           <>
                             <FishImageNumberContainer>
-                              <FishNumber>No.{index + 1}</FishNumber>
+                              <FishNumber>Lv.{index + 1}</FishNumber>
                               <FishImage src={data.image} alt="" />
                             </FishImageNumberContainer>
                             <FishName>{data.fishName}</FishName>
@@ -133,7 +196,7 @@ const UnLock = () => {
                         ) : (
                           <>
                             <FishImageNumberContainer>
-                              <FishNumber>No.{index + 1}</FishNumber>
+                              <FishNumber>Lv.{index + 1}</FishNumber>
                               <FishImage src={data.image} alt="" />
                               <LockAnimation onClick={onClickLock}>
                                 <span className="key"></span>
@@ -155,7 +218,7 @@ const UnLock = () => {
                       <FishListWrapper key={index}>
                         <UnLockContainer />
                         <FishImageNumberContainer>
-                          <FishNumber>No.{index + 1}</FishNumber>
+                          <FishNumber>Lv.{index + 1}</FishNumber>
                           <FishImage src={data.image} alt="" />
                         </FishImageNumberContainer>
                         <LockAnimation style={{ pointerEvents: "none" }}>
@@ -190,12 +253,11 @@ const animeTextup = keyframes`
 
 const UnClockContainer = styled.div`
   width: 100%;
-  height: 100px;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   z-index: 0;
 `;
 
@@ -226,82 +288,30 @@ const UserWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 5%;
+  padding: 5%;
 `;
 
 const UserTitle = styled.span`
-  width: 20%;
+  width: 100px;
+  font-weight: bold;
+  padding-left: 5px;
+  font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
-const UserProfile = styled.div`
-  width: 15vw;
-  height: 30vh;
+const UserProfileImage = styled.img`
+  width: 50%;
+  height: 32%;
   border: 5px solid gainsboro;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
   margin: 10%;
+  padding: 10%;
 `;
 
-const UserEmail = styled.span`
-  font-size: ${({ theme }) => theme.fontSizes.xxl};
-`;
-const UserNickname = styled.span`
-  font-size: ${({ theme }) => theme.fontSizes.xxl};
-`;
-const UserPoint = styled.span`
-  font-size: ${({ theme }) => theme.fontSizes.xxl};
-`;
-
-const FishSliderBorder = styled.div`
-  border: 8px solid black;
-  width: 38%;
-  height: 100%;
-  position: absolute;
-  left: 20%;
-  border-radius: 40px;
-  background-color: #6161e0;
-  z-index: 2;
-`;
-
-const BorderTitleContainer = styled.section`
-  width: 40%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const BorderTitleWrapper = styled.div`
-  transform: rotate(-90deg);
-  border: 2px solid blue;
-  span {
-    font-size: 5em;
-    letter-spacing: 20px;
-    color: #6161e0;
-    animation: ${animeTextup} 1.5s alternate;
-    &:nth-child(1) {
-      animation-delay: 0.5s;
-    }
-    &:nth-child(2) {
-      animation-delay: 0.6s;
-    }
-    &:nth-child(3) {
-      animation-delay: 0.7s;
-    }
-    &:nth-child(4) {
-      animation-delay: 0.8s;
-    }
-    &:nth-child(5) {
-      animation-delay: 0.9s;
-    }
-    &:nth-child(6) {
-      animation-delay: 1s;
-    }
-    &:nth-child(7) {
-      animation-delay: 1.1s;
-    }
-  }
+const UserProfileTitle = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xl};
 `;
 
 const FishSliderSecondBorder = styled.div`
@@ -320,7 +330,6 @@ const FishContainer = styled.div`
   display: flex;
   flex-direction: column;
   background: linear-gradient(-65deg, #f3f5f0 50%, #dfe8eb 50%);
-  z-index: 3;
   /* border-radius: 10px; */
 `;
 
@@ -330,11 +339,6 @@ const FishIllustratedBookTitleContainer = styled.div`
   display: flex;
 `;
 
-const FishIllustratedLeftWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-`;
 const FishIllustratedRightWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -343,6 +347,7 @@ const FishIllustratedRightWrapper = styled.div`
   align-items: center;
   border: 1px solid black;
   font-weight: bold;
+  padding: 2% 0;
   font-size: ${({ theme }) => theme.fontSizes.xxxl};
 `;
 
@@ -350,8 +355,8 @@ const FishWrapper = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  margin-top: 2%;
-  border: 5px solid black;
+  padding-top: 2%;
+  padding-bottom: 5%;
 `;
 
 const FishDetailContainer = styled.div`
@@ -367,11 +372,26 @@ const FishDetailContainer = styled.div`
 const BigFishContainer = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 3%;
+`;
+
+const BigFishNum = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xxxl};
+  margin-right: 5%;
+`;
+
+const BigFishName = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
 `;
 
 const BigFish = styled.img`
   width: 15vw;
   height: 20vh;
+  margin-top: 3%;
 `;
 
 const FishListContainer = styled.div`
@@ -380,7 +400,6 @@ const FishListContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  margin-top: 2%;
   padding: 0 2%;
   &::-webkit-scrollbar {
     width: 4px;
@@ -416,6 +435,7 @@ const FishImageNumberContainer = styled.div`
   align-items: center;
   justify-content: space-around;
   width: 30%;
+  user-select: all;
 `;
 
 const LockAnimation = styled.div`
