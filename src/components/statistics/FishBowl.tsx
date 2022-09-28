@@ -10,8 +10,10 @@ const FishBowl = (props:any) => {
       <Bowl>
         <BowlInner>
           <Percent>{props.nextPercent}%</Percent>
+          
           <Water style={{top:`${waterPercent}%`}}></Water>
           <Glare></Glare>
+          <NextFish src={props.nextFishImg}></NextFish>
         </BowlInner>
       </Bowl>
     </BowlLayer>
@@ -50,12 +52,13 @@ const BowlInner = styled.div`
   overflow: hidden;
   z-index: 2;
   border-radius: 50%;
+  padding-top: 40px;
 `
 const Percent = styled.div`
   text-shadow: 0 0 10px #028695;
   color: #53ebfc;
   line-height: 220px;
-    font-size: 80px;
+    font-size: 60px;
     position: absolute;
     top: 0;
     left: 0;
@@ -63,6 +66,7 @@ const Percent = styled.div`
     height: 100%;
     font-weight: bold;
     text-align: center;
+    z-index: 1;
 `
 const spin = keyframes`
 0% {
@@ -72,6 +76,11 @@ const spin = keyframes`
   transform: rotate(360deg);
  }
 `;
+
+const NextFish =styled.img`
+  transform: scale(0.8);
+  z-index: -1;
+`
 const Water = styled.div`
 
     box-shadow: 0 0 20px #03a9bc;
@@ -84,6 +93,7 @@ const Water = styled.div`
     left: -50%;
     border-radius: 40%;
     animation: ${spin} 10s linear infinite;
+    z-index: 1;
 `
 const Glare = styled.div`
     background-color: rgba(255,255,255,0.15);
@@ -95,4 +105,5 @@ const Glare = styled.div`
     height: 200%;
     transform: rotate(45deg);
     border-radius: 50%;
+    z-index: 1;
     `

@@ -18,9 +18,12 @@ const Statistics = () => {
   const dispatch = useAppDispatch();
   const nextFishPoint =  fishPoint.filter((x)=> x > userPoint)[0]
   const nextPercent = userPoint / nextFishPoint * 100
+  const nextFishImg = fishImages.find((x)=>x.point === nextFishPoint)?.image
+
 
   console.log('일랭',dayRankData)
   console.log('주랭',weekRankData)
+
   useEffect(() => {
     dispatch(__getUserProfile());
     dispatch(__getDayRank());
@@ -71,7 +74,7 @@ const Statistics = () => {
           </TopBox>
           <BottomBox>
             <NextFish>
-              <FishBowl nextPercent={nextPercent}></FishBowl>
+              <FishBowl nextPercent={nextPercent} nextFishImg={nextFishImg}></FishBowl>
             </NextFish>
             <Week>
               <Weekly/>
@@ -92,8 +95,8 @@ export default Statistics;
 
 const StatisticsLayer = styled.section`
   width:100%;
-  height:100vh;
-  padding: 65px 0 0 0;
+  height:90vh;
+  padding: 15px 0 0 0;
   background: #0096FF;
   
 `
@@ -155,9 +158,9 @@ const RankBox = styled.div`
   inset 0 0 100px #b3e5fc, inset 1px 1px 1px 0px rgba(255, 255, 255, 0.819);
 `
 const Rank = styled.div`
+border: solid 2px #0096FF;
   height: 50px;
   display: flex;
-  justify-content:space-between;
 `
 const RankNum =styled.div`
   border: solid red 1px;
@@ -174,11 +177,11 @@ const Num =styled.div`
 `
 const RankProfile =styled.div`
   border: solid red 1px;
-  width:50px;
+  width:60px;
 `
 const RankInfo =styled.div`
   border: solid red 1px;
-  width:200px;
+  width:65%;
   display:flex;
 `
 const NickName =styled.div`

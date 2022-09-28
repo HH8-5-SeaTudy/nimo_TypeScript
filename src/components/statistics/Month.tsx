@@ -1,45 +1,40 @@
 import { ResponsivePie } from "@nivo/pie";
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCookie } from '../social/Cookie';
 
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
-
-const data = [
-  {
-    id: "Mon",
-    value: 12,
-  },
-  {
-    id: "Tue",
-    value: 5,
-  },
-  {
-    id: "Wen",
-    value: 12,
-  },
-  {
-    id: "Thu",
-    value: 2,
-  },
-  {
-    id: "Fri",
-    value: 8,
-  },
-  {
-    id: "Sat",
-    value: 16,
-  },
-  {
-    id: "Sun",
-    value: 9,
-  },
-];
+// const data = [
+//   {
+//     id: "Mon",
+//     value: 12,
+//   },
+//   {
+//     id: "Tue",
+//     value: 5,
+//   },
+//   {
+//     id: "Wen",
+//     value: 12,
+//   },
+//   {
+//     id: "Thu",
+//     value: 2,
+//   },
+//   {
+//     id: "Fri",
+//     value: 8,
+//   },
+//   {
+//     id: "Sat",
+//     value: 16,
+//   },
+//   {
+//     id: "Sun",
+//     value: 9,
+//   },
+// ];
 const Month = () => {
+  const [resData,setResData] = useState<any>([])
   
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const token: string = getCookie("token") as string;
@@ -53,9 +48,14 @@ const Month = () => {
         },
       })
         .then((res) => {
-          console.log('주차별',res)
+          setResData(res.data.data)
         })
     };
+
+  const data = resData?.map((item:any)=> {
+    return {id: item.weekNum + '주차', value:item.weekHour}
+  })
+
 
   useEffect(() => {
     weekStudyData();

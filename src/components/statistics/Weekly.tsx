@@ -1,6 +1,6 @@
 import { ResponsivePie } from "@nivo/pie";
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCookie } from '../social/Cookie';
 
 
@@ -35,6 +35,8 @@ const data = [
   },
 ];
 const Weekly = () => {
+  const [resData,setResData] = useState<any>([])
+
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const token: string = getCookie("token") as string;
 
@@ -55,10 +57,15 @@ const Weekly = () => {
       },
     })
     .then((res) => {
-      console.log('요일별',res)
+      setResData(res.data.data)
+      
     })
   };
-  
+console.log(resData)
+  const data = resData?.map((item:any)=> {
+    return {id: item.weekDay, value:item.hour}
+  })
+
   useEffect(() => {
     dayStudyData();
   }, []);

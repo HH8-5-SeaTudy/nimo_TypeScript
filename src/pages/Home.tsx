@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getDateTodo } from "../redux/modules/dateTodos";
@@ -121,7 +121,12 @@ const Home = () => {
     //     height: '120px',
     //   })
     // }
-     
+    setSize({
+          width:'100px',
+          height: '100px',
+        })
+
+
        // 캔버스 제거
        const canvases = document.getElementsByClassName("canvas");
        for (let i = 0; i < canvases.length; i++) {
@@ -135,6 +140,7 @@ const Home = () => {
 
   return (
     <Layer>
+{/*       
        {modalShow && <CalendarVer2 />} 
       <button onClick={()=>{
         dispatch(__getCheckInTimer());
@@ -197,12 +203,38 @@ const Home = () => {
         }}
       >
         서버5
-      </button> 
+      </button>  */}
      
       <MainBox  ref={containerRef}>
-        <Inventory>
-          
-     
+        <InvenLayout>  
+          {fishImages.map((data:any, i:number)=>{
+          return (
+          <Label>
+            <Bubble>  
+              <BubbleA></BubbleA>
+            </Bubble>
+            <FishImg 
+            draggable
+            onDragStart={(e) => {
+              dragStartHandler(e);
+            }}
+            onDrag={(e) => dragHandler(e)}
+            onDragOver={(e) => dragOverHandler(e)}
+            onDragEnd={(e) => 
+              {
+                dragEndHandler(e);
+                let tempData = [...dTest];
+                tempData[i] = [tempData[i][0]-pos.left,tempData[i][1]-pos.top];
+                setDTest([...tempData]);
+              }
+            }
+            // style={{left: dTest[i][0], top: dTest[i][1],  width: size.width === '' ? '60px' : size.width, height: size.height === '' ? '50px':size.height  }}
+            src={data.image} alt="" />
+          </Label>
+          )
+        })}
+        </InvenLayout>
+        <Inventory>     
         {fishImages.map((data:any, i:number)=>{
                           return (
                             <>
@@ -238,8 +270,8 @@ const Home = () => {
                           )
                       })}
         </Inventory>
-  
-        <SideBarLayer style={{ left: sideBarShow ? "-300px"  :"0" }}>
+        
+        <SideBarLayer style={{ left: sideBarShow ? "0"  :"-300px" }}>
           <SideBar>
             <SideBar>
               <SideProfile onClick={() => setProfileShow(!profileShow)}>
@@ -488,38 +520,96 @@ const NextFishBox = styled.div`
   height: 100%;
   box-sizing:border-box;
 `;
-////
-const InvenLayer = styled.div`
-border: solid blue 1px;
-width: 50vw;
-height: 50px;
-display: grid;
-position: absolute;
-grid-template-columns: calc(100% / 5) calc(100% / 5) calc(100% / 5) calc(100% / 5) calc(100% / 5);
+///
+const InvenLayout = styled.div`
+  border:solid red 1px;
+  width:100vw;
+  height: 3.2em;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
 `
-const FishBox =styled.div`
-box-sizing: border-box;
-cursor: pointer;
-width: 40px;
-position: absolute;
-`
-const Box = styled.img`
-position: absolute;
-border: solid blue 1px;
-width: 100%;
-height: 100%;
 
+const animateBubble = keyframes`
+  0%, 100% {
+    transform: translate(0, 3%);
+}
+25% {
+    transform: translate(-3%, 0);
+}
+50% {
+    transform: translate(0, -3%);
+}
+75% {
+    transform: translate(3%, 0);
+}
+`;
 
+const Label =styled.div`
+  border: solid red 1px;
+  width: 3em;
+  height: 3em;
+  animation: ${animateBubble} 4s ease-in-out infinite;
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0.1em 0.1em;
+  &:hover{
+    width: 3.2em;
+    height: 3.2em;
+    div{
+    width: 2.9em;
+    height: 2.9em;
+    }
+    img{
+      width:2.2em;
+      height:1.7em;
+    }
+    }
 `
-const BoxCover =styled.input`
-position: absolute;
-background-color: rgba(0,0,0,0.4);
-border: solid blue 1px;
-width: 100%;
-height: 100%;
-box-sizing: border-box;
-outline: none;
-border: none;
-cursor: pointer;
-z-index:1;
-`
+const Bubble = styled.div`
+    background-image:  radial-gradient( 8% 8% at 22% 28%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 23% 27%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 24% 26%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 25% 25%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 26% 24%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 27% 23%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 28% 22%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% );
+    box-shadow: 0 -0.06em 0.1em hsl(0deg 0% 100%) inset, 0 -0.15em 0.4em hsl(196deg 90% 45%) inset, 0 0.05em 0.05em hsl(197deg 90% 45%) inset, 0.05em 0 0.1em hsl(0deg 0% 100%) inset, -0.05em 0 0.1em hsl(0deg 0% 100%) inset, 0 0.1em 0.4em hsl(193deg 90% 60%) inset;
+    cursor: pointer;
+    position: relative;
+    width: 2.7em;
+    height: 2.7em;
+    transform-style: preserve-3d;
+    transition-property: box-shadow, transform, width, height;
+    transition-timing-function: ease-in-out, ease-in-out, cubic-bezier(0.5,0.15,0.25,1.75), cubic-bezier(0.5,0.15,0.25,1.75);
+    will-change: transform;
+    -webkit-appearance: none;
+    appearance: none;
+    z-index: 0;
+    border-radius: 50%;
+    transition-duration: 0.2s;
+    display: block;
+    -webkit-tap-highlight-color: transparent;
+    border:0;
+    outline:0;
+
+ `
+const BubbleA =styled.div`
+    background: radial-gradient(100% 100% at center,hsla(0,0%,0%,0) 35%,hsla(0,0%,0%,0.2) 48%,hsla(0,0%,0%,0) 50%);
+    filter: blur(4px);
+    top: 0.6em;
+    left: 0.6em;
+    width: 100%;
+    height: 100%;
+    transform: translate3d(0,0,-1px);
+    z-index: -2;
+    content: "";
+    display: block;
+    position: absolute;
+    transition-timing-function: cubic-bezier(0.5,0.15,0.25,1.75);
+    border-radius: 50%;
+    transition-duration: 0.2s;
+ `  
+ const FishImg = styled.img`
+  width:2em;
+  height:1.5em;
+ position:absolute;
+ top: 0.7em;
+ left: 0.5em;
+ `
