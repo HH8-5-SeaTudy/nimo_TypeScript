@@ -187,4 +187,6 @@ export type IRank = {
   nickname: string,
   email: string,
   dayStudy:string,
+  weekStudy:string,
+  fish:string
 };

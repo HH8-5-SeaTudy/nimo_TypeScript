@@ -1,45 +1,28 @@
 import { ResponsivePie } from "@nivo/pie";
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCookie } from '../social/Cookie';
 
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
-
-const data = [
+const data2 = [
   {
-    id: "Mon",
-    value: 12,
+    id: "NoData",
+    value: 10,
   },
   {
-    id: "Tue",
-    value: 5,
+    id: "NoData",
+    value: 10,
   },
   {
-    id: "Wen",
-    value: 12,
+    id: "NoData",
+    value: 10,
   },
   {
-    id: "Thu",
-    value: 2,
-  },
-  {
-    id: "Fri",
-    value: 8,
-  },
-  {
-    id: "Sat",
-    value: 16,
-  },
-  {
-    id: "Sun",
-    value: 9,
+    id: "NoData",
+    value: 10,
   },
 ];
 const Month = () => {
+  const [resData,setResData] = useState<any>([])
   
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const token: string = getCookie("token") as string;
@@ -53,9 +36,14 @@ const Month = () => {
         },
       })
         .then((res) => {
-          console.log('주차별',res)
+          setResData(res.data.data)
         })
     };
+  const data = resData?.map((item:any)=> {
+    return {id: item.weekNum + '주차', value:item.weekHour}
+  })
+
+
 
   useEffect(() => {
     weekStudyData();
@@ -64,7 +52,7 @@ const Month = () => {
   return(
   <ResponsivePie
     enableArcLinkLabels={false}
-    data={data}
+    data={data !== null ? data : data2}
     margin={{ top: 35, right: 35, bottom: 35, left: 35 }}
     innerRadius={0.5}
     padAngle={2}
@@ -93,7 +81,7 @@ const Month = () => {
         translateX: 0,
         translateY: 30,
         itemsSpacing: 2,
-        itemWidth: 40,
+        itemWidth: 50,
         itemHeight: 20,
         itemTextColor: "#999",
         itemDirection: "left-to-right",

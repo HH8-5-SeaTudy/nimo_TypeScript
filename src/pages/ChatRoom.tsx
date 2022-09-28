@@ -4,6 +4,7 @@ import { useAppDispatch } from "../components/hooks/reduxHooks";
 import { __getChatroom } from "../redux/modules/socket";
 import Chatting from "./Chatting";
 
+
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;
 const roomId3 = process.env.REACT_APP_ROOMID3;
@@ -143,7 +144,7 @@ const ChatContainer = styled.section`
   width: 100%;
   height: 100%;
   display: flex;
-  flex: 1.5;
+  flex: 3;
   flex-direction: column;
 `;
 
