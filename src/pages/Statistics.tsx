@@ -35,30 +35,34 @@ const Statistics = () => {
       <Layer> 
         <TopLayer>
           <RankSide>
-          <RankTitle>주간랭킹</RankTitle>
+          <RankTitle>일간랭킹</RankTitle>
           <RankBox>
+            {dayRankData?.map((list,index)=>   
             <Rank>
-              <RankNum><Num></Num></RankNum>
-              <RankProfile></RankProfile>
+              <RankNum><Num>{index + 1}</Num></RankNum>
+              <RankProfile src={list.fish}></RankProfile>
               <RankInfo>
-                <NickName>이중표</NickName>
-                <Point>10000P</Point>
+                <NickName>{list.nickname}</NickName>
+                <Point>{list.dayStudy}</Point>
               </RankInfo>
-            </Rank>
+            </Rank>)}
+          
           </RankBox>
           <NextBtn>스크롤버튼</NextBtn>
         </RankSide>
         <RankSide>
           <RankTitle>월간랭킹</RankTitle>
           <RankBox>
+          {weekRankData?.map((list,index)=>   
             <Rank>
-              <RankNum><Num></Num></RankNum>
-              <RankProfile></RankProfile>
+              <RankNum><Num>{index + 1}</Num></RankNum>
+              <RankProfile src={list.fish}></RankProfile>
               <RankInfo>
-                <NickName>이중표</NickName>
-                <Point>10000P</Point>
+                <NickName>{list.nickname}</NickName>
+                <Point>{list.weekStudy}</Point>
               </RankInfo>
-            </Rank>
+            </Rank>)}
+          
           </RankBox>
           <NextBtn>스크롤버튼</NextBtn>
         </RankSide>
@@ -151,48 +155,71 @@ const TotalSide = styled.div`
   width: 70%;
 `
 const RankBox = styled.div`
+padding-left:5px;
   border-left: solid #0096FF 3px; 
   border-right: solid #0096FF 3px; 
   height: 100%;
   box-shadow:inset 0 0 5px #b3e5fc,inset 0 0 25px #03e9f4,inset 0 0 50px #03e9f4,
   inset 0 0 100px #b3e5fc, inset 1px 1px 1px 0px rgba(255, 255, 255, 0.819);
+  overflow-y:scroll;
+  ::-webkit-scrollbar {
+    background-color:transparent;
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #0096FF;
+  height:5px;
+
+}
 `
 const Rank = styled.div`
 border: solid 2px #0096FF;
   height: 50px;
   display: flex;
+  align-items:center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color:#00D7FE;
+  box-shadow: 1px 1px 1px 1px rgba(1,1,1,0.5);
+  margin-bottom: 4px;
 `
 const RankNum =styled.div`
-  border: solid red 1px;
   width:50px;
   display:flex;
   justify-content:center;
 `
 const Num =styled.div`
-  border: solid red 1px;
+border: solid red 1px;
   height:40px;
   width:40px;
   margin: auto;
   border-radius:50%;
 `
-const RankProfile =styled.div`
-  border: solid red 1px;
+const RankProfile =styled.img`
   width:60px;
+  height: 40px;
 `
 const RankInfo =styled.div`
-  border: solid red 1px;
-  width:65%;
+
+  width:50%;
   display:flex;
+  flex-direction: column;
 `
 const NickName =styled.div`
-  border: solid red 1px;
-  width:50%;
+
+  width:100%;
+  height:50%;
   text-align: center;
+  line-height: 17px;
 `
 const Point = styled.div`
-  border: solid red 1px;
-  width:50%;
+
+  width:100%;
+  height:50%;
   text-align: center;
+  line-height: 17px;
+
 `
 const TopBox =styled.div`
   height:50%;

@@ -16,7 +16,7 @@ export const __getDayRank: any = createAsyncThunk(
         },
       });
       console.log(response)
-      return thunkAPI.fulfillWithValue(response.data);
+      return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -32,7 +32,7 @@ export const __getWeekRank: any = createAsyncThunk(
           Authorization: token,
         },
       });
-      return thunkAPI.fulfillWithValue(response.data);
+      return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

@@ -56,7 +56,7 @@ const BowlInner = styled.div`
 `
 const Percent = styled.div`
   text-shadow: 0 0 10px #028695;
-  color: #53ebfc;
+  color: white;
   line-height: 220px;
     font-size: 60px;
     position: absolute;
@@ -66,7 +66,7 @@ const Percent = styled.div`
     height: 100%;
     font-weight: bold;
     text-align: center;
-    z-index: 1;
+    z-index: 2;
 `
 const spin = keyframes`
 0% {

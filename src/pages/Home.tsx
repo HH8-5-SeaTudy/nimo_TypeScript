@@ -14,6 +14,8 @@ import MiniCalendar from "../components/calendar/MiniCalendar";
 import fishImages from "../components/fish/FishImages";
 import { __getUserProfile } from '../redux/modules/userData';
 import CalendarVer2 from '../components/calendar/CalendarVer2';
+import SideBarVer2 from '../components/sidebar/SideBarVer2';
+import FishIventory from '../components/fish/FishIventory';
 
 
 const Home = () => {
@@ -52,97 +54,10 @@ const Home = () => {
     document.body.style.overflow = "hidden";
   }, []);
 
-
-  const containerRef = useRef<HTMLDivElement>(null); // 드래그 할 영역 네모 박스 Ref
-
-
-  const [originPos, setOriginPos] = useState({ x: 0, y: 0 }); // 드래그 전 포지션값 (e.target.offset의 상대 위치)
-  const [clientPos, setClientPos] = useState({ x: 0, y: 0 }); // 실시간 커서위치인 e.client를 갱신하는값
-  const [pos, setPos] = useState({ left: 0, top: 0 }); // 실제 drag할 요소가 위치하는 포지션값
-  const [size, setSize] = useState({  width:'',height: '',}); // 실제 drag할 요소가 위치하는 포지션값
-  const [dTest, setDTest] = useState(Array.from({length : 25}, (v,i)=> {
-    return [60 * i,100]}));
-  
-  // console.log('드래그 전 포지션값',originPos)
-  // console.log('실시간 커서위치',clientPos)
-  // console.log('실제 drag할 요소',pos)
-  
-  
-  const dragStartHandler = (e: any) => {
-    const blankCanvas: any = document.createElement('canvas')
-    blankCanvas.classList.add("canvas");
-    e.dataTransfer?.setDragImage(blankCanvas, 0, 0);
-    document.body?.appendChild(blankCanvas); 
-    const img = new Image();
-    e.dataTransfer.setDragImage(img, 0, 0);
-    
-    e.dataTransfer.effectAllowed = "move"; // 크롬의그린 +아이콘 제거
-    console.log('e',e)
-    const originPosTemp = { ...originPos };
-    originPosTemp["x"] = e.target.offsetLeft;
-    originPosTemp["y"] = e.target.offsetTop;
-    console.log("originPosTemp", originPosTemp);
-    setOriginPos(originPosTemp); //드래그 시작할때 드래그 전 위치값을 저장
-  
-    const clientPosTemp = { ...clientPos };
-    clientPosTemp["x"] = e.clientX;
-    clientPosTemp["y"] = e.clientY;
-    setClientPos(clientPosTemp);
-  };
-  
-  const dragHandler = (e: any) => {
-    const PosTemp = { ...pos };
-    PosTemp["left"] = e.target.offsetLeft + e.clientX - clientPos.x;
-    PosTemp["top"] = e.target.offsetTop + e.clientY - clientPos.y;
-    setPos(PosTemp);
-  
-    const clientPosTemp = { ...clientPos };
-    clientPosTemp["x"] = e.clientX;
-    clientPosTemp["y"] = e.clientY;
-    setClientPos(clientPosTemp);
-  };
-  const dragOverHandler = (e: any) => {
-    e.preventDefault(); // 드래그시에 플라잉백하는 고스트이미지를 제거한다
-  };
-  
-  const isInsideDragArea = (e:any) => {
-  
-  } 
-  
-  const dragEndHandler = (e: any) => {
-    // if (clientPos.x < originPos.x + 50) {
-    //    const posTemp = { ...pos };
-    //   posTemp["left"] = originPos.x;
-    //   posTemp["top"] = originPos.y;
-    //   setPos(posTemp);
-    // } else{
-    //   setSize({
-    //     width:'120px',
-    //     height: '120px',
-    //   })
-    // }
-    setSize({
-          width:'100px',
-          height: '100px',
-        })
-
-
-       // 캔버스 제거
-       const canvases = document.getElementsByClassName("canvas");
-       for (let i = 0; i < canvases.length; i++) {
-         let canvas = canvases[i];
-         canvas.parentNode?.removeChild(canvas);
-     }
-      // 캔버스로 인해 발생한 스크롤 방지 어트리뷰트 제거
-    document.body.removeAttribute("style");  
-    document.body.style.overflow = "hidden";
-  };
-
   return (
-    <Layer>
-{/*       
+    <Layer>      
        {modalShow && <CalendarVer2 />} 
-      <button onClick={()=>{
+      {/* <button onClick={()=>{
         dispatch(__getCheckInTimer());
       }}>start</button>
       <button onClick={()=>{
@@ -205,72 +120,8 @@ const Home = () => {
         서버5
       </button>  */}
      
-      <MainBox  ref={containerRef}>
-        <InvenLayout>  
-          {fishImages.map((data:any, i:number)=>{
-          return (
-          <Label>
-            <Bubble>  
-              <BubbleA></BubbleA>
-            </Bubble>
-            <FishImg 
-            draggable
-            onDragStart={(e) => {
-              dragStartHandler(e);
-            }}
-            onDrag={(e) => dragHandler(e)}
-            onDragOver={(e) => dragOverHandler(e)}
-            onDragEnd={(e) => 
-              {
-                dragEndHandler(e);
-                let tempData = [...dTest];
-                tempData[i] = [tempData[i][0]-pos.left,tempData[i][1]-pos.top];
-                setDTest([...tempData]);
-              }
-            }
-            // style={{left: dTest[i][0], top: dTest[i][1],  width: size.width === '' ? '60px' : size.width, height: size.height === '' ? '50px':size.height  }}
-            src={data.image} alt="" />
-          </Label>
-          )
-        })}
-        </InvenLayout>
-        <Inventory>     
-        {fishImages.map((data:any, i:number)=>{
-                          return (
-                            <>
-                              <InventoryFish >
-                                {userPoint >= data.point ?
-                                <>
-                                <FishItem 
-                                draggable
-                                onDragStart={(e) => {
-                                  dragStartHandler(e);
-                                }}
-                                onDrag={(e) => dragHandler(e)}
-                                onDragOver={(e) => dragOverHandler(e)}
-                                onDragEnd={(e) => 
-                                  {
-                                    dragEndHandler(e);
-                                    let tempData = [...dTest];
-                                    tempData[i] = [tempData[i][0]-pos.left,tempData[i][1]-pos.top];
-                                    setDTest([...tempData]);
-                                  }
-                                }
-                                style={{left: dTest[i][0], top: dTest[i][1],  width: size.width === '' ? '60px' : size.width, height: size.height === '' ? '50px':size.height  }}
-                                src={data.image}></FishItem>
-                                </>
-                                :
-                                <>           
-                                {/* <BoxCover readOnly></BoxCover> */}
-                                <FishItem src={data.image}></FishItem>
-                                </>
-                                }
-                              </InventoryFish>
-                            </>
-                          )
-                      })}
-        </Inventory>
-        
+      <MainBox>
+        <FishIventory/>
         <SideBarLayer style={{ left: sideBarShow ? "0"  :"-300px" }}>
           <SideBar>
             <SideBar>
@@ -527,7 +378,6 @@ const InvenLayout = styled.div`
   height: 3.2em;
   display: flex;
   justify-content: center;
-  position: absolute;
   bottom: 0;
   z-index: 1;
 `
@@ -572,7 +422,7 @@ const Bubble = styled.div`
     background-image:  radial-gradient( 8% 8% at 22% 28%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 23% 27%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 24% 26%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 25% 25%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 26% 24%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 27% 23%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 28% 22%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% );
     box-shadow: 0 -0.06em 0.1em hsl(0deg 0% 100%) inset, 0 -0.15em 0.4em hsl(196deg 90% 45%) inset, 0 0.05em 0.05em hsl(197deg 90% 45%) inset, 0.05em 0 0.1em hsl(0deg 0% 100%) inset, -0.05em 0 0.1em hsl(0deg 0% 100%) inset, 0 0.1em 0.4em hsl(193deg 90% 60%) inset;
     cursor: pointer;
-    position: relative;
+    position: absolute;
     width: 2.7em;
     height: 2.7em;
     transform-style: preserve-3d;
@@ -609,7 +459,7 @@ const BubbleA =styled.div`
  const FishImg = styled.img`
   width:2em;
   height:1.5em;
- position:absolute;
+ position:fixed;
  top: 0.7em;
  left: 0.5em;
  `
