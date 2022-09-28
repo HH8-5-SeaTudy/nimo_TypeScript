@@ -12,6 +12,7 @@ import {
   __getCheckOutTimer,
   __getUserinquire,
 } from "../../redux/modules/timer";
+import logo from "../../assets/logo/seatudyLogo.png";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -73,7 +74,7 @@ const Header = () => {
     <>
       <HeaderContainer>
         <HeaderLogoContainer>
-          <HeaderLogo onClick={() => navigate("/home")}>Logo</HeaderLogo>
+          <HeaderLogo src={logo} onClick={() => navigate("/home")} />
         </HeaderLogoContainer>
         <HeaderTimerContainer>
           <HeaderTimer>
@@ -108,28 +109,22 @@ const Layer = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-  border: solid red 2px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 65px;
-  background-color: #eee;
   padding: 0px 56px;
   height: 10vh;
 `;
 
 const HeaderLogoContainer = styled.div`
-  border: solid red 2px;
   display: flex;
 `;
 
-const HeaderLogo = styled.span`
-  font-weight: 700;
-  font-size: 32px;
-  width: 118px;
-  height: 47px;
-  color: #fff;
+const HeaderLogo = styled.img`
+  width: 150px;
+  height: 130px;
 `;
 
 const HeaderTimerContainer = styled.div`

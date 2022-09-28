@@ -36,6 +36,7 @@ const CalendarVer2 = () => {
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
   //
+  const inputRef = useRef<any>([]);
   const [categoryInputShow, setCategoryInputShow] = useState(false);
   const [todoInputShow, setTodoInputShow] = useState<any>([
     false,
@@ -48,7 +49,7 @@ const CalendarVer2 = () => {
   const [DdayEditShow, setDdayEditShow] = useState(false);
   const [category, setCategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
-  const [todo, setTodo] = useState("");
+  const [todo, setTodo] = useState(['','','','']);
   const [ddayTitle, setDdayTitle] = useState("");
   const [selectDdayID, setSelectDdayID] = useState<number>();
   const [DdayEditTitle, setDdayEditTitle] = useState("");
@@ -94,8 +95,8 @@ const CalendarVer2 = () => {
   const onChangeCategoryInput = (e: any) => {
     setCategory(e.target.value);
   };
-  const onSubmitTodoHandler = (id: any) => {
-    if (todo.length < 4) {
+  const onSubmitTodoHandler = (id: any,i : number) => {
+    if (todo[i].length < 4) {
       alert("너무 짧습니다");
       return;
     }
@@ -103,12 +104,18 @@ const CalendarVer2 = () => {
       __postTodo({
         categoryId: id,
         selectDate: DD,
-        content: todo,
+        content: todo[i],
       })
     );
+    const tempData = [...todo];
+    tempData[i] = '';
+    setTodo([...tempData]);
+    console.log(inputRef,i);
   };
-  const onChangeTodoInput = (e: any) => {
-    setTodo(e.target.value);
+  const onChangeTodoInput = (e: any,i : number) => {
+    const tempData = [...todo];
+    tempData[i] = e.target.value;
+    setTodo([...tempData]);
   };
 
   const onSubmitEditHandler = (id: any) => {
@@ -682,15 +689,17 @@ const CalendarVer2 = () => {
                             <HiddenTodoAddBox
                               onSubmit={(e) => {
                                 e.preventDefault();
-                                onSubmitTodoHandler(list.categoryId);
+                                onSubmitTodoHandler(list.categoryId,index);
                               }}
                             >
                               <Input
                                 type="text"
-                                onChange={onChangeTodoInput}
+                                
+                                ref={(el:any)=>(inputRef.current[index]=el)}
+                                onChange={(e)=>{onChangeTodoInput(e,index)}}
                                 width="250px"
                               />
-                              <TodoAddBtn todo={todo}>+</TodoAddBtn>
+                              <TodoAddBtn todo={todo[index]}>+</TodoAddBtn>
                             </HiddenTodoAddBox>
                           )}
                           {list.todoList &&

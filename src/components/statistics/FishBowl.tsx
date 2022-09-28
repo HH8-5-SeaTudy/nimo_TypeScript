@@ -4,7 +4,7 @@ import styled,{keyframes} from 'styled-components';
 
 const FishBowl = (props:any) => {
   const waterPercent = 100 - props.nextPercent;
-  console.log(waterPercent)
+
   return (
     <BowlLayer>
       <Bowl>

@@ -13,6 +13,9 @@ import backimg from "../assets/pixel/backimg.jpeg";
 import MiniCalendar from "../components/calendar/MiniCalendar";
 import fishImages from "../components/fish/FishImages";
 import { __getUserProfile } from "../redux/modules/userData";
+import CalendarVer2 from "../components/calendar/CalendarVer2";
+
+// import
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -25,8 +28,6 @@ const Home = () => {
   useEffect(() => {
     dispatch(__getDateTodo(moment(date).format("YYYY-MM-DD")));
   }, [date]);
-
-  const imageRef = useRef<any>([]);
 
   //SideBar hidden
   const [profileShow, setProfileShow] = useState(false);
@@ -47,29 +48,26 @@ const Home = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
 
-  console.log(userPoint);
   useEffect(() => {
     dispatch(__getUserProfile());
     document.body.style.overflow = "hidden";
   }, []);
 
   const containerRef = useRef<HTMLDivElement>(null); // 드래그 할 영역 네모 박스 Ref
-  const dragComponentRef = useRef([1, 2, 3]); // // 움직일 드래그 박스 Ref
-  // const items = Array.from({length: 2}, a => useRef(null));
-  // myRefs.current = things.map((element, i) => myRefs.current[i] ?? createRef());
-  const myRefs = useRef([]);
 
   const [originPos, setOriginPos] = useState({ x: 0, y: 0 }); // 드래그 전 포지션값 (e.target.offset의 상대 위치)
   const [clientPos, setClientPos] = useState({ x: 0, y: 0 }); // 실시간 커서위치인 e.client를 갱신하는값
   const [pos, setPos] = useState({ left: 0, top: 0 }); // 실제 drag할 요소가 위치하는 포지션값
   const [size, setSize] = useState({ width: "", height: "" }); // 실제 drag할 요소가 위치하는 포지션값
-  const artistRef = useRef<any>([]);
+  const [dTest, setDTest] = useState(
+    Array.from({ length: 25 }, (v, i) => {
+      return [60 * i, 100];
+    })
+  );
 
-  console.log(artistRef.current[0]);
-
-  console.log("드래그 전 포지션값", originPos);
-  console.log("실시간 커서위치", clientPos);
-  console.log("실제 drag할 요소", pos);
+  // console.log('드래그 전 포지션값',originPos)
+  // console.log('실시간 커서위치',clientPos)
+  // console.log('실제 drag할 요소',pos)
 
   const dragStartHandler = (e: any) => {
     const blankCanvas: any = document.createElement("canvas");
@@ -80,7 +78,7 @@ const Home = () => {
     e.dataTransfer.setDragImage(img, 0, 0);
 
     e.dataTransfer.effectAllowed = "move"; // 크롬의그린 +아이콘 제거
-
+    console.log("e", e);
     const originPosTemp = { ...originPos };
     originPosTemp["x"] = e.target.offsetLeft;
     originPosTemp["y"] = e.target.offsetTop;
@@ -135,22 +133,24 @@ const Home = () => {
   };
 
   return (
-    <div
-      style={{
-        overflow: "hidden",
-        width: "100%",
-        height: "90vh",
-      }}
-    >
-      <Layer>
-        {/* {modalShow && <CalendarVer2 />}
-      <button onClick={()=>{
-        dispatch(__getCheckInTimer());
-      }}>start</button>
-      <button onClick={()=>{
-        dispatch(__getCheckOutTimer());
-      }}> stop</button>
-    
+    <Layer>
+      {modalShow && <CalendarVer2 />}
+      <button
+        onClick={() => {
+          dispatch(__getCheckInTimer());
+        }}
+      >
+        start
+      </button>
+      <button
+        onClick={() => {
+          dispatch(__getCheckOutTimer());
+        }}
+      >
+        {" "}
+        stop
+      </button>
+
       <button
         onClick={() => {
           navigate("/chat", {
@@ -205,101 +205,108 @@ const Home = () => {
         }}
       >
         서버5
-      </button> */}
-        <MainBox ref={containerRef}>
-          <Inventory>
-            {fishImages.map((data: any, i: any) => {
-              return (
-                <>
-                  <InventoryFish key={i}>
-                    {userPoint >= data.point ? (
-                      <>
-                        <FishItem
-                          draggable
-                          onDragStart={(e) => dragStartHandler(e)}
-                          onDrag={(e) => dragHandler(e)}
-                          onDragOver={(e) => dragOverHandler(e)}
-                          onDragEnd={(e) => dragEndHandler(e)}
-                          style={{
-                            left: pos.left === 0 ? "" : pos.left,
-                            top: pos.left === 0 ? "" : pos.top,
-                            width: size.width === "" ? "60px" : size.width,
-                            height: size.height === "" ? "50px" : size.height,
-                          }}
-                          src={data.image}
-                        ></FishItem>
-                        {/* {console.log("id", data.id)} */}
-                      </>
-                    ) : (
-                      <>
-                        {/* <BoxCover readOnly></BoxCover> */}
-                        <FishItem src={data.image}></FishItem>
-                      </>
-                    )}
-                  </InventoryFish>
-                </>
-              );
-            })}
-          </Inventory>
+      </button>
 
-          <SideBarLayer style={{ left: sideBarShow ? "-300px" : "0" }}>
+      <MainBox ref={containerRef}>
+        <Inventory>
+          {fishImages.map((data: any, i: number) => {
+            return (
+              <>
+                <InventoryFish>
+                  {userPoint >= data.point ? (
+                    <>
+                      <FishItem
+                        draggable
+                        onDragStart={(e) => {
+                          dragStartHandler(e);
+                        }}
+                        onDrag={(e) => dragHandler(e)}
+                        onDragOver={(e) => dragOverHandler(e)}
+                        onDragEnd={(e) => {
+                          dragEndHandler(e);
+                          let tempData = [...dTest];
+                          tempData[i] = [
+                            tempData[i][0] - pos.left,
+                            tempData[i][1] - pos.top,
+                          ];
+                          setDTest([...tempData]);
+                        }}
+                        style={{
+                          left: dTest[i][0],
+                          top: dTest[i][1],
+                          width: size.width === "" ? "60px" : size.width,
+                          height: size.height === "" ? "50px" : size.height,
+                        }}
+                        src={data.image}
+                      ></FishItem>
+                    </>
+                  ) : (
+                    <>
+                      {/* <BoxCover readOnly></BoxCover> */}
+                      <FishItem src={data.image}></FishItem>
+                    </>
+                  )}
+                </InventoryFish>
+              </>
+            );
+          })}
+        </Inventory>
+
+        <SideBarLayer style={{ left: sideBarShow ? "-300px" : "0" }}>
+          <SideBar>
             <SideBar>
-              <SideBar>
-                <SideProfile onClick={() => setProfileShow(!profileShow)}>
-                  프로필헤더
-                </SideProfile>
-                <SideProfileBox profileShow={profileShow}>
-                  <ProfileLeft>
-                    <ProfileFish></ProfileFish>
-                  </ProfileLeft>
-                  <ProfileRight>
-                    <Name>name</Name>
-                    <StudyTime>총 공부시간</StudyTime>
-                  </ProfileRight>
-                </SideProfileBox>
-                <SideCalendar onClick={() => setCalendarShow(!calendarShow)}>
-                  캘린더헤더
-                </SideCalendar>
-                <SideCalendarBox calendarShow={calendarShow}>
-                  <MiniCalendar></MiniCalendar>
-                </SideCalendarBox>
-                <SideTodoList draggable>
-                  <Title onClick={() => setTodoShow(!todoShow)}>
-                    투두리스트헤더
-                  </Title>
-                  <CalendarBtn
-                    onClick={() => setModlaShow(!modalShow)}
-                  ></CalendarBtn>
-                </SideTodoList>
-                <SideTodoListBox todoShow={todoShow}>
-                  {dateTodos &&
-                    dateTodos.map((list) =>
-                      list.todoList?.map((item) => (
-                        <Todo>
-                          <TodoCheck></TodoCheck>
-                          <TodoTitle>{item.content}</TodoTitle>
-                          <TodoDelete></TodoDelete>
-                        </Todo>
-                      ))
-                    )}
-                </SideTodoListBox>
-                <SideInventory onClick={() => setBurgerShow(!burgerShow)}>
-                  인벤토리헤더
-                </SideInventory>
-                <SideInventoryBox burgerShow={burgerShow}>
-                  <InventoryLayer>
-                    <NextFishBox></NextFishBox>
-                  </InventoryLayer>
-                </SideInventoryBox>
-              </SideBar>
+              <SideProfile onClick={() => setProfileShow(!profileShow)}>
+                프로필헤더
+              </SideProfile>
+              <SideProfileBox profileShow={profileShow}>
+                <ProfileLeft>
+                  <ProfileFish></ProfileFish>
+                </ProfileLeft>
+                <ProfileRight>
+                  <Name>name</Name>
+                  <StudyTime>총 공부시간</StudyTime>
+                </ProfileRight>
+              </SideProfileBox>
+              <SideCalendar onClick={() => setCalendarShow(!calendarShow)}>
+                캘린더헤더
+              </SideCalendar>
+              <SideCalendarBox calendarShow={calendarShow}>
+                <MiniCalendar></MiniCalendar>
+              </SideCalendarBox>
+              <SideTodoList draggable>
+                <Title onClick={() => setTodoShow(!todoShow)}>
+                  투두리스트헤더
+                </Title>
+                <CalendarBtn
+                  onClick={() => setModlaShow(!modalShow)}
+                ></CalendarBtn>
+              </SideTodoList>
+              <SideTodoListBox todoShow={todoShow}>
+                {dateTodos &&
+                  dateTodos.map((list) =>
+                    list.todoList?.map((item) => (
+                      <Todo>
+                        <TodoCheck></TodoCheck>
+                        <TodoTitle>{item.content}</TodoTitle>
+                        <TodoDelete></TodoDelete>
+                      </Todo>
+                    ))
+                  )}
+              </SideTodoListBox>
+              <SideInventory onClick={() => setBurgerShow(!burgerShow)}>
+                인벤토리헤더
+              </SideInventory>
+              <SideInventoryBox burgerShow={burgerShow}>
+                <InventoryLayer>
+                  <NextFishBox></NextFishBox>
+                </InventoryLayer>
+              </SideInventoryBox>
             </SideBar>
-            <SideBarBtn
-              onClick={() => setSideBarShow(!sideBarShow)}
-            ></SideBarBtn>
-          </SideBarLayer>
-        </MainBox>
-      </Layer>
-    </div>
+          </SideBar>
+          <SideBarBtn onClick={() => setSideBarShow(!sideBarShow)}></SideBarBtn>
+        </SideBarLayer>
+      </MainBox>
+    </Layer>
   );
 };
 
@@ -323,37 +330,29 @@ interface InventoryLayerProps {
 }
 
 const Layer = styled.section`
-  width: 100%;
-  height: 100%;
-  padding-top: 65px;
-  background: url(${backimg});
-  background-size: 100% 90vh;
-  overflow-y: hidden;
-  display: flex;
-  border: 2px solid green;
   position: relative;
-  &::-webkit-scrollbar {
-    width: none;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 2px;
-  }
+  width: 100%;
+  height: 90vh;
+  /* background: url(${backimg}); */
+  background-size: 100% 100vh;
+  overflow: hidden;
 `;
 
 const MainBox = styled.div`
   border: solid red 1px;
-  height: 100%;
+  height: 90vh;
   position: relative;
   overflow: hidden;
 `;
 
 const Inventory = styled.div`
-  border: solid blue 2px;
+  border: solid red 2px;
   width: 90vw;
   height: 50px;
   position: absolute;
   display: flex;
   z-index: 6;
+  overflow: hidden;
 `;
 const InventoryFish = styled.div`
   border: solid red 2px;

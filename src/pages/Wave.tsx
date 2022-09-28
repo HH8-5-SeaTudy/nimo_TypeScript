@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import wave1 from "../assets/Wave/wave1.svg";
-import wave2 from "../assets/Wave/wave2.svg";
-import wave3 from "../assets/Wave/wave3.svg";
-import wave4 from "../assets/Wave/wave4.svg";
-import wave5 from "../assets/Wave/wave5.svg";
+import wave1 from "../assets/wave/wave1.svg";
+import wave2 from "../assets/wave/wave2.svg";
+import wave3 from "../assets/wave/wave3.svg";
+import wave4 from "../assets/wave/wave4.svg";
+import wave5 from "../assets/wave/wave5.svg";
 
 const Wave = () => {
   const [scroll, setScroll] = useState(false);
