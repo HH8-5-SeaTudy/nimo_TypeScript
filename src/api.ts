@@ -151,6 +151,7 @@ export type IGridProps = {
   padding: string;
 
   display: string;
+  flexDirection: string;
   justifyContent: string;
   alignItems: string;
 
@@ -184,9 +185,9 @@ export type IRankInitialState = {
 };
 // * Rank Info
 export type IRank = {
-  nickname: string,
-  email: string,
-  dayStudy:string,
-  weekStudy:string,
-  fish:string
+  nickname: string;
+  email: string;
+  dayStudy: string;
+  weekStudy: string;
+  fish: string;
 };
