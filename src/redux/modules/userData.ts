@@ -48,6 +48,31 @@ export const __editUserProfile: any = createAsyncThunk(
   }
 );
 
+export const __editUserFishProfile: any = createAsyncThunk(
+  "user/editUserFishProfile",
+  async (payload, thunkAPI) => {
+    try {
+      console.log(payload);
+      const response = await axios.put(
+        `${BASE_URL}/api/v1/members/myProfile/fishImages`,
+        {
+          fishName: payload,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response);
+      return thunkAPI.fulfillWithValue(response.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 const initialState: IUser = {
   userData: [],
   userProfile: {
@@ -71,6 +96,9 @@ export const __userSlice = createSlice({
       state.userProfile = action.payload;
     });
     builder.addCase(__editUserProfile.fulfilled, (state, action) => {
+      state.userProfile = action.payload;
+    });
+    builder.addCase(__editUserFishProfile.fulfilled, (state, action) => {
       state.userProfile = action.payload;
     });
   },

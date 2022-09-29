@@ -9,14 +9,14 @@ import {
   __getCheckOutTimer,
   __getUserinquire,
 } from "../redux/modules/timer";
-import backimg from "../assets/pixel/backimg.jpeg";
+import backimg from "../assets/background/homeBack.png";
 import MiniCalendar from "../components/calendar/MiniCalendar";
 import fishImages from "../components/fish/FishImages";
-import { __getUserProfile } from '../redux/modules/userData';
-import CalendarVer2 from '../components/calendar/CalendarVer2';
-import SideBarVer2 from '../components/sidebar/SideBarVer2';
-import FishIventory from '../components/fish/FishIventory';
-
+import { __getUserProfile } from "../redux/modules/userData";
+import CalendarVer2 from "../components/calendar/CalendarVer2";
+import SideBarVer2 from "../components/sidebar/SideBarVer2";
+import FishIventory from "../components/fish/FishIventory";
+import crab from "../assets/pixel/crab.png";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -44,7 +44,7 @@ const Home = () => {
   const roomId3 = process.env.REACT_APP_ROOMID3;
   const roomId4 = process.env.REACT_APP_ROOMID4;
   const roomId5 = process.env.REACT_APP_ROOMID5;
-  
+
   //Inventory
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
@@ -55,8 +55,8 @@ const Home = () => {
   }, []);
 
   return (
-    <Layer>      
-       {modalShow && <CalendarVer2 />} 
+    <Layer>
+      {modalShow && <CalendarVer2 />}
       {/* <button onClick={()=>{
         dispatch(__getCheckInTimer());
       }}>start</button>
@@ -119,10 +119,12 @@ const Home = () => {
       >
         서버5
       </button>  */}
-     
+
       <MainBox>
-        <FishIventory/>
-        <SideBarLayer style={{ left: sideBarShow ? "0"  :"-300px" }}>
+        <Crab />
+
+        <FishIventory />
+        <SideBarLayer style={{ left: sideBarShow ? "0" : "-300px" }}>
           <SideBar>
             <SideBar>
               <SideProfile onClick={() => setProfileShow(!profileShow)}>
@@ -168,8 +170,7 @@ const Home = () => {
               </SideInventory>
               <SideInventoryBox burgerShow={burgerShow}>
                 <InventoryLayer>
-                  <NextFishBox>
-                  </NextFishBox>
+                  <NextFishBox></NextFishBox>
                 </InventoryLayer>
               </SideInventoryBox>
             </SideBar>
@@ -182,7 +183,6 @@ const Home = () => {
 };
 
 export default Home;
-
 
 //
 interface ProfileLayerProps {
@@ -202,7 +202,7 @@ interface InventoryLayerProps {
 }
 
 const Layer = styled.section`
- position:relative;
+  position: relative;
   width: 100%;
   height: 90vh;
   background: url(${backimg});
@@ -214,7 +214,7 @@ const MainBox = styled.div`
   border: solid red 1px;
   height: 90vh;
   position: relative;
-  overflow:hidden;
+  overflow: hidden;
 `;
 
 const Inventory = styled.div`
@@ -223,21 +223,21 @@ const Inventory = styled.div`
   height: 50px;
   position: absolute;
   display: flex;
-  z-index:6;
-  overflow:hidden ;
-`
+  z-index: 6;
+  overflow: hidden;
+`;
 const InventoryFish = styled.div`
   border: solid red 2px;
-  height:50px;
-  width:60px;
+  height: 50px;
+  width: 60px;
   display: grid;
   grid-template-rows: repeat(25, 60px);
-`
-const FishItem =styled.img`
-  width:60px;
-  height:50px;
-  position:fixed;
-`
+`;
+const FishItem = styled.img`
+  width: 60px;
+  height: 50px;
+  position: fixed;
+`;
 
 const SideBarLayer = styled.div`
   position: relative;
@@ -363,24 +363,24 @@ const SideInventoryBox = styled.div<BurgerLayerProps>`
 `;
 const InventoryLayer = styled.div`
   height: 100%;
-  box-sizing:border-box;
+  box-sizing: border-box;
 `;
 const NextFishBox = styled.div`
   border: solid red 1px;
   width: 100%;
   height: 100%;
-  box-sizing:border-box;
+  box-sizing: border-box;
 `;
 ///
 const InvenLayout = styled.div`
-  border:solid red 1px;
-  width:100vw;
+  border: solid red 1px;
+  width: 100vw;
   height: 3.2em;
   display: flex;
   justify-content: center;
   bottom: 0;
   z-index: 1;
-`
+`;
 
 const animateBubble = keyframes`
   0%, 100% {
@@ -397,7 +397,7 @@ const animateBubble = keyframes`
 }
 `;
 
-const Label =styled.div`
+const Label = styled.div`
   border: solid red 1px;
   width: 3em;
   height: 3em;
@@ -405,61 +405,124 @@ const Label =styled.div`
   display: block;
   -webkit-tap-highlight-color: transparent;
   padding: 0.1em 0.1em;
-  &:hover{
+  &:hover {
     width: 3.2em;
     height: 3.2em;
-    div{
-    width: 2.9em;
-    height: 2.9em;
+    div {
+      width: 2.9em;
+      height: 2.9em;
     }
-    img{
-      width:2.2em;
-      height:1.7em;
+    img {
+      width: 2.2em;
+      height: 1.7em;
     }
-    }
-`
+  }
+`;
 const Bubble = styled.div`
-    background-image:  radial-gradient( 8% 8% at 22% 28%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 23% 27%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 24% 26%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 25% 25%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 26% 24%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 27% 23%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% ), radial-gradient( 8% 8% at 28% 22%, hsl(0, 0%, 100%) 45%, hsla(0, 0%, 100%, 0) 50% );
-    box-shadow: 0 -0.06em 0.1em hsl(0deg 0% 100%) inset, 0 -0.15em 0.4em hsl(196deg 90% 45%) inset, 0 0.05em 0.05em hsl(197deg 90% 45%) inset, 0.05em 0 0.1em hsl(0deg 0% 100%) inset, -0.05em 0 0.1em hsl(0deg 0% 100%) inset, 0 0.1em 0.4em hsl(193deg 90% 60%) inset;
-    cursor: pointer;
-    position: absolute;
-    width: 2.7em;
-    height: 2.7em;
-    transform-style: preserve-3d;
-    transition-property: box-shadow, transform, width, height;
-    transition-timing-function: ease-in-out, ease-in-out, cubic-bezier(0.5,0.15,0.25,1.75), cubic-bezier(0.5,0.15,0.25,1.75);
-    will-change: transform;
-    -webkit-appearance: none;
-    appearance: none;
-    z-index: 0;
-    border-radius: 50%;
-    transition-duration: 0.2s;
-    display: block;
-    -webkit-tap-highlight-color: transparent;
-    border:0;
-    outline:0;
+  background-image: radial-gradient(
+      8% 8% at 22% 28%,
+      hsl(0, 0%, 100%) 45%,
+      hsla(0, 0%, 100%, 0) 50%
+    ),
+    radial-gradient(
+      8% 8% at 23% 27%,
+      hsl(0, 0%, 100%) 45%,
+      hsla(0, 0%, 100%, 0) 50%
+    ),
+    radial-gradient(
+      8% 8% at 24% 26%,
+      hsl(0, 0%, 100%) 45%,
+      hsla(0, 0%, 100%, 0) 50%
+    ),
+    radial-gradient(
+      8% 8% at 25% 25%,
+      hsl(0, 0%, 100%) 45%,
+      hsla(0, 0%, 100%, 0) 50%
+    ),
+    radial-gradient(
+      8% 8% at 26% 24%,
+      hsl(0, 0%, 100%) 45%,
+      hsla(0, 0%, 100%, 0) 50%
+    ),
+    radial-gradient(
+      8% 8% at 27% 23%,
+      hsl(0, 0%, 100%) 45%,
+      hsla(0, 0%, 100%, 0) 50%
+    ),
+    radial-gradient(
+      8% 8% at 28% 22%,
+      hsl(0, 0%, 100%) 45%,
+      hsla(0, 0%, 100%, 0) 50%
+    );
+  box-shadow: 0 -0.06em 0.1em hsl(0deg 0% 100%) inset,
+    0 -0.15em 0.4em hsl(196deg 90% 45%) inset,
+    0 0.05em 0.05em hsl(197deg 90% 45%) inset,
+    0.05em 0 0.1em hsl(0deg 0% 100%) inset,
+    -0.05em 0 0.1em hsl(0deg 0% 100%) inset,
+    0 0.1em 0.4em hsl(193deg 90% 60%) inset;
+  cursor: pointer;
+  position: absolute;
+  width: 2.7em;
+  height: 2.7em;
+  transform-style: preserve-3d;
+  transition-property: box-shadow, transform, width, height;
+  transition-timing-function: ease-in-out, ease-in-out,
+    cubic-bezier(0.5, 0.15, 0.25, 1.75), cubic-bezier(0.5, 0.15, 0.25, 1.75);
+  will-change: transform;
+  -webkit-appearance: none;
+  appearance: none;
+  z-index: 0;
+  border-radius: 50%;
+  transition-duration: 0.2s;
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+  border: 0;
+  outline: 0;
+`;
+const BubbleA = styled.div`
+  background: radial-gradient(
+    100% 100% at center,
+    hsla(0, 0%, 0%, 0) 35%,
+    hsla(0, 0%, 0%, 0.2) 48%,
+    hsla(0, 0%, 0%, 0) 50%
+  );
+  filter: blur(4px);
+  top: 0.6em;
+  left: 0.6em;
+  width: 100%;
+  height: 100%;
+  transform: translate3d(0, 0, -1px);
+  z-index: -2;
+  content: "";
+  display: block;
+  position: absolute;
+  transition-timing-function: cubic-bezier(0.5, 0.15, 0.25, 1.75);
+  border-radius: 50%;
+  transition-duration: 0.2s;
+`;
+const FishImg = styled.img`
+  width: 2em;
+  height: 1.5em;
+  position: fixed;
+  top: 0.7em;
+  left: 0.5em;
+`;
 
- `
-const BubbleA =styled.div`
-    background: radial-gradient(100% 100% at center,hsla(0,0%,0%,0) 35%,hsla(0,0%,0%,0.2) 48%,hsla(0,0%,0%,0) 50%);
-    filter: blur(4px);
-    top: 0.6em;
-    left: 0.6em;
-    width: 100%;
-    height: 100%;
-    transform: translate3d(0,0,-1px);
-    z-index: -2;
-    content: "";
-    display: block;
-    position: absolute;
-    transition-timing-function: cubic-bezier(0.5,0.15,0.25,1.75);
-    border-radius: 50%;
-    transition-duration: 0.2s;
- `  
- const FishImg = styled.img`
-  width:2em;
-  height:1.5em;
- position:fixed;
- top: 0.7em;
- left: 0.5em;
- `
+// const CrabContainer = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   position: relative;
+//   border: 2px solid black;
+// `;
+
+const Crab = styled.div`
+  width: 100%;
+  height: 100%;
+  background: url(${crab});
+  background-size: 100% 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border: 1px solid black;
+`;

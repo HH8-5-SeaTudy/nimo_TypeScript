@@ -8,6 +8,7 @@ const Grid = ({
   padding,
 
   display,
+  flexDirection,
   alignItems,
   justifyContent,
 
@@ -46,6 +47,7 @@ const Grid = ({
       borderRadius={borderRadius}
       border={border}
       display={display}
+      flexDirection={flexDirection}
       alignItems={alignItems}
       justifyContent={justifyContent}
       background={background}
@@ -67,6 +69,7 @@ const GridContainer = styled.div<Partial<IGridProps>>`
   padding: ${({ padding }) => padding};
 
   display: ${({ display }) => display};
+  flex-direction: ${({ flexDirection }) => flexDirection};
   align-items: ${({ alignItems }) => alignItems};
   justify-content: ${({ justifyContent }) => justifyContent};
 

@@ -2,12 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import blueborderPX from "../assets/background/blueborderpx.png";
+import whale from "../assets/wave/whale.png";
 // import backgroundImage from "../assets/background/introbackground.jpeg";
 export default function Intro() {
   const navigate = useNavigate();
   const [button, setButton] = useState(false);
   const [info, setInfo] = useState(false);
   const [info2, setInfo2] = useState(false);
+  const [active, setActive] = useState(false);
+
+  const onClickStartButton = () => {
+    setActive(true);
+  };
+
+  console.log(button);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -18,7 +26,6 @@ export default function Intro() {
 
   const handleScroll = () => {
     // 스크롤이 Top에서 50px 이상 내려오면 true값을 useState에 넣어줌
-    console.log(window.scrollY);
     if (window.scrollY >= 400) {
       setInfo(true);
     }
@@ -48,6 +55,10 @@ export default function Intro() {
                 marginTop: "-20%",
               }}
             >
+              <WhaleContainer style={{ zIndex: "9999" }}>
+                <button onClick={onClickStartButton}>클릭해주세여</button>
+                <Whale active={active}></Whale>
+              </WhaleContainer>
               <TitleContainer>
                 <SetudyWrapper className="xs">
                   <span>
@@ -101,66 +112,6 @@ export default function Intro() {
                 </div>
               </MouseScrollAnimation>
               {/* 다음페이지 이동 버튼 */}
-
-              <SeatudySticky scroll={button}>
-                <ButtonWrapper>
-                  <ButtonWrapperEyeContainer>
-                    <ButtonWrapperEye>
-                      <span />
-                    </ButtonWrapperEye>
-                    <ButtonWrapperEye>
-                      <span />
-                    </ButtonWrapperEye>
-                  </ButtonWrapperEyeContainer>
-                  <ButtonWrapperTitleContainer>
-                    <span>게임 속으로...</span>
-                    <ButtonContainer onClick={() => navigate("/")}>
-                      <span>입장하기</span>
-                      <div className="liquid"></div>
-                    </ButtonContainer>
-                  </ButtonWrapperTitleContainer>
-                </ButtonWrapper>
-                {/* <SeatudyContainer>
-                  <SetudyWrapper scroll={bubble}>
-                    <span>
-                      <SeatudyContainerBubble />S
-                    </span>
-                  </SetudyWrapper>
-                  <span>
-                    <SetudyWrapper scroll={bubble1}>
-                      <SeatudyContainerBubble />E
-                    </SetudyWrapper>
-                  </span>
-                  <span>
-                    <SetudyWrapper scroll={bubble2}>
-                      <SeatudyContainerBubble />A
-                    </SetudyWrapper>
-                  </span>
-                  <span>
-                    <SetudyWrapper scroll={bubble3}>
-                      <SeatudyContainerBubble />T
-                    </SetudyWrapper>
-                  </span>
-                  <span>
-                    <SetudyWrapper scroll={bubble4}>
-                      <SeatudyContainerBubble />U
-                    </SetudyWrapper>
-                  </span>
-                  <span>
-                    <SetudyWrapper scroll={bubble5}>
-                      <SeatudyContainerBubble />D
-                    </SetudyWrapper>
-                  </span>
-                  <span>
-                    <SetudyWrapper scroll={bubble6}>
-                      <SeatudyContainerBubble />Y
-                    </SetudyWrapper>
-                  </span>
-                </SeatudyContainer> */}
-                {/* <FishContainer>
-                  <HeadFish />
-                </FishContainer> */}
-              </SeatudySticky>
             </div>
             <div className="background-wrap">
               <div className="bubble x1" />
@@ -184,9 +135,27 @@ interface IboxshadowProps {
   info: boolean;
 }
 
+interface ProfileLayerProps {
+  active: boolean;
+}
+
 interface IscrollTextProps {
   scroll: boolean;
 }
+
+const buttonAnimation = keyframes`
+to{
+   transform: perspective(0px) translateZ(0px);
+   /* width:30vw;
+   height:20vh; */
+}
+from{
+    transform: perspective(500px) translateZ(60px);
+    width:50vw;
+    height:60vh;
+    background-color:black;
+}
+`;
 
 const animateBubble = keyframes`
     0% {
@@ -276,6 +245,31 @@ const WaveContainer = styled.div`
   height: 100%;
 `;
 
+const WhaleContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 2px solid red;
+  perspective: 600px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  translate: (-50%, -50%);
+`;
+
+const Whale = styled.div<ProfileLayerProps>`
+  border: 1px solid red;
+  width: 10vw;
+  height: 20vh;
+  animation-duration: 20s;
+  animation-name: ${(props) => (props.active ? buttonAnimation : "")};
+  background: url(${whale});
+  animation-fill-mode: forwards;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+
 const WaveWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -288,7 +282,6 @@ const WaveWrapper = styled.div`
     position: absolute;
     z-index: 2;
     overflow: hidden;
-
     .x1 {
       animation: ${animateBubble} 25s linear infinite,
         ${sideWays} 2s ease-in-out infinite alternate;
@@ -296,7 +289,6 @@ const WaveWrapper = styled.div`
       top: 45%;
       transform: scale(0.6);
     }
-
     .x2 {
       animation: ${animateBubble} 20s linear infinite,
         ${sideWays} 4s ease-in-out infinite alternate;
@@ -304,7 +296,6 @@ const WaveWrapper = styled.div`
       top: 80%;
       transform: scale(0.4);
     }
-
     .x3 {
       animation: ${animateBubble} 28s linear infinite,
         ${sideWays} 2s ease-in-out infinite alternate;
@@ -312,7 +303,6 @@ const WaveWrapper = styled.div`
       top: 40%;
       transform: scale(0.7);
     }
-
     .x4 {
       animation: ${animateBubble} 22s linear infinite,
         ${sideWays} 3s ease-in-out infinite alternate;
@@ -320,7 +310,6 @@ const WaveWrapper = styled.div`
       top: 54%;
       transform: scale(0.3);
     }
-
     .x5 {
       animation: ${animateBubble} 29s linear infinite,
         ${sideWays} 4s ease-in-out infinite alternate;
@@ -328,7 +317,6 @@ const WaveWrapper = styled.div`
       top: 50%;
       transform: scale(0.5);
     }
-
     .x6 {
       animation: ${animateBubble} 21s linear infinite,
         ${sideWays} 2s ease-in-out infinite alternate;
@@ -336,7 +324,6 @@ const WaveWrapper = styled.div`
       top: 60%;
       transform: scale(0.8);
     }
-
     .x7 {
       animation: ${animateBubble} 20s linear infinite,
         ${sideWays} 2s ease-in-out infinite alternate;
@@ -344,7 +331,6 @@ const WaveWrapper = styled.div`
       top: 70%;
       transform: scale(0.4);
     }
-
     .x8 {
       animation: ${animateBubble} 22s linear infinite,
         ${sideWays} 3s ease-in-out infinite alternate;
@@ -352,7 +338,6 @@ const WaveWrapper = styled.div`
       top: 56%;
       transform: scale(0.3);
     }
-
     .x9 {
       animation: ${animateBubble} 29s linear infinite,
         ${sideWays} 4s ease-in-out infinite alternate;
@@ -360,7 +345,6 @@ const WaveWrapper = styled.div`
       top: 50%;
       transform: scale(0.6);
     }
-
     .x10 {
       animation: ${animateBubble} 26s linear infinite,
         ${sideWays} 2s ease-in-out infinite alternate;
@@ -368,7 +352,6 @@ const WaveWrapper = styled.div`
       top: 80%;
       transform: scale(0.3);
     }
-
     .bubble {
       -webkit-border-radius: 50%;
       -moz-border-radius: 50%;
@@ -390,7 +373,6 @@ const WaveWrapper = styled.div`
         font-size: 4em;
       }
     }
-
     .bubble:after {
       background: -webkit-gradient(
         radial,
@@ -407,17 +389,13 @@ const WaveWrapper = styled.div`
         transparent 0%,
         rgba(255, 255, 255, 0) 70%
       );
-
       background: radial-gradient(
         ellipse at center,
         transparent 0%,
         rgba(255, 255, 255, 0) 90%
       );
-
       border-radius: 50%;
-
       box-shadow: inset 0 -20px -30px rgba(26, 58, 94, 0.322);
-
       content: "";
       height: 180px;
       left: 10px;
@@ -468,7 +446,6 @@ const TitleContainer = styled.div`
   .xy {
     animation-delay: 3.5s;
   }
-
   span {
     cursor: pointer;
     position: relative;
@@ -573,7 +550,6 @@ const MouseScrollAnimation = styled.div`
   bottom: 0;
   left: 0;
   margin: auto;
-
   width: 34px;
   height: 55px;
   .mousey {
@@ -634,7 +610,7 @@ const ButtonWrapperEye = styled.section`
   border-radius: 9999px;
   width: 50px;
   height: 50px;
-    ${({ theme }) => theme.common.flexCenter};
+  ${({ theme }) => theme.common.flexCenter};
   span {
     width: 10px;
     height: 10px;
