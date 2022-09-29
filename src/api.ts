@@ -190,3 +190,13 @@ export type IRank = {
   weekStudy:string,
   fish:string
 };
+// * Position IInitialState
+export type IPositionInitialState = {
+  position: IPosition[];
+};
+// * Position Info
+export type IPosition = {
+  fishNum: number,
+  left:number,
+  top: number,
+};

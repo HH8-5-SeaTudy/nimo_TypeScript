@@ -114,6 +114,7 @@ const Layer = styled.div`
   justify-content:space-between;
 `
 const TopLayer =styled.div`
+border: solid red 1px;
 height: 70%;
 margin-bottom:10px;
 display:flex;
@@ -127,7 +128,7 @@ border-radius: 8px;
 box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);`
 
 const RankSide =styled.div`
-
+  border: solid red 2px;
   width: 25%;
   margin-right: 20px;
   display: flex;

@@ -3,18 +3,21 @@ import styled, { keyframes } from 'styled-components';
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import fishImages from "../fish/FishImages";
 import { __getUserProfile } from '../../redux/modules/userData';
-
-
-
+import fishPosition, { __getFishPosition, __postFishPosition } from '../../redux/modules/fishPosition';
 
 
 const FishIventory = () => {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
+  const positionData = useAppSelector((state) => state.fishPosition.position);
+
+  console.log('스테이트',positionData.find((x)=>x.fishNum === 0 ))
+
 
   useEffect(() => {
     dispatch(__getUserProfile());
+    dispatch(__getFishPosition());
   }, []);
 
 const containerRef = useRef<HTMLDivElement>(null); // 드래그 할 영역 네모 박스 Ref
@@ -29,7 +32,6 @@ const [dSize, setDSize] = useState(Array.from({length : 25}, (v,i)=> {
 
 
 
-
 const dragStartHandler = (e: any) => {
   const blankCanvas: any = document.createElement('canvas')
   blankCanvas.classList.add("canvas");
@@ -37,7 +39,6 @@ const dragStartHandler = (e: any) => {
   document.body?.appendChild(blankCanvas); 
   const img = new Image();
   e.dataTransfer.setDragImage(img, 0, 0);
-  
   e.dataTransfer.effectAllowed = "move"; // 크롬의그린 +아이콘 제거
   
   const originPosTemp = { ...originPos };
@@ -97,7 +98,15 @@ const dragEndHandler = (e: any,i:number) => {
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
     setDTest(tempData)
 
-
+    dispatch(__postFishPosition(
+      {
+        fishNum : i,
+        left : e.target.offsetLeft + e.clientX - clientPos.x,
+        top : e.target.offsetTop + e.clientY - clientPos.y
+      }
+    ))
+    dispatch(__getFishPosition())
+    
      // 캔버스 제거
     const canvases = document.getElementsByClassName("canvas");
     for (let i = 0; i < canvases.length; i++) {
@@ -114,7 +123,7 @@ const dragEndHandler = (e: any,i:number) => {
     <InvenLayout ref={containerRef}>  
     {fishImages.map((data:any, i:number)=>{
     return (
-    <Label>
+    <Label key={i}>
      <FishImg
         draggable={userPoint >= data.point ? true : false}
         onDragStart={(e) => dragStartHandler(e)}
@@ -124,7 +133,12 @@ const dragEndHandler = (e: any,i:number) => {
           dragEndHandler(e,i)
         }}
         style={{ 
-          left: dTest[i][0]===0 ? '0.5em' : dTest[i][0] , top: dTest[i][1] === 0 ? '0.85em' : dTest[i][1] ,
+          left: dTest[i][0]===0 ? '0.5em' : dTest[i][0] , 
+          top:  dTest[i][1] === 0 ? '0.85em' : dTest[i][1] ,
+          // left: dTest[i][0]===0 ? '0.5em' : dTest[i][0] , 
+          // top:  dTest[i][1] === 0 ? '0.85em' : dTest[i][1] ,
+
+          
           width: dSize[i][0] === 0 ? '' : dSize[i][0] , height: dSize[i][1] === 0 ? '' : dSize[i][1],
         }}
         src={data.image} alt="" />  
@@ -229,7 +243,7 @@ const BubbleA =styled.div`
   width:2em;
   height:1.5em;
   position:fixed;
-  top: 0.7em;
-  left: 0.5em;
+  /* top: 0.7em;
+  left: 0.5em; */
   z-index:1;
  `
