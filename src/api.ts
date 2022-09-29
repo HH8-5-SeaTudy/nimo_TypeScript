@@ -185,9 +185,21 @@ export type IRankInitialState = {
 };
 // * Rank Info
 export type IRank = {
-  nickname: string;
-  email: string;
-  dayStudy: string;
-  weekStudy: string;
-  fish: string;
+
+  nickname: string,
+  email: string,
+  dayStudy:string,
+  weekStudy:string,
+  fish:string
 };
+// * Position IInitialState
+export type IPositionInitialState = {
+  position: IPosition[];
+};
+// * Position Info
+export type IPosition = {
+  fishNum: number,
+  left:number,
+  top: number,
+};
+

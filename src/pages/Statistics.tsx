@@ -116,24 +116,27 @@ const Layer = styled.div`
   height: 100%;
   margin: auto;
   padding: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-const TopLayer = styled.div`
-  height: 70%;
-  margin-bottom: 10px;
-  display: flex;
-`;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+`
+const TopLayer =styled.div`
+border: solid red 1px;
+height: 70%;
+margin-bottom:10px;
+display:flex;
+`
 
-const BottomLayer = styled.div`
-  height: 30%;
-  background-color: #0096ff;
-  border-radius: 8px;
-  box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
-`;
+const BottomLayer =styled.div`
 
-const RankSide = styled.div`
+height: 30%;
+background-color:#0096FF;
+border-radius: 8px;
+box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);`
+
+const RankSide =styled.div`
+  border: solid red 2px;
+
   width: 25%;
   margin-right: 20px;
   display: flex;
