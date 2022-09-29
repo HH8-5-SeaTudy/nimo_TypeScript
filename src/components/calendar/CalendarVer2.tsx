@@ -35,6 +35,8 @@ const CalendarVer2 = () => {
   // const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
+  const DdayRed = DdayData.map((d)=>d.targetDay)
+  console.log(DdayRed)
   //
   const inputRef = useRef<any>([]);
   const [categoryInputShow, setCategoryInputShow] = useState(false);
@@ -52,7 +54,8 @@ const CalendarVer2 = () => {
   const [todo, setTodo] = useState(['','','','']);
   const [ddayTitle, setDdayTitle] = useState("");
   const [selectDdayID, setSelectDdayID] = useState<number>();
-  const [DdayEditTitle, setDdayEditTitle] = useState("");
+  const [DdayEditTitle, setDdayEditTitle] = useState(""); 
+
 
   //Calendar
   //오늘 날짜 저장
@@ -91,6 +94,7 @@ const CalendarVer2 = () => {
     }
     setCategory("");
   };
+
 
   const onChangeCategoryInput = (e: any) => {
     setCategory(e.target.value);
@@ -151,6 +155,7 @@ const CalendarVer2 = () => {
     );
   };
 
+
   //useEffect
   useEffect(() => {
     // dispatch(updateDate(today.format("YYYY-MM-DD")));//컴포넌트분리시사용
@@ -167,7 +172,6 @@ const CalendarVer2 = () => {
     dispatch(__getDday(DD));
   }, [DD]);
 
-  console.log(selectDdayData);
 
   const calendarArr = () => {
     let result: any = [];
@@ -214,7 +218,7 @@ const CalendarVer2 = () => {
                             cy="100"
                             r="48"
                             fill="transparent"
-                            stroke="#ff9100"
+                            stroke={DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#ff9100"}
                             strokeWidth="90"
                             strokeDasharray={`${
                               (diameter *
@@ -262,7 +266,7 @@ const CalendarVer2 = () => {
                           />
                         </svg>
                       )}
-                    <P style={{ backgroundColor: "#ff9100" }}>
+                    <P style={{ backgroundColor: DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#ff9100"}}>
                       {days.format("D")}
                     </P>
                   </CalendarCel>
@@ -297,7 +301,7 @@ const CalendarVer2 = () => {
                             cy="100"
                             r="48"
                             fill="transparent"
-                            stroke="#00D7FF"
+                            stroke={DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#00D7FF"}
                             strokeWidth="90"
                             strokeDasharray={`${
                               (diameter *
@@ -345,7 +349,7 @@ const CalendarVer2 = () => {
                           />
                         </svg>
                       )}
-                    <P style={{ backgroundColor: "#00D7FF" }}>
+                    <P style={{ backgroundColor: DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#00D7FF" }}>
                       {days.format("D")}
                     </P>
                   </CalendarCel>
@@ -380,7 +384,7 @@ const CalendarVer2 = () => {
                             cy="100"
                             r="48"
                             fill="transparent"
-                            stroke="#0E75F8"
+                            stroke={DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#1175f8"}
                             strokeWidth="90"
                             strokeDasharray={`${
                               (diameter *
@@ -429,7 +433,8 @@ const CalendarVer2 = () => {
                         </svg>
                       )}
                     <Cel></Cel>
-                    <P>{days.format("D")}</P>
+                    <P style={{ backgroundColor: DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#1175f8" }}>
+                      {days.format("D")}</P>
                   </CalendarCel>
                 );
               }
@@ -441,7 +446,6 @@ const CalendarVer2 = () => {
   };
   return (
     <>
-      {/* <SideBarVer2></SideBarVer2> */}
       <Layer>
         <Wrapper>
           <Calendar>
@@ -615,7 +619,7 @@ const CalendarVer2 = () => {
                   ></DayBtn>
                   <Today>{DD.slice(-2)}</Today>
                 </TopBox>
-                <LeftSideDay>
+                <LeftSideDay >
                   {/* 디데이 */}
                   <DdayList>
                     {DdayData &&
@@ -641,7 +645,7 @@ const CalendarVer2 = () => {
                   {dateTodos &&
                     dateTodos.map((list, index) => {
                       return (
-                        <TodoListBox key={list.categoryId}>
+                        <TodoListBox key={list.categoryId} >
                           <CategoryBox>
                             <CategoryTitle
                               onSubmit={(e) => {
@@ -929,10 +933,19 @@ const Today = styled.div`
 
 const LeftSideDay = styled.div`
   font-size: 18px;
+  padding-right:3px;
   overflow-y: scroll;
+  overflow-x: hidden;
   ::-webkit-scrollbar {
-    display: none;
+    background-color:transparent;
+    width: 5px;
   }
+  ::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: white;
+  height:5px;
+
+}
   max-height: 400px;
 `;
 const DdayList = styled.div`
@@ -940,6 +953,7 @@ const DdayList = styled.div`
   justify-content: end;
   flex-wrap: wrap;
   font-weight: 500;
+  overflow: hidden;
 `;
 const Dday = styled.div`
   display: flex;

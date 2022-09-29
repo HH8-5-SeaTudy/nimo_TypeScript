@@ -1,11 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import scuba from "../assets/pixel/scuba.png";
-import cloud1 from "../assets/pixel/cloud1.png";
-import cloud2 from "../assets/pixel/cloud2.png";
-import cloud3 from "../assets/pixel/cloud3.png";
-import background from "../assets/pixel/loginBackground.jpg";
-import wave from "../assets/pixel/wave.png";
+import background from "../assets/background/loginBack.png";
 
 import Google from "../components/social/Google";
 import Kakao from "../components/social/Kakao";
@@ -16,9 +11,75 @@ export default function Login() {
   return (
     <Layer>
       <Grid height="100%" display="flex">
-        <Left></Left>
+        <Left>
+          <HowToContainer>
+            <HowTo>
+              <TitleContainer>
+                <SetudyWrapper>
+                  <span>
+                    <SeatudyContainerBubble />H
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper>
+                  <span>
+                    <SeatudyContainerBubble />O
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper>
+                  <span style={{ marginRight: "30px" }}>
+                    <SeatudyContainerBubble />W
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper>
+                  <span>
+                    <SeatudyContainerBubble />T
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper>
+                  <span style={{ marginRight: "30px" }}>
+                    <SeatudyContainerBubble />O
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper>
+                  <span>
+                    <SeatudyContainerBubble />U
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper>
+                  <span>
+                    <SeatudyContainerBubble />S
+                  </span>
+                </SetudyWrapper>
+                <SetudyWrapper>
+                  <span>
+                    <SeatudyContainerBubble />E
+                  </span>
+                </SetudyWrapper>
+              </TitleContainer>
+              <HowToTitle>같이 공부하고 물고기도 모아봐요!!</HowToTitle>
+              <Grid
+                display="flex"
+                flexDirection="column"
+                alignItems="flex-start"
+                justifyContent="flex-start"
+                width="100%"
+              >
+                <HowToSubTitle>
+                  1. 체크인 시간에 따라 물고기가 해제됩니다.
+                </HowToSubTitle>
+                <HowToSubTitle>
+                  2. 일간 주간 랭킹 확인이 가능합니다.
+                </HowToSubTitle>
+                <HowToSubTitle>
+                  3. 투두리스트를 작성해서 스케줄을 확인해요.
+                </HowToSubTitle>
+                <HowToSubTitle>4. 물고기를 모아서 배경을 꾸며요.</HowToSubTitle>
+              </Grid>
+            </HowTo>
+          </HowToContainer>
+        </Left>
         <Right>
-          <LoginBtn>
+          <LoginContainer>
             <SocialLoginTitle>SOCIAL LOGIN</SocialLoginTitle>
             <Grid padding="5%">
               <Kakao />
@@ -29,7 +90,7 @@ export default function Login() {
             <Grid padding="5%">
               <Google />
             </Grid>
-          </LoginBtn>
+          </LoginContainer>
         </Right>
       </Grid>
     </Layer>
@@ -46,82 +107,61 @@ const Layer = styled.section`
   background-repeat: no-repeat;
 `;
 
-const CloudContainer = styled.div`
-  width: 100%;
-  height: 10vh;
-  display: flex;
-`;
-
-const Cloud1Img = styled.image`
-  width: 100%;
-  height: 100%;
-  background: url(${cloud1});
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-`;
-
-const Cloud2Img = styled.image`
-  width: 110%;
-  height: 110%;
-  background: url(${cloud2});
-  background-size: 110% 110%;
-  background-repeat: no-repeat;
-`;
-
-const Cloud3Img = styled.image`
-  width: 110%;
-  height: 110%;
-  background: url(${cloud3});
-  background-size: 110% 110%;
-  background-repeat: no-repeat;
-`;
-
 const Left = styled.div`
   width: 50%;
   height: 100%;
+  padding: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const HowToContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const HowTo = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding: 2%;
+`;
+
+const HowToTitle = styled.span`
+  font-size: 2.5em;
+  color: #ffffffa2;
+`;
+
+const HowToSubTitle = styled.span`
+  font-size: 1.6em;
+  margin-top: 5%;
+  color: #ffffffa2;
 `;
 
 const Right = styled.div`
   width: 50%;
   height: 100%;
+  padding: 7%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
-  background-color: rgba;
-`;
-const TitleBox = styled.div`
-  h1 {
-    font-size: 80px;
-    text-align: center;
-  }
-`;
-const ScubaBox = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
 `;
 
-const ScubaDiving = styled.image`
+const LoginContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-image: url(${scuba});
-  background-size: 100% 100%;
-  border: none;
-  outline: none;
-  position: absolute;
-  right: -20%;
-  bottom: 0;
-`;
-
-const LoginBtn = styled.div`
-  /* height: 100%; */
-  padding: 15%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 4px solid red;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding: 2%;
 `;
 
 const SocialLoginTitle = styled.span`
@@ -131,19 +171,62 @@ const SocialLoginTitle = styled.span`
   color: white;
 `;
 
-const WaveContainer = styled.div`
+const TitleContainer = styled.div`
   width: 100%;
-  height: 100%;
+  ${({ theme }) => theme.common.flexCenter};
   position: relative;
-  border: 1px solid black;
+  span {
+    cursor: pointer;
+    position: relative;
+    filter: blur(2px);
+    text-align: center;
+    font-size: 8em;
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2px white;
+    letter-spacing: 10px;
+    &:hover {
+      filter: blur(0px);
+      transition: 0.5s;
+      color: white;
+      background-color: white;
+      i::before {
+        content: "";
+        position: absolute;
+        top: 35px;
+        width: 2px;
+        height: 8px;
+        left: 5px;
+        background-color: white;
+        box-shadow: 0px 93px #fff, 95px 93px #fff, 95px 0px #fff;
+      }
+      i::after {
+        content: "";
+        position: absolute;
+        top: 35px;
+        width: 8px;
+        height: 2px;
+        left: 5px;
+        background-color: white;
+        box-shadow: 0px 100px white, 89px 100px white, 89px 0 white;
+      }
+    }
+  }
 `;
 
-const Wave = styled.image`
-  width: 100%;
-  height: 100%;
+const SetudyWrapper = styled.div`
+  ${({ theme }) => theme.common.flexCenter};
+`;
+
+const SeatudyContainerBubble = styled.i`
   position: absolute;
-  background-image: url(${wave});
-  background-repeat: no-repeat;
-  background-size: 120% 120%;
-  border: 1px solid black;
+  inset: 0;
+  background-color: transparent;
+  display: flex;
+  left: -20px;
+  top: 10px;
+  height: 80px;
+  width: 80px;
+  border-radius: 9999px;
 `;

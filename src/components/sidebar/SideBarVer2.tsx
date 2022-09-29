@@ -57,17 +57,17 @@ const isInsideDragArea = (e:any) => {
 } 
 
 const dragEndHandler = (e: any) => {
-  if (clientPos.x < originPos.x + 500) {
-     const posTemp = { ...pos };
-    posTemp["left"] = originPos.x;
-    posTemp["top"] = originPos.y;
-    setPos(posTemp);
-  } else{
+ 
+    //  const posTemp = { ...pos };
+    // posTemp["left"] = originPos.x;
+    // posTemp["top"] = originPos.y;
+    // setPos(posTemp);
+
     setSize({
-      with:400,
-      height: 400,
+      with:100,
+      height: 100,
     })
-  }
+  
    
      // 캔버스 제거
      const canvases = document.getElementsByClassName("canvas");
@@ -84,7 +84,7 @@ const dragEndHandler = (e: any) => {
     <> 
     <Layer ref={containerRef}>
       <SideBarBtn></SideBarBtn>
-      <TestBox ref={dragComponentRef}
+      <TestBox
       draggable
       onDragStart={(e) => dragStartHandler(e)}
       onDrag={(e) => dragHandler(e)}

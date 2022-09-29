@@ -18,9 +18,11 @@ const Statistics = () => {
   const dispatch = useAppDispatch();
   const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
   const nextPercent = (userPoint / nextFishPoint) * 100;
+  const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
   console.log("일랭", dayRankData);
   console.log("주랭", weekRankData);
+
   useEffect(() => {
     dispatch(__getUserProfile());
     dispatch(__getDayRank());
@@ -32,34 +34,38 @@ const Statistics = () => {
       <Layer>
         <TopLayer>
           <RankSide>
-            <RankTitle>주간랭킹</RankTitle>
+            <RankTitle>일간랭킹</RankTitle>
             <RankBox>
-              <Rank>
-                <RankNum>
-                  <Num></Num>
-                </RankNum>
-                <RankProfile></RankProfile>
-                <RankInfo>
-                  <NickName>이중표</NickName>
-                  <Point>10000P</Point>
-                </RankInfo>
-              </Rank>
+              {dayRankData?.map((list, index) => (
+                <Rank>
+                  <RankNum>
+                    <Num>{index + 1}</Num>
+                  </RankNum>
+                  <RankProfile src={list.fish}></RankProfile>
+                  <RankInfo>
+                    <NickName>{list.nickname}</NickName>
+                    <Point>{list.dayStudy}</Point>
+                  </RankInfo>
+                </Rank>
+              ))}
             </RankBox>
             <NextBtn>스크롤버튼</NextBtn>
           </RankSide>
           <RankSide>
             <RankTitle>월간랭킹</RankTitle>
             <RankBox>
-              <Rank>
-                <RankNum>
-                  <Num></Num>
-                </RankNum>
-                <RankProfile></RankProfile>
-                <RankInfo>
-                  <NickName>이중표</NickName>
-                  <Point>10000P</Point>
-                </RankInfo>
-              </Rank>
+              {weekRankData?.map((list, index) => (
+                <Rank>
+                  <RankNum>
+                    <Num>{index + 1}</Num>
+                  </RankNum>
+                  <RankProfile src={list.fish}></RankProfile>
+                  <RankInfo>
+                    <NickName>{list.nickname}</NickName>
+                    <Point>{list.weekStudy}</Point>
+                  </RankInfo>
+                </Rank>
+              ))}
             </RankBox>
             <NextBtn>스크롤버튼</NextBtn>
           </RankSide>
@@ -75,7 +81,10 @@ const Statistics = () => {
             </TopBox>
             <BottomBox>
               <NextFish>
-                <FishBowl nextPercent={nextPercent}></FishBowl>
+                <FishBowl
+                  nextPercent={nextPercent}
+                  nextFishImg={nextFishImg}
+                ></FishBowl>
               </NextFish>
               <Week>
                 <Weekly />
@@ -99,7 +108,7 @@ export default Statistics;
 const StatisticsLayer = styled.section`
   width: 100%;
   height: 90vh;
-  padding: 65px 0 0 0;
+  padding: 15px 0 0 0;
   background: #0096ff;
 `;
 const Layer = styled.div`
@@ -150,20 +159,36 @@ const TotalSide = styled.div`
   width: 70%;
 `;
 const RankBox = styled.div`
+  padding-left: 5px;
   border-left: solid #0096ff 3px;
   border-right: solid #0096ff 3px;
   height: 100%;
   box-shadow: inset 0 0 5px #b3e5fc, inset 0 0 25px #03e9f4,
     inset 0 0 50px #03e9f4, inset 0 0 100px #b3e5fc,
     inset 1px 1px 1px 0px rgba(255, 255, 255, 0.819);
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    background-color: transparent;
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #0096ff;
+    height: 5px;
+  }
 `;
 const Rank = styled.div`
+  border: solid 2px #0096ff;
   height: 50px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding: 10px;
+  background-color: #00d7fe;
+  box-shadow: 1px 1px 1px 1px rgba(1, 1, 1, 0.5);
+  margin-bottom: 4px;
 `;
 const RankNum = styled.div`
-  border: solid red 1px;
   width: 50px;
   display: flex;
   justify-content: center;
@@ -175,24 +200,26 @@ const Num = styled.div`
   margin: auto;
   border-radius: 50%;
 `;
-const RankProfile = styled.div`
-  border: solid red 1px;
-  width: 50px;
+const RankProfile = styled.img`
+  width: 60px;
+  height: 40px;
 `;
 const RankInfo = styled.div`
-  border: solid red 1px;
-  width: 200px;
+  width: 50%;
   display: flex;
+  flex-direction: column;
 `;
 const NickName = styled.div`
-  border: solid red 1px;
-  width: 50%;
+  width: 100%;
+  height: 50%;
   text-align: center;
+  line-height: 17px;
 `;
 const Point = styled.div`
-  border: solid red 1px;
-  width: 50%;
+  width: 100%;
+  height: 50%;
   text-align: center;
+  line-height: 17px;
 `;
 const TopBox = styled.div`
   height: 50%;

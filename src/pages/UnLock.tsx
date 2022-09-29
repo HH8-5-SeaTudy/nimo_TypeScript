@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import {
   __editUserFishProfile,
@@ -10,15 +10,18 @@ import fishImages from "../components/fish/FishImages";
 import Grid from "../elements/Grid";
 import { __getFishList } from "../redux/modules/fishList";
 import Input from "../elements/Input";
+import Button from "../elements/Button";
 
 const UnLock = () => {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userData.userProfile);
   const fishData = useAppSelector((state) => state.fishList.fishInfo);
   const bannerImage = fishImages.map((data) => data.image);
+  const bannerInfo = fishImages.map((data) => data.info);
   const fishImage = useAppSelector(
     (state) => state.fishList.fishInfo.fishImageUrl
   );
+  const [edit, setEdit] = useState(false);
   const [nickname, setNickname] = useState("");
   const [editNickname, setEditNickname] = useState(false);
   const [editFishName, setEditFishName] = useState(false);
@@ -46,6 +49,10 @@ const UnLock = () => {
 
   const onClickEditFishName = () => {
     setEditFishName(!editFishName);
+  };
+
+  const onClickEdit = () => {
+    setEdit(!edit);
   };
 
   const onChangeNickname = (e: any) => {
@@ -76,6 +83,14 @@ const UnLock = () => {
             width="100%"
             display="flex"
             alignItems="center"
+            justifyContent="flex-end"
+          >
+            <Edit onClick={onClickEdit}>EDIT</Edit>
+          </Grid>
+          <Grid
+            width="100%"
+            display="flex"
+            alignItems="center"
             justifyContent="center"
           >
             {editFishName ? (
@@ -86,9 +101,12 @@ const UnLock = () => {
               <UserProfileImage src={userData.defaultFish} alt="" />
             )}
           </Grid>
-          <button onClick={onClickEditFishName}>
-            {editFishName ? "완료" : "수정"}
-          </button>
+          {edit ? (
+            <EditFishButton onClick={onClickEditFishName}>
+              CHANGE
+            </EditFishButton>
+          ) : null}
+
           <UserWrapper>
             <UserTitle>닉네임:</UserTitle>
             <Grid
@@ -100,19 +118,25 @@ const UnLock = () => {
               <>
                 {editNickname ? (
                   <Input
-                    outline="none"
-                    padding="10px"
-                    type="text"
                     onChange={onChangeNickname}
+                    transition="width .2s .3s , height .3s"
+                    width={editNickname ? "140px" : "0px"}
+                    height={editNickname ? "25px" : "0px"}
+                    placeholder="닉네임"
+                    fontSize="20px"
+                    border="none"
+                    outline="none"
                   />
                 ) : (
                   <UserProfileTitle>{userData.nickname}</UserProfileTitle>
                 )}
               </>
             </Grid>
-            <button onClick={onClickEditNickname}>
-              {editNickname ? "완료" : "수정"}
-            </button>
+            {edit ? (
+              <EditNicknamButton onClick={onClickEditNickname}>
+                CHANGE
+              </EditNicknamButton>
+            ) : null}
           </UserWrapper>
           <UserWrapper>
             <UserTitle>이메일:</UserTitle>
@@ -150,20 +174,6 @@ const UnLock = () => {
             </Grid>
           </UserWrapper>
         </UserInfoContainer>
-
-        {/* <FishSliderBorder>
-          <BorderTitleContainer>
-            <BorderTitleWrapper>
-              <span>S</span>
-              <span>e</span>
-              <span>a</span>
-              <span>T</span>
-              <span>u</span>
-              <span>d</span>
-              <span>y</span>
-            </BorderTitleWrapper>
-          </BorderTitleContainer>
-        </FishSliderBorder> */}
 
         <FishSliderSecondBorder>
           <FishContainer>
@@ -206,6 +216,7 @@ const UnLock = () => {
                         <BigFishName>황금니모</BigFishName>
                       </Grid>
                       <BigFish src={bannerImage[0]} alt="" />
+                      <BigFishInfo>{bannerInfo[0]}</BigFishInfo>
                     </BigFishContainer>
                   </>
                 )}
@@ -235,18 +246,13 @@ const UnLock = () => {
                                   }}
                                 >
                                   <FishNumber>Lv.{index + 1}</FishNumber>
-                                  <Grid padding="2%">
+                                  <Grid padding="2% 0">
                                     <FishImage src={data.image} alt="" />
                                   </Grid>
                                   <Grid
                                     display="flex"
-                                    justifyContent="space-between"
-                                    width="40%"
-                                    onClick={() => {
-                                      dispatch(
-                                        __editUserFishProfile(data.fishName)
-                                      );
-                                    }}
+                                    justifyContent="space-around"
+                                    width="60%"
                                   >
                                     <FishName>{data.fishName}</FishName>
                                     <RemainingPoint>{0}</RemainingPoint>
@@ -257,18 +263,13 @@ const UnLock = () => {
                               <>
                                 <FishImageNumberContainer>
                                   <FishNumber>Lv.{index + 1}</FishNumber>
-                                  <Grid padding="2%">
+                                  <Grid padding="2% 0">
                                     <FishImage src={data.image} alt="" />
                                   </Grid>
                                   <Grid
                                     display="flex"
-                                    justifyContent="space-between"
-                                    width="40%"
-                                    onClick={() => {
-                                      dispatch(
-                                        __editUserFishProfile(data.fishName)
-                                      );
-                                    }}
+                                    justifyContent="space-around"
+                                    width="60%"
                                   >
                                     <FishName>{data.fishName}</FishName>
                                     <RemainingPoint>{0}</RemainingPoint>
@@ -286,13 +287,8 @@ const UnLock = () => {
                               </Grid>
                               <Grid
                                 display="flex"
-                                justifyContent="space-between"
-                                width="40%"
-                                onClick={() => {
-                                  dispatch(
-                                    __editUserFishProfile(data.fishName)
-                                  );
-                                }}
+                                justifyContent="space-around"
+                                width="60%"
                               >
                                 <FishName>{data.fishName}</FishName>
                                 <RemainingPoint>
@@ -329,16 +325,13 @@ const UnLock = () => {
                         </UnLockContainer>
                         <FishImageNumberContainer>
                           <FishNumber>Lv.{index + 1}</FishNumber>
-                          <Grid padding="2%">
+                          <Grid padding="2% 0">
                             <FishImage src={data.image} alt="" />
                           </Grid>
                           <Grid
                             display="flex"
-                            justifyContent="space-between"
-                            width="40%"
-                            onClick={() => {
-                              dispatch(__editUserFishProfile(data.fishName));
-                            }}
+                            justifyContent="space-around"
+                            width="60%"
                           >
                             <FishName>{data.fishName}</FishName>
                             <RemainingPoint>
@@ -359,16 +352,59 @@ const UnLock = () => {
   );
 };
 
-const animeTextup = keyframes`
-   0% {
-    transform: translate(-30%, 0);
-  }
-  50% {
-    text-shadow: 0 25px 50px rgba(0, 0, 0, 0.75);
-  }
-  100% {
-    transform: translate(30%, 0);
-  }
+interface TodoInputShowProps {
+  todoInputShow: boolean;
+}
+
+const Edit = styled.button`
+  width: 90px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: none;
+  outline: none;
+  padding: 5%;
+  cursor: pointer;
+  font-family: "DungGeunMo";
+  font-size: 20px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
+  border: 1px solid black;
+`;
+
+const EditFishButton = styled.button`
+  width: 90px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: none;
+  outline: none;
+  padding: 5%;
+  cursor: pointer;
+  font-family: "DungGeunMo";
+  font-size: 20px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
+  border: 1px solid black;
+`;
+
+const EditNicknamButton = styled.button`
+  width: 70px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: none;
+  outline: none;
+  padding: 5%;
+  cursor: pointer;
+  font-family: "DungGeunMo";
+  font-size: 20px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
+  border: 1px solid black;
 `;
 
 const UnClockContainer = styled.div`
@@ -388,7 +424,7 @@ const FirstBorderContainer = styled.div`
   align-items: center;
   justify-content: center;
   /* position: absolute; */
-  background-color: #ff7500;
+  background-color: #ff7700b3;
 `;
 
 const UserInfoContainer = styled.div`
@@ -399,7 +435,6 @@ const UserInfoContainer = styled.div`
   align-items: center;
   flex: 1;
   padding: 3%;
-  border: 3px solid black;
 `;
 
 const UserWrapper = styled.div`
@@ -421,7 +456,7 @@ const UserLevel = styled.div`
 `;
 
 const UserTitle = styled.span`
-  width: 100px;
+  width: 120px;
   font-weight: bold;
   padding-left: 5px;
   font-size: ${({ theme }) => theme.fontSizes.lg};
@@ -458,12 +493,11 @@ const FishContainer = styled.div`
   flex-direction: column;
   background-color: white;
   background: linear-gradient(-65deg, #eee 50%, #fff 50%);
-  /* border-radius: 10px; */
 `;
 
 const FishIllustratedBookTitleContainer = styled.div`
   width: 100%;
-  height: 10%;
+  height: 12%;
   display: flex;
 `;
 
@@ -475,7 +509,8 @@ const FishIllustratedRightWrapper = styled.div`
   align-items: center;
   font-weight: bold;
   padding: 2% 0;
-  font-size: ${({ theme }) => theme.fontSizes.xxxl};
+  font-size: 2em;
+  margin-bottom: 2%;
 `;
 
 const FishWrapper = styled.div`
@@ -503,9 +538,7 @@ const BigFishContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* margin: 3%; */
   margin-bottom: 30%;
-  border: 2px solid white;
 `;
 
 const BigFishNum = styled.span`
@@ -702,7 +735,7 @@ const FishName = styled.span`
 const FishImage = styled.img`
   width: 25%;
   height: 80%;
-  margin-left: 15%;
+  margin-left: 35%;
 `;
 
 const FishBowlImage = styled.img`

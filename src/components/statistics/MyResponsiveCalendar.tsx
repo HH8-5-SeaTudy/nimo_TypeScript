@@ -1,36 +1,37 @@
 import { ResponsiveCalendar } from '@nivo/calendar'
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCookie } from '../social/Cookie';
 
-const data = [
-  {
-    "value": 12,
-    "day": "2022-06-16"
-  },
-  {
-    "value": 2,
-    "day": "2022-03-20"
-  },
-  {
-    "value": 20,
-    "day": "2022-12-21"
-  },
-  {
-    "value": 6,
-    "day": "2022-02-11"
-  },
-  {
-    "value": 13,
-    "day": "2022-10-23"
-  },
-  {
-    "value": 24,
-    "day": "2022-05-05"
-  },
-]
+// const data = [
+//   {
+//     "value": 12,
+//     "day": "2022-06-16"
+//   },
+//   {
+//     "value": 2,
+//     "day": "2022-03-20"
+//   },
+//   {
+//     "value": 20,
+//     "day": "2022-12-21"
+//   },
+//   {
+//     "value": 6,
+//     "day": "2022-02-11"
+//   },
+//   {
+//     "value": 13,
+//     "day": "2022-10-23"
+//   },
+//   {
+//     "value": 24,
+//     "day": "2022-05-05"
+//   }
+// ]
 
 const MyResponsiveCalendar = () => {
+  const [resData,setResData] = useState<any>([])
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const token: string = getCookie("token") as string;
   const today = new Date();
@@ -47,10 +48,14 @@ const MyResponsiveCalendar = () => {
       },
     })
     .then((res) => {
-      console.log('년도',res)
+      setResData(res.data.data)
     })
   };
   
+  const data = resData?.map((item:any)=> {
+    return {value: item.hour, day:item.date}
+  })
+
   useEffect(() => {
     yearStudyData();
   }, []);
