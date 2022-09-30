@@ -37,8 +37,8 @@ const Bowl = styled.div`
   transition: all 1s ease;
   box-shadow: 0 0 20px #028695;
   border: 5px solid #53ebfc;
-  width: 200px;
-  height: 200px;
+  width: 210px;
+  height: 210px;
   position: relative;
   border-radius: 50%;
   
@@ -46,8 +46,8 @@ const Bowl = styled.div`
 const BowlInner = styled.div`
   transition: all 1s ease;
   border: 5px solid white;
-  width: 190px;
-  height: 190px;
+  width: 200px;
+  height: 200px;
   position: absolute;
   overflow: hidden;
   z-index: 2;
