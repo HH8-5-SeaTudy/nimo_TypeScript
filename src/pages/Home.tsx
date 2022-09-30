@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
@@ -18,10 +18,10 @@ import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
 import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
 import Main from "./Main";
+import Server from "../components/serverButton/Server";
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   //Todo zone
   const date = useAppSelector((state) => state.updateDate.date);
@@ -57,13 +57,15 @@ const Home = () => {
     dispatch(__getCheckOutTimer());
   };
 
+  const aa = [1, 2, 3, 4, 5];
+  const ss = aa.reduce((a, b) => a + b);
+  console.log(ss);
+
   return (
     <Layer>
       {modalShow && <CalendarVer2 />}
-      <ChatButtonContainer>
-        <Main />
-      </ChatButtonContainer>
       <MainBox>
+        <Server />
         <ProfileContainer>
           <ProfileWrapper>
             <ImageContainer>
@@ -133,6 +135,7 @@ const Home = () => {
 export default Home;
 
 const ChatButtonContainer = styled.div`
+  border: solid red 1px;
   width: 10vw;
   height: 10vh;
 `;

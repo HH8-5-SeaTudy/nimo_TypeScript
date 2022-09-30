@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
@@ -6,7 +6,8 @@ import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { addUser, __getChatroom } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
 import styled from "styled-components";
-import Main from "./Main";
+import { __getUserProfile } from "../redux/modules/userData";
+import Grid from "../elements/Grid";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
@@ -22,6 +23,9 @@ function Chatting() {
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
   const chat = useAppSelector((state) => state.socket.chat);
+  const userNickname = useAppSelector(
+    (state) => state.userData.userProfile.nickname
+  );
 
   console.log(chat);
 
@@ -30,8 +34,9 @@ function Chatting() {
   };
 
   //렌더되면 소켓 연결실행
-  useLayoutEffect(() => {
+  useEffect(() => {
     onConneted();
+    dispatch(__getUserProfile());
     return () => {
       disConneted();
     };
@@ -41,6 +46,11 @@ function Chatting() {
     if (e.code === "Enter" && e.shiftKey === false) {
       sendMessage();
     }
+  };
+
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    sendMessage();
   };
 
   //연결&구독
@@ -115,11 +125,35 @@ function Chatting() {
           </Joystick>
           <Screen>
             {chat &&
-              chat.map((list: any, index: number) => (
-                <MessageListContainer key={index}>
-                  {list.message}
-                </MessageListContainer>
-              ))}
+              chat.map((list: any, index: number) => {
+                if (list.type === null) {
+                  <>{list.message}</>;
+                  if (list.sender === userNickname) {
+                    return (
+                      <MessageListContainer key={index}>
+                        <MySenderContainer>
+                          <Message>{list.message}</Message>
+                          <Sender>:{list.sender}</Sender>
+                        </MySenderContainer>
+                      </MessageListContainer>
+                    );
+                  }
+                  return (
+                    <MessageListContainer key={index}>
+                      <SenderContainer>
+                        <Sender>{list.sender}:</Sender>
+                        <Message>{list.message}</Message>
+                      </SenderContainer>
+                    </MessageListContainer>
+                  );
+                } else {
+                  <>
+                    <Grid width="100%" height="100%">
+                      asdasd
+                    </Grid>
+                  </>;
+                }
+              })}
           </Screen>
         </ScreenContainer>
         <ScreenContainerLeft></ScreenContainerLeft>
@@ -142,36 +176,11 @@ function Chatting() {
         <MessageForm>
           <textarea onKeyUp={handleEnterPress} ref={message} />
           <ButtonContainer>
-            <button onClick={handleEnterPress}>전송</button>
+            <button onClick={handleClick}>전송</button>
           </ButtonContainer>
         </MessageForm>
       </AcadeMachin>
     </>
-    // <ChatContainer>
-    //   <MessageWrapper>
-    //     <div>
-    //       {chat &&
-    //         chat.map((list: any, index: number) => (
-    //           <MessageListContainer key={index}>
-    //             {list.message}
-    //           </MessageListContainer>
-    //         ))}
-    //     </div>
-    //   </MessageWrapper>
-    //   <GameContainer>
-    //     <GameWrapper>
-    //       <div className="left-triangle"></div>
-    //       <button className="push flat"></button>
-    //       <button className="push skeuo"></button>
-    //     </GameWrapper>
-    //   </GameContainer>
-    //   <MessageForm>
-    //     <textarea onKeyUp={handleEnterPress} ref={message} />
-    //     <ButtonContainer>
-    //       <button onClick={handleEnterPress}>전송</button>
-    //     </ButtonContainer>
-    //   </MessageForm>
-    // </ChatContainer>
   );
 }
 
@@ -183,6 +192,8 @@ const AcadeMachin = styled.div`
   margin: 0 auto;
   perspective: 35em;
   display: block;
+  overflow: hidden;
+  background-color: #0095ffac;
 `;
 
 const Shadow = styled.div`
@@ -191,8 +202,8 @@ const Shadow = styled.div`
   position: absolute;
   top: 20%;
   left: 18%;
-  background: white;
-  box-shadow: 0 0 60px white;
+  background: #4b5b61;
+  box-shadow: 0 0 60px #4b5b61;
   z-index: -1;
 `;
 
@@ -256,7 +267,7 @@ const ScreenContainer = styled.div`
   height: 45%;
   width: 90%;
   position: absolute;
-  top: 5%;
+  top: 4%;
   left: 5%;
   background: #4b5b61;
   border: 5px solid #4c4c4c;
@@ -301,6 +312,7 @@ const Screen = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column-reverse;
+  padding: 30px;
   overflow-y: scroll;
   background: #313332;
   border-radius: 90px 93px 93px 93px/15px 15px 15px 15px;
@@ -341,16 +353,7 @@ const Joystick = styled.div`
   border: 5px solid #4c4c4c;
   z-index: 3;
 `;
-const JoystickShadow = styled.div`
-  height: 7%;
-  width: 4%;
-  background: #0d78a8;
-  position: absolute;
-  top: 89%;
-  left: 21%;
-  border-radius: 50%;
-  z-index: 3;
-`;
+
 const Stick = styled.div`
   height: 200%;
   width: 40%;
@@ -361,6 +364,7 @@ const Stick = styled.div`
   content: "";
   z-index: 1;
 `;
+
 const Stick2 = styled.div`
   height: 140%;
   width: 40%;
@@ -371,16 +375,19 @@ const Stick2 = styled.div`
   background: #4c4c4c;
   content: "";
 `;
+
 const Board = styled.div`
   height: 20%;
   width: 72%;
   position: absolute;
-  top: 55%;
-  z-index: 5;
+  top: 45%;
   left: 13.2%;
+  border: 2px solid black;
+  z-index: 0;
   background: #4b5b61;
-  transform: rotateX(70deg);
+  transform: rotateX(20deg);
 `;
+
 const BoardLeft = styled.div`
   height: 20%;
   width: 4%;
@@ -389,7 +396,7 @@ const BoardLeft = styled.div`
   left: 3.5%;
   border: 5px solid #4c4c4c;
   background: white;
-  transform: rotateX(10deg);
+  transform: rotateX(15deg);
   z-index: 2;
 `;
 const BoardRight = styled.div`
@@ -400,22 +407,25 @@ const BoardRight = styled.div`
   right: 3.5%;
   border: 5px solid #4c4c4c;
   background: white;
-  transform: rotateX(10deg);
+  transform: rotateX(15deg);
   z-index: 2;
 `;
 
 const BtnA = styled.div`
   background: #bfd3c1;
-  height: 55%;
-  width: 50%;
+  left: 40%;
+  height: 25%;
+  width: 10%;
   position: absolute;
-  top: 10%;
+  top: 40%;
   left: 30%;
   border-radius: 50%;
   border: 5px solid #4c4c4c;
+  left: 40%;
 `;
 const BtnB = styled.div`
   background: #68a691;
+  left: 40%;
   height: 25%;
   width: 10%;
   position: absolute;
@@ -423,6 +433,7 @@ const BtnB = styled.div`
   left: 55%;
   border-radius: 50%;
   border: 5px solid #4c4c4c;
+  left: 55%;
 `;
 const BtnC = styled.div`
   background: #07beb8;
@@ -449,7 +460,7 @@ const Bottom = styled.div`
 `;
 
 const BottomLeft = styled.div`
-  height: 116%;
+  height: 400%;
   width: 6%;
   position: absolute;
   background: white;
@@ -460,7 +471,7 @@ const BottomLeft = styled.div`
   top: -4%;
 `;
 const BottomRight = styled.div`
-  height: 116%;
+  height: 400%;
   width: 6%;
   position: absolute;
   background: white;
@@ -506,9 +517,7 @@ const MessageWrapper = styled.div`
   /* flex: 4; */
   padding: 0 10px;
   flex-direction: column-reverse;
-
   border: 1px solid yellow;
-
   div {
     width: 100%;
     height: 100%;
@@ -572,6 +581,40 @@ const MessageListContainer = styled.span`
   width: 100%;
 `;
 
+const EnterContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 5px solid white;
+  position: absolute;
+  z-index: 59;
+`;
+
+const MySenderContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const SenderContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const Sender = styled.span`
+  font-size: 1.2em;
+  margin-left: 10px;
+  margin-right: 10px;
+`;
+
+const Message = styled.span`
+  font-size: 1.2em;
+`;
+
 const ChatContainer = styled.section`
   width: 100%;
   height: 100%;
@@ -582,9 +625,12 @@ const ChatContainer = styled.section`
 
 const MessageForm = styled.form`
   display: flex;
-  width: 100%;
-  height: 40%;
-  border: 4px solid yellow;
+  padding: 10px;
+  width: 85%;
+  height: 28%;
+  position: absolute;
+  left: 7%;
+  bottom: 0%;
   resize: none;
   textarea {
     resize: none;

@@ -105,13 +105,12 @@ const FishIventory = () => {
     dispatch(
       __postFishPosition({
         fishNum: i,
-        left: e.target.offsetLeft + e.clientX - clientPos.x,
-        top: e.target.offsetTop + e.clientY - clientPos.y,
+        left: dTest[i][0],
+        top: dTest[i][1],
       })
     );
 
     // 캔버스 제거
-
     const canvases = document.getElementsByClassName("canvas");
     for (let i = 0; i < canvases.length; i++) {
       let canvas = canvases[i];
@@ -136,16 +135,10 @@ const FishIventory = () => {
                 dragEndHandler(e, i);
               }}
               style={{
-                left:
-                  positionData.find((x) => x.fishNum === i)?.left === 0
-                    ? "0.5em"
-                    : positionData.find((x) => x.fishNum === i)?.left,
-                top:
-                  positionData.find((x) => x.fishNum === i)?.top === 0
-                    ? "0.5em"
-                    : positionData.find((x) => x.fishNum === i)?.top,
-                // left: dTest[i][0]===0 ? '0.5em' : dTest[i][0] ,
-                // top:  dTest[i][1] === 0 ? '0.85em' : dTest[i][1] ,
+                // left: positionData.find((x)=>x.fishNum === i )?.left === 0  ? '0.5em' : positionData.find((x)=>x.fishNum === i )?.left,
+                // top: positionData.find((x)=>x.fishNum === i )?.top === 0  ? '0.5em' : positionData.find((x)=>x.fishNum === i )?.top,
+                left: dTest[i][0] === 0 ? "0.5em" : dTest[i][0],
+                top: dTest[i][1] === 0 ? "0.85em" : dTest[i][1],
 
                 width: dSize[i][0] === 0 ? "" : dSize[i][0],
                 height: dSize[i][1] === 0 ? "" : dSize[i][1],
@@ -177,7 +170,7 @@ const InvenLayout = styled.div`
   height: 3.4em;
   display: flex;
   justify-content: center;
-  bottom: 10%;
+  bottom: 0;
   z-index: 1;
   position: absolute;
 `;

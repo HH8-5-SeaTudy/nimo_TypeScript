@@ -156,7 +156,8 @@ const HeaderContainer = styled.div`
   height: 65px;
   padding: 0px 56px;
   height: 10vh;
-  background-color: #ff9100;
+
+  background: #ff9100;
 `;
 
 const HeaderLogoContainer = styled.div`
