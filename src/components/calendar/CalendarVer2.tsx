@@ -784,7 +784,6 @@ const MonthYear = styled.div`
 `;
 
 const Month = styled.div`
-
   width: 180px;
   display: flex;
   justify-content: space-between;
@@ -796,7 +795,6 @@ const TodayMon = styled.div`
   font-weight: 700;
 `;
 const YearBox = styled.div`
-
   display: flex;
   justify-content: space-between;
   text-align: center;
@@ -841,7 +839,6 @@ padding: 0 40px 0 40px;
 const ATtile = styled.div`
 background-color:#0096FF;
 color: black;
-
 width: 580px;
 display: flex;
 justify-content: center;
@@ -915,7 +912,6 @@ const DdayInput = styled.div`
 `;
 
 const DdayInputBtn = styled.div`
-  border: solid red 1px;
   margin-top: 5px;
   height: 50%;
   display: flex;
@@ -955,7 +951,6 @@ border : solid red 1px;
 `;
 
 const Calendar = styled.div`
-
   display: flex;
   justify-content: space-around;
   flex-direction: row;
@@ -963,7 +958,6 @@ const Calendar = styled.div`
 `;
 
 const CalendarLeft = styled.div`
-
   position: relative;
   width: 350px;
   padding: 20px;
@@ -988,7 +982,6 @@ const DayBtn = styled.div`
 `;
 
 const Today = styled.div`
-
   position: absolute;
   top: 20px;
   right: 20px;
@@ -1011,7 +1004,6 @@ const LeftSideDay = styled.div`
   border-radius: 8px;
   background-color: white;
   height:5px;
-
 }
   max-height: 400px;
 `;
@@ -1173,7 +1165,6 @@ const Todo = styled.div`
   color: black;
 `;
 const TodoBtn = styled.div`
-
   margin-left: 20px;
 `;
 
@@ -1195,7 +1186,6 @@ const DeleteBtn = styled.div`
   cursor: pointer;
 `;
 const CalendarRight = styled.div`
-
   position: relative;
   width: calc(80% - 300px);
   padding-bottom: 65%;
@@ -1208,7 +1198,6 @@ const CalendarRight = styled.div`
   display: block;
 `;
 const Main = styled.div`
-
   left: -0.00070796%;
   top: 0;
   bottom: 0;

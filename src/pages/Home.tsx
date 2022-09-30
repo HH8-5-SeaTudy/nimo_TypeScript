@@ -18,6 +18,7 @@ import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
 import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
 import Main from "./Main";
+import Server from '../components/serverButton/Server';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -60,10 +61,8 @@ const Home = () => {
   return (
     <Layer>
       {modalShow && <CalendarVer2 />}
-      <ChatButtonContainer>
-        <Main />
-      </ChatButtonContainer>
       <MainBox>
+        <Server/>
         <ProfileContainer>
           <ProfileWrapper>
             <ImageContainer>
@@ -134,6 +133,7 @@ const Home = () => {
 export default Home;
 
 const ChatButtonContainer = styled.div`
+ border: solid red 1px;
   width: 10vw;
   height: 10vh;
 `;

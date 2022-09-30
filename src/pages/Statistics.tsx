@@ -108,7 +108,6 @@ const Statistics = () => {
 export default Statistics;
 
 const StatisticsLayer = styled.section`
-
   width: 100%;
   height: 90vh;
   background: #0096FF;
@@ -124,14 +123,12 @@ const Layer = styled.div`
   justify-content:space-between;
 `
 const TopLayer =styled.div`
-
 height: 70%;
 margin-bottom:10px;
 display:flex;
 `
 
 const BottomLayer =styled.div`
-
 background-color: #0096FF;
 height: 30%;
 background-color:white;
@@ -139,7 +136,6 @@ border-radius: 6px;
 box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);`
 
 const RankSide =styled.div`
-
   width: 25%;
   margin-right: 20px;
   display: flex;
@@ -151,7 +147,6 @@ const RankSide =styled.div`
 `;
 
 const RankTitle = styled.div`
-
   border-radius: 6px 6px 0 0;
   height: 120px;
   background: #0096FF;
@@ -181,7 +176,6 @@ const RankBox = styled.div`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-
     background-color: #0096FF;
     height: 5px;
   }
@@ -249,7 +243,6 @@ const TotalTime = styled.div`
   padding:  0 10px;
 `;
 const Title = styled.div`
-
   width: 35%;
   height: 50%;
   font-size: 50px;
@@ -325,7 +318,6 @@ const WeekTitle = styled.div`
   }
 `
 const WeekBody = styled.div`
-
   height: 75%;
 `
 const MonthBox = styled.div`
