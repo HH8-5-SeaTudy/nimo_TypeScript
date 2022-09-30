@@ -72,6 +72,7 @@ export const positionSlice = createSlice({
             : list
         );
       });
+
   },
 });
 

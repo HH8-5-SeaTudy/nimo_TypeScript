@@ -34,12 +34,12 @@ const Statistics = () => {
       <Layer>
         <TopLayer>
           <RankSide>
-            <RankTitle>일간랭킹</RankTitle>
+            <RankTitle><p>DAILY<br/>RANKING</p></RankTitle>
             <RankBox>
               {dayRankData?.map((list, index) => (
                 <Rank>
                   <RankNum>
-                    <Num>{index + 1}</Num>
+                    <Num>{index + 1}.</Num>
                   </RankNum>
                   <RankProfile src={list.fish}></RankProfile>
                   <RankInfo>
@@ -49,15 +49,14 @@ const Statistics = () => {
                 </Rank>
               ))}
             </RankBox>
-            <NextBtn>스크롤버튼</NextBtn>
           </RankSide>
           <RankSide>
-            <RankTitle>월간랭킹</RankTitle>
+            <RankTitle><p>WEEKLY<br/>RANKING</p></RankTitle>
             <RankBox>
               {weekRankData?.map((list, index) => (
                 <Rank>
                   <RankNum>
-                    <Num>{index + 1}</Num>
+                    <Num>{index + 1}.</Num>
                   </RankNum>
                   <RankProfile src={list.fish}></RankProfile>
                   <RankInfo>
@@ -67,30 +66,33 @@ const Statistics = () => {
                 </Rank>
               ))}
             </RankBox>
-            <NextBtn>스크롤버튼</NextBtn>
           </RankSide>
           <TotalSide>
             <TopBox>
               <TotalTime>
                 <Title>
-                  <p>Total Point</p>
-                  <span>1H = 1P</span>
+                TOTAL POINT
                 </Title>
-                <P>{userPoint}P</P>
+                <P>{userPoint}</P>
               </TotalTime>
             </TopBox>
             <BottomBox>
               <NextFish>
-                <FishBowl
+                <NextFishTitle><p>NEXT LEVEL</p></NextFishTitle>
+                <NextFishBody>    
+                  <FishBowl
                   nextPercent={nextPercent}
                   nextFishImg={nextFishImg}
-                ></FishBowl>
+                ></FishBowl></NextFishBody>
+            
               </NextFish>
               <Week>
-                <Weekly />
+                <WeekTitle><p>WEEKLY TIME</p></WeekTitle>
+                <WeekBody><Weekly/></WeekBody>
               </Week>
               <MonthBox>
-                <Month />
+                <MonthTitle><p>MONTHLY<br/>TIME</p></MonthTitle>
+                <MonthBody><Month/></MonthBody>
               </MonthBox>
             </BottomBox>
           </TotalSide>
@@ -106,12 +108,13 @@ const Statistics = () => {
 export default Statistics;
 
 const StatisticsLayer = styled.section`
+
   width: 100%;
   height: 90vh;
-  padding: 15px 0 0 0;
-  background: #0096ff;
+  background: #0096FF;
 `;
 const Layer = styled.div`
+  
   width: 100vw;
   height: 100%;
   margin: auto;
@@ -121,7 +124,7 @@ const Layer = styled.div`
   justify-content:space-between;
 `
 const TopLayer =styled.div`
-border: solid red 1px;
+
 height: 70%;
 margin-bottom:10px;
 display:flex;
@@ -129,33 +132,41 @@ display:flex;
 
 const BottomLayer =styled.div`
 
+background-color: #0096FF;
 height: 30%;
-background-color:#0096FF;
-border-radius: 8px;
+background-color:white;
+border-radius: 6px;
 box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);`
 
 const RankSide =styled.div`
-  border: solid red 2px;
 
   width: 25%;
   margin-right: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #0096ff;
-  border-radius: 8px;
+  background-color: white;
+  border-radius: 6px;
   box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
 `;
 
 const RankTitle = styled.div`
-  border-radius: 8px 8px 0 0;
-  height: 70px;
-  background-color: #0096ff;
-`;
-const NextBtn = styled.div`
-  border-radius: 0 0 8px 8px;
-  height: 30px;
-  background-color: #0096ff;
+
+  border-radius: 6px 6px 0 0;
+  height: 120px;
+  background: #0096FF;
+  font-size: 50px;
+  line-height: 40px;
+  padding: 0 20px;
+  p {
+    display:flex;
+  align-items: center;
+  justify-content: center;
+    height: 90%;
+    width: 100%;
+    text-align: center;
+    border-bottom: solid black 2px;
+  }
 `;
 
 const TotalSide = styled.div`
@@ -163,33 +174,32 @@ const TotalSide = styled.div`
 `;
 const RankBox = styled.div`
   padding-left: 5px;
-  border-left: solid #0096ff 3px;
-  border-right: solid #0096ff 3px;
   height: 100%;
-  box-shadow: inset 0 0 5px #b3e5fc, inset 0 0 25px #03e9f4,
-    inset 0 0 50px #03e9f4, inset 0 0 100px #b3e5fc,
-    inset 1px 1px 1px 0px rgba(255, 255, 255, 0.819);
   overflow-y: scroll;
   ::-webkit-scrollbar {
     background-color: transparent;
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    background-color: #0096ff;
+
+    background-color: #0096FF;
     height: 5px;
+  }
+  div{
+    &:first-child{
+      margin-top:2px;
+    }
   }
 `;
 const Rank = styled.div`
-  border: solid 2px #0096ff;
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background-color: #00d7fe;
-  box-shadow: 1px 1px 1px 1px rgba(1, 1, 1, 0.5);
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  background-color: white;
+  border-bottom: solid black 1px;
 `;
 const RankNum = styled.div`
   width: 50px;
@@ -197,11 +207,13 @@ const RankNum = styled.div`
   justify-content: center;
 `;
 const Num = styled.div`
-  border: solid red 1px;
   height: 40px;
   width: 40px;
   margin: auto;
-  border-radius: 50%;
+  display: flex;
+  font-size: 25px;
+  justify-content: center;
+  align-items: center;
 `;
 const RankProfile = styled.img`
   width: 60px;
@@ -225,61 +237,121 @@ const Point = styled.div`
   line-height: 17px;
 `;
 const TopBox = styled.div`
-  height: 50%;
+  height: 30%;
   padding-bottom: 10px;
 `;
 const TotalTime = styled.div`
   height: 100%;
-  border-radius: 8px;
+  border-radius: 6px;
   box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
-  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding:  0 10px;
 `;
 const Title = styled.div`
+
+  width: 35%;
   height: 50%;
   font-size: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  line-height: 50px;
-
-  span {
-    color: #ff9100;
-  }
+  text-align:center;
 `;
 const P = styled.p`
-  height: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 90px;
+  color: white;
+  height: 100%;
+  width: 70%;
+  font-size:10em;
+  text-align: end;
+  line-height: 1em;
 `;
 const BottomBox = styled.div`
-  height: 50%;
+  height: 70%;
   display: flex;
 `;
 const NextFish = styled.div`
   width: 35%;
+  margin: 0 5px 0 0;
+  background-color: #ff9100;
+  border-radius: 6px;
+  box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
+`;
+
+const NextFishTitle = styled.div`
+  height: 25%;
+  font-size: 50px;
+  padding: 0 20px;
+  background-color: #ff9100;
+  border-radius: 6px;
+  
+  p {
+    display:flex;
+  align-items: center;
+  justify-content: center;
+    height: 90%;
+    width: 100%;
+    text-align: center;
+    border-bottom: solid black 2px;
+  }
+`
+const NextFishBody = styled.div`
+  height: 75%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 5px 0 0;
-  background-color: #0096ff;
-  border-radius: 8px;
-  box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
-`;
+`
+
 const Week = styled.div`
   width: 35%;
   margin: 0 5px;
-  background-color: #ff9100;
-  border-radius: 8px;
+  background-color: white;
+  border-radius: 6px;
   box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
 `;
+
+const WeekTitle = styled.div`
+  background-color: #0096FF;
+  height: 25%;
+  font-size: 50px;
+  line-height: 40px;
+  padding: 0 20px;
+  border-radius: 6px 6px 0 0;
+  p {
+    display:flex;
+  align-items: center;
+  justify-content: center;
+    height: 90%;
+    width: 100%;
+    text-align: center;
+    border-bottom: solid black 2px;
+  }
+`
+const WeekBody = styled.div`
+
+  height: 75%;
+`
 const MonthBox = styled.div`
   width: 35%;
   margin: 0 0 0 5px;
-  background-color: #00d7ff;
-  border-radius: 8px;
+  background-color: white;
+  border-radius: 6px;
   box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
 `;
+const MonthTitle =styled.div`
+background: #0096FF;
+border-radius: 6px 6px 0 0;
+  height: 25%;
+  font-size: 50px;
+  line-height: 40px;
+  padding: 0 20px;
+  p {
+    display:flex;
+  align-items: center;
+  justify-content: center;
+    height: 90%;
+    width: 100%;
+    text-align: center;
+    border-bottom: solid black 2px;
+  }
+`
+const MonthBody =styled.div`
+  height: 75%;
+`

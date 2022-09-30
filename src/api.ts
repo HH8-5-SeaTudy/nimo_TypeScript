@@ -140,6 +140,7 @@ export type IInputProps = {
   fontWeight: string;
   cursor: string;
   backgroundColor: string;
+  fontFamily: string;
 };
 
 // * Grid Type

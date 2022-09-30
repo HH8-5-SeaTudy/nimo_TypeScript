@@ -58,7 +58,7 @@ const Month = () => {
     padAngle={2}
     cornerRadius={7}
     activeOuterRadiusOffset={8}
-    colors={{ scheme: "blues" }}
+    colors={{ scheme: "yellow_orange_red" }}
     borderWidth={1}
     borderColor={{
       from: "color",
