@@ -25,7 +25,7 @@ export const KaKaoKor = styled.div`
   height: 30px;
   font-size: 36px;
   ${({ theme }) => theme.common.flexCenter};
-  font-size: ${({ theme }) => theme.fontSizes.xxx4};
+  font-size: ${({ theme }) => theme.fontSizes.x4l};
   font-weight: bold;
   margin-left: 70px;
 `;
@@ -54,7 +54,7 @@ export const NaverKor = styled.div`
   height: 30px;
   font-size: 36px;
   ${({ theme }) => theme.common.flexCenter};
-  font-size: ${({ theme }) => theme.fontSizes.xxx4};
+  font-size: ${({ theme }) => theme.fontSizes.x4l};
   font-weight: bold;
   margin-left: 70px;
 `;
@@ -82,7 +82,7 @@ export const GoogleKor = styled.div`
   height: 30px;
   font-size: 36px;
   ${({ theme }) => theme.common.flexCenter};
-  font-size: ${({ theme }) => theme.fontSizes.xxx4};
+  font-size: ${({ theme }) => theme.fontSizes.x4l};
   font-weight: bold;
   margin-left: 70px;
 `;

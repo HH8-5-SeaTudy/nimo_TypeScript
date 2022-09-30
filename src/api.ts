@@ -182,15 +182,27 @@ export type IGridProps = {
 export type IRankInitialState = {
   dayRank: IRank[];
   weekRank: IRank[];
+  dayMyRank: IDayMyRank;
+  WeekMyRank: IWeekMyRank;
 };
+
+export type IDayMyRank = {
+  nickname: string;
+  myRank: number;
+};
+
+export type IWeekMyRank = {
+  nickname: string;
+  myRank: number;
+};
+
 // * Rank Info
 export type IRank = {
-
-  nickname: string,
-  email: string,
-  dayStudy:string,
-  weekStudy:string,
-  fish:string
+  nickname: string;
+  email: string;
+  dayStudy: string;
+  weekStudy: string;
+  fish: string;
 };
 // * Position IInitialState
 export type IPositionInitialState = {
@@ -198,8 +210,7 @@ export type IPositionInitialState = {
 };
 // * Position Info
 export type IPosition = {
-  fishNum: number,
-  left:number,
-  top: number,
+  fishNum: number;
+  left: number;
+  top: number;
 };
-
