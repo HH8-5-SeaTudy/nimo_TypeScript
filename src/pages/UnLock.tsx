@@ -35,6 +35,7 @@ const UnLock = () => {
   //   }
   // };
 
+
   const onClickEditNickname = () => {
     if (nickname.length > 7) {
       alert("닉네임은 최대 7글자 입니다");
@@ -204,8 +205,10 @@ const UnLock = () => {
                     </BigFishContainer>
                   </>
                 )}
+
               </FishDetailContainer>
 
+              
               {/* 물고기 리스트 보여주는 곳 */}
               <FishListContainer>
                 {fishImages.map((data: any, index: any) => {
@@ -577,6 +580,7 @@ const FishDetailContainer = styled.div`
 `;
 
 const BigFishContainer = styled.div`
+
 
   width: 100%;
   height: 100%;
