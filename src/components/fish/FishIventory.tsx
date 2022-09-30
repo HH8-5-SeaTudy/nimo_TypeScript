@@ -111,6 +111,7 @@ const FishIventory = () => {
     );
 
     // 캔버스 제거
+
     const canvases = document.getElementsByClassName("canvas");
     for (let i = 0; i < canvases.length; i++) {
       let canvas = canvases[i];
@@ -172,12 +173,12 @@ const FishIventory = () => {
 
 export default FishIventory;
 const InvenLayout = styled.div`
-  z-index: 1;
   width: 100vw;
   height: 3.4em;
   display: flex;
   justify-content: center;
   bottom: 10%;
+  z-index: 1;
   position: absolute;
 `;
 

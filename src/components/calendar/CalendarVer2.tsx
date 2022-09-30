@@ -20,10 +20,10 @@ import {
   __getDday,
   __postDday,
 } from "../../redux/modules/dday";
-import calBg from "../../assets/pixel/calBg.png";
 import left from "../../assets/pixel/left.png";
 import right from "../../assets/pixel/right.png";
 import textbox from "../../assets/pixel/textbox.png";
+import ok from "../../assets/pixel/ok.png";
 
 export type Iresault = {
   result: [];
@@ -172,7 +172,7 @@ const CalendarVer2 = () => {
     dispatch(__getDday(DD));
   }, [DD]);
 
-
+  console.log(DdayShow)
   const calendarArr = () => {
     let result: any = [];
 
@@ -448,32 +448,40 @@ const CalendarVer2 = () => {
     <>
       <Layer>
         <Wrapper>
+          <CalendarTitle>
+            <ATtile>CALENDAR</ATtile>
+            <BTtile>TO DO LIST</BTtile>
+          </CalendarTitle>
           <Calendar>
             {/* DdayModal */}
             {DdayShow && (
               <DayTextBox>
                 <DdayTextBoxCloseBtn>
-                  <Dtoday>{DD}</Dtoday>
-                  <div onClick={() => setDdayShow(false)}>닫기</div>
+                  <DdayTitle>ADD D-DAY</DdayTitle>
+                  <DdayCLoseBtn onClick={() => setDdayShow(false)}>X</DdayCLoseBtn>
                 </DdayTextBoxCloseBtn>
                 <DdayInputBox>
+                  <DToday>{DD}</DToday>
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
                       onSubmitDdayHandler();
+                      setDdayShow(false);
                     }}
                   >
                     <DdayInput>
                       <Input
                         type="text"
                         onChange={(e) => setDdayTitle(e.target.value)}
-                        border="solid black 3px"
+                        border="solid black 2px"
                         outline="none"
                         height="30px"
                       />
                     </DdayInput>
                     <DdayInputBtn>
-                      <button>등록</button>
+                      <div onClick={()=>{
+                      onSubmitDdayHandler();
+                      setDdayShow(false);}}>등록</div>
                     </DdayInputBtn>
                   </form>
                 </DdayInputBox>
@@ -482,11 +490,14 @@ const CalendarVer2 = () => {
             {/* DdayEditModal */}
             {DdayEditShow &&
               selectDdayData?.map((list) => (
-                <DayEditTextBox>
-                  <DdayTextBoxCloseBtn>
-                    <Dtoday>
-                      {DD}
-                      <span>
+                <DayTextBox>
+                <DdayTextBoxCloseBtn>
+                <DdayTitle>EDIT D-DAY</DdayTitle>
+                  <DdayCLoseBtn onClick={() => setDdayEditShow(false)}>X</DdayCLoseBtn>
+                </DdayTextBoxCloseBtn>
+                <DdayInputBox>
+                <DToday>{DD}
+                  <span>
                         D
                         {list.dday === 0
                           ? "-day"
@@ -494,40 +505,40 @@ const CalendarVer2 = () => {
                           ? "+" + list.dday
                           : list.dday}
                       </span>
-                    </Dtoday>
-                    <div onClick={() => setDdayEditShow(false)}>닫기</div>
-                  </DdayTextBoxCloseBtn>
-                  <DdayInputBox>
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        onSubmitDdayEditHandler(list.ddayId, list.targetDay);
-                      }}
-                    >
-                      <DdayInput>
+                      </DToday>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      onSubmitDdayEditHandler(list.ddayId, list.targetDay);
+                      setDdayEditShow(false);
+                    }}
+                  >
+                    <DdayInput>
                         <Input
                           type="text"
                           onChange={(e) => setDdayEditTitle(e.target.value)}
-                          border="solid black 3px"
+                          border="solid black 2px"
                           outline="none"
                           height="30px"
                           defaultValue={list.title}
                         />
-                      </DdayInput>
-                      <DdayInputBtn>
-                        <button>수정</button>
-                        <button
-                          type="button"
+                        </DdayInput>
+                  <DdayInputBtn>
+                        <div onClick={()=>{onSubmitDdayEditHandler(list.ddayId, list.targetDay)
+                        setDdayEditShow(false)}}>수정</div>
+                        <div
                           onClick={() => {
-                            dispatch(__deleteDday(list.ddayId));
+                            dispatch(__deleteDday(list.ddayId))
+                            setDdayEditShow(false);
                           }}
                         >
                           삭제
-                        </button>
+                        </div>
                       </DdayInputBtn>
-                    </form>
-                  </DdayInputBox>
-                </DayEditTextBox>
+                  </form>
+                </DdayInputBox>
+              </DayTextBox>
+            
               ))}
 
             {/* 달력 */}
@@ -664,11 +675,11 @@ const CalendarVer2 = () => {
                                 backgroundColor="#0096FF"
                                 border="none"
                                 outline="none"
-                                color="white"
+                                color="black"
                                 fontSize="20px"
-                                fontWeight="700"
                                 width="150px"
                                 cursor="pointer"
+                                fontFamily= "DungGeunMo"
                               />
                             </CategoryTitle>
                             <BtnGroup>
@@ -754,22 +765,16 @@ export default CalendarVer2;
 
 const Layer = styled.div`
   position: absolute;
-  border: solid red 1px;
   left: 300px;
-  top: 150px;
+  top: 50px;
   height: 650px;
   width: 1150px;
   color: #ffffff;
-  background-image: url(${calBg});
-  background-repeat: no-repeat;
-  background-size: 1200px 700px;
-  background-position: center;
   z-index: 20;
 `;
 
 const MonthYear = styled.div`
   background-color: #0096ff;
-  /* border: solid black 3px; */
   height: 70px;
   border-radius: 6px;
   margin: 20px 20px 0 20px;
@@ -779,7 +784,7 @@ const MonthYear = styled.div`
 `;
 
 const Month = styled.div`
-  /* border: solid red 1px; */
+
   width: 180px;
   display: flex;
   justify-content: space-between;
@@ -791,7 +796,7 @@ const TodayMon = styled.div`
   font-weight: 700;
 `;
 const YearBox = styled.div`
-  /* border: solid red 1px; */
+
   display: flex;
   justify-content: space-between;
   text-align: center;
@@ -814,49 +819,94 @@ const NextBtn = styled.img`
 `;
 
 const Wrapper = styled.div`
+  background-color: #0096FF;
   top: 25px;
   display: block;
   position: relative;
   max-width: 1100px;
+  height: 680px;
   width: 100%;
   margin: 0 auto;
   color: #ffffff;
+  border-radius: 6px;
+  border : solid black 2px;
 `;
+const CalendarTitle = styled.div`
+width:100%;
+height: 11%;
+display: flex;
+justify-content:space-between;
+padding: 0 40px 0 40px;
+`
+const ATtile = styled.div`
+background-color:#0096FF;
+color: black;
+
+width: 580px;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 50px;
+border-bottom: solid black 2px;
+`
+const BTtile = styled.div`
+background-color:#0096FF;
+border-bottom: solid black 2px;
+color: black;
+width: 350px;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 50px;
+`
 const DayTextBox = styled.div`
   position: absolute;
   width: 300px;
   height: 200px;
   background-image: url(${textbox});
   background-repeat: no-repeat;
-  z-index: 5;
+  z-index: 99;
   top: 180px;
   padding: 35px;
 `;
 const DdayTextBoxCloseBtn = styled.div`
-  width: 230px;
+  width: 210px;
   height: 30px;
-  display: flex;
-  justify-content: space-between;
   margin: auto;
   color: black;
-  text-align: end;
   cursor: pointer;
 `;
-const Dtoday = styled.p`
-  font-size: 20px;
-  font-weight: 700;
-  span {
-    margin-left: 5px;
-    color: red;
-  }
-`;
+const  DdayTitle =styled.div`
+  display: flex;
+  justify-content: center;
+  font-size : 20px;
+  border-bottom: solid black 2px;
+  margin: auto;
+  width: 100px;
+`
+const DdayCLoseBtn =styled.div`
+ position: absolute;
+ top:25px;
+ right:30px;
+ z-index: 2;
+`
+
 const DdayInputBox = styled.div`
   width: 200px;
   height: 100px;
   margin: auto;
+  padding-top: 5px;
 `;
+const DToday = styled.div`
+  text-align: center;
+  color: black;
+  font-size:20px;
+  span {
+    margin-left: 5px;
+    color: red;
+  }
+`
 const DdayInput = styled.div`
-  border: solid red 1px;
   height: 50%;
   display: flex;
   justify-content: center;
@@ -866,17 +916,34 @@ const DdayInput = styled.div`
 
 const DdayInputBtn = styled.div`
   border: solid red 1px;
-  margin-top: 20px;
+  margin-top: 5px;
   height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  button {
+  div {
     margin: 0 10px;
+    height: 23px;
+    width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  padding: 0 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: "DungGeunMo";
+  font-size: 16px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
+  border: 1px solid black;
+  line-height: 12px;
   }
 `;
 //디데이 수정박스
 const DayEditTextBox = styled.div`
+border : solid red 1px;
   position: absolute;
   width: 300px;
   height: 200px;
@@ -888,7 +955,7 @@ const DayEditTextBox = styled.div`
 `;
 
 const Calendar = styled.div`
-  /* border: solid red 1px; */
+
   display: flex;
   justify-content: space-around;
   flex-direction: row;
@@ -896,7 +963,7 @@ const Calendar = styled.div`
 `;
 
 const CalendarLeft = styled.div`
-  /* border: solid red 3px; */
+
   position: relative;
   width: 350px;
   padding: 20px;
@@ -910,7 +977,7 @@ const CalendarLeft = styled.div`
 const DayBtn = styled.div`
   position: absolute;
   border-radius: 5px 15px 15px 5px;
-  border: solid white 2px;
+  border: solid black 2px;
   width: 15px;
   height: 15px;
   background-color: red;
@@ -921,7 +988,7 @@ const DayBtn = styled.div`
 `;
 
 const Today = styled.div`
-  /* border:solid red 1px; */
+
   position: absolute;
   top: 20px;
   right: 20px;
@@ -960,12 +1027,13 @@ const Dday = styled.div`
   flex-wrap: wrap;
   justify-content: end;
   line-height: 19px;
+  cursor:pointer;
   div {
     font-size: 15px;
     color: black;
   }
   p {
-    color: white;
+    color: red;
     font-size: 20px;
     margin: 0 5px 0 2px;
     font-weight: 700;
@@ -1102,9 +1170,10 @@ const Todo = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: black;
 `;
 const TodoBtn = styled.div`
-  /* border:solid red 1px; */
+
   margin-left: 20px;
 `;
 
@@ -1126,7 +1195,7 @@ const DeleteBtn = styled.div`
   cursor: pointer;
 `;
 const CalendarRight = styled.div`
-  /* border: solid red 3px; */
+
   position: relative;
   width: calc(80% - 300px);
   padding-bottom: 65%;
@@ -1139,7 +1208,7 @@ const CalendarRight = styled.div`
   display: block;
 `;
 const Main = styled.div`
-  /* border: solid red 3px; */
+
   left: -0.00070796%;
   top: 0;
   bottom: 0;
@@ -1156,6 +1225,7 @@ const CalendarRow = styled.div`
   font-size: 20px;
 `;
 const CalendarCol = styled.div`
+  color: black;
   width: calc(100% / 7);
   text-align: center;
   height: 50px;
