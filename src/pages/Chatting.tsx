@@ -191,8 +191,8 @@ const Shadow = styled.div`
   position: absolute;
   top: 20%;
   left: 18%;
-  background: #4b5b61;
-  box-shadow: 0 0 60px #4b5b61;
+  background: white;
+  box-shadow: 0 0 60px white;
   z-index: -1;
 `;
 
@@ -376,6 +376,7 @@ const Board = styled.div`
   width: 72%;
   position: absolute;
   top: 55%;
+  z-index: 5;
   left: 13.2%;
   background: #4b5b61;
   transform: rotateX(70deg);
@@ -388,7 +389,7 @@ const BoardLeft = styled.div`
   left: 3.5%;
   border: 5px solid #4c4c4c;
   background: white;
-  transform: rotateX(28deg);
+  transform: rotateX(10deg);
   z-index: 2;
 `;
 const BoardRight = styled.div`
@@ -399,25 +400,22 @@ const BoardRight = styled.div`
   right: 3.5%;
   border: 5px solid #4c4c4c;
   background: white;
-  transform: rotateX(28deg);
+  transform: rotateX(10deg);
   z-index: 2;
 `;
 
 const BtnA = styled.div`
   background: #bfd3c1;
-  left: 40%;
-  height: 25%;
-  width: 10%;
+  height: 55%;
+  width: 50%;
   position: absolute;
-  top: 40%;
+  top: 10%;
   left: 30%;
   border-radius: 50%;
   border: 5px solid #4c4c4c;
-  left: 40%;
 `;
 const BtnB = styled.div`
   background: #68a691;
-  left: 40%;
   height: 25%;
   width: 10%;
   position: absolute;
@@ -425,7 +423,6 @@ const BtnB = styled.div`
   left: 55%;
   border-radius: 50%;
   border: 5px solid #4c4c4c;
-  left: 55%;
 `;
 const BtnC = styled.div`
   background: #07beb8;

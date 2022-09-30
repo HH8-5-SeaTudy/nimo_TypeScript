@@ -172,13 +172,12 @@ const FishIventory = () => {
 
 export default FishIventory;
 const InvenLayout = styled.div`
-  z-index: 9999;
+  z-index: 1;
   width: 100vw;
   height: 3.4em;
   display: flex;
   justify-content: center;
-  bottom: 0;
-  z-index: 1;
+  bottom: 10%;
   position: absolute;
 `;
 

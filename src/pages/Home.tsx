@@ -124,7 +124,6 @@ const Home = () => {
             </ButtonContainer>
           </>
         )}
-
         <FishIventory />
       </MainBox>
     </Layer>
