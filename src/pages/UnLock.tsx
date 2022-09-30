@@ -392,7 +392,6 @@ const EditNicknamButton = styled.button`
 `;
 
 const UnClockContainer = styled.div`
-
   width: 100%;
   height: 90vh;
   display: flex;
@@ -403,19 +402,17 @@ const UnClockContainer = styled.div`
 `;
 
 const FirstBorderContainer = styled.div`
-
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   /* position: absolute; */
-  background-color: #ff9011;
-
+  background-color: #0096FF;
+  padding: 30px;
 `;
 
 const UserInfoContainer = styled.div`
-
   width: 100%;
   height: 100%;
   display: flex;
@@ -428,7 +425,6 @@ const UserInfoContainer = styled.div`
 `;
 
 const UserInfoTitle = styled.div`
-
   height: 12%;
   width:100%;
   padding: 0 20px;
@@ -445,17 +441,14 @@ const UserInfoTitle = styled.div`
   }
 `
 const UserInfoProfile = styled.div`
-
     height:40%;
     width:100%;
     display: flex;
     justify-content: center;
     align-items: center;
   
-
 `
 const FishBowl = styled.div`
-
   width: 250px;
   height: 250px;
   border-radius: 50%;
@@ -466,7 +459,6 @@ const FishBowl = styled.div`
   align-items: center;
 `
 const UserInfo = styled.div`
-
    height: 50%;
    width:100%;
    color: black;
@@ -482,7 +474,6 @@ const UserWrapper = styled.div`
   display: flex;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   align-items: center;
-
 `;
 
 const UserLevel = styled.div`
@@ -557,7 +548,6 @@ const FishIllustratedRightWrapper = styled.div`
 `;
 
 const FishWrapper = styled.div`
-
   display: flex;
   width: 100%;
   height: 100%;
@@ -566,7 +556,6 @@ const FishWrapper = styled.div`
 `;
 
 const FishDetailContainer = styled.div`
-
   width: 100%;
   height: 88%;
   display: flex;
@@ -577,7 +566,6 @@ const FishDetailContainer = styled.div`
 `;
 
 const BigFishContainer = styled.div`
-
   width: 100%;
   height: 100%;
   display: flex;
@@ -600,7 +588,6 @@ const BigFishInfo = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xl};
   padding: 3% 4% 3% 4%;
   line-height: 40px;
-
 `;
 
 const RemainingPoint = styled.span`
@@ -631,7 +618,6 @@ const ProfileSelect = styled.button`
 `
 
 const FishListContainer = styled.div`
-
   width: 100%;
   height: 88%;
   display: flex;
@@ -677,6 +663,7 @@ const FishImageNumberContainer = styled.div`
   justify-content: space-around;
   width: 100%;
   height: 100%;
+  user-select: all;
   padding: 3%;
 `;
 
@@ -734,7 +721,6 @@ const UnLockAnimation = styled.div`
   z-index: 5;
   width: 13%;
   height: 80%;
-
   .lock-top-1 {
     width: 40%;
     height: 40%;
