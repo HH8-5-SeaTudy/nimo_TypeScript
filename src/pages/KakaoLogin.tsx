@@ -5,7 +5,7 @@ import { setCookie } from "../components/social/Cookie";
 
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../components/hooks/reduxHooks";
-import { updateUser } from "../redux/modules/userData";
+import { __getUserProfile } from "../redux/modules/userData";
 const KakaoLogin = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -21,8 +21,7 @@ const KakaoLogin = () => {
 
         .then((res) => {
           setCookie("token", res.headers.authorization);
-          setCookie("userData", res.data.data);
-          dispatch(updateUser(res.data.data));
+          dispatch(__getUserProfile(res.data.data));
         })
         .then(() => {
           navigate("/home");

@@ -140,6 +140,7 @@ export type IInputProps = {
   fontWeight: string;
   cursor: string;
   backgroundColor: string;
+  fontFamily: string;
 };
 
 // * Grid Type
@@ -151,6 +152,7 @@ export type IGridProps = {
   padding: string;
 
   display: string;
+  flexDirection: string;
   justifyContent: string;
   alignItems: string;
 
@@ -175,4 +177,41 @@ export type IGridProps = {
   cursor: string;
   children: any;
   onClick: () => void;
+};
+
+// * Rank IInitialState
+export type IRankInitialState = {
+  dayRank: IRank[];
+  weekRank: IRank[];
+  dayMyRank: IDayMyRank;
+  WeekMyRank: IWeekMyRank;
+};
+
+export type IDayMyRank = {
+  nickname: string;
+  myRank: number;
+};
+
+export type IWeekMyRank = {
+  nickname: string;
+  myRank: number;
+};
+
+// * Rank Info
+export type IRank = {
+  nickname: string;
+  email: string;
+  dayStudy: string;
+  weekStudy: string;
+  fish: string;
+};
+// * Position IInitialState
+export type IPositionInitialState = {
+  position: IPosition[];
+};
+// * Position Info
+export type IPosition = {
+  fishNum: number;
+  left: number;
+  top: number;
 };

@@ -25,9 +25,10 @@ const Google = () => {
       alignItems={"center"}
       cursor={"pointer"}
       onClick={loginHandler}
+      background={"#dee2e6"}
     >
       <GoogleLogo />
-      <GoogleKor>구글 로그인</GoogleKor>
+      <GoogleKor>GOOGLE</GoogleKor>
     </Grid>
   );
 };

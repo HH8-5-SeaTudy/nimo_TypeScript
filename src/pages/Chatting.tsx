@@ -6,9 +6,9 @@ import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { addUser, __getChatroom } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
 import styled from "styled-components";
+import Main from "./Main";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-// const token: string = process.env.REACT_APP_TOKEN as string;
 const token: string = getCookie("token") as string;
 
 const socket = new SockJS(`${BASE_URL}/api/v1/chat/connections`);
@@ -21,8 +21,9 @@ function Chatting() {
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
-  // const [message, setMessage] = useState("");
   const chat = useAppSelector((state) => state.socket.chat);
+
+  console.log(chat);
 
   const headers = {
     Authorization: token,
@@ -84,9 +85,7 @@ function Chatting() {
         },
         { token: token }
       );
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   function waitForConnection(client: any, callback: any) {
@@ -99,39 +98,478 @@ function Chatting() {
     }, 1);
   }
   return (
-    <ChatContainer>
-      <MessageWrapper>
-        {chat &&
-          chat.map((list: any, index: number) => (
-            <MessageListContainer key={index}>
-              {list.message}
-            </MessageListContainer>
-          ))}
-      </MessageWrapper>
-      <MessageForm>
-        <textarea onKeyUp={handleEnterPress} ref={message} />
-        <ButtonContainer>
-          <button onClick={handleEnterPress}>전송</button>
-        </ButtonContainer>
-      </MessageForm>
-    </ChatContainer>
+    <>
+      <AcadeMachin>
+        <Shadow></Shadow>
+        <Top>
+          <Script></Script>
+          <ScriptLeft></ScriptLeft>
+          <ScriptRight></ScriptRight>
+        </Top>
+        <TopLeft></TopLeft>
+        <TopRight></TopRight>
+        <ScreenContainer>
+          <Joystick>
+            <Stick></Stick>
+            <Stick2></Stick2>
+          </Joystick>
+          <Screen>
+            {chat &&
+              chat.map((list: any, index: number) => (
+                <MessageListContainer key={index}>
+                  {list.message}
+                </MessageListContainer>
+              ))}
+          </Screen>
+        </ScreenContainer>
+        <ScreenContainerLeft></ScreenContainerLeft>
+        <ScreenContainerRight></ScreenContainerRight>
+        <Board>
+          <BtnA></BtnA>
+          <BtnB></BtnB>
+          <BtnC></BtnC>
+        </Board>
+
+        <BoardLeft></BoardLeft>
+        <BoardRight></BoardRight>
+        <Bottom>
+          <BottomScript></BottomScript>
+          <BottomScriptRight></BottomScriptRight>
+          <BottomScriptLeft></BottomScriptLeft>
+          <BottomLeft></BottomLeft>
+          <BottomRight></BottomRight>
+        </Bottom>
+        <MessageForm>
+          <textarea onKeyUp={handleEnterPress} ref={message} />
+          <ButtonContainer>
+            <button onClick={handleEnterPress}>전송</button>
+          </ButtonContainer>
+        </MessageForm>
+      </AcadeMachin>
+    </>
+    // <ChatContainer>
+    //   <MessageWrapper>
+    //     <div>
+    //       {chat &&
+    //         chat.map((list: any, index: number) => (
+    //           <MessageListContainer key={index}>
+    //             {list.message}
+    //           </MessageListContainer>
+    //         ))}
+    //     </div>
+    //   </MessageWrapper>
+    //   <GameContainer>
+    //     <GameWrapper>
+    //       <div className="left-triangle"></div>
+    //       <button className="push flat"></button>
+    //       <button className="push skeuo"></button>
+    //     </GameWrapper>
+    //   </GameContainer>
+    //   <MessageForm>
+    //     <textarea onKeyUp={handleEnterPress} ref={message} />
+    //     <ButtonContainer>
+    //       <button onClick={handleEnterPress}>전송</button>
+    //     </ButtonContainer>
+    //   </MessageForm>
+    // </ChatContainer>
   );
 }
+
+const AcadeMachin = styled.div`
+  border: solid red 1px;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  margin: 0 auto;
+  perspective: 35em;
+  display: block;
+`;
+
+const Shadow = styled.div`
+  height: 45%;
+  width: 65%;
+  position: absolute;
+  top: 20%;
+  left: 18%;
+  background: white;
+  box-shadow: 0 0 60px white;
+  z-index: -1;
+`;
+
+const Top = styled.div`
+  height: 5%;
+  width: 100%;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  background: white;
+  border: 5px solid #4c4c4c;
+  z-index: 3;
+`;
+const TopLeft = styled.div`
+  height: 10.5%;
+  width: 5%;
+  position: absolute;
+  top: -0.5%;
+  background: white;
+  border: 5px solid #4c4c4c;
+  content: " ";
+  left: 0%;
+  z-index: 3;
+`;
+const TopRight = styled.div`
+  height: 10.5%;
+  width: 5%;
+  position: absolute;
+  top: -0.5%;
+  background: white;
+  border: 5px solid #4c4c4c;
+  content: " ";
+  right: 0%;
+  z-index: 3;
+`;
+const Script = styled.div`
+  height: 100%;
+  width: 10%;
+  position: absolute;
+  top: 0%;
+  left: 45%;
+  background: #68a691;
+`;
+const ScriptLeft = styled.div`
+  height: 100%;
+  width: 10%;
+  position: absolute;
+  top: 0%;
+  background: #bfd3c1;
+  left: 35%;
+`;
+const ScriptRight = styled.div`
+  height: 100%;
+  width: 10%;
+  position: absolute;
+  top: 0%;
+  background: #07beb8;
+  left: 55%;
+`;
+const ScreenContainer = styled.div`
+  height: 45%;
+  width: 90%;
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  background: #4b5b61;
+  border: 5px solid #4c4c4c;
+  z-index: 1;
+`;
+
+const ScreenContainerLeft = styled.div`
+  height: 50%;
+  width: 4%;
+  position: absolute;
+  top: 0%;
+  background: white;
+  content: " ";
+  border: 5px solid #4c4c4c;
+  left: 5%;
+  z-index: 2;
+`;
+
+const ScreenContainerRight = styled.div`
+  height: 50%;
+  width: 4%;
+  position: absolute;
+  top: 0%;
+  background: white;
+  content: " ";
+  border: 5px solid #4c4c4c;
+  right: 5%;
+  z-index: 2;
+`;
+const Shadow2 = styled.div`
+  height: 8%;
+  width: 110%;
+  position: absolute;
+  top: 0%;
+  left: -5%;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 4;
+`;
+const Screen = styled.div`
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: scroll;
+  background: #313332;
+  border-radius: 90px 93px 93px 93px/15px 15px 15px 15px;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.white};
+  ::-webkit-scrollbar {
+    background-color: transparent;
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: white;
+    height: 5px;
+  }
+`;
+
+const Display = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 200%;
+  background-image: repeating-linear-gradient(
+    0deg,
+    #313332,
+    #313332 15px,
+    #4a4d4c 15px,
+    #4a4d4c 16px
+  );
+  animation: translate 1s infinite;
+`;
+const Joystick = styled.div`
+  height: 11%;
+  width: 9%;
+  background: #0f90c9;
+  position: absolute;
+  top: 100%;
+  left: 7%;
+  border-radius: 50%;
+  border: 5px solid #4c4c4c;
+  z-index: 3;
+`;
+const JoystickShadow = styled.div`
+  height: 7%;
+  width: 4%;
+  background: #0d78a8;
+  position: absolute;
+  top: 89%;
+  left: 21%;
+  border-radius: 50%;
+  z-index: 3;
+`;
+const Stick = styled.div`
+  height: 200%;
+  width: 40%;
+  position: absolute;
+  top: 100%;
+  left: 30%;
+  background: #4c4c4c;
+  content: "";
+  z-index: 1;
+`;
+const Stick2 = styled.div`
+  height: 140%;
+  width: 40%;
+  transform: rotate(90deg);
+  position: absolute;
+  top: 210%;
+  left: 30%;
+  background: #4c4c4c;
+  content: "";
+`;
+const Board = styled.div`
+  height: 20%;
+  width: 72%;
+  position: absolute;
+  top: 55%;
+  z-index: 5;
+  left: 13.2%;
+  background: #4b5b61;
+  transform: rotateX(70deg);
+`;
+const BoardLeft = styled.div`
+  height: 20%;
+  width: 4%;
+  position: absolute;
+  top: 45%;
+  left: 3.5%;
+  border: 5px solid #4c4c4c;
+  background: white;
+  transform: rotateX(10deg);
+  z-index: 2;
+`;
+const BoardRight = styled.div`
+  height: 20%;
+  width: 4%;
+  position: absolute;
+  top: 45%;
+  right: 3.5%;
+  border: 5px solid #4c4c4c;
+  background: white;
+  transform: rotateX(10deg);
+  z-index: 2;
+`;
+
+const BtnA = styled.div`
+  background: #bfd3c1;
+  height: 55%;
+  width: 50%;
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  border-radius: 50%;
+  border: 5px solid #4c4c4c;
+`;
+const BtnB = styled.div`
+  background: #68a691;
+  height: 25%;
+  width: 10%;
+  position: absolute;
+  top: 40%;
+  left: 55%;
+  border-radius: 50%;
+  border: 5px solid #4c4c4c;
+`;
+const BtnC = styled.div`
+  background: #07beb8;
+  left: 40%;
+  height: 25%;
+  width: 10%;
+  position: absolute;
+  top: 40%;
+  left: 55%;
+  border-radius: 50%;
+  border: 5px solid #4c4c4c;
+  left: 70%;
+`;
+
+const Bottom = styled.div`
+  height: 12%;
+  width: 86%;
+  position: absolute;
+  top: 60%;
+  left: 7%;
+  background: white;
+  border: 5px solid #4c4c4c;
+  z-index: 5;
+`;
+
+const BottomLeft = styled.div`
+  height: 116%;
+  width: 6%;
+  position: absolute;
+  background: white;
+  content: " ";
+  border: 5px solid #4c4c4c;
+  left: -6%;
+  z-index: 2;
+  top: -4%;
+`;
+const BottomRight = styled.div`
+  height: 116%;
+  width: 6%;
+  position: absolute;
+  background: white;
+  content: " ";
+  border: 5px solid #4c4c4c;
+  right: -6%;
+  z-index: 2;
+  top: -4%;
+`;
+const BottomScript = styled.div`
+  height: 100%;
+  width: 10%;
+  position: absolute;
+  top: 0%;
+  left: 45%;
+  background: #68a691;
+`;
+const BottomScriptRight = styled.div`
+  height: 100%;
+  width: 10%;
+  position: absolute;
+  top: 0%;
+  left: 35%;
+  background: #bfd3c1;
+`;
+const BottomScriptLeft = styled.div`
+  height: 100%;
+  width: 10%;
+  position: absolute;
+  top: 0%;
+  left: 55%;
+  background: #07beb8;
+`;
+
+///
 
 const MessageWrapper = styled.div`
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: hidden;
   display: flex;
   /* padding: 20px 10px; */
   /* flex: 4; */
+  padding: 0 10px;
   flex-direction: column-reverse;
-  background-color: #b2c7d9;
+
+  border: 1px solid yellow;
+
+  div {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: #b2c7d9;
+    border: 1px solid yellow;
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 2px;
+      background: #cccccc;
+    }
+  }
+`;
+
+const GameContainer = styled.div`
+  width: 100%;
+  height: 40vh;
+  border: 5px solid black;
+  background-color: aliceblue;
+  display: flex;
+  padding: 5px;
+  transform: perspective(500px) rotateX(10deg);
+`;
+
+const GameWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+  position: relative;
+  .left-triangle {
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 0;
+    border-bottom: 4.5vw solid red;
+    border-top: 4.5vw solid transparent;
+    border-left: 4.5vw solid red;
+    border-right: 4.5vw solid transparent;
+  }
+  .push {
+    position: relative;
+    display: inline-block;
+    width: $push-size;
+    height: $push-size;
+    border: 0;
+    margin: 1em;
+    outline: none;
+    background-color: $push-color;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: box-shadow 200ms;
+  }
 `;
 
 const MessageListContainer = styled.span`
+  margin-top: 10px;
   width: 100%;
-  border: 1px solid black;
 `;
 
 const ChatContainer = styled.section`
@@ -140,14 +578,12 @@ const ChatContainer = styled.section`
   display: flex;
   flex: 1.5;
   flex-direction: column;
-  border: 2px solid black;
 `;
 
 const MessageForm = styled.form`
   display: flex;
   width: 100%;
-  height: 100%;
-  /* flex: 1; */
+  height: 40%;
   border: 4px solid yellow;
   resize: none;
   textarea {

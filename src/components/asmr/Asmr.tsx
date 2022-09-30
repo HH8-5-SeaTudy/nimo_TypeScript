@@ -80,7 +80,7 @@ const Asmr = () => {
   return (
     <>
       <AsmrSelectBox>
-        <BtnArrow></BtnArrow>
+        {/* <BtnArrow></BtnArrow> */}
         <BtnGroup>
           <AsmrBtn onClick={waveStart}>
             <img src={WaveIcon} />
@@ -109,26 +109,18 @@ const Asmr = () => {
 export default Asmr;
 
 const AsmrSelectBox = styled.div`
-  position: relative;
-  top: 65px;
-  right: 200px;
-  width: 312px;
-  height: 100%;
+  position: absolute;
+  left: -200%;
+  top: 100%;
+  width: 20vw;
+  z-index: 3;
 `;
-const BtnArrow = styled.div`
-  margin: auto;
-  width: 0px;
-  height: 0px;
-  border-bottom: calc(20px * 1) solid rgba(40, 41, 58, 0.82);
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  text-align: center;
-`;
+
 const BtnGroup = styled.div`
   background: rgba(40, 41, 58, 0.82);
   border-radius: 20px;
-  width: 312px;
-  height: 72px;
+  width: 100%;
+  height: 10vh;
   display: flex;
   justify-content: space-around;
   align-items: center;

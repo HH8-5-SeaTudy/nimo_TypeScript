@@ -6,10 +6,9 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
 
 export const __getFishList: any = createAsyncThunk(
-  "user/getfishlist",
+  "fish/getfishlist",
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
       const response = await axios.get(
         `${BASE_URL}/api/v1/fishes/images?fishName=${payload}`,
         {
@@ -19,7 +18,6 @@ export const __getFishList: any = createAsyncThunk(
           },
         }
       );
-      console.log(response.data.data);
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -27,31 +25,36 @@ export const __getFishList: any = createAsyncThunk(
   }
 );
 
-export type IFishImage = {
-  fishName: string;
-  image: string;
+export type IFhsh = {
+  fishInfo: IFishImage;
 };
 
-export type IFhsh = {
-  imageInfo: IFishImage;
+export type IFishImage = {
+  fishNum: number;
+  fishName: string;
+  fishImageUrl: string;
+  fishInfo: string;
 };
 
 const initialState: IFhsh = {
-  imageInfo: {
+  fishInfo: {
+    fishNum: 0,
     fishName: "",
-    image: "",
+    fishImageUrl: "",
+    fishInfo: "",
   },
 };
 
-export const __fishList = createSlice({
+export const fishList = createSlice({
   name: "userData",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(__getFishList.fulfilled, (state, action) => {
-      state.imageInfo = action.palyload;
+      state.fishInfo = action.payload;
+      console.log(action.payload);
     });
   },
 });
 
-export default __fishList.reducer;
+export default fishList.reducer;

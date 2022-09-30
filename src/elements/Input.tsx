@@ -25,6 +25,7 @@ const Input = ({
   fontWeight,
   cursor,
   backgroundColor,
+  fontFamily,
 }: Partial<IInputProps>) => {
   return (
     <Inputs
@@ -50,6 +51,7 @@ const Input = ({
       fontWeight={fontWeight}
       cursor={cursor}
       backgroundColor={backgroundColor}
+      fontFamily={fontFamily}
     />
   );
 };
@@ -71,4 +73,5 @@ const Inputs = styled.input<Partial<IInputProps>>`
   font-weight: ${({ fontWeight }) => fontWeight};
   background-color: ${({ backgroundColor }) => backgroundColor};
   cursor: ${({ cursor }) => cursor};
+  font-family: ${({ fontFamily }) => fontFamily}
 `;

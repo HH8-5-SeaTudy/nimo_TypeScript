@@ -1,15 +1,9 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
-import { addUser, __getChatroom } from "../redux/modules/socket";
-import { getCookie } from "../components/social/Cookie";
+import { useAppDispatch } from "../components/hooks/reduxHooks";
+import { __getChatroom } from "../redux/modules/socket";
 import Chatting from "./Chatting";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-// const token: string = process.env.REACT_APP_TOKEN as string;
-const token: string = getCookie("token") as string;
+
 
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;
@@ -111,10 +105,11 @@ function ChatRoom() {
 
 const MessageContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   border: 4px solid green;
+  padding: 0 10px;
 `;
 
 const MessageWrapper = styled.div`
@@ -136,10 +131,7 @@ const MessageListContainer = styled.span`
 const MessageFormContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #eee;
   display: flex;
-  border: 2px solid red;
-  margin-top: 60px;
 `;
 
 const SeaContainer = styled.section`
@@ -152,9 +144,8 @@ const ChatContainer = styled.section`
   width: 100%;
   height: 100%;
   display: flex;
-  flex: 1.5;
+  flex: 3;
   flex-direction: column;
-  border: 2px solid black;
 `;
 
 const MessageForm = styled.form`

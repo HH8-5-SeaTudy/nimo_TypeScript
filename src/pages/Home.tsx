@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getDateTodo } from "../redux/modules/dateTodos";
@@ -9,13 +9,15 @@ import {
   __getCheckOutTimer,
   __getUserinquire,
 } from "../redux/modules/timer";
-//아이콘
-import { ReactComponent as ProfileIcon } from "../assets/icon/ProfileIcon.svg";
-import { ReactComponent as PlusIcon } from "../assets/icon/PlusIcon.svg";
-import { ReactComponent as BurgerIcon } from "../assets/icon/BurgerIcon.svg";
-import { ReactComponent as CalendarIcon } from "../assets/icon/CalendarIcon.svg";
-import test2 from "../assets/pixel/test2.png";
+import backimg from "../assets/background/homeBack.png";
+import { __getUserProfile } from "../redux/modules/userData";
 import CalendarVer2 from "../components/calendar/CalendarVer2";
+import FishIventory from "../components/fish/FishIventory";
+import crab from "../assets/pixel/crab.png";
+import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
+import coral from "../assets/pixel/coral.png";
+import brokenCoral from "../assets/pixel/brokenCoral.png";
+import Main from "./Main";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -24,192 +26,105 @@ const Home = () => {
   //Todo zone
   const date = useAppSelector((state) => state.updateDate.date);
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
-  const userData = useAppSelector((state) => state.userData.userData);
+  const check = useAppSelector((state) => state.timer.isStudy);
 
-  console.log("userData", userData);
   useEffect(() => {
+    dispatch(__getUserProfile());
     dispatch(__getDateTodo(moment(date).format("YYYY-MM-DD")));
   }, [date]);
 
-  const [modalShow, setModalShow] = useState(false);
+  //SideBar hidden
+  const [modalShow, setModlaShow] = useState(false);
 
-  const modalHandler = () => {
-    setModalShow(!modalShow);
+  //Inventory
+  const userNickName = useAppSelector(
+    (state) => state.userData.userProfile.nickname
+  );
+  const userImage = useAppSelector(
+    (state) => state.userData.userProfile.defaultFish
+  );
+  const userTime = useAppSelector((state) => state.userData.userProfile.point);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+  }, []);
+
+  const onClickCheckIn = () => {
+    dispatch(__getCheckInTimer());
   };
 
-  //SideBar hidden
-  const [profileShow, setProfileShow] = useState(false);
-  const [todoShow, setTodoShow] = useState(false);
-  const [burgerShow, setBurgerShow] = useState(false);
-  const [calendarShow, setCalendarShow] = useState(false);
-
-  //server zone
-  const roomId1 = process.env.REACT_APP_ROOMID1;
-  const roomId2 = process.env.REACT_APP_ROOMID2;
-  const roomId3 = process.env.REACT_APP_ROOMID3;
-  const roomId4 = process.env.REACT_APP_ROOMID4;
-  const roomId5 = process.env.REACT_APP_ROOMID5;
+  const onClickCheckOut = () => {
+    dispatch(__getCheckOutTimer());
+  };
 
   return (
     <Layer>
+      {modalShow && <CalendarVer2 />}
+      <ChatButtonContainer>
+        <Main />
+      </ChatButtonContainer>
       <MainBox>
-        <TopBox>
-          <ProfileLayer>
-            <ProfileIconBox onClick={() => setProfileShow(!profileShow)}>
-              <Profile />
-            </ProfileIconBox>
-            <ProfileHiddenLayer profileShow={profileShow}>
-              <ProfileInfo>
-                <ProfileImg></ProfileImg>
-                <ProfileName></ProfileName>
-                <ProfileMsg></ProfileMsg>
-              </ProfileInfo>
-              <ProfileClose
-                onClick={() => setProfileShow(!profileShow)}
-              ></ProfileClose>
-            </ProfileHiddenLayer>
-          </ProfileLayer>
-          <TodoLayer>
-            <TodoIconBox onClick={() => setTodoShow(!todoShow)}>
-              <Plus />
-            </TodoIconBox>
-            <TodoHiddenLayer todoShow={todoShow}>
-              <TodoInfo>
-                <button
-                  onClick={() => {
-                    modalHandler();
-                  }}
-                >
-                  작성하기버튼
-                </button>
-                <div>
-                  {dateTodos &&
-                    dateTodos.map((list) => (
-                      <div key={list.categoryId}>
-                        <div>
-                          <p>카테고리이름:{list.categoryName}</p>
-                        </div>
-                        <div>
-                          {list.todoList &&
-                            list.todoList.map((item) => (
-                              <>
-                                <div key={item.todoId}>
-                                  <p>{item.content}</p>
-                                </div>
-                              </>
-                            ))}
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </TodoInfo>
-              <TodoClose onClick={() => setTodoShow(!todoShow)}></TodoClose>
-            </TodoHiddenLayer>
-          </TodoLayer>
-        </TopBox>
-        <Bottom>
-          <BurgerLayer>
-            <BurgerIconBox onClick={() => setBurgerShow(!burgerShow)}>
-              <Burger />
-            </BurgerIconBox>
-            <BurgerHiddenLayer burgerShow={burgerShow}>
-              <BurgerInfo>
-                <button onClick={() => navigate("/statistics")}>
-                  통계페이지로이동
-                </button>
-              </BurgerInfo>
-              <BurgerClose
-                onClick={() => setBurgerShow(!burgerShow)}
-              ></BurgerClose>
-            </BurgerHiddenLayer>
-          </BurgerLayer>
-          <CalendarLayer>
-            <CalendarIconBox onClick={() => setCalendarShow(!calendarShow)}>
-              <Calendar />
-            </CalendarIconBox>
-            <CalendarHiddenLayer calendarShow={calendarShow}>
-              <CalendarInfo>{/* <CalendarVer2 /> */}</CalendarInfo>
-              <CalendarClose
-                onClick={() => setCalendarShow(!calendarShow)}
-              ></CalendarClose>
-            </CalendarHiddenLayer>
-          </CalendarLayer>
+        <ProfileContainer>
+          <ProfileWrapper>
+            <ImageContainer>
+              <ProfileImage src={userImage} />
+            </ImageContainer>
+            <TitleContainer>
+              <TitleWrapper>
+                <ProfileTitle>닉네임:</ProfileTitle>
+                <ProfileNickname>{userNickName}</ProfileNickname>
+              </TitleWrapper>
+              <TitleWrapper>
+                <ProfileTitle>총 공부시간:</ProfileTitle>
+                <ProfileTime>{userTime}</ProfileTime>
+              </TitleWrapper>
+            </TitleContainer>
+          </ProfileWrapper>
+        </ProfileContainer>
+        <TodoContainer>
+          <TodoListWrapper>
+            <TodoTitle>오늘 할 일</TodoTitle>
 
-          <ButtonBox>
-            <CheckInBall>
-              <button
-                onClick={() => {
-                  dispatch(__getCheckInTimer());
-                }}
-              >
-                start
-              </button>
-              <button
-                onClick={() => {
-                  dispatch(__getCheckOutTimer());
-                }}
-              >
-                {" "}
-                stop
-              </button>
-            </CheckInBall>
-            <button
-              onClick={() => {
-                navigate("/chat", {
-                  state: {
-                    id: roomId1,
-                  },
-                });
-              }}
-            >
-              서버1
-            </button>
-            <button
-              onClick={() => {
-                navigate("/chat", {
-                  state: {
-                    id: roomId2,
-                  },
-                });
-              }}
-            >
-              서버2
-            </button>
-            <button
-              onClick={() => {
-                navigate("/chat", {
-                  state: {
-                    id: roomId3,
-                  },
-                });
-              }}
-            >
-              서버3
-            </button>
-            <button
-              onClick={() => {
-                navigate("/chat", {
-                  state: {
-                    id: roomId4,
-                  },
-                });
-              }}
-            >
-              서버4
-            </button>
-            <button
-              onClick={() => {
-                navigate("/chat", {
-                  state: {
-                    id: roomId5,
-                  },
-                });
-              }}
-            >
-              서버5
-            </button>
-          </ButtonBox>
-        </Bottom>
+            {dateTodos &&
+              dateTodos.map((list) =>
+                list.todoList?.map((item, index) => (
+                  <TodoListInnerContainer>
+                    <Todo>
+                      <TodoSpan>No {index + 1}. </TodoSpan>
+                      <TodoSpan>{item.content}</TodoSpan>
+                    </Todo>
+                  </TodoListInnerContainer>
+                ))
+              )}
+          </TodoListWrapper>
+        </TodoContainer>
+
+        {check ? (
+          <>
+            <ButtonTitle>checkOut</ButtonTitle>
+            <ButtonContainer onClick={onClickCheckOut}>
+              <CoralContainer>
+                <BrokenCoral />
+              </CoralContainer>
+              <CrabContainer>
+                <SicissorsCrab />
+              </CrabContainer>
+            </ButtonContainer>
+          </>
+        ) : (
+          <>
+            <ButtonTitle>checkIn</ButtonTitle>
+            <ButtonContainer onClick={onClickCheckIn}>
+              <CoralContainer>
+                <Coral />
+              </CoralContainer>
+              <CrabContainer>
+                <Crab />
+              </CrabContainer>
+            </ButtonContainer>
+          </>
+        )}
+        <FishIventory />
       </MainBox>
     </Layer>
   );
@@ -217,263 +132,228 @@ const Home = () => {
 
 export default Home;
 
-interface ProfileLayerProps {
-  profileShow: boolean;
-}
-interface BurgerLayerProps {
-  burgerShow: boolean;
-}
-interface TodoLayerProps {
-  todoShow: boolean;
-}
-interface CalendarLayerProps {
-  calendarShow: boolean;
-}
+const ChatButtonContainer = styled.div`
+  width: 10vw;
+  height: 10vh;
+`;
 
 const Layer = styled.section`
+  position: relative;
   width: 100%;
-  height: 100vh;
-  padding-top: 65px;
-  background: url(${test2});
-  background-size: 100% 100vh;
+  height: 90vh;
+  background: url(${backimg});
+  background-size: 100% 100%;
+  overflow: hidden;
 `;
 
 const MainBox = styled.div`
   border: solid red 1px;
-  height: 100%;
-`;
-
-const TopBox = styled.div`
-  border: solid red 1px;
-  height: 50%;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ProfileLayer = styled.div`
+  height: 90vh;
   position: relative;
-  background: #264b7e;
-  width: 25px;
-`;
-const ProfileIconBox = styled.div`
-  background: #264b7e;
-  width: 60px;
-  height: 75px;
-  position: absolute;
-  left: -5px;
-  top: 38%;
-  border-radius: 40px;
-`;
-const Profile = styled(ProfileIcon)`
-  position: absolute;
-  top: 30%;
-  right: 13px;
+  overflow: hidden;
 `;
 
-const ProfileHiddenLayer = styled.div<ProfileLayerProps>`
-  border: solid blue 1px;
-  width: 359px;
+const ProfileContainer = styled.div`
+  width: 100%;
+  height: 12vh;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+const ProfileWrapper = styled.div`
+  width: 25vw;
   height: 100%;
   display: flex;
+  align-items: center;
+  padding: 20px 10px;
+  margin: 10px 0;
   position: absolute;
-  left: ${({ profileShow }) => (profileShow ? "0px" : "-359px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background: #264b7e;
+  right: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 9999px;
 `;
-const ProfileInfo = styled.div`
-  border: solid red 1px;
+
+const ImageContainer = styled.div`
+  width: 50%;
   height: 100%;
-  width: 334px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ProfileImage = styled.img`
+  width: 80px;
+  height: 70px;
+  border: 2px solid white;
+  padding: 10px;
+  border-radius: 9999px;
+`;
+
+const ProfileTitle = styled.span`
+  font-size: 1.4em;
+  margin-right: 10px;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+const ProfileNickname = styled.span`
+  font-size: 1.4em;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+const ProfileTime = styled.span`
+  font-size: 1.4em;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+const TodoContainer = styled.div`
+  width: 100%;
+  height: 40vh;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+const TodoListWrapper = styled.div`
+  width: 25vw;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-`;
-const ProfileImg = styled.div`
-  border: 2px solid #ffffff;
-  background: #bababa;
-  width: 175px;
-  height: 175px;
-  border-radius: 50%;
-  margin: 0 auto;
-`;
-const ProfileName = styled.div`
-  border: 2px solid #ffffff;
-  background: #bababa;
-  width: 123px;
-  height: 50px;
-  margin: 0 auto;
-`;
-const ProfileMsg = styled.div`
-  border: 2px solid #ffffff;
-  background: #bababa;
-  width: 250px;
-  height: 87px;
-  margin: 0 auto;
-`;
-const ProfileClose = styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`;
-
-const TodoLayer = styled.div`
-  width: 25px;
-  position: relative;
-  background: #264b7e;
-`;
-
-const TodoIconBox = styled.div`
+  align-items: center;
+  margin: 20px 0;
   position: absolute;
-  width: 60px;
-  height: 75px;
-  right: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background: #264b7e;
-`;
-const Plus = styled(PlusIcon)`
-  position: absolute;
-  top: 30%;
-  left: 13px;
-`;
-
-const TodoHiddenLayer = styled.div<TodoLayerProps>`
-  position: absolute;
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display: flex;
-  flex-direction: row-reverse;
-  left: ${({ todoShow }) => (todoShow ? "-334px" : "25px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background: #264b7e;
-`;
-
-const TodoInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`;
-
-const TodoClose = styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`;
-
-const Bottom = styled.div`
-  border: solid red 2px;
-  height: 50%;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const BurgerLayer = styled.div`
-  position: relative;
-  width: 25px;
-  background: #264b7e;
-`;
-const BurgerIconBox = styled.div`
-  width: 60px;
-  height: 75px;
-  position: absolute;
-  left: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background: #264b7e;
-`;
-const Burger = styled(BurgerIcon)`
-  position: absolute;
-  top: 30%;
-  right: 13px;
-`;
-
-const BurgerHiddenLayer = styled.div<BurgerLayerProps>`
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display: flex;
-  position: absolute;
-  left: ${({ burgerShow }) => (burgerShow ? "0px" : "-359px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background: #264b7e;
-`;
-const BurgerInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`;
-const BurgerClose = styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`;
-
-const CalendarLayer = styled.div`
-  width: 25px;
-  position: relative;
-  background: #264b7e;
-`;
-
-const CalendarIconBox = styled.div`
-  position: absolute;
-  width: 60px;
-  height: 75px;
-  right: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background: #264b7e;
-`;
-const Calendar = styled(CalendarIcon)`
-  position: absolute;
-  top: 30%;
-  left: 13px;
-`;
-
-const CalendarHiddenLayer = styled.div<CalendarLayerProps>`
-  position: absolute;
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display: flex;
-  flex-direction: row-reverse;
-  left: ${({ calendarShow }) => (calendarShow ? "-334px" : "25px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background: #264b7e;
-`;
-
-const CalendarInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`;
-
-const CalendarClose = styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`;
-const ButtonBox = styled.div`
-  position: absolute;
-  border: solid red 1px;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  left: 45%;
-`;
-const CheckInBall = styled.div`
-  button {
-    width: 50%;
-    height: 50px;
-    &:first-child {
-      background-color: green;
-    }
-    background-color: red;
+  right: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow-y: scroll;
+  border-radius: 10px;
+  ::-webkit-scrollbar {
+    background-color: transparent;
+    width: 5px;
   }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #0096ff;
+    height: 5px;
+  }
+`;
+
+const TodoTitle = styled.span`
+  font-size: 1.5em;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+const TodoListInnerContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const Todo = styled.div`
+  padding: 0 10px;
+  display: flex;
+`;
+
+const TodoSpan = styled.span`
+  font-size: 1.4em;
+  color: ${({ theme }) => theme.colors.white};
+  margin: 5px 0;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+`;
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+const ButtonContainer = styled.div`
+  width: 130px;
+  height: 130px;
+  position: absolute;
+  right: 2%;
+  bottom: 10%;
+  transform: translate(50% 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 9999px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+`;
+
+const ButtonTitle = styled.span`
+  color: white;
+  font-size: ${({ theme }) => theme.fontSizes.x4l};
+  position: absolute;
+  right: 2%;
+  bottom: 30%;
+  font-weight: bold;
+`;
+
+const CoralContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
+  display: flex;
+`;
+
+const Coral = styled.div`
+  width: 90%;
+  height: 90%;
+  background: url(${coral});
+  background-size: 90% 90%;
+  background-repeat: no-repeat;
+`;
+
+const BrokenCoral = styled.div`
+  width: 100%;
+  height: 100%;
+  background: url(${brokenCoral});
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+`;
+
+const CrabContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 30%;
+  top: 25%;
+  display: flex;
+  border-radius: 9999px;
+  padding: 10px;
+`;
+
+const Crab = styled.div`
+  background: url(${crab});
+  width: 80%;
+  height: 80%;
+  background-size: 80% 80%;
+  background-repeat: no-repeat;
+  z-index: 3;
+`;
+
+const SicissorsCrab = styled.div`
+  background: url(${sicissorsCrab});
+  width: 80%;
+  height: 80%;
+  background-size: 80% 80%;
+  background-repeat: no-repeat;
+  z-index: 3;
 `;
