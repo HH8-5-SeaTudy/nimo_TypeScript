@@ -101,11 +101,11 @@ const dragEndHandler = (e: any,i:number) => {
     dispatch(__postFishPosition(
       {
         fishNum : i,
-        left : e.target.offsetLeft + e.clientX - clientPos.x,
-        top : e.target.offsetTop + e.clientY - clientPos.y
+        left : dTest[i][0],
+        top :dTest[i][1]
       }
     ))
-    dispatch(__getFishPosition())
+
     
      // 캔버스 제거
     const canvases = document.getElementsByClassName("canvas");
@@ -133,10 +133,10 @@ const dragEndHandler = (e: any,i:number) => {
           dragEndHandler(e,i)
         }}
         style={{ 
+          // left: positionData.find((x)=>x.fishNum === i )?.left === 0  ? '0.5em' : positionData.find((x)=>x.fishNum === i )?.left, 
+          // top: positionData.find((x)=>x.fishNum === i )?.top === 0  ? '0.5em' : positionData.find((x)=>x.fishNum === i )?.top, 
           left: dTest[i][0]===0 ? '0.5em' : dTest[i][0] , 
           top:  dTest[i][1] === 0 ? '0.85em' : dTest[i][1] ,
-          // left: dTest[i][0]===0 ? '0.5em' : dTest[i][0] , 
-          // top:  dTest[i][1] === 0 ? '0.85em' : dTest[i][1] ,
 
           
           width: dSize[i][0] === 0 ? '' : dSize[i][0] , height: dSize[i][1] === 0 ? '' : dSize[i][1],

@@ -69,13 +69,8 @@ export const positionSlice = createSlice({
         console.log('리듀서임',action.payload)
         state.position = state.position.map((list) =>
         list.fishNum === action.payload.fishNum
-          ? { ...list, left : action.payload.left}
-          : { ...list, left : action.payload.left}
-      );
-        state.position = state.position.map((list) =>
-        list.fishNum === action.payload.fishNum 
-          ? { ...list, top : action.payload.top,}
-          : { ...list, top : action.payload.top,}
+          ? { ...list, left : action.payload.left , top : action.payload.top}
+          : list
       );
       })
 

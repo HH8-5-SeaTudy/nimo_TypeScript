@@ -63,8 +63,8 @@ const Home = () => {
       <button onClick={()=>{
         dispatch(__getCheckOutTimer());
       }}> stop</button>
-    
-      <button
+     */}
+      {/* <button
         onClick={() => {
           navigate("/chat", {
             state: {
@@ -122,7 +122,6 @@ const Home = () => {
 
       <MainBox>
         <Crab />
-
         <FishIventory />
         <SideBarLayer style={{ left: sideBarShow ? "0" : "-300px" }}>
           <SideBar>

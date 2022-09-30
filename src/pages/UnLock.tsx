@@ -79,35 +79,18 @@ const UnLock = () => {
     <UnClockContainer>
       <FirstBorderContainer>
         <UserInfoContainer>
-          <Grid
+          <UserInfoTitle><p>MY PROFILE</p></UserInfoTitle>
+          <UserInfoProfile>
+            <FishBowl>
+            <Grid
             width="100%"
-            display="flex"
-            alignItems="center"
-            justifyContent="flex-end"
           >
-            <Edit onClick={onClickEdit}>EDIT</Edit>
-          </Grid>
-          <Grid
-            width="100%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            {editFishName ? (
-              <>
-                <span>물고기를 선택해주세요</span>
-              </>
-            ) : (
-              <UserProfileImage src={userData.defaultFish} alt="" />
-            )}
-          </Grid>
-          {edit ? (
-            <EditFishButton onClick={onClickEditFishName}>
-              CHANGE
-            </EditFishButton>
-          ) : null}
-
-          <UserWrapper>
+            <UserProfileImage src={userData.defaultFish} alt="" />
+            </Grid>
+          </FishBowl>
+          </UserInfoProfile>
+          <UserInfo>         
+           <UserWrapper>
             <UserTitle>닉네임:</UserTitle>
             <Grid
               width="100%"
@@ -116,8 +99,7 @@ const UnLock = () => {
               justifyContent="center"
             >
               <>
-                {editNickname ? (
-                  <Input
+              { editNickname &&  <Input
                     onChange={onChangeNickname}
                     transition="width .2s .3s , height .3s"
                     width={editNickname ? "140px" : "0px"}
@@ -126,17 +108,17 @@ const UnLock = () => {
                     fontSize="20px"
                     border="none"
                     outline="none"
-                  />
-                ) : (
-                  <UserProfileTitle>{userData.nickname}</UserProfileTitle>
-                )}
+                    />}
+                 
+                  {!editNickname && <UserProfileTitle>{userData.nickname}</UserProfileTitle>}  
+                 
+
               </>
             </Grid>
-            {edit ? (
               <EditNicknamButton onClick={onClickEditNickname}>
                 CHANGE
               </EditNicknamButton>
-            ) : null}
+
           </UserWrapper>
           <UserWrapper>
             <UserTitle>이메일:</UserTitle>
@@ -149,7 +131,6 @@ const UnLock = () => {
               <UserProfileTitle>{userData.email}</UserProfileTitle>
             </Grid>
           </UserWrapper>
-
           <UserWrapper>
             <UserTitle>포인트:</UserTitle>
             <Grid
@@ -173,6 +154,8 @@ const UnLock = () => {
               <UserProfileTitle>{userData.id}</UserProfileTitle>
             </Grid>
           </UserWrapper>
+          </UserInfo>
+
         </UserInfoContainer>
 
         <FishSliderSecondBorder>
@@ -180,7 +163,7 @@ const UnLock = () => {
             <FishIllustratedBookTitleContainer>
               {/* 오른쪽 타이틀 */}
               <FishIllustratedRightWrapper>
-                <span>물고기 도감</span>
+                <span>FISH BOOK</span>
               </FishIllustratedRightWrapper>
             </FishIllustratedBookTitleContainer>
 
@@ -200,6 +183,7 @@ const UnLock = () => {
                         <BigFishName>{fishData.fishName}</BigFishName>
                       </Grid>
                       <BigFish src={fishImage} alt="" />
+                      <ProfileSelect onClick={()=>dispatch(__editUserFishProfile(fishData.fishName))}>POFILE SELECT</ProfileSelect>
                       <BigFishInfo>{fishData.fishInfo}</BigFishInfo>
                     </BigFishContainer>
                   </>
@@ -392,22 +376,23 @@ const EditFishButton = styled.button`
 
 const EditNicknamButton = styled.button`
   width: 70px;
-  height: 40px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
+  padding: 0 5px;
   border: none;
   outline: none;
-  padding: 5%;
   cursor: pointer;
   font-family: "DungGeunMo";
-  font-size: 20px;
+  font-size: 16px;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
   border: 1px solid black;
 `;
 
 const UnClockContainer = styled.div`
+
   width: 100%;
   height: 90vh;
   display: flex;
@@ -418,34 +403,86 @@ const UnClockContainer = styled.div`
 `;
 
 const FirstBorderContainer = styled.div`
+
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   /* position: absolute; */
-  background-color: #ff7700b3;
+  background-color: #0096FF;
+  padding: 30px;
 `;
 
 const UserInfoContainer = styled.div`
+
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  flex: 1;
-  padding: 3%;
+  flex: 1.1;
+  border-radius: 6px;
+  margin-right: 20px;
+  background-color: #ff9100;
+  box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
 `;
 
+const UserInfoTitle = styled.div`
+
+  height: 12%;
+  width:100%;
+  padding: 0 20px;
+  background-color: #ff9100;
+  p{
+    display:flex;
+  align-items: center;
+  justify-content: center;
+    height: 90%;
+    width: 100%;
+    text-align: center;
+    border-bottom: solid black 2px;
+    font-size: 50px;
+  }
+`
+const UserInfoProfile = styled.div`
+
+    height:40%;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+
+`
+const FishBowl = styled.div`
+
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background-color: #0096FF;
+  border: solid 8px white;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+`
+const UserInfo = styled.div`
+
+   height: 50%;
+   width:100%;
+   color: black;
+   background: white;
+   padding: 20px 20px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+`
 const UserWrapper = styled.div`
   width: 100%;
+  height: 20%;
   display: flex;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   align-items: center;
-  margin-top: 5%;
-  /* padding: 5%; */
-  padding-top: 3%;
-  color: white;
+
 `;
 
 const UserLevel = styled.div`
@@ -463,12 +500,11 @@ const UserTitle = styled.span`
 `;
 
 const UserProfileImage = styled.img`
-  width: 15vw;
-  height: 20vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 10%;
   padding: 3%;
 `;
 
@@ -483,6 +519,7 @@ const FishSliderSecondBorder = styled.div`
   align-items: center;
   position: relative;
   flex: 3;
+  border-radius: 6px;
 `;
 
 const FishContainer = styled.div`
@@ -493,6 +530,8 @@ const FishContainer = styled.div`
   flex-direction: column;
   background-color: white;
   background: linear-gradient(-65deg, #eee 50%, #fff 50%);
+  border-radius: 6px;
+  box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
 `;
 
 const FishIllustratedBookTitleContainer = styled.div`
@@ -504,26 +543,32 @@ const FishIllustratedBookTitleContainer = styled.div`
 const FishIllustratedRightWrapper = styled.div`
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  padding: 2% 0;
+  padding: 0 20px;
   font-size: 2em;
   margin-bottom: 2%;
+  background: #0096FF;
+  span{
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: solid black 2px;
+  }
 `;
 
 const FishWrapper = styled.div`
+
   display: flex;
   width: 100%;
   height: 100%;
   padding-top: 2%;
-  padding-bottom: 5%;
+  padding-bottom: 2%;
 `;
 
 const FishDetailContainer = styled.div`
+
   width: 100%;
-  height: 100%;
+  height: 88%;
   display: flex;
   border-right: 2px solid #ccc;
   flex-direction: column;
@@ -532,13 +577,13 @@ const FishDetailContainer = styled.div`
 `;
 
 const BigFishContainer = styled.div`
+
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 30%;
+  justify-content: space-between;
 `;
 
 const BigFishNum = styled.span`
@@ -551,8 +596,11 @@ const BigFishName = styled.span`
 `;
 
 const BigFishInfo = styled.span`
+  display: inline;
   font-size: ${({ theme }) => theme.fontSizes.xl};
-  padding: 10% 4% 0 4%;
+  padding: 3% 4% 3% 4%;
+  line-height: 40px;
+
 `;
 
 const RemainingPoint = styled.span`
@@ -562,12 +610,30 @@ const RemainingPoint = styled.span`
 const BigFish = styled.img`
   width: 15vw;
   height: 20vh;
-  margin-top: 3%;
+  margin-top: 1%;
 `;
+const ProfileSelect = styled.button`
+  width: 80px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 0 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: "DungGeunMo";
+  font-size: 16px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
+  border: 1px solid black;
+  line-height: 12px;
+`
 
 const FishListContainer = styled.div`
+
   width: 100%;
-  height: 100%;
+  height: 88%;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;

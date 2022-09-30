@@ -79,7 +79,7 @@ const Weekly = () => {
     padAngle={2}
     cornerRadius={7}
     activeOuterRadiusOffset={8}
-    colors={{ scheme: "yellow_orange_red" }}
+    colors={{ scheme: "blues" }}
     borderWidth={1}
     borderColor={{
       from: "color",
