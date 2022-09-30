@@ -28,6 +28,7 @@ export const __getDday: any = createAsyncThunk(
 export const __postDday: any = createAsyncThunk(
   "Dday/__postDday",
   async (payload: any, thunkAPI) => {
+    console.log(payload)
     try {
       const data = await axios.post(
         `${BASE_URL}/api/v1/ddays`,

@@ -466,6 +466,7 @@ const CalendarVer2 = () => {
                     onSubmit={(e) => {
                       e.preventDefault();
                       onSubmitDdayHandler();
+                      setDdayShow(false);
                     }}
                   >
                     <DdayInput>
@@ -478,8 +479,9 @@ const CalendarVer2 = () => {
                       />
                     </DdayInput>
                     <DdayInputBtn>
-                      <button type='submit' onClick={()=>{
-                      setDdayShow(false);}}>등록</button>
+                      <div onClick={()=>{
+                      onSubmitDdayHandler();
+                      setDdayShow(false);}}>등록</div>
                     </DdayInputBtn>
                   </form>
                 </DdayInputBox>
@@ -507,7 +509,8 @@ const CalendarVer2 = () => {
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
-                      onSubmitDdayEditHandler(list.ddayId, list.targetDay)
+                      onSubmitDdayEditHandler(list.ddayId, list.targetDay);
+                      setDdayEditShow(false);
                     }}
                   >
                     <DdayInput>
@@ -521,16 +524,16 @@ const CalendarVer2 = () => {
                         />
                         </DdayInput>
                   <DdayInputBtn>
-                        <button type='submit' onClick={()=>{
-                        setDdayShow(false)}}>수정</button>
-                        <button type='button'
+                        <div onClick={()=>{onSubmitDdayEditHandler(list.ddayId, list.targetDay)
+                        setDdayEditShow(false)}}>수정</div>
+                        <div
                           onClick={() => {
                             dispatch(__deleteDday(list.ddayId))
-                            setDdayShow(false);
+                            setDdayEditShow(false);
                           }}
                         >
                           삭제
-                        </button>
+                        </div>
                       </DdayInputBtn>
                   </form>
                 </DdayInputBox>
@@ -667,7 +670,6 @@ const CalendarVer2 = () => {
                                 onChange={(e) =>
                                   setEditCategory(e.target.value)
                                 }
-                                display="inline"
                                 type="text"
                                 defaultValue={list.categoryName}
                                 backgroundColor="#0096FF"
@@ -675,7 +677,7 @@ const CalendarVer2 = () => {
                                 outline="none"
                                 color="black"
                                 fontSize="20px"
-                                width="180px"
+                                width="150px"
                                 cursor="pointer"
                                 fontFamily= "DungGeunMo"
                               />
@@ -712,7 +714,7 @@ const CalendarVer2 = () => {
                                 onChange={(e)=>{onChangeTodoInput(e,index)}}
                                 width="250px"
                               />
-                              <TodoAddBtn type='submit' todo={todo[index]}>+</TodoAddBtn>
+                              <TodoAddBtn todo={todo[index]}>+</TodoAddBtn>
                             </HiddenTodoAddBox>
                           )}
                           {list.todoList &&
@@ -913,28 +915,30 @@ const DdayInput = styled.div`
 `;
 
 const DdayInputBtn = styled.div`
+  border: solid red 1px;
   margin-top: 5px;
   height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  button {
-    margin: 0 20px;
-    height: 20px;
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    padding: 0 5px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-family: "DungGeunMo";
-    font-size: 14px;
-    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
-    border: 1px solid black;
-    line-height: 12px;
+  div {
+    margin: 0 10px;
+    height: 23px;
+    width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  padding: 0 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: "DungGeunMo";
+  font-size: 16px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
+  border: 1px solid black;
+  line-height: 12px;
   }
 `;
 //디데이 수정박스
@@ -1023,6 +1027,7 @@ const Dday = styled.div`
   flex-wrap: wrap;
   justify-content: end;
   line-height: 19px;
+  cursor:pointer;
   div {
     font-size: 15px;
     color: black;
