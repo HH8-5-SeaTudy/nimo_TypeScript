@@ -410,8 +410,8 @@ const FirstBorderContainer = styled.div`
   align-items: center;
   justify-content: center;
   /* position: absolute; */
-  background-color: #0096FF;
-  padding: 30px;
+  background-color: #ff9011;
+
 `;
 
 const UserInfoContainer = styled.div`
@@ -677,7 +677,6 @@ const FishImageNumberContainer = styled.div`
   justify-content: space-around;
   width: 100%;
   height: 100%;
-  user-select: all;
   padding: 3%;
 `;
 
