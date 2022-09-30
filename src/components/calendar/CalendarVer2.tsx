@@ -35,8 +35,8 @@ const CalendarVer2 = () => {
   // const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
-  const DdayRed = DdayData.map((d)=>d.targetDay)
-  console.log(DdayRed)
+  const DdayRed = DdayData.map((d) => d.targetDay);
+  console.log(DdayRed);
   //
   const inputRef = useRef<any>([]);
   const [categoryInputShow, setCategoryInputShow] = useState(false);
@@ -51,11 +51,10 @@ const CalendarVer2 = () => {
   const [DdayEditShow, setDdayEditShow] = useState(false);
   const [category, setCategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
-  const [todo, setTodo] = useState(['','','','']);
+  const [todo, setTodo] = useState(["", "", "", ""]);
   const [ddayTitle, setDdayTitle] = useState("");
   const [selectDdayID, setSelectDdayID] = useState<number>();
-  const [DdayEditTitle, setDdayEditTitle] = useState(""); 
-
+  const [DdayEditTitle, setDdayEditTitle] = useState("");
 
   //Calendar
   //오늘 날짜 저장
@@ -95,11 +94,10 @@ const CalendarVer2 = () => {
     setCategory("");
   };
 
-
   const onChangeCategoryInput = (e: any) => {
     setCategory(e.target.value);
   };
-  const onSubmitTodoHandler = (id: any,i : number) => {
+  const onSubmitTodoHandler = (id: any, i: number) => {
     if (todo[i].length < 4) {
       alert("너무 짧습니다");
       return;
@@ -112,11 +110,11 @@ const CalendarVer2 = () => {
       })
     );
     const tempData = [...todo];
-    tempData[i] = '';
+    tempData[i] = "";
     setTodo([...tempData]);
-    console.log(inputRef,i);
+    console.log(inputRef, i);
   };
-  const onChangeTodoInput = (e: any,i : number) => {
+  const onChangeTodoInput = (e: any, i: number) => {
     const tempData = [...todo];
     tempData[i] = e.target.value;
     setTodo([...tempData]);
@@ -155,7 +153,6 @@ const CalendarVer2 = () => {
     );
   };
 
-
   //useEffect
   useEffect(() => {
     // dispatch(updateDate(today.format("YYYY-MM-DD")));//컴포넌트분리시사용
@@ -172,7 +169,7 @@ const CalendarVer2 = () => {
     dispatch(__getDday(DD));
   }, [DD]);
 
-  console.log(DdayShow)
+  console.log(DdayShow);
   const calendarArr = () => {
     let result: any = [];
 
@@ -218,7 +215,13 @@ const CalendarVer2 = () => {
                             cy="100"
                             r="48"
                             fill="transparent"
-                            stroke={DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#ff9100"}
+                            stroke={
+                              DdayRed.find(
+                                (d) => d === days.format("YYYY-MM-DD")
+                              ) === days.format("YYYY-MM-DD")
+                                ? "red"
+                                : "#ff9100"
+                            }
                             strokeWidth="90"
                             strokeDasharray={`${
                               (diameter *
@@ -266,7 +269,16 @@ const CalendarVer2 = () => {
                           />
                         </svg>
                       )}
-                    <P style={{ backgroundColor: DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#ff9100"}}>
+                    <P
+                      style={{
+                        backgroundColor:
+                          DdayRed.find(
+                            (d) => d === days.format("YYYY-MM-DD")
+                          ) === days.format("YYYY-MM-DD")
+                            ? "red"
+                            : "#ff9100",
+                      }}
+                    >
                       {days.format("D")}
                     </P>
                   </CalendarCel>
@@ -301,7 +313,13 @@ const CalendarVer2 = () => {
                             cy="100"
                             r="48"
                             fill="transparent"
-                            stroke={DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#00D7FF"}
+                            stroke={
+                              DdayRed.find(
+                                (d) => d === days.format("YYYY-MM-DD")
+                              ) === days.format("YYYY-MM-DD")
+                                ? "red"
+                                : "#00D7FF"
+                            }
                             strokeWidth="90"
                             strokeDasharray={`${
                               (diameter *
@@ -349,7 +367,16 @@ const CalendarVer2 = () => {
                           />
                         </svg>
                       )}
-                    <P style={{ backgroundColor: DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#00D7FF" }}>
+                    <P
+                      style={{
+                        backgroundColor:
+                          DdayRed.find(
+                            (d) => d === days.format("YYYY-MM-DD")
+                          ) === days.format("YYYY-MM-DD")
+                            ? "red"
+                            : "#00D7FF",
+                      }}
+                    >
                       {days.format("D")}
                     </P>
                   </CalendarCel>
@@ -384,7 +411,13 @@ const CalendarVer2 = () => {
                             cy="100"
                             r="48"
                             fill="transparent"
-                            stroke={DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#1175f8"}
+                            stroke={
+                              DdayRed.find(
+                                (d) => d === days.format("YYYY-MM-DD")
+                              ) === days.format("YYYY-MM-DD")
+                                ? "red"
+                                : "#1175f8"
+                            }
                             strokeWidth="90"
                             strokeDasharray={`${
                               (diameter *
@@ -433,8 +466,18 @@ const CalendarVer2 = () => {
                         </svg>
                       )}
                     <Cel></Cel>
-                    <P style={{ backgroundColor: DdayRed.find((d)=> d === days.format("YYYY-MM-DD")) === days.format("YYYY-MM-DD") ?  'red' :"#1175f8" }}>
-                      {days.format("D")}</P>
+                    <P
+                      style={{
+                        backgroundColor:
+                          DdayRed.find(
+                            (d) => d === days.format("YYYY-MM-DD")
+                          ) === days.format("YYYY-MM-DD")
+                            ? "red"
+                            : "#1175f8",
+                      }}
+                    >
+                      {days.format("D")}
+                    </P>
                   </CalendarCel>
                 );
               }
@@ -458,7 +501,9 @@ const CalendarVer2 = () => {
               <DayTextBox>
                 <DdayTextBoxCloseBtn>
                   <DdayTitle>ADD D-DAY</DdayTitle>
-                  <DdayCLoseBtn onClick={() => setDdayShow(false)}>X</DdayCLoseBtn>
+                  <DdayCLoseBtn onClick={() => setDdayShow(false)}>
+                    X
+                  </DdayCLoseBtn>
                 </DdayTextBoxCloseBtn>
                 <DdayInputBox>
                   <DToday>{DD}</DToday>
@@ -479,9 +524,14 @@ const CalendarVer2 = () => {
                       />
                     </DdayInput>
                     <DdayInputBtn>
-                      <div onClick={()=>{
-                      onSubmitDdayHandler();
-                      setDdayShow(false);}}>등록</div>
+                      <div
+                        onClick={() => {
+                          onSubmitDdayHandler();
+                          setDdayShow(false);
+                        }}
+                      >
+                        등록
+                      </div>
                     </DdayInputBtn>
                   </form>
                 </DdayInputBox>
@@ -491,13 +541,16 @@ const CalendarVer2 = () => {
             {DdayEditShow &&
               selectDdayData?.map((list) => (
                 <DayTextBox>
-                <DdayTextBoxCloseBtn>
-                <DdayTitle>EDIT D-DAY</DdayTitle>
-                  <DdayCLoseBtn onClick={() => setDdayEditShow(false)}>X</DdayCLoseBtn>
-                </DdayTextBoxCloseBtn>
-                <DdayInputBox>
-                <DToday>{DD}
-                  <span>
+                  <DdayTextBoxCloseBtn>
+                    <DdayTitle>EDIT D-DAY</DdayTitle>
+                    <DdayCLoseBtn onClick={() => setDdayEditShow(false)}>
+                      X
+                    </DdayCLoseBtn>
+                  </DdayTextBoxCloseBtn>
+                  <DdayInputBox>
+                    <DToday>
+                      {DD}
+                      <span>
                         D
                         {list.dday === 0
                           ? "-day"
@@ -505,15 +558,15 @@ const CalendarVer2 = () => {
                           ? "+" + list.dday
                           : list.dday}
                       </span>
-                      </DToday>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      onSubmitDdayEditHandler(list.ddayId, list.targetDay);
-                      setDdayEditShow(false);
-                    }}
-                  >
-                    <DdayInput>
+                    </DToday>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        onSubmitDdayEditHandler(list.ddayId, list.targetDay);
+                        setDdayEditShow(false);
+                      }}
+                    >
+                      <DdayInput>
                         <Input
                           type="text"
                           onChange={(e) => setDdayEditTitle(e.target.value)}
@@ -522,23 +575,31 @@ const CalendarVer2 = () => {
                           height="30px"
                           defaultValue={list.title}
                         />
-                        </DdayInput>
-                  <DdayInputBtn>
-                        <div onClick={()=>{onSubmitDdayEditHandler(list.ddayId, list.targetDay)
-                        setDdayEditShow(false)}}>수정</div>
+                      </DdayInput>
+                      <DdayInputBtn>
                         <div
                           onClick={() => {
-                            dispatch(__deleteDday(list.ddayId))
+                            onSubmitDdayEditHandler(
+                              list.ddayId,
+                              list.targetDay
+                            );
+                            setDdayEditShow(false);
+                          }}
+                        >
+                          수정
+                        </div>
+                        <div
+                          onClick={() => {
+                            dispatch(__deleteDday(list.ddayId));
                             setDdayEditShow(false);
                           }}
                         >
                           삭제
                         </div>
                       </DdayInputBtn>
-                  </form>
-                </DdayInputBox>
-              </DayTextBox>
-            
+                    </form>
+                  </DdayInputBox>
+                </DayTextBox>
               ))}
 
             {/* 달력 */}
@@ -630,7 +691,7 @@ const CalendarVer2 = () => {
                   ></DayBtn>
                   <Today>{DD.slice(-2)}</Today>
                 </TopBox>
-                <LeftSideDay >
+                <LeftSideDay>
                   {/* 디데이 */}
                   <DdayList>
                     {DdayData &&
@@ -656,7 +717,7 @@ const CalendarVer2 = () => {
                   {dateTodos &&
                     dateTodos.map((list, index) => {
                       return (
-                        <TodoListBox key={list.categoryId} >
+                        <TodoListBox key={list.categoryId}>
                           <CategoryBox>
                             <CategoryTitle
                               onSubmit={(e) => {
@@ -679,7 +740,7 @@ const CalendarVer2 = () => {
                                 fontSize="20px"
                                 width="150px"
                                 cursor="pointer"
-                                fontFamily= "DungGeunMo"
+                                fontFamily="DungGeunMo"
                               />
                             </CategoryTitle>
                             <BtnGroup>
@@ -704,14 +765,17 @@ const CalendarVer2 = () => {
                             <HiddenTodoAddBox
                               onSubmit={(e) => {
                                 e.preventDefault();
-                                onSubmitTodoHandler(list.categoryId,index);
+                                onSubmitTodoHandler(list.categoryId, index);
                               }}
                             >
                               <Input
                                 type="text"
-                                
-                                ref={(el:any)=>(inputRef.current[index]=el)}
-                                onChange={(e)=>{onChangeTodoInput(e,index)}}
+                                ref={(el: any) =>
+                                  (inputRef.current[index] = el)
+                                }
+                                onChange={(e) => {
+                                  onChangeTodoInput(e, index);
+                                }}
                                 width="250px"
                               />
                               <TodoAddBtn todo={todo[index]}>+</TodoAddBtn>
@@ -817,45 +881,44 @@ const NextBtn = styled.img`
 `;
 
 const Wrapper = styled.div`
-  background-color: #0096FF;
-  top: 25px;
+  background-color: #0096ff;
+
   display: block;
-  position: relative;
   max-width: 1100px;
   height: 680px;
   width: 100%;
   margin: 0 auto;
   color: #ffffff;
   border-radius: 6px;
-  border : solid black 2px;
+  border: solid black 2px;
 `;
 const CalendarTitle = styled.div`
-width:100%;
-height: 11%;
-display: flex;
-justify-content:space-between;
-padding: 0 40px 0 40px;
-`
+  width: 100%;
+  height: 11%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 40px 0 40px;
+`;
 const ATtile = styled.div`
-background-color:#0096FF;
-color: black;
-width: 580px;
-display: flex;
-justify-content: center;
-align-items: center;
-font-size: 50px;
-border-bottom: solid black 2px;
-`
+  background-color: #0096ff;
+  color: black;
+  width: 580px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  border-bottom: solid black 2px;
+`;
 const BTtile = styled.div`
-background-color:#0096FF;
-border-bottom: solid black 2px;
-color: black;
-width: 350px;
-display: flex;
-justify-content: center;
-align-items: center;
-font-size: 50px;
-`
+  background-color: #0096ff;
+  border-bottom: solid black 2px;
+  color: black;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+`;
 const DayTextBox = styled.div`
   position: absolute;
   width: 300px;
@@ -873,20 +936,20 @@ const DdayTextBoxCloseBtn = styled.div`
   color: black;
   cursor: pointer;
 `;
-const  DdayTitle =styled.div`
+const DdayTitle = styled.div`
   display: flex;
   justify-content: center;
-  font-size : 20px;
+  font-size: 20px;
   border-bottom: solid black 2px;
   margin: auto;
   width: 100px;
-`
-const DdayCLoseBtn =styled.div`
- position: absolute;
- top:25px;
- right:30px;
- z-index: 2;
-`
+`;
+const DdayCLoseBtn = styled.div`
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  z-index: 2;
+`;
 
 const DdayInputBox = styled.div`
   width: 200px;
@@ -897,12 +960,12 @@ const DdayInputBox = styled.div`
 const DToday = styled.div`
   text-align: center;
   color: black;
-  font-size:20px;
+  font-size: 20px;
   span {
     margin-left: 5px;
     color: red;
   }
-`
+`;
 const DdayInput = styled.div`
   height: 50%;
   display: flex;
@@ -921,25 +984,25 @@ const DdayInputBtn = styled.div`
     margin: 0 10px;
     height: 23px;
     width: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  color: black;
-  padding: 0 5px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-family: "DungGeunMo";
-  font-size: 16px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
-  border: 1px solid black;
-  line-height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: black;
+    padding: 0 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: "DungGeunMo";
+    font-size: 16px;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
+    border: 1px solid black;
+    line-height: 12px;
   }
 `;
 //디데이 수정박스
 const DayEditTextBox = styled.div`
-border : solid red 1px;
+  border: solid red 1px;
   position: absolute;
   width: 300px;
   height: 200px;
@@ -993,18 +1056,18 @@ const Today = styled.div`
 
 const LeftSideDay = styled.div`
   font-size: 18px;
-  padding-right:3px;
+  padding-right: 3px;
   overflow-y: scroll;
   overflow-x: hidden;
   ::-webkit-scrollbar {
-    background-color:transparent;
+    background-color: transparent;
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  background-color: white;
-  height:5px;
-}
+    border-radius: 8px;
+    background-color: white;
+    height: 5px;
+  }
   max-height: 400px;
 `;
 const DdayList = styled.div`
@@ -1019,7 +1082,7 @@ const Dday = styled.div`
   flex-wrap: wrap;
   justify-content: end;
   line-height: 19px;
-  cursor:pointer;
+  cursor: pointer;
   div {
     font-size: 15px;
     color: black;
