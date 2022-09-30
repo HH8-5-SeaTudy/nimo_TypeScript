@@ -915,7 +915,6 @@ const DdayInput = styled.div`
 `;
 
 const DdayInputBtn = styled.div`
-  border: solid red 1px;
   margin-top: 5px;
   height: 50%;
   display: flex;
