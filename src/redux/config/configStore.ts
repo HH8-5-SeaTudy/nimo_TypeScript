@@ -1,18 +1,24 @@
 import { configureStore } from "@reduxjs/toolkit";
-import allTodos from "../modules/allTodos";
 import dateTodos from "../modules/dateTodos";
 import timer from "../modules/timer";
 import updateDate from "../modules/searchDate";
-
+import userData from "../modules/userData";
 import socket from "../modules/socket";
-
+import dday from "../modules/dday";
+import fishList from "../modules/fishList";
+import rank from '../modules/rank';
+import fishPosition from '../modules/fishPosition';
 const store = configureStore({
   reducer: {
     updateDate,
-    allTodos,
     dateTodos,
     timer,
     socket,
+    userData,
+    dday,
+    fishList,
+    rank,
+    fishPosition,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

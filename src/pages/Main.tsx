@@ -1,459 +1,190 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect,useState } from 'react';
 import styled from 'styled-components';
-import moment from "moment";
-import { useAppDispatch,  useAppSelector } from "../components/hooks/reduxHooks";
-import { __getDateTodo } from '../redux/modules/dateTodos';
-import { __getCheckInTimer, __getCheckOutTimer, __getUserinquire } from "../redux/modules/timer";
-import TodoModal from '../pages/TodoModal';
-import Calendars from '../components/calendar/Calendars';
-//아이콘
-import { ReactComponent as ProfileIcon } from "../assets/icon/ProfileIcon.svg";
-import { ReactComponent as PlusIcon } from "../assets/icon/PlusIcon.svg";
-import { ReactComponent as BurgerIcon } from "../assets/icon/BurgerIcon.svg";
-import { ReactComponent as CalendarIcon } from "../assets/icon/CalendarIcon.svg";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
+import { __deleteTodo, __doneTodo, __getDateTodo } from '../redux/modules/dateTodos';
+import { __getUserProfile } from '../redux/modules/userData';
 
 const Main = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const [todoShow,setTodoShow] = useState(false)
 
-  //Todo zone
-  const date = useAppSelector((state) => state.updateDate.date);
-  const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
+  //오늘 날짜
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = ('0' + (today.getMonth() + 1)).slice(-2);
+  const day = ('0' + today.getDate()).slice(-2);
+  const dateString = year + '-' + month  + '-' + day;
+
+
   useEffect(() => {
-    dispatch(__getDateTodo(moment(date).format("YYYY-MM-DD")));
-  }, [date]);
+    dispatch(__getUserProfile());
+    dispatch(__getDateTodo(dateString));
+  }, []);
 
-  const [modalShow, setModalShow] = useState(false);
+  const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
 
-  const modalHandler = () => {
-    setModalShow(!modalShow);
-  };
-
-  //SideBar hidden
-  const [profileShow, setProfileShow] = useState(false);
-  const [todoShow, setTodoShow] = useState(false);
-  const [burgerShow, setBurgerShow] = useState(false);
-  const [calendarShow, setCalendarShow] = useState(false);
-
-  //server zone
-  const roomId1 = process.env.REACT_APP_ROOMID1;
-  const roomId2 = process.env.REACT_APP_ROOMID2;
-  const roomId3 = process.env.REACT_APP_ROOMID3;
-  const roomId4 = process.env.REACT_APP_ROOMID4;
-  const roomId5 = process.env.REACT_APP_ROOMID5;
-
+  const userProfile = useAppSelector(
+    (state) => state.userData.userProfile);
+  
+  console.log(dateTodos)
+  
 
   return (
-  <Layer>
-    <MainBox>
-      <TopBox>
-        <ProfileLayer>
-          <ProfileIconBox onClick={() => setProfileShow(!profileShow)}>
-            <Profile />
-          </ProfileIconBox>
-          <ProfileHiddenLayer profileShow={profileShow}>
-            <ProfileInfo>
-              <ProfileImg></ProfileImg>
-              <ProfileName></ProfileName>
-              <ProfileMsg></ProfileMsg>
-            </ProfileInfo>
-            <ProfileClose onClick={() => setProfileShow(!profileShow)}>
-            </ProfileClose>
-          </ProfileHiddenLayer>
-        </ProfileLayer>
-        <TodoLayer>
-          <TodoIconBox onClick={() => setTodoShow(!todoShow)}>
-          <Plus />
-          </TodoIconBox>
-          <TodoHiddenLayer todoShow={todoShow} >
-            <TodoInfo>
-            <button onClick={()=>{modalHandler()}}>작성하기버튼</button>
-              <div>
-                {dateTodos &&
-                  dateTodos.map((list) => (
-                    <div key={list.categoryId}>
-                      <div>
-                        <p>카테고리이름:{list.categoryName}</p>
-                      </div>
-                      <div>
-                        {list.todoList &&
-                          list.todoList.map((item) => (
-                            <>
-                              <div key={item.todoId}>
-                                <p>{item.content}</p>
-                              </div>
-                            </>
-                          ))}
-                      </div>
-                    </div>
-                  ))}
-              </div>
-              {modalShow && <TodoModal modalHandler={modalHandler} />}
-            </TodoInfo>
-            <TodoClose  onClick={() => setTodoShow(!todoShow)}>
-            </TodoClose>
-          </TodoHiddenLayer>
-        </TodoLayer>
-      </TopBox>
-      <Bottom>
-      <BurgerLayer>
-          <BurgerIconBox onClick={() => setBurgerShow(!burgerShow)}>
-          <Burger />
-          </BurgerIconBox>
-          <BurgerHiddenLayer burgerShow={burgerShow}>
-            <BurgerInfo>
-              <button onClick={()=>navigate('/statistics')}>통계페이지로이동</button>
-            </BurgerInfo>
-            <BurgerClose onClick={() => setBurgerShow(!burgerShow)}>
-            </BurgerClose>
-          </BurgerHiddenLayer>
-        </BurgerLayer>
-        <CalendarLayer>
-          <CalendarIconBox onClick={() => setCalendarShow(!calendarShow)}>
-          <Calendar />
-          </CalendarIconBox>
-          <CalendarHiddenLayer calendarShow={calendarShow} >
-            <CalendarInfo>
-            <Calendars/>
-            </CalendarInfo>
-            <CalendarClose onClick={() => setCalendarShow(!calendarShow)}>
-            </CalendarClose>
-          </CalendarHiddenLayer>
-        </CalendarLayer>
-        <ButtonBox>
-          <CheckInBall>
-          <button onClick={()=>{
-            dispatch(__getCheckInTimer());
-          }}>start</button>
-          <button onClick={()=>{
-            dispatch(__getCheckOutTimer());
-          }}> stop</button>
-          </CheckInBall>
-          <button
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId1,
-                },
-              });
-            }}
-          >
-            서버1
-          </button>
-          <button
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId2,
-                },
-              });
-            }}
-          >
-            서버2
-          </button>
-          <button
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId3,
-                },
-              });
-            }}
-          >
-            서버3
-          </button>
-          <button
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId4,
-                },
-              });
-            }}
-          >
-            서버4
-          </button>
-          <button
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId5,
-                },
-              });
-            }}
-          >
-            서버5
-          </button>
-        </ButtonBox>
-      </Bottom>
-    </MainBox>
-  </Layer>
+    <Layer>
+      <ProfileBox><img src={userProfile.defaultFish} alt="" /></ProfileBox>
+      <InfoBox>
+        <ProfileName>{userProfile.nickname}</ProfileName>
+        <ProfileTime>{userProfile.point}P</ProfileTime>
+        <ProfileGroup onClick={()=>setTodoShow(!todoShow)}>Todo</ProfileGroup>
+      </InfoBox>
+      <TodoBox style={{paddingTop: todoShow ? '72px' : '0px'}}>
+        <TodoListBox >
+          <Todo style={{height: todoShow ? '30px' : '0px'}}>TODAY'S TODO</Todo>
+          {dateTodos &&
+            dateTodos.map((list) => list.todoList 
+            ? list.todoList.map((item)=> 
+            <Todo key={item.todoId} style={{height: todoShow ? '30px' : '0px'}}>
+              <Done>
+                <div onClick={() =>dispatch(__doneTodo(item.todoId))}
+                style={{backgroundColor:item.done === 1? "#32de5d": "transparent" }}></div>
+              </Done>
+              <Title style={{fontSize:todoShow ? '10px' : '0px'}}>{item.content}</Title>
+              <Delete onClick={() =>
+              dispatch(__deleteTodo({todoId: item.todoId,categoryId: list.categoryId,}))}><div>+</div></Delete>
+            </Todo>)
+            : <Todo style={{height: todoShow ? '30px' : '0px'}}>등록된 TODO가 없습니다.</Todo> 
+            )}
+        </TodoListBox>
+      </TodoBox>
+    </Layer>
   );
 };
 
 export default Main;
-interface ProfileLayerProps {
-profileShow: boolean;
-}
-interface BurgerLayerProps {
-  burgerShow: boolean;
-}
-interface TodoLayerProps {
-  todoShow: boolean;
-}
-interface CalendarLayerProps {
-calendarShow: boolean;
-}
 
-const Layer = styled.section`
-  width: 100%;
-  height: 100vh;
-  padding-top: 65px;
-  background: url('https://i.pinimg.com/564x/74/14/83/741483bb55e4277719c3b9a80e92bcc9.jpg');
-  background-size: 100% 100vh;
+const Layer = styled.div`
+   border: solid red 1px;
+   width: 250px;
+   height: 150px;
+   display:flex;
+   align-items: center;
 `
 
-const MainBox = styled.div`
-    border: solid red 1px; 
-    height: 100%;
-
-` 
-
-const TopBox = styled.div`
-    border: solid red 1px; 
-    height: 50%;
-    display: flex;
-    justify-content: space-between;
-`
-
-
-const ProfileLayer = styled.div`
-   position:relative;
-   background:#264b7e;
-   width: 25px;
-`
-const ProfileIconBox = styled.div`
-  background:#264b7e;
-  width: 60px;
-  height: 75px;
-  position: absolute;
-  left: -5px;
-  top: 38%;
-  border-radius: 40px;
-`
-const Profile = styled(ProfileIcon)`
-  position: absolute;
-  top:30%;
-  right:13px;
-`;
-
-const ProfileHiddenLayer = styled.div<ProfileLayerProps>`
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display:flex;
-  position:absolute;
-  left: ${({ profileShow }) => (profileShow ? "0px" : "-359px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-const ProfileInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-
-`
-const ProfileImg = styled.div`
-  border: 2px solid #ffffff;
-  background: #bababa;
-  width: 175px;
-  height: 175px;
+const ProfileBox = styled.div`
+border: solid blue 1px;
+  width:115px;
+  height:115px;
   border-radius: 50%;
-  margin: 0 auto;
-  `
-const ProfileName = styled.div`
-  border: 2px solid #ffffff;
-  background: #bababa;
-  width: 123px;
-  height: 50px;
-  margin: 0 auto;
-`
-const ProfileMsg = styled.div`
-border: 2px solid #ffffff;
-background: #bababa;
-  width: 250px;
-  height: 87px;
-  margin: 0 auto;
-`
-const ProfileClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-
-const TodoLayer = styled.div`
-   width: 25px;
-   position:relative;
-   background:#264b7e;
-`
-
-const TodoIconBox = styled.div`
-  position: absolute; 
-  width: 60px;
-  height: 75px;
-  right: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background:#264b7e;
-`
-const Plus = styled(PlusIcon)`
-  position: absolute;
-  top:30%;
-  left:13px;
-`;
-
-const TodoHiddenLayer = styled.div<TodoLayerProps>`
-  position:absolute;
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display:flex;
-  flex-direction: row-reverse;
-  left: ${({ todoShow }) => (todoShow ? "-334px" : "25px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-
-const TodoInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`
-
-const TodoClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-
-
-const Bottom =styled.div`
-    border: solid red 2px; 
-    height: 50%;
-    display: flex;
-    justify-content: space-between;
-`
-
-const BurgerLayer = styled.div`
-   position:relative;
-   width: 25px;
-   background:#264b7e;
-`
-const BurgerIconBox = styled.div`
-  width: 60px;
-  height: 75px;
-  position: absolute;
-  left: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background:#264b7e;
-`
-const Burger = styled(BurgerIcon)`
-    position: absolute;
-  top:30%;
-  right:13px;
-`;
-
-const BurgerHiddenLayer = styled.div<BurgerLayerProps>`
-    border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display:flex;
-  position:absolute;
-  left: ${({ burgerShow }) => (burgerShow ? "0px" : "-359px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-const BurgerInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`
-const BurgerClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-
-const CalendarLayer = styled.div`
-   width: 25px;
-   position:relative;
-   background:#264b7e;
-`
-
-const CalendarIconBox = styled.div`
-  position: absolute; 
-  width: 60px;
-  height: 75px;
-  right: -5px;
-  top: 38%;
-  border-radius: 40px;
-  background:#264b7e;
-`
-const Calendar = styled(CalendarIcon)`
-   position: absolute;
-  top:30%;
-  left:13px;
-`;
-
-const CalendarHiddenLayer = styled.div<CalendarLayerProps>`
-  position:absolute;
-  border: solid blue 1px;
-  width: 359px;
-  height: 100%;
-  display:flex;
-  flex-direction: row-reverse;
-  left: ${({ calendarShow }) => (calendarShow ? "-334px" : "25px")};
-  z-index: 1;
-  transition: all 0.5s;
-  background:#264b7e;
-`
-
-const CalendarInfo = styled.div`
-  border: solid red 1px;
-  height: 100%;
-  width: 334px;
-`
-
-const CalendarClose =styled.div`
-  border: solid red 1px;
-  width: 25px;
-  height: 100%;
-`
-const ButtonBox = styled.div`
-  position: absolute;
-  border: solid red 1px; 
-  width: 200px;
-  height: 400px;
+  border: solid white 3px;
+  background-color: #0096FF;
+  z-index:3;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  left: 45%;
-`;
-const CheckInBall = styled.div`
-button{
-  width: 50%;
-  height: 50px;
-  &:first-child{
-    background-color: green;
+  align-items: center;
+  justify-content: center;
+  img {  
+    width: 80px;
+    height: 70px;
+    padding: 5px;
   }
-  background-color:red;
-}
+`
+const InfoBox = styled.div`
+  border: solid red 1px;
+  width:170px;
+  height:85px;
+  position: absolute;
+  left: 65px;
+  border-radius: 8px;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0 0 45px;
+  background-color: #ff9100;
+  z-index:2;
+  text-align: center;
+`
+
+const ProfileName =styled.div`
+  border: solid red 1px;
+  width: 70%;
+  height: 30%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+`
+const ProfileTime = styled.div`
+  border: solid red 1px;
+  width: 80%;
+  height: 30%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+`
+const ProfileGroup = styled.div`
+  border: solid red 1px;
+  width: 70%;
+  height: 30%;
+  border-radius: 10px 10px 0 0 ;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+`
+const TodoBox = styled.div`
+  border: solid red 4px;
+  width: 190px;
+  position: absolute;
+  left: 25px;
+  top: 50px;
+  transition: all  0.5s;
+  z-index: 1;
+`
+const TodoListBox = styled.div`
+  border: solid red 6px;
+  height: 100%;
+  width: 100%;
+`
+const Todo = styled.div`
+  border: solid red 1px;
+  height: 30px;
+  width: 100%;
+  display: flex;
+  transition: all 0.5s;
+`
+const Done = styled.div`
+    border: solid red 1px;
+    height: 100%;
+    width: 13%;
+    display:flex;
+    align-items: center;
+
+    div{
+      border: solid red 1px;
+      height:20px;
+      width:20px;
+      border-radius: 50%;
+      border: solid black 1px;
+    }
+`
+const Title = styled.div`
+     border: solid red 1px;
+     height: 100%;
+    width: 75%;
+`
+const Delete =styled.div`
+  border: solid red 1px;
+  height: 100%;
+  width: 13%;
+  display:flex;
+    align-items: center;
+  div {
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    border: solid red 1px;
+      height:20px;
+      width:20px;
+      border-radius: 50%;
+      border: solid black 1px;
+      transform: rotate(45deg);
+  }
 `

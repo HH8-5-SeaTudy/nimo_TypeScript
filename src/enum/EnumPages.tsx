@@ -9,4 +9,5 @@ export const enum EnumPages {
   CHATROOM = "/chat",
   STATISTICS = "statistics",
   WAVE = "wave",
+  UNLOCK = "/unlock",
 }

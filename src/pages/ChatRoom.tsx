@@ -1,13 +1,8 @@
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
-import { addUser, __getChatroom } from "../redux/modules/socket";
-
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token: string = process.env.REACT_APP_TOKEN as string;
+import { useAppDispatch } from "../components/hooks/reduxHooks";
+import { __getChatroom } from "../redux/modules/socket";
+import Chatting from "./Chatting";
 
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;
@@ -23,113 +18,10 @@ function ChatRoom() {
 
   //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();
-  const message = useRef<any>(null);
-  // const [message, setMessage] = useState("");
-  const chat = useAppSelector((state) => state.socket.chat);
 
-  const headers = {
-    Authorization: token,
-  };
-
-  const socket = new SockJS(`${BASE_URL}/api/v1/chat/connections`);
-  const client = Stomp.over(socket);
-
-  console.log("00000");
   const roomIdHandler = () => {
-  console.log("11111");
-
     window.location.reload();
-    dispatch(__getChatroom(id));
   };
-
-  //렌더되면 소켓 연결실행
-  useLayoutEffect(() => {
-  console.log("2222");
-
-    onConneted();
-    return () => {
-      disConneted();
-    };
-  }, []);
-
-  const handleEnterPress = (e: any) => {
-    if (e.code === "Enter" && e.shiftKey === false) {
-      console.log("3333");
-      sendMessage();
-    }
-  };
-
-  //연결&구독
-  const onConneted = ()=> {
-  console.log("4444");
-
-    try {
-      client.connect(headers, () => {
-        client.subscribe(
-          `/sub/chat/room/${id}`,
-          (data) => {
-            const user = JSON.parse(data.body);
-            dispatch(addUser(user));
-          },
-          headers
-        );
-        client.send(
-          `/pub/chat/enter`,
-          headers,
-          JSON.stringify({
-            roomId: id,
-          })
-        );
-      });
-    } catch (error) {}
-  }
-
-  //메시지 보내기
-  const sendMessage = () => {
-    console.log("5555");
-    const res = JSON.stringify({
-      roomId: id,
-      message: message.current.value,
-    })
-    waitForConnection(client, function () {
-      client.send(
-        `/pub/chat/message`,
-        headers,
-        res,
-      );
-    });
-
-    // setMessage("");
-    message.current.value = "";
-  };
-
-  // 연결해제, 구독해제
-  function disConneted() {
-  console.log("7666666");
-
-    try {
-      client.disconnect(
-        () => {
-          client.unsubscribe("sub-0");
-        },
-        { token: token }
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  function waitForConnection(client: any, callback: any) {
-  console.log("888888");
-
-    setTimeout(function () {
-      if (client.ws.readyState === 1) {
-        callback();
-      } else {
-        waitForConnection(client, callback);
-      }
-    }, 1);
-  }
 
   return (
     <MessageContainer>
@@ -200,25 +92,9 @@ function ChatRoom() {
           </div>
         </SeaContainer>
 
-        {/* 오른쪽 section */}
+        {/* 채팅 부분 */}
         <ChatContainer>
-          <MessageWrapper>
-            {chat &&
-              chat.map((list: any, index: number) => (
-                <MessageListContainer key={index}>
-                  {list.message}
-                </MessageListContainer>
-              ))}
-          </MessageWrapper>
-          <MessageForm>
-            <textarea
-              onKeyUp={handleEnterPress}
-              ref={message}
-              />
-            <ButtonContainer>
-              <button onClick={handleEnterPress}>전송</button>
-            </ButtonContainer>
-          </MessageForm>
+          <Chatting />
         </ChatContainer>
       </MessageFormContainer>
     </MessageContainer>
@@ -227,10 +103,11 @@ function ChatRoom() {
 
 const MessageContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   border: 4px solid green;
+  padding: 0 10px;
 `;
 
 const MessageWrapper = styled.div`
@@ -252,10 +129,7 @@ const MessageListContainer = styled.span`
 const MessageFormContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #eee;
   display: flex;
-  border: 2px solid red;
-  margin-top: 60px;
 `;
 
 const SeaContainer = styled.section`
@@ -268,9 +142,8 @@ const ChatContainer = styled.section`
   width: 100%;
   height: 100%;
   display: flex;
-  flex: 1.5;
+  flex: 3;
   flex-direction: column;
-  border: 2px solid black;
 `;
 
 const MessageForm = styled.form`

@@ -1,5 +1,20 @@
 const calcRem = (size: number) => `${size / 16}rem`;
 
+// 중앙정렬
+const common = {
+  flexCenter: `
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  `,
+  flexCenterColumn: `
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  `,
+};
+
 const fontSizes = {
   small: calcRem(14),
   base: calcRem(16),
@@ -7,6 +22,7 @@ const fontSizes = {
   xl: calcRem(20),
   xxl: calcRem(22),
   xxxl: calcRem(24),
+  x4l: calcRem(40),
   titleSize: calcRem(50),
 };
 
@@ -49,7 +65,7 @@ const deviceSizes = {
 
 const colors = {
   black: "#000000",
-  white: "#FFFFFF",
+  white: "#ffffffba",
   gray_1: "#222222",
   gray_2: "#767676",
   green_1: "#3cb46e",
@@ -63,6 +79,7 @@ const theme = {
   margins,
   interval,
   verticalInterval,
+  common,
 };
 
 export default theme;

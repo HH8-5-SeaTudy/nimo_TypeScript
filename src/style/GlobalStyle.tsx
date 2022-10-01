@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -6,7 +6,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: "Helvetica", "Arial", sans-serif;
+    font-family: "DungGeunMo";
     line-height: 1.5;
     margin: 0;
     padding: 0;
@@ -16,6 +16,10 @@ const GlobalStyle = createGlobalStyle`
     padding:0;
   }
   h1 {
+    margin:0;
+    padding:0;
+  }
+  button{
     margin:0;
     padding:0;
   }
