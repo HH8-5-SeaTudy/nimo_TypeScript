@@ -24,7 +24,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const time = useAppSelector((state) => state.timer);
-  const dayMyRank = useAppSelector((state) => state.rank.dayMyRank.myRank);
+  // const dayMyRank = useAppSelector((state) => state.rank.dayMyRank.myRank);
   const weekMyRank = useAppSelector((state) => state.rank.WeekMyRank.myRank);
   const nickname = useAppSelector((state) => state.rank.WeekMyRank.nickname);
   const userData = useAppSelector((state) => state.userData.userProfile);
@@ -132,7 +132,7 @@ const Header = () => {
           </Grid>
           <Grid>
             <Grid display="flex" flexDirection="column" alignItems="center">
-              <DayRank>일간랭킹: {dayMyRank}</DayRank>
+              {/* <DayRank>일간랭킹: {dayMyRank}</DayRank> */}
             </Grid>
             <Grid display="flex" flexDirection="column" alignItems="center">
               <WeekRank>주간랭킹:  {weekMyRank}</WeekRank>

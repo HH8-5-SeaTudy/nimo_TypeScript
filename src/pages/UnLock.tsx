@@ -10,7 +10,6 @@ import fishImages from "../components/fish/FishImages";
 import Grid from "../elements/Grid";
 import { __getFishList } from "../redux/modules/fishList";
 import Input from "../elements/Input";
-import Button from "../elements/Button";
 
 const UnLock = () => {
   const dispatch = useAppDispatch();
