@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
@@ -20,9 +20,9 @@ import brokenCoral from "../assets/pixel/brokenCoral.png";
 import Server from '../components/serverButton/Server';
 import ProfileHeader from '../components/profileHeader/ProfileHeader';
 
+
 const Home = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   //Todo zone
   const date = useAppSelector((state) => state.updateDate.date);
@@ -58,11 +58,15 @@ const Home = () => {
     dispatch(__getCheckOutTimer());
   };
 
+  const aa = [1, 2, 3, 4, 5];
+  const ss = aa.reduce((a, b) => a + b);
+  console.log(ss);
+
   return (
     <Layer>
       {modalShow && <CalendarVer2 />}
       <MainBox>
-        <Server/>
+        <Server />
         <ProfileContainer>
          <ProfileHeader/>
         </ProfileContainer>
@@ -91,7 +95,6 @@ const Home = () => {
             </ButtonContainer>
           </>
         )}
-
         <FishIventory />
       </MainBox>
     </Layer>
@@ -101,7 +104,7 @@ const Home = () => {
 export default Home;
 
 const ChatButtonContainer = styled.div`
- border: solid red 1px;
+  border: solid red 1px;
   width: 10vw;
   height: 10vh;
 `;

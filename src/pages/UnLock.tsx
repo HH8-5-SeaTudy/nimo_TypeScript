@@ -35,6 +35,7 @@ const UnLock = () => {
   //   }
   // };
 
+
   const onClickEditNickname = () => {
     if (nickname.length > 7) {
       alert("닉네임은 최대 7글자 입니다");
@@ -79,83 +80,83 @@ const UnLock = () => {
     <UnClockContainer>
       <FirstBorderContainer>
         <UserInfoContainer>
-          <UserInfoTitle><p>MY PROFILE</p></UserInfoTitle>
+          <UserInfoTitle>
+            <p>MY PROFILE</p>
+          </UserInfoTitle>
           <UserInfoProfile>
             <FishBowl>
-            <Grid
-            width="100%"
-          >
-            <UserProfileImage src={userData.defaultFish} alt="" />
-            </Grid>
-          </FishBowl>
+              <Grid width="100%">
+                <UserProfileImage src={userData.defaultFish} alt="" />
+              </Grid>
+            </FishBowl>
           </UserInfoProfile>
-          <UserInfo>         
-           <UserWrapper>
-            <UserTitle>닉네임:</UserTitle>
-            <Grid
-              width="100%"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <>
-              { editNickname &&  <Input
-                    onChange={onChangeNickname}
-                    transition="width .2s .3s , height .3s"
-                    width={editNickname ? "140px" : "0px"}
-                    height={editNickname ? "25px" : "0px"}
-                    placeholder="닉네임"
-                    fontSize="20px"
-                    border="none"
-                    outline="none"
-                    />}
-                 
-                  {!editNickname && <UserProfileTitle>{userData.nickname}</UserProfileTitle>}  
-                 
+          <UserInfo>
+            <UserWrapper>
+              <UserTitle>닉네임:</UserTitle>
+              <Grid
+                width="100%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <>
+                  {editNickname && (
+                    <Input
+                      onChange={onChangeNickname}
+                      transition="width .2s .3s , height .3s"
+                      width={editNickname ? "140px" : "0px"}
+                      height={editNickname ? "25px" : "0px"}
+                      placeholder="닉네임"
+                      fontSize="20px"
+                      border="none"
+                      outline="none"
+                    />
+                  )}
 
-              </>
-            </Grid>
+                  {!editNickname && (
+                    <UserProfileTitle>{userData.nickname}</UserProfileTitle>
+                  )}
+                </>
+              </Grid>
               <EditNicknamButton onClick={onClickEditNickname}>
                 CHANGE
               </EditNicknamButton>
+            </UserWrapper>
+            <UserWrapper>
+              <UserTitle>이메일:</UserTitle>
+              <Grid
+                width="100%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <UserProfileTitle>{userData.email}</UserProfileTitle>
+              </Grid>
+            </UserWrapper>
+            <UserWrapper>
+              <UserTitle>포인트:</UserTitle>
+              <Grid
+                width="100%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <UserProfileTitle>{userData.point}</UserProfileTitle>
+              </Grid>
+            </UserWrapper>
 
-          </UserWrapper>
-          <UserWrapper>
-            <UserTitle>이메일:</UserTitle>
-            <Grid
-              width="100%"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <UserProfileTitle>{userData.email}</UserProfileTitle>
-            </Grid>
-          </UserWrapper>
-          <UserWrapper>
-            <UserTitle>포인트:</UserTitle>
-            <Grid
-              width="100%"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <UserProfileTitle>{userData.point}</UserProfileTitle>
-            </Grid>
-          </UserWrapper>
-
-          <UserWrapper>
-            <UserLevel>Lv:</UserLevel>
-            <Grid
-              width="100%"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <UserProfileTitle>{userData.id}</UserProfileTitle>
-            </Grid>
-          </UserWrapper>
+            <UserWrapper>
+              <UserLevel>Lv:</UserLevel>
+              <Grid
+                width="100%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <UserProfileTitle>{userData.id}</UserProfileTitle>
+              </Grid>
+            </UserWrapper>
           </UserInfo>
-
         </UserInfoContainer>
 
         <FishSliderSecondBorder>
@@ -183,7 +184,13 @@ const UnLock = () => {
                         <BigFishName>{fishData.fishName}</BigFishName>
                       </Grid>
                       <BigFish src={fishImage} alt="" />
-                      <ProfileSelect onClick={()=>dispatch(__editUserFishProfile(fishData.fishName))}>POFILE SELECT</ProfileSelect>
+                      <ProfileSelect
+                        onClick={() =>
+                          dispatch(__editUserFishProfile(fishData.fishName))
+                        }
+                      >
+                        POFILE SELECT
+                      </ProfileSelect>
                       <BigFishInfo>{fishData.fishInfo}</BigFishInfo>
                     </BigFishContainer>
                   </>
@@ -204,8 +211,10 @@ const UnLock = () => {
                     </BigFishContainer>
                   </>
                 )}
+
               </FishDetailContainer>
 
+              
               {/* 물고기 리스트 보여주는 곳 */}
               <FishListContainer>
                 {fishImages.map((data: any, index: any) => {
@@ -374,7 +383,7 @@ const FirstBorderContainer = styled.div`
   align-items: center;
   justify-content: center;
   /* position: absolute; */
-  background-color: #0096FF;
+  background-color: #0096ff;
   padding: 30px;
 `;
 
@@ -392,41 +401,43 @@ const UserInfoContainer = styled.div`
 
 const UserInfoTitle = styled.div`
   height: 12%;
-  width:100%;
+  width: 100%;
   padding: 0 20px;
   background-color: #ff9100;
+
   border-radius: 6px;
   p{
     display:flex;
   align-items: center;
   justify-content: center;
+
     height: 90%;
     width: 100%;
     text-align: center;
     border-bottom: solid black 2px;
     font-size: 50px;
   }
-`
+`;
 const UserInfoProfile = styled.div`
-    height:40%;
-    width:100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  
-`
+  height: 40%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const FishBowl = styled.div`
 padding: 20px;
   width: 250px;
   height: 250px;
   border-radius: 50%;
-  background-color: #0096FF;
+  background-color: #0096ff;
   border: solid 8px white;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
-`
+`;
 const UserInfo = styled.div`
+
   border-radius: 0 0 6px 6px;
    height: 50%;
    width:100%;
@@ -437,6 +448,7 @@ const UserInfo = styled.div`
    flex-direction: column;
    justify-content: space-around;
 `
+
 const UserWrapper = styled.div`
   width: 100%;
   height: 20%;
@@ -502,11 +514,13 @@ const FishIllustratedBookTitleContainer = styled.div`
 
 const FishIllustratedRightWrapper = styled.div`
   width: 100%;
+
   height: 88px;
   padding: 0 20px;
   font-size: 2em;
   background: #0096FF;
   span{
+
     font-size: 50px;
     display: flex;
     justify-content: center;
@@ -534,12 +548,20 @@ const FishDetailContainer = styled.div`
 `;
 
 const BigFishContainer = styled.div`
+
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #cccccc;
+  }
 `;
 
 const BigFishNum = styled.span`
@@ -583,7 +605,7 @@ const ProfileSelect = styled.button`
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
   border: 1px solid black;
   line-height: 12px;
-`
+`;
 
 const FishListContainer = styled.div`
   width: 100%;

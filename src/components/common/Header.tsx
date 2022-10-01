@@ -178,8 +178,8 @@ const HeaderContainer = styled.div`
   height: 65px;
   padding: 0px 55px;
   height: 10vh;
+
   background: #ff9100;
-  
 `;
 
 const HeaderLogoContainer = styled.div`

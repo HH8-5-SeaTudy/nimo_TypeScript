@@ -4,7 +4,7 @@ import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 // const token: string = process.env.REACT_APP_TOKEN as string;
-const token: string = getCookie('token') as string;
+const token: string = getCookie("token") as string;
 
 export const __getChatroom: any = createAsyncThunk(
   "get/chatroom",
@@ -44,6 +44,23 @@ export const __getChatenter: any = createAsyncThunk(
   }
 );
 
+export const __getRoom: any = createAsyncThunk(
+  "get/__getRoom",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/sub/chat/room/${payload}`, {
+        headers: {
+          contentType: "application/json",
+          authorization: token,
+        },
+      });
+      return thunkAPI.fulfillWithValue(response.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export type IChat = {
   isLoading: boolean;
   error: null;
@@ -62,13 +79,13 @@ export const preChatSlice = createSlice({
   reducers: {
     addUser: (state, action) => {
       state.chat = [action.payload, ...state.chat];
-      // console.log(state, action.payload);
     },
   },
   extraReducers: {
     [__getChatroom.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.chat = action.payload;
+      console.log(action.payload);
     },
   },
 });

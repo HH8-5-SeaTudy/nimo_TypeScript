@@ -4,7 +4,6 @@ import { useAppDispatch } from "../components/hooks/reduxHooks";
 import { __getChatroom } from "../redux/modules/socket";
 import Chatting from "./Chatting";
 
-
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;
 const roomId3 = process.env.REACT_APP_ROOMID3;
@@ -22,7 +21,6 @@ function ChatRoom() {
 
   const roomIdHandler = () => {
     window.location.reload();
-    dispatch(__getChatroom(id));
   };
 
   return (
