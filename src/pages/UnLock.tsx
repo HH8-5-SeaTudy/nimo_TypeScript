@@ -34,7 +34,6 @@ const UnLock = () => {
   //   }
   // };
 
-
   const onClickEditNickname = () => {
     if (nickname.length > 7) {
       alert("닉네임은 최대 7글자 입니다");
@@ -210,10 +209,8 @@ const UnLock = () => {
                     </BigFishContainer>
                   </>
                 )}
-
               </FishDetailContainer>
 
-              
               {/* 물고기 리스트 보여주는 곳 */}
               <FishListContainer>
                 {fishImages.map((data: any, index: any) => {
@@ -405,10 +402,10 @@ const UserInfoTitle = styled.div`
   background-color: #ff9100;
 
   border-radius: 6px;
-  p{
-    display:flex;
-  align-items: center;
-  justify-content: center;
+  p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     height: 90%;
     width: 100%;
@@ -425,7 +422,7 @@ const UserInfoProfile = styled.div`
   align-items: center;
 `;
 const FishBowl = styled.div`
-padding: 20px;
+  padding: 20px;
   width: 250px;
   height: 250px;
   border-radius: 50%;
@@ -436,17 +433,16 @@ padding: 20px;
   align-items: center;
 `;
 const UserInfo = styled.div`
-
   border-radius: 0 0 6px 6px;
-   height: 50%;
-   width:100%;
-   color: black;
-   background: white;
-   padding: 20px 20px;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-around;
-`
+  height: 50%;
+  width: 100%;
+  color: black;
+  background: white;
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`;
 
 const UserWrapper = styled.div`
   width: 100%;
@@ -517,9 +513,8 @@ const FishIllustratedRightWrapper = styled.div`
   height: 88px;
   padding: 0 20px;
   font-size: 2em;
-  background: #0096FF;
-  span{
-
+  background: #0096ff;
+  span {
     font-size: 50px;
     display: flex;
     justify-content: center;
@@ -547,7 +542,6 @@ const FishDetailContainer = styled.div`
 `;
 
 const BigFishContainer = styled.div`
-
   width: 100%;
   height: 100%;
   display: flex;
@@ -621,7 +615,7 @@ const FishListContainer = styled.div`
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 2px;
-    background: #0096FF;
+    background: #0096ff;
   }
 `;
 

@@ -17,14 +17,14 @@ import logo from "../../assets/logo/seatudyLogo.png";
 import CalendarVer2 from "../calendar/CalendarVer2";
 import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
 import Grid from "../../elements/Grid";
-import { __getUserProfile } from '../../redux/modules/userData';
-import fishImages from '../fish/FishImages';
+import { __getUserProfile } from "../../redux/modules/userData";
+import fishImages from "../fish/FishImages";
 
 const Header = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const time = useAppSelector((state) => state.timer);
-  // const dayMyRank = useAppSelector((state) => state.rank.dayMyRank.myRank);
+  const dayMyRank = useAppSelector((state) => state.rank.dayMyRank.myRank);
   const weekMyRank = useAppSelector((state) => state.rank.WeekMyRank.myRank);
   const nickname = useAppSelector((state) => state.rank.WeekMyRank.nickname);
   const userData = useAppSelector((state) => state.userData.userProfile);
@@ -34,7 +34,6 @@ const Header = () => {
   const nextPercent = (userPoint / nextFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
-  
   const [asmrShow, setAsmrShow] = useState(false);
   const [showTodo, setShowTodo] = useState(false);
   const [hh, mm, ss] = String(time.dayStudyTime)
@@ -44,7 +43,6 @@ const Header = () => {
   const [timeSS, setTimeSS] = useState<number>(0);
   const [timeMM, setTimeMM] = useState<number>(0);
   const [timeHH, setTimeHH] = useState<number>(0);
-
 
   useEffect(() => {
     dispatch(__getUserinquire());
@@ -100,28 +98,29 @@ const Header = () => {
           <HeaderLogo src={logo} onClick={() => navigate("/home")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
-          <AsmrBtn>
-            <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
-            {asmrShow && <Asmr />}
-          </AsmrBtn>
-          {/* 캘린더버튼 */}
-          <CalendarBtn>
-            <Calendar src={calendar} onClick={() => setShowTodo(!showTodo)} />
-          </CalendarBtn>
-          {/* 다음물고기 */}
-          <FishBtn>
-            <Calendar src={nextFishImg} onClick={() => navigate("/statistics")} />
-            <p>{nextPercent}%</p>
-          </FishBtn>
-          {/* 랭킹 */}
-          <RankBtn>
-            <Calendar src={ranking} onClick={() => navigate("/statistics")} />
-            <p>D:{dayMyRank}위 W:{weekMyRank}위</p>
-          </RankBtn>
-    
+        <AsmrBtn>
+          <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
+          {asmrShow && <Asmr />}
+        </AsmrBtn>
+        {/* 캘린더버튼 */}
+        <CalendarBtn>
+          <Calendar src={calendar} onClick={() => setShowTodo(!showTodo)} />
+        </CalendarBtn>
+        {/* 다음물고기 */}
+        <FishBtn>
+          <Calendar src={nextFishImg} onClick={() => navigate("/statistics")} />
+          <p>{nextPercent}%</p>
+        </FishBtn>
+        {/* 랭킹 */}
+        <RankBtn>
+          <Calendar src={ranking} onClick={() => navigate("/statistics")} />
+          <p>
+            D:{dayMyRank}위 W:{weekMyRank}위
+          </p>
+        </RankBtn>
 
         {/* 내 순위 들어가는 부분 */}
-        {/* <RankContainer>
+        <RankContainer>
           <Grid
             // width="30%"
             display="flex"
@@ -132,13 +131,13 @@ const Header = () => {
           </Grid>
           <Grid>
             <Grid display="flex" flexDirection="column" alignItems="center">
-              {/* <DayRank>일간랭킹: {dayMyRank}</DayRank> */}
+              <DayRank>일간랭킹: {dayMyRank}</DayRank>
             </Grid>
             <Grid display="flex" flexDirection="column" alignItems="center">
-              <WeekRank>주간랭킹:  {weekMyRank}</WeekRank>
+              <WeekRank>주간랭킹: {weekMyRank}</WeekRank>
             </Grid>
           </Grid>
-        </RankContainer> */}
+        </RankContainer>
         <HeaderTimerContainer>
           <HeaderTimer>
             <Layer>
@@ -170,7 +169,7 @@ const Layer = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-  position:relative;
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -201,7 +200,6 @@ const HeaderTimer = styled.span`
   color: #fff;
   font-size: 50px;
 `;
-
 
 const AsmrBtn = styled.button`
   position: absolute;
@@ -238,7 +236,7 @@ const CalendarBtn = styled.button`
   }
 `;
 
-const FishBtn =styled.button`
+const FishBtn = styled.button`
   position: absolute;
   left: 40%;
   width: 60px;
@@ -252,11 +250,11 @@ const FishBtn =styled.button`
     background-color: rgba(0, 0, 0, 0.5);
   }
   p {
-    color : black;
+    color: black;
     font-weight: 700;
   }
-`
-const RankBtn =styled.button`
+`;
+const RankBtn = styled.button`
   position: absolute;
   left: 50%;
   width: 60px;
@@ -271,29 +269,28 @@ const RankBtn =styled.button`
   }
   p {
     position: absolute;
-    color : black;
+    color: black;
     font-weight: 700;
     width: 80px;
     left: -8px;
   }
-`
+`;
 
 const Rank = styled.div`
-border: solid red 1px;
-p{
-border: solid red 1px;
-}
-
-`
+  border: solid red 1px;
+  p {
+    border: solid red 1px;
+  }
+`;
 const Calendar = styled.img`
   width: 100%;
   height: 100%;
 `;
 
 const RankContainer = styled.div`
-position: absolute;
-left: 60%;
-border: solid red 1px;
+  position: absolute;
+  left: 60%;
+  border: solid red 1px;
   width: 20%;
   display: flex;
   align-items: center;
