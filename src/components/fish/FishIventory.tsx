@@ -34,6 +34,19 @@ const FishIventory = () => {
       return [0, 0];
     })
   );
+
+  useEffect(()=>{
+    console.log('positionData',positionData)
+    let tempData = [...dTest];
+
+    positionData.map((v) => {
+      console.log(v);
+      tempData[v.fishNum] = [v.left,v.top];
+    })
+
+    setDTest([...tempData])
+  },[positionData]);
+
   const [dSize, setDSize] = useState(
     Array.from({ length: 25 }, (v, i) => {
       return [0, 0];
@@ -69,6 +82,8 @@ const FishIventory = () => {
     tempData[i][0] = e.target.offsetLeft + e.clientX - clientPos.x;
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
     setDTest(tempData);
+    console.log(e.target.offsetLeft , e.clientX , clientPos.x)
+    console.log(e.target.offsetTop , e.clientY , clientPos.y)
     setPos(PosTemp);
 
     const clientPosTemp = { ...clientPos };
