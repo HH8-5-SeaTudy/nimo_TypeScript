@@ -542,6 +542,10 @@ const FishDetailContainer = styled.div`
 `;
 
 const BigFishContainer = styled.div`
+<<<<<<< HEAD
+=======
+
+>>>>>>> 58a2df127e10580321855a623e9a9b0fda0b7cc5
   width: 100%;
   height: 100%;
   display: flex;
