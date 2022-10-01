@@ -1,296 +1,190 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import starFish from "../assets/pixel/startFish.png";
-import { deleteCookie } from "../components/social/Cookie";
+import React, { useEffect,useState } from 'react';
+import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
+import { __deleteTodo, __doneTodo, __getDateTodo } from '../redux/modules/dateTodos';
+import { __getUserProfile } from '../redux/modules/userData';
 
 const Main = () => {
-  const [toggle, setToggle] = useState(false);
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [todoShow,setTodoShow] = useState(false)
 
-  const onClickLogOut = () => {
-    deleteCookie("token");
-    navigate("/");
-  };
+  //오늘 날짜
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = ('0' + (today.getMonth() + 1)).slice(-2);
+  const day = ('0' + today.getDate()).slice(-2);
+  const dateString = year + '-' + month  + '-' + day;
 
-  //server zone
-  const roomId1 = process.env.REACT_APP_ROOMID1;
-  const roomId2 = process.env.REACT_APP_ROOMID2;
-  const roomId3 = process.env.REACT_APP_ROOMID3;
-  const roomId4 = process.env.REACT_APP_ROOMID4;
-  const roomId5 = process.env.REACT_APP_ROOMID5;
+
+  useEffect(() => {
+    dispatch(__getUserProfile());
+    dispatch(__getDateTodo(dateString));
+  }, []);
+
+  const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
+
+  const userProfile = useAppSelector(
+    (state) => state.userData.userProfile);
+  
+  console.log(dateTodos)
+  
 
   return (
-    <Body>
-      <UL>
-        <Toggle onClick={() => setToggle(!toggle)} toggle={toggle} />
-        <LI1
-          onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId1,
-              },
-            });
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -8 * 1))" }}>
-            <ATitle>Server1</ATitle>
-          </A>
-        </LI1>
-        <LI2
-          onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId2,
-              },
-            });
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -8 * 2))" }}>
-            <ATitle>Server2</ATitle>
-          </A>
-        </LI2>
-        <LI3
-          onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId3,
-              },
-            });
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -8 * 3))" }}>
-            <ATitle>Server3</ATitle>
-          </A>
-        </LI3>
-        <LI4
-          onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId4,
-              },
-            });
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -8 * 4))" }}>
-            <ATitle>Server4</ATitle>
-          </A>
-        </LI4>
-        <LI5
-          onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId5,
-              },
-            });
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -8 * 5))" }}>
-            <ATitle>Server5</ATitle>
-          </A>
-        </LI5>
-        <LI6
-          onClick={() => {
-            navigate("/unlock");
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -8 * 6))" }}>
-            <ATitle>My Info</ATitle>
-          </A>
-        </LI6>
-        <LI7
-          onClick={() => {
-            navigate("/statistics");
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -8 * 7))" }}>
-            <ATitle>Total</ATitle>
-          </A>
-        </LI7>
-        <LI8 toggle={toggle}>
-          <A
-            onClick={onClickLogOut}
-            style={{ transform: "rotate(calc(360deg/ -8 * 8))" }}
-          >
-            <ATitle>LogOut</ATitle>
-          </A>
-        </LI8>
-      </UL>
-    </Body>
+    <Layer>
+      <ProfileBox><img src={userProfile.defaultFish} alt="" /></ProfileBox>
+      <InfoBox>
+        <ProfileName>{userProfile.nickname}</ProfileName>
+        <ProfileTime>{userProfile.point}P</ProfileTime>
+        <ProfileGroup onClick={()=>setTodoShow(!todoShow)}>Todo</ProfileGroup>
+      </InfoBox>
+      <TodoBox style={{paddingTop: todoShow ? '72px' : '0px'}}>
+        <TodoListBox >
+          <Todo style={{height: todoShow ? '30px' : '0px'}}>TODAY'S TODO</Todo>
+          {dateTodos &&
+            dateTodos.map((list) => list.todoList 
+            ? list.todoList.map((item)=> 
+            <Todo key={item.todoId} style={{height: todoShow ? '30px' : '0px'}}>
+              <Done>
+                <div onClick={() =>dispatch(__doneTodo(item.todoId))}
+                style={{backgroundColor:item.done === 1? "#32de5d": "transparent" }}></div>
+              </Done>
+              <Title style={{fontSize:todoShow ? '10px' : '0px'}}>{item.content}</Title>
+              <Delete onClick={() =>
+              dispatch(__deleteTodo({todoId: item.todoId,categoryId: list.categoryId,}))}><div>+</div></Delete>
+            </Todo>)
+            : <Todo style={{height: todoShow ? '30px' : '0px'}}>등록된 TODO가 없습니다.</Todo> 
+            )}
+        </TodoListBox>
+      </TodoBox>
+    </Layer>
   );
 };
 
 export default Main;
-interface ToggleProps {
-  toggle: boolean;
-}
-const Body = styled.div`
-  width: 100%;
-  position: absolute;
-  bottom: 15%;
-  left: 5%;
-`;
 
-const UL = styled.div`
-  position: relative;
-  width: 280px;
-  height: 280px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 4;
-`;
-const LI1 = styled.div<ToggleProps>`
-  position: absolute;
-  left: 0;
-  list-style: none;
-  transition: 0.5s;
-  transition-delay: calc(0.1s * 1);
-  transform-origin: 140px;
-  transform: ${({ toggle }) =>
-    toggle
-      ? "rotate(calc(360deg / 8 )) translateX(0px)"
-      : "rotate(0deg) translateX(110px)"};
-`;
+const Layer = styled.div`
+   border: solid red 1px;
+   width: 250px;
+   height: 150px;
+   display:flex;
+   align-items: center;
+`
 
-const LI2 = styled.div<ToggleProps>`
-  position: absolute;
-  left: 0;
-  list-style: none;
-  transition: 0.5s;
-  transition-delay: calc(0.1s * 2);
-  transform-origin: 140px;
-  transform: ${({ toggle }) =>
-    toggle
-      ? "rotate(calc(360deg / 8 * 2)) translateX(0px)"
-      : "rotate(0deg) translateX(110px)"};
-`;
-
-const LI3 = styled.div<ToggleProps>`
-  position: absolute;
-  left: 0;
-  list-style: none;
-  transition: 0.5s;
-  transition-delay: calc(0.1s * 3);
-  transform-origin: 140px;
-  transform: ${({ toggle }) =>
-    toggle
-      ? "rotate(calc(360deg / 8 * 3)) translateX(0px)"
-      : "rotate(0deg) translateX(110px)"};
-`;
-
-const LI4 = styled.div<ToggleProps>`
-  position: absolute;
-  left: 0;
-  list-style: none;
-  transition: 0.5s;
-  transition-delay: calc(0.1s * 4);
-  transform-origin: 140px;
-  transform: ${({ toggle }) =>
-    toggle
-      ? "rotate(calc(360deg / 8 * 4 )) translateX(0px)"
-      : "rotate(0deg) translateX(110px)"};
-`;
-
-const LI5 = styled.div<ToggleProps>`
-  position: absolute;
-  left: 0;
-  list-style: none;
-  transition: 0.5s;
-  transition-delay: calc(0.1s * 5);
-  transform-origin: 140px;
-  transform: ${({ toggle }) =>
-    toggle
-      ? "rotate(calc(360deg / 8 * 5 )) translateX(0px)"
-      : "rotate(0deg) translateX(110px)"};
-`;
-
-const LI6 = styled.div<ToggleProps>`
-  position: absolute;
-  left: 0;
-  list-style: none;
-  transition: 0.5s;
-  transition-delay: calc(0.1s * 6);
-  transform-origin: 140px;
-  transform: ${({ toggle }) =>
-    toggle
-      ? "rotate(calc(360deg / 8 * 6 )) translateX(0px)"
-      : "rotate(0deg) translateX(110px)"};
-`;
-
-const LI7 = styled.div<ToggleProps>`
-  position: absolute;
-  left: 0;
-  list-style: none;
-  transition: 0.5s;
-  transition-delay: calc(0.1s * 7);
-  transform-origin: 140px;
-  transform: ${({ toggle }) =>
-    toggle
-      ? "rotate(calc(360deg / 8 * 7)) translateX(0px)"
-      : "rotate(0deg) translateX(110px)"};
-`;
-
-const LI8 = styled.div<ToggleProps>`
-  position: absolute;
-  left: 0;
-  list-style: none;
-  transition: 0.5s;
-  transition-delay: calc(0.1s * 8);
-  transform-origin: 140px;
-  transform: ${({ toggle }) =>
-    toggle
-      ? "rotate(calc(360deg / 8 * 8 )) translateX(0px)"
-      : "rotate(0deg) translateX(110px)"};
-`;
-
-const Toggle = styled.div<ToggleProps>`
-  position: absolute;
-  width: 61.7px;
-  height: 61.7px;
+const ProfileBox = styled.div`
+border: solid blue 1px;
+  width:115px;
+  height:115px;
   border-radius: 50%;
+  border: solid white 3px;
+  background-color: #0096FF;
+  z-index:3;
   display: flex;
-  justify-content: center;
   align-items: center;
-  cursor: pointer;
-  z-index: 10;
-  font-size: 2em;
-  background: url(${starFish});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  transition: transform 1.25s;
-  background-color: transparent;
-  overflow: hidden;
-  transform: ${({ toggle }) => (toggle ? "rotate(315deg)" : "")};
-  background-color: #1a647d;
-`;
-
-const A = styled.div`
-  display: flex;
   justify-content: center;
-  align-items: center;
-  width: 60px;
-  height: 60px;
-  border: 2px solid white;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.white};
-  cursor: pointer;
-  &:hover {
-    transition: 0s;
-    background: #ffffffba;
-    box-shadow: 0 0 10px #ffffffba, 0 0 30px #ffffffba, 0 0 50px #ffffffba;
+  img {  
+    width: 80px;
+    height: 70px;
+    padding: 5px;
   }
-`;
+`
+const InfoBox = styled.div`
+  border: solid red 1px;
+  width:170px;
+  height:85px;
+  position: absolute;
+  left: 65px;
+  border-radius: 8px;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0 0 45px;
+  background-color: #ff9100;
+  z-index:2;
+  text-align: center;
+`
 
-const ATitle = styled.span`
-  font-size: 1em;
+const ProfileName =styled.div`
+  border: solid red 1px;
+  width: 70%;
+  height: 30%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+`
+const ProfileTime = styled.div`
+  border: solid red 1px;
+  width: 80%;
+  height: 30%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+`
+const ProfileGroup = styled.div`
+  border: solid red 1px;
+  width: 70%;
+  height: 30%;
+  border-radius: 10px 10px 0 0 ;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+`
+const TodoBox = styled.div`
+  border: solid red 4px;
+  width: 190px;
+  position: absolute;
+  left: 25px;
+  top: 50px;
+  transition: all  0.5s;
+  z-index: 1;
+`
+const TodoListBox = styled.div`
+  border: solid red 6px;
+  height: 100%;
+  width: 100%;
+`
+const Todo = styled.div`
+  border: solid red 1px;
+  height: 30px;
+  width: 100%;
   display: flex;
-`;
+  transition: all 0.5s;
+`
+const Done = styled.div`
+    border: solid red 1px;
+    height: 100%;
+    width: 13%;
+    display:flex;
+    align-items: center;
+
+    div{
+      border: solid red 1px;
+      height:20px;
+      width:20px;
+      border-radius: 50%;
+      border: solid black 1px;
+    }
+`
+const Title = styled.div`
+     border: solid red 1px;
+     height: 100%;
+    width: 75%;
+`
+const Delete =styled.div`
+  border: solid red 1px;
+  height: 100%;
+  width: 13%;
+  display:flex;
+    align-items: center;
+  div {
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    border: solid red 1px;
+      height:20px;
+      width:20px;
+      border-radius: 50%;
+      border: solid black 1px;
+      transform: rotate(45deg);
+  }
+`
