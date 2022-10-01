@@ -34,7 +34,6 @@ const UnLock = () => {
   //   }
   // };
 
-
   const onClickEditNickname = () => {
     if (nickname.length > 7) {
       alert("닉네임은 최대 7글자 입니다");
@@ -210,10 +209,8 @@ const UnLock = () => {
                     </BigFishContainer>
                   </>
                 )}
-
               </FishDetailContainer>
 
-              
               {/* 물고기 리스트 보여주는 곳 */}
               <FishListContainer>
                 {fishImages.map((data: any, index: any) => {
@@ -348,40 +345,6 @@ interface TodoInputShowProps {
   todoInputShow: boolean;
 }
 
-const Edit = styled.button`
-  width: 90px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  border: none;
-  outline: none;
-  padding: 5%;
-  cursor: pointer;
-  font-family: "DungGeunMo";
-  font-size: 20px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
-  border: 1px solid black;
-`;
-
-const EditFishButton = styled.button`
-  width: 90px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  border: none;
-  outline: none;
-  padding: 5%;
-  cursor: pointer;
-  font-family: "DungGeunMo";
-  font-size: 20px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
-  border: 1px solid black;
-`;
-
 const EditNicknamButton = styled.button`
   width: 70px;
   height: 25px;
@@ -426,10 +389,10 @@ const UserInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1.1;
-  border-radius: 6px;
   margin-right: 20px;
   background-color: #ff9100;
   box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
+  border-radius: 6px;
 `;
 
 const UserInfoTitle = styled.div`
@@ -437,10 +400,13 @@ const UserInfoTitle = styled.div`
   width: 100%;
   padding: 0 20px;
   background-color: #ff9100;
+
+  border-radius: 6px;
   p {
     display: flex;
     align-items: center;
     justify-content: center;
+
     height: 90%;
     width: 100%;
     text-align: center;
@@ -456,6 +422,7 @@ const UserInfoProfile = styled.div`
   align-items: center;
 `;
 const FishBowl = styled.div`
+  padding: 20px;
   width: 250px;
   height: 250px;
   border-radius: 50%;
@@ -466,6 +433,7 @@ const FishBowl = styled.div`
   align-items: center;
 `;
 const UserInfo = styled.div`
+  border-radius: 0 0 6px 6px;
   height: 50%;
   width: 100%;
   color: black;
@@ -475,6 +443,7 @@ const UserInfo = styled.div`
   flex-direction: column;
   justify-content: space-around;
 `;
+
 const UserWrapper = styled.div`
   width: 100%;
   height: 20%;
@@ -540,7 +509,8 @@ const FishIllustratedBookTitleContainer = styled.div`
 
 const FishIllustratedRightWrapper = styled.div`
   width: 100%;
-  height: 87px;
+
+  height: 88px;
   padding: 0 20px;
   font-size: 2em;
   background: #0096ff;
@@ -645,7 +615,7 @@ const FishListContainer = styled.div`
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 2px;
-    background: #cccccc;
+    background: #0096ff;
   }
 `;
 

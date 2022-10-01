@@ -829,8 +829,8 @@ export default CalendarVer2;
 
 const Layer = styled.div`
   position: absolute;
-  left: 300px;
-  top: 50px;
+  left: calc( 25vw / 2);
+  top: calc( 25vh / 2);
   height: 650px;
   width: 1150px;
   color: #ffffff;
@@ -1374,6 +1374,7 @@ const AddEventBtn = styled.div<CategoryInputShowProps>`
   transition: 0.2s ease-in-out;
   right: ${({ categoryInputShow }) => (categoryInputShow ? "-10px" : null)};
   cursor: pointer;
+  padding: 0;
 `;
 const AddEventBtnHidden = styled.button`
   position: absolute;

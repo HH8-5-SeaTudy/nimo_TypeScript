@@ -29,7 +29,7 @@ const NaverLogin = () => {
     if (code) {
       naver();
     }
-  }, [code]);
+  }, [code,navigate]);
   return <div>로딩페이지컴포넌트</div>;
 };
 

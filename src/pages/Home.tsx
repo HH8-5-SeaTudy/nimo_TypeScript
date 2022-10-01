@@ -17,8 +17,9 @@ import crab from "../assets/pixel/crab.png";
 import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
 import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
-import Main from "./Main";
-import Server from "../components/serverButton/Server";
+import Server from '../components/serverButton/Server';
+import ProfileHeader from '../components/profileHeader/ProfileHeader';
+
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -67,40 +68,8 @@ const Home = () => {
       <MainBox>
         <Server />
         <ProfileContainer>
-          <ProfileWrapper>
-            <ImageContainer>
-              <ProfileImage src={userImage} />
-            </ImageContainer>
-            <TitleContainer>
-              <TitleWrapper>
-                <ProfileTitle>닉네임:</ProfileTitle>
-                <ProfileNickname>{userNickName}</ProfileNickname>
-              </TitleWrapper>
-              <TitleWrapper>
-                <ProfileTitle>총 공부시간:</ProfileTitle>
-                <ProfileTime>{userTime}</ProfileTime>
-              </TitleWrapper>
-            </TitleContainer>
-          </ProfileWrapper>
+         <ProfileHeader/>
         </ProfileContainer>
-        <TodoContainer>
-          <TodoListWrapper>
-            <TodoTitle>오늘 할 일</TodoTitle>
-
-            {dateTodos &&
-              dateTodos.map((list) =>
-                list.todoList?.map((item, index) => (
-                  <TodoListInnerContainer>
-                    <Todo>
-                      <TodoSpan>No {index + 1}. </TodoSpan>
-                      <TodoSpan>{item.content}</TodoSpan>
-                    </Todo>
-                  </TodoListInnerContainer>
-                ))
-              )}
-          </TodoListWrapper>
-        </TodoContainer>
-
         {check ? (
           <>
             <ButtonTitle>checkOut</ButtonTitle>
@@ -150,7 +119,6 @@ const Layer = styled.section`
 `;
 
 const MainBox = styled.div`
-  border: solid red 1px;
   height: 90vh;
   position: relative;
   overflow: hidden;
@@ -268,6 +236,7 @@ const TodoSpan = styled.span`
 `;
 
 const TitleContainer = styled.div`
+  border: solid red 1px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -20,8 +20,6 @@ const Statistics = () => {
   const nextPercent = (userPoint / nextFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
-  console.log("일랭", dayRankData);
-  console.log("주랭", weekRankData);
 
   useEffect(() => {
     dispatch(__getUserProfile());
@@ -274,11 +272,11 @@ const NextFishTitle = styled.div`
   padding: 0 20px;
   background-color: #ff9100;
   border-radius: 6px;
-  
+  line-height: 40px;
   p {
     display:flex;
-  align-items: center;
-  justify-content: center;
+    align-items: center;
+    justify-content: center;
     height: 90%;
     width: 100%;
     text-align: center;
