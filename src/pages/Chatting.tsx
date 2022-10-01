@@ -127,7 +127,6 @@ function Chatting() {
             {chat &&
               chat.map((list: any, index: number) => {
                 if (list.type === null) {
-                  <>{list.message}</>;
                   if (list.sender === userNickname) {
                     return (
                       <MessageListContainer key={index}>

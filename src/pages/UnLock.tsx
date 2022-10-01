@@ -10,7 +10,6 @@ import fishImages from "../components/fish/FishImages";
 import Grid from "../elements/Grid";
 import { __getFishList } from "../redux/modules/fishList";
 import Input from "../elements/Input";
-import Button from "../elements/Button";
 
 const UnLock = () => {
   const dispatch = useAppDispatch();
@@ -573,11 +572,6 @@ const FishDetailContainer = styled.div`
 `;
 
 const BigFishContainer = styled.div`
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 731a3165094893a227de377096efc1e3ed14db0a
   width: 100%;
   height: 100%;
   display: flex;
