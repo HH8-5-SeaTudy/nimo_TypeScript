@@ -13,7 +13,9 @@ const FishBowl = (props:any) => {
           
           <Water style={{top:`${waterPercent}%`}}></Water>
           <Glare></Glare>
-          <NextFish src={props.nextFishImg}></NextFish>
+          <FishBox>
+            <NextFish src={props.nextFishImg}></NextFish>
+          </FishBox>
         </BowlInner>
       </Bowl>
     </BowlLayer>
@@ -52,7 +54,6 @@ const BowlInner = styled.div`
   overflow: hidden;
   z-index: 2;
   border-radius: 50%;
-  padding-top: 40px;
 `
 const Percent = styled.div`
   text-shadow: 0 0 10px #028695;
@@ -78,7 +79,6 @@ const spin = keyframes`
 `;
 
 const NextFish =styled.img`
-  transform: scale(0.8);
   z-index: -1;
 `
 const Water = styled.div`
@@ -107,3 +107,10 @@ const Glare = styled.div`
     border-radius: 50%;
     z-index: 1;
     `
+
+const FishBox =styled.div`
+  border : solid red 1px;
+  width:100%;
+  height: 100%;
+  padding: 40px 20px 0 20px;
+`
