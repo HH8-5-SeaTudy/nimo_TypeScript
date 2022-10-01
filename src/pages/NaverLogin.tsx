@@ -13,6 +13,7 @@ const NaverLogin = () => {
   const code = new URL(window.location.href).searchParams.get("code");
   const state = new URL(window.location.href).searchParams.get("state");
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+  
   useEffect(() => {
     const naver = async () => {
       return await axios

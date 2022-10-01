@@ -19,8 +19,12 @@ import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
 import Grid from "../../elements/Grid";
 import { __getUserProfile } from '../../redux/modules/userData';
 import fishImages from '../fish/FishImages';
+import { getCookie } from '../social/Cookie';
 
 const Header = () => {
+
+  const token: string = getCookie("token") as string;
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const time = useAppSelector((state) => state.timer);
@@ -47,10 +51,15 @@ const Header = () => {
 
 
   useEffect(() => {
+    if (token !== undefined )
+    {
     dispatch(__getUserinquire());
     dispatch(__getDayMyRank());
     dispatch(__getWeekMyRank());
     dispatch(__getUserProfile());
+    console.log('테스,트세트트트ㅡㅌ테ㅔ테틋스ㅡ트트트')
+    }
+
     return () => {
       dispatch(__getCheckOutTimer());
     };
@@ -118,27 +127,6 @@ const Header = () => {
             <Calendar src={ranking} onClick={() => navigate("/statistics")} />
             <p>D:{dayMyRank}위 W:{weekMyRank}위</p>
           </RankBtn>
-    
-
-        {/* 내 순위 들어가는 부분 */}
-        {/* <RankContainer>
-          <Grid
-            // width="30%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Nickname>{nickname}</Nickname>
-          </Grid>
-          <Grid>
-            <Grid display="flex" flexDirection="column" alignItems="center">
-              <DayRank>일간랭킹: {dayMyRank}</DayRank>
-            </Grid>
-            <Grid display="flex" flexDirection="column" alignItems="center">
-              <WeekRank>주간랭킹:  {weekMyRank}</WeekRank>
-            </Grid>
-          </Grid>
-        </RankContainer> */}
         <HeaderTimerContainer>
           <HeaderTimer>
             <Layer>
@@ -187,8 +175,8 @@ const HeaderLogoContainer = styled.div`
 `;
 
 const HeaderLogo = styled.img`
-  width: 150px;
-  height: 130px;
+  width: 120px;
+  height: 70px;
 `;
 
 const HeaderTimerContainer = styled.div`

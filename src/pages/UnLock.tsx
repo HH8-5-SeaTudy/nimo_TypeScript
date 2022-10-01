@@ -26,7 +26,7 @@ const UnLock = () => {
   const [editNickname, setEditNickname] = useState(false);
   const [editFishName, setEditFishName] = useState(false);
   const [lock, setLock] = useState(false);
-
+    console.log(userData)
   // const onClickLock = () => {
   //   for (let i = 0; i < fishImages.length; i++) {
   //     if (userPoint >= fishPoint[i]) {

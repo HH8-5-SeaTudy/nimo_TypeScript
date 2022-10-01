@@ -4,13 +4,13 @@ import { Itimer } from "../../api";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-// const token: string = process.env.REACT_APP_TOKEN as string;
-const token: string = getCookie("token") as string;
+
 
 export const __getUserinquire: any = createAsyncThunk(
   "timer/userInquire",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/api/v1/checkIns`, {
         headers: {
           Authorization: token,
@@ -28,6 +28,7 @@ export const __getCheckInTimer: any = createAsyncThunk(
   "timer/postCheckIn",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.post(
         `${BASE_URL}/api/v1/checkIns`,
         {},
@@ -48,6 +49,7 @@ export const __getCheckOutTimer: any = createAsyncThunk(
   "timer/postCheckOut",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.post(
         `${BASE_URL}/api/v1/checkOuts`,
         {},
