@@ -5,6 +5,7 @@ import styled from "styled-components";
 import shell from "../../assets/pixel/shell.png";
 import calendar from "../../assets/pixel/calendar.png";
 import ranking from "../../assets/pixel/ranking.png";
+import server from "../../assets/pixel/server.png";
 import Asmr from "../asmr/Asmr";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
@@ -56,6 +57,8 @@ const Header = () => {
   const [timeMM, setTimeMM] = useState<number>(0);
   const [timeHH, setTimeHH] = useState<number>(0);
 
+  const roomId1 = process.env.REACT_APP_ROOMID1;
+  
   useEffect(() => {
     dispatch(__getUserinquire());
     dispatch(__getDayMyRank());
@@ -127,6 +130,17 @@ const Header = () => {
             <Calendar src={ranking} onClick={() => navigate("/statistics")} />
             <p>D:{dayMyRank}위 W:{weekMyRank}위</p>
           </RankBtn>
+          {/* 서버 */}
+          <ServerBtn>
+            <Calendar src={server}    
+            onClick={() => {
+            navigate("/chat", {
+              state: {
+                id: roomId1,
+              },
+            });
+          }} />
+          </ServerBtn>
           {/* 제일빠른디데이 */}
           {NextDday && 
           <DdayBtn>
@@ -184,7 +198,7 @@ const HeaderLogoContainer = styled.div`
 
 const HeaderLogo = styled.img`
   width: 120px;
-  height: 70px;
+  height: 66.5px;
 `;
 
 const HeaderTimerContainer = styled.div`
@@ -273,9 +287,24 @@ const RankBtn =styled.button`
     left: -8px;
   }
 `
-const DdayBtn = styled.div`
+const ServerBtn =styled.div`
   position: absolute;
   left: 60%;
+  width: 70px;
+  height: 75px;
+  padding: 8px;
+  border-radius: 9999px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+`
+const DdayBtn = styled.div`
+  position: absolute;
+  left: 70%;
   width: 60px;
   height: 60px;
   padding: 8px;
@@ -301,6 +330,7 @@ const DdayTitle = styled.div`
   display:flex;
   justify-content: center;
   align-items:center;
+  border-radius:6px;
 `
 const DdayContent =styled.p`
 position:absolute;

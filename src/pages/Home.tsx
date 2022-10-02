@@ -15,10 +15,9 @@ import crab from "../assets/pixel/crab.png";
 import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
 import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
-import Server from '../components/serverButton/Server';
 import ProfileHeader from '../components/profileHeader/ProfileHeader';
 import { getCookie } from '../components/social/Cookie';
-import Header from '../components/common/Header';
+
 
 
 const Home = () => {
@@ -53,10 +52,8 @@ const Home = () => {
 
   return (
     <>
-    {/* <Header /> */}
     <Layer>
       <MainBox>
-        <Server />
         <ProfileContainer>
         <ProfileHeader/>
         </ProfileContainer>
