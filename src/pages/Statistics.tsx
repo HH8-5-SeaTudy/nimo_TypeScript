@@ -8,10 +8,8 @@ import fishImages from "../components/fish/FishImages";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getUserProfile } from "../redux/modules/userData";
 import { __getDayRank, __getWeekRank } from "../redux/modules/rank";
-import Header from '../components/common/Header';
-import { getCookie } from '../components/social/Cookie';
-import { useNavigate } from 'react-router-dom';
-import { __getCheckInTimer, __getUserinquire } from '../redux/modules/timer';
+import { getCookie } from "../components/social/Cookie";
+import { useNavigate } from "react-router-dom";
 
 const Statistics = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
@@ -28,7 +26,7 @@ const Statistics = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if ( token === undefined ) {
+    if (token === undefined) {
       navigate("/");
       alert("로그인이 필요한 페이지입니다.");
     }
@@ -36,86 +34,108 @@ const Statistics = () => {
     dispatch(__getUserProfile());
     dispatch(__getDayRank());
     dispatch(__getWeekRank());
-
   }, [token]);
 
   return (
     <>
-    {/* <Header/> */}
-    <StatisticsLayer>
-      <Layer>
-        <TopLayer>
-          <RankSide>
-            <RankTitle><p>DAILY<br/>RANKING</p></RankTitle>
-            <RankBox>
-              {dayRankData?.map((list, index) => (
-                <Rank>
-                  <RankNum>
-                    <Num>{index + 1}.</Num>
-                  </RankNum>
-                  <RankProfile src={list.fish}></RankProfile>
-                  <RankInfo>
-                    <NickName>{list.nickname}</NickName>
-                    <Point>{list.dayStudy}</Point>
-                  </RankInfo>
-                </Rank>
-              ))}
-            </RankBox>
-          </RankSide>
-          <RankSide>
-            <RankTitle><p>WEEKLY<br/>RANKING</p></RankTitle>
-            <RankBox>
-              {weekRankData?.map((list, index) => (
-                <Rank>
-                  <RankNum>
-                    <Num>{index + 1}.</Num>
-                  </RankNum>
-                  <RankProfile src={list.fish}></RankProfile>
-                  <RankInfo>
-                    <NickName>{list.nickname}</NickName>
-                    <Point>{list.weekStudy}</Point>
-                  </RankInfo>
-                </Rank>
-              ))}
-            </RankBox>
-          </RankSide>
-          <TotalSide>
-            <TopBox>
-              <TotalTime>
-                <Title>
-                TOTAL POINT
-                </Title>
-                <P>{userPoint}</P>
-              </TotalTime>
-            </TopBox>
-            <BottomBox>
-              <NextFish>
-                <NextFishTitle><p>NEXT LEVEL</p></NextFishTitle>
-                <NextFishBody>    
-                  <FishBowl
-                  nextPercent={nextPercent}
-                  nextFishImg={nextFishImg}
-                ></FishBowl></NextFishBody>
-            
-              </NextFish>
-              <Week>
-                <WeekTitle><p>WEEKLY TIME</p></WeekTitle>
-                <WeekBody><Weekly/></WeekBody>
-              </Week>
-              <MonthBox>
-                <MonthTitle><p>MONTHLY<br/>TIME</p></MonthTitle>
-                <MonthBody><Month/></MonthBody>
-              </MonthBox>
-            </BottomBox>
-          </TotalSide>
-        </TopLayer>
-        <BottomLayer>
-          <MyResponsiveCalendar />
-        </BottomLayer>
-      </Layer>
-    </StatisticsLayer>
+      {/* <Header/> */}
+      <StatisticsLayer>
+        <Layer>
+          <TopLayer>
+            <RankSide>
+              <RankTitle>
+                <p>
+                  DAILY
+                  <br />
+                  RANKING
+                </p>
+              </RankTitle>
+              <RankBox>
+                {dayRankData?.map((list, index) => (
+                  <Rank key={index}>
+                    <RankNum>
+                      <Num>{index + 1}.</Num>
+                    </RankNum>
+                    <RankProfile src={list.fish}></RankProfile>
+                    <RankInfo>
+                      <NickName>{list.nickname}</NickName>
+                      <Point>{list.dayStudy}</Point>
+                    </RankInfo>
+                  </Rank>
+                ))}
+              </RankBox>
+            </RankSide>
+            <RankSide>
+              <RankTitle>
+                <p>
+                  WEEKLY
+                  <br />
+                  RANKING
+                </p>
+              </RankTitle>
+              <RankBox>
+                {weekRankData?.map((list, index) => (
+                  <Rank key={index}>
+                    <RankNum>
+                      <Num>{index + 1}.</Num>
+                    </RankNum>
+                    <RankProfile src={list.fish}></RankProfile>
+                    <RankInfo>
+                      <NickName>{list.nickname}</NickName>
+                      <Point>{list.weekStudy}</Point>
+                    </RankInfo>
+                  </Rank>
+                ))}
+              </RankBox>
+            </RankSide>
+            <TotalSide>
+              <TopBox>
+                <TotalTime>
+                  <Title>TOTAL POINT</Title>
+                  <P>{userPoint}</P>
+                </TotalTime>
+              </TopBox>
+              <BottomBox>
+                <NextFish>
+                  <NextFishTitle>
+                    <p>NEXT LEVEL</p>
+                  </NextFishTitle>
+                  <NextFishBody>
+                    <FishBowl
+                      nextPercent={nextPercent}
+                      nextFishImg={nextFishImg}
+                    ></FishBowl>
+                  </NextFishBody>
+                </NextFish>
+                <Week>
+                  <WeekTitle>
+                    <p>WEEKLY TIME</p>
+                  </WeekTitle>
+                  <WeekBody>
+                    <Weekly />
+                  </WeekBody>
+                </Week>
+                <MonthBox>
+                  <MonthTitle>
+                    <p>
+                      MONTHLY
+                      <br />
+                      TIME
+                    </p>
+                  </MonthTitle>
+                  <MonthBody>
+                    <Month />
+                  </MonthBody>
+                </MonthBox>
+              </BottomBox>
+            </TotalSide>
+          </TopLayer>
+          <BottomLayer>
+            <MyResponsiveCalendar />
+          </BottomLayer>
+        </Layer>
+      </StatisticsLayer>
     </>
-    
   );
 };
 
@@ -124,32 +144,32 @@ export default Statistics;
 const StatisticsLayer = styled.section`
   width: 100%;
   height: 90vh;
-  background: #0096FF;
+  background: #0096ff;
 `;
 const Layer = styled.div`
-  
   width: 100vw;
   height: 100%;
   margin: auto;
   padding: 30px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-`
-const TopLayer =styled.div`
-height: 70%;
-margin-bottom:10px;
-display:flex;
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+const TopLayer = styled.div`
+  height: 70%;
+  margin-bottom: 10px;
+  display: flex;
+`;
 
-const BottomLayer =styled.div`
-background-color: #0096FF;
-height: 30%;
-background-color:white;
-border-radius: 6px;
-box-shadow: 5px 5px 5px 5px rgba(1,1,1,0.5);`
+const BottomLayer = styled.div`
+  background-color: #0096ff;
+  height: 30%;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
+`;
 
-const RankSide =styled.div`
+const RankSide = styled.div`
   width: 25%;
   margin-right: 20px;
   display: flex;
@@ -163,14 +183,14 @@ const RankSide =styled.div`
 const RankTitle = styled.div`
   border-radius: 6px 6px 0 0;
   height: 120px;
-  background: #0096FF;
+  background: #0096ff;
   font-size: 50px;
   line-height: 40px;
   padding: 0 20px;
   p {
-    display:flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 90%;
     width: 100%;
     text-align: center;
@@ -190,12 +210,12 @@ const RankBox = styled.div`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: #0096FF;
+    background-color: #0096ff;
     height: 5px;
   }
-  div{
-    &:first-child{
-      margin-top:2px;
+  div {
+    &:first-child {
+      margin-top: 2px;
     }
   }
 `;
@@ -254,19 +274,19 @@ const TotalTime = styled.div`
   box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
   display: flex;
   justify-content: space-between;
-  padding:  0 10px;
+  padding: 0 10px;
 `;
 const Title = styled.div`
   width: 35%;
   height: 50%;
   font-size: 50px;
-  text-align:center;
+  text-align: center;
 `;
 const P = styled.p`
   color: white;
   height: 100%;
   width: 70%;
-  font-size:10em;
+  font-size: 10em;
   text-align: end;
   line-height: 1em;
 `;
@@ -290,7 +310,7 @@ const NextFishTitle = styled.div`
   border-radius: 6px;
   line-height: 40px;
   p {
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     height: 90%;
@@ -298,13 +318,13 @@ const NextFishTitle = styled.div`
     text-align: center;
     border-bottom: solid black 2px;
   }
-`
+`;
 const NextFishBody = styled.div`
   height: 75%;
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Week = styled.div`
   width: 35%;
@@ -315,25 +335,25 @@ const Week = styled.div`
 `;
 
 const WeekTitle = styled.div`
-  background-color: #0096FF;
+  background-color: #0096ff;
   height: 25%;
   font-size: 50px;
   line-height: 40px;
   padding: 0 20px;
   border-radius: 6px 6px 0 0;
   p {
-    display:flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 90%;
     width: 100%;
     text-align: center;
     border-bottom: solid black 2px;
   }
-`
+`;
 const WeekBody = styled.div`
   height: 75%;
-`
+`;
 const MonthBox = styled.div`
   width: 35%;
   margin: 0 0 0 5px;
@@ -341,23 +361,23 @@ const MonthBox = styled.div`
   border-radius: 6px;
   box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
 `;
-const MonthTitle =styled.div`
-background: #0096FF;
-border-radius: 6px 6px 0 0;
+const MonthTitle = styled.div`
+  background: #0096ff;
+  border-radius: 6px 6px 0 0;
   height: 25%;
   font-size: 50px;
   line-height: 40px;
   padding: 0 20px;
   p {
-    display:flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 90%;
     width: 100%;
     text-align: center;
     border-bottom: solid black 2px;
   }
-`
-const MonthBody =styled.div`
+`;
+const MonthBody = styled.div`
   height: 75%;
-`
+`;

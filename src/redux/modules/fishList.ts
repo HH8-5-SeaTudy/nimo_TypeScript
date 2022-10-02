@@ -4,7 +4,6 @@ import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-
 export const __getFishList: any = createAsyncThunk(
   "fish/getfishlist",
   async (payload, thunkAPI) => {
@@ -53,7 +52,6 @@ export const fishList = createSlice({
   extraReducers: (builder) => {
     builder.addCase(__getFishList.fulfilled, (state, action) => {
       state.fishInfo = action.payload;
-      console.log(action.payload);
     });
   },
 });

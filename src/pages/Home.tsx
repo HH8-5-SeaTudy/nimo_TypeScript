@@ -15,28 +15,24 @@ import crab from "../assets/pixel/crab.png";
 import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
 import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
-import Server from '../components/serverButton/Server';
-import ProfileHeader from '../components/profileHeader/ProfileHeader';
-import { getCookie } from '../components/social/Cookie';
-import Header from '../components/common/Header';
-
+import Server from "../components/serverButton/Server";
+import ProfileHeader from "../components/profileHeader/ProfileHeader";
+import { getCookie } from "../components/social/Cookie";
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   //Todo zone
-  const date = useAppSelector((state) => state.updateDate.date);
   const check = useAppSelector((state) => state.timer.isStudy);
-  
+
   const token: string = getCookie("token") as string;
 
   useEffect(() => {
     dispatch(__getUserProfile());
   }, []);
 
-
   useEffect(() => {
-    if ( token === undefined ) {
+    if (token === undefined) {
       navigate("/");
       alert("로그인이 필요한 페이지입니다.");
     }
@@ -53,42 +49,42 @@ const Home = () => {
 
   return (
     <>
-    {/* <Header /> */}
-    <Layer>
-      <MainBox>
-        <Server />
-        <ProfileContainer>
-        <ProfileHeader/>
-        </ProfileContainer>
-        {check ? (
-          <>
-            <ButtonTitle>checkOut</ButtonTitle>
-            <ButtonContainer onClick={onClickCheckOut}>
-              <CoralContainer>
-                <BrokenCoral />
-              </CoralContainer>
-              <CrabContainer>
-                <SicissorsCrab />
-              </CrabContainer>
-            </ButtonContainer>
-          </>
-        ) : (
-          <>
-            <ButtonTitle>checkIn</ButtonTitle>
-            <ButtonContainer onClick={onClickCheckIn}>
-              <CoralContainer>
-                <Coral />
-              </CoralContainer>
-              <CrabContainer>
-                <Crab />
-              </CrabContainer>
-            </ButtonContainer>
-          </>
-        )}
-        <FishIventory />
-      </MainBox>
-    </Layer></>
-    
+      {/* <Header /> */}
+      <Layer>
+        <MainBox>
+          <Server />
+          <ProfileContainer>
+            <ProfileHeader />
+          </ProfileContainer>
+          {check ? (
+            <>
+              <ButtonTitle>checkOut</ButtonTitle>
+              <ButtonContainer onClick={onClickCheckOut}>
+                <CoralContainer>
+                  <BrokenCoral />
+                </CoralContainer>
+                <CrabContainer>
+                  <SicissorsCrab />
+                </CrabContainer>
+              </ButtonContainer>
+            </>
+          ) : (
+            <>
+              <ButtonTitle>checkIn</ButtonTitle>
+              <ButtonContainer onClick={onClickCheckIn}>
+                <CoralContainer>
+                  <Coral />
+                </CoralContainer>
+                <CrabContainer>
+                  <Crab />
+                </CrabContainer>
+              </ButtonContainer>
+            </>
+          )}
+          <FishIventory />
+        </MainBox>
+      </Layer>
+    </>
   );
 };
 

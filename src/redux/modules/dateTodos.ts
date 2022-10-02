@@ -18,7 +18,6 @@ export const getAllTodo: any = createAsyncThunk(
         },
       });
       const data = getData.data.data;
-      console.log(getData)
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

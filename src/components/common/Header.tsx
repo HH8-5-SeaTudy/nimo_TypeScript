@@ -17,35 +17,38 @@ import logo from "../../assets/logo/seatudyLogo.png";
 import CalendarVer2 from "../calendar/CalendarVer2";
 import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
 import Grid from "../../elements/Grid";
-import { __getUserProfile } from '../../redux/modules/userData';
-import fishImages from '../fish/FishImages';
-import { getCookie } from '../social/Cookie';
-import { __getDday } from '../../redux/modules/dday';
+
+import { __getUserProfile } from "../../redux/modules/userData";
+import fishImages from "../fish/FishImages";
+import { getCookie } from "../social/Cookie";
+import { __getDday } from "../../redux/modules/dday";
 
 const Header = () => {
-
   const token: string = getCookie("token") as string;
 
   const today = new Date();
   const year = today.getFullYear();
-  const month = ('0' + (today.getMonth() + 1)).slice(-2);
-  const day = ('0' + today.getDate()).slice(-2);
-  const dateString = year + '-' + month  + '-' + day;
+  const month = ("0" + (today.getMonth() + 1)).slice(-2);
+  const day = ("0" + today.getDate()).slice(-2);
+  const dateString = year + "-" + month + "-" + day;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const time = useAppSelector((state) => state.timer);
   const dayMyRank = useAppSelector((state) => state.rank.dayMyRank.myRank);
   const weekMyRank = useAppSelector((state) => state.rank.WeekMyRank.myRank);
-  const Dday = useAppSelector((state)=>state.dday.DdayData)
+  const Dday = useAppSelector((state) => state.dday.DdayData);
   const userData = useAppSelector((state) => state.userData.userProfile);
   const fishPoint = fishImages.map((data) => data.point);
   const userPoint = userData.point;
   const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
   const nextPercent = (userPoint / nextFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
-  const NextDday = Dday.filter((x)=>x.targetDay >= dateString).sort((a,b)=>b.dday - a.dday)[0]
-  
+
+  const NextDday = Dday.filter((x) => x.targetDay >= dateString).sort(
+    (a, b) => b.dday - a.dday
+  )[0];
+
   const [asmrShow, setAsmrShow] = useState(false);
   const [showTodo, setShowTodo] = useState(false);
   const [hh, mm, ss] = String(time.dayStudyTime)
@@ -109,31 +112,37 @@ const Header = () => {
           <HeaderLogo src={logo} onClick={() => navigate("/home")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
-          <AsmrBtn>
-            <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
-            {asmrShow && <Asmr />}
-          </AsmrBtn>
-          {/* 캘린더버튼 */}
-          <CalendarBtn>
-            <Calendar src={calendar} onClick={() => setShowTodo(!showTodo)} />
-          </CalendarBtn>
-          {/* 다음물고기 */}
-          <FishBtn>
-            <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
-            <p>{nextPercent}%</p>
-          </FishBtn>
-          {/* 랭킹 */}
-          <RankBtn>
-            <Calendar src={ranking} onClick={() => navigate("/statistics")} />
-            <p>D:{dayMyRank}위 W:{weekMyRank}위</p>
-          </RankBtn>
-          {/* 제일빠른디데이 */}
-          {NextDday && 
+        <AsmrBtn>
+          <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
+          {asmrShow && <Asmr />}
+        </AsmrBtn>
+        {/* 캘린더버튼 */}
+        <CalendarBtn>
+          <Calendar src={calendar} onClick={() => setShowTodo(!showTodo)} />
+        </CalendarBtn>
+        {/* 다음물고기 */}
+        <FishBtn>
+          <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
+          <p>{String(nextPercent).slice(0, 2)}%</p>
+        </FishBtn>
+        {/* 랭킹 */}
+        <RankBtn>
+          <Calendar src={ranking} onClick={() => navigate("/statistics")} />
+          <p>
+            D:{dayMyRank}위 W:{weekMyRank}위
+          </p>
+        </RankBtn>
+        {/* 제일빠른디데이 */}
+        {NextDday && (
           <DdayBtn>
-            <DdayTitle>D-<br/>{NextDday.dday === 0 ? 'Day' : String(NextDday.dday).slice(1)}</DdayTitle>
+            <DdayTitle>
+              D-
+              <br />
+              {NextDday.dday === 0 ? "Day" : String(NextDday.dday).slice(1)}
+            </DdayTitle>
             <DdayContent>자격증시험보는날</DdayContent>
           </DdayBtn>
-          }
+        )}
 
         <HeaderTimerContainer>
           <HeaderTimer>
@@ -166,7 +175,7 @@ const Layer = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-  position:relative;
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -174,6 +183,7 @@ const HeaderContainer = styled.div`
   height: 65px;
   padding: 0px 55px;
   height: 10vh;
+
   box-shadow: 1px 1px 3px 1px #dadce0;
   background: #ff9100;
 `;
@@ -197,7 +207,6 @@ const HeaderTimer = styled.span`
   color: #fff;
   font-size: 50px;
 `;
-
 
 const AsmrBtn = styled.button`
   position: absolute;
@@ -234,7 +243,7 @@ const CalendarBtn = styled.button`
   }
 `;
 
-const FishBtn =styled.button`
+const FishBtn = styled.button`
   position: absolute;
   left: 40%;
   width: 80px;
@@ -248,11 +257,11 @@ const FishBtn =styled.button`
     background-color: rgba(0, 0, 0, 0.5);
   }
   p {
-    color : black;
+    color: black;
     font-weight: 700;
   }
-`
-const RankBtn =styled.button`
+`;
+const RankBtn = styled.button`
   position: absolute;
   left: 50%;
   width: 60px;
@@ -267,12 +276,12 @@ const RankBtn =styled.button`
   }
   p {
     position: absolute;
-    color : black;
+    color: black;
     font-weight: 700;
     width: 80px;
     left: -8px;
   }
-`
+`;
 const DdayBtn = styled.div`
   position: absolute;
   left: 60%;
@@ -288,7 +297,7 @@ const DdayBtn = styled.div`
       display: flex;
     }
   }
-  `
+`;
 
 const DdayTitle = styled.div`
   width: 100%;
@@ -297,40 +306,39 @@ const DdayTitle = styled.div`
   line-height: 17px;
   font-weight: 700;
   border: solid black 2px;
-  background-color: #7DCCFF;
-  display:flex;
+  background-color: #7dccff;
+  display: flex;
   justify-content: center;
-  align-items:center;
-`
-const DdayContent =styled.p`
-position:absolute;
-width: 150%;
-border-radius: 6px;
+  align-items: center;
+`;
+const DdayContent = styled.p`
+  position: absolute;
+  width: 150%;
+  border-radius: 6px;
   font-size: 14px;
-  z-index:3;
+  z-index: 3;
   line-height: 15px;
-  padding:2px;
-  background-color:#B2E2FF;
+  padding: 2px;
+  background-color: #b2e2ff;
   display: none;
   border: solid white 2px;
-`
+`;
 
 const Rank = styled.div`
-border: solid red 1px;
-p{
-border: solid red 1px;
-}
-
-`
+  border: solid red 1px;
+  p {
+    border: solid red 1px;
+  }
+`;
 const Calendar = styled.img`
   width: 100%;
   height: 100%;
 `;
 
 const RankContainer = styled.div`
-position: absolute;
-left: 60%;
-border: solid red 1px;
+  position: absolute;
+  left: 60%;
+  border: solid red 1px;
   width: 20%;
   display: flex;
   align-items: center;
