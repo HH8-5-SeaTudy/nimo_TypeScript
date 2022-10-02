@@ -123,7 +123,7 @@ const Header = () => {
           {/* 다음물고기 */}
           <FishBtn>
             <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
-            <p>{nextPercent}%</p>
+            <p>{String(props.nextPercent).slice(0, 2)}%</p>
           </FishBtn>
           {/* 랭킹 */}
           <RankBtn>
@@ -142,10 +142,16 @@ const Header = () => {
           }} />
           </ServerBtn>
           {/* 제일빠른디데이 */}
-          {NextDday && 
+          {NextDday && (
+
           <DdayBtn>
-            <DdayTitle>D-<br/>{NextDday.dday === 0 ? 'Day' : String(NextDday.dday).slice(1)}</DdayTitle>
-            <DdayContent>자격증시험보는날</DdayContent>
+            <DdayTitle>
+              D-
+              <br />
+              {NextDday.dday === 0 ? "Day" : String(NextDday.dday).slice(1)}
+            </DdayTitle>
+            <DdayContent>{NextDday.title}</DdayContent>
+
           </DdayBtn>
           }
 
