@@ -7,6 +7,7 @@ import { addUser } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
 import styled, { keyframes } from "styled-components";
 import { __getUserProfile } from "../redux/modules/userData";
+import { notInitialized } from 'react-redux/es/utils/useSyncExternalStore';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
@@ -131,6 +132,7 @@ function Chatting() {
           {chatUser &&
             chatUser.map((list: any, index: number) => {
               if (list.type === "TALK") {
+                
                 if (list.sender === userNickname) {
                   return (
                     <MessageListContainer key={index}>
@@ -150,7 +152,7 @@ function Chatting() {
                       <Sender>{list.sender}</Sender>
                       <SenderContainer>
                         <SenderProfile
-                          src={list.memberChatResDto.defaultFish}
+                          // src={list?.memberChatResDto?.defaultFish?  list.memberChatResDto.defaultFish : null}
                         />
                         <Message>{list.message}</Message>
                       </SenderContainer>
