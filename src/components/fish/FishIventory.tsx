@@ -15,16 +15,7 @@ const FishIventory = () => {
   const userPoint = userData.point;
   const positionData = useAppSelector((state) => state.fishPosition.position);
 
-  console.log(
-    "스테이트",
-    positionData.find((x) => x.fishNum === 0)
-  );
-  useEffect(()=>{
-    console.log(
-      "스테이트",
-      positionData.find((x) => x.fishNum === 0)
-    );
-  },[positionData])
+  useEffect(() => {}, [positionData]);
 
   useEffect(() => {
     dispatch(__getUserProfile());
@@ -42,17 +33,15 @@ const FishIventory = () => {
     })
   );
 
-  useEffect(()=>{
-    console.log('positionData',positionData)
+  useEffect(() => {
     let tempData = [...dTest];
 
     positionData.map((v) => {
-      console.log(v);
-      tempData[v.fishNum] = [v.left,v.top];
-    })
+      tempData[v.fishNum] = [v.left, v.top];
+    });
 
-    setDTest([...tempData])
-  },[positionData]);
+    setDTest([...tempData]);
+  }, [positionData]);
 
   const [dSize, setDSize] = useState(
     Array.from({ length: 25 }, (v, i) => {
@@ -72,7 +61,6 @@ const FishIventory = () => {
     const originPosTemp = { ...originPos };
     originPosTemp["x"] = e.target.offsetLeft;
     originPosTemp["y"] = e.target.offsetTop;
-    console.log("originPosTemp", originPosTemp);
     setOriginPos(originPosTemp); //드래그 시작할때 드래그 전 위치값을 저장
 
     const clientPosTemp = { ...clientPos };
@@ -90,12 +78,7 @@ const FishIventory = () => {
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
     // tempData[i][0] = e.clientX;
     // tempData[i][1] = e.clientY;
-    console.log(e.target.offsetLeft , e.clientX , clientPos.x);
-    console.log('x :', e.target.offsetLeft)
-    console.log('y :', e.target.offsetTop)
     setDTest(tempData);
-    console.log(e.target.offsetLeft , e.clientX , clientPos.x)
-    console.log(e.target.offsetTop , e.clientY , clientPos.y)
     setPos(PosTemp);
 
     const clientPosTemp = { ...clientPos };
@@ -128,7 +111,7 @@ const FishIventory = () => {
     tempData[i][0] = e.target.offsetLeft + e.clientX - clientPos.x;
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
     setDTest(tempData);
-    
+
     dispatch(
       __postFishPosition({
         fishNum: i,
@@ -148,11 +131,11 @@ const FishIventory = () => {
     document.body.style.overflow = "hidden";
   };
 
-  const FishDeleteHandler =(e:any,i:number)=> {
+  const FishDeleteHandler = (e: any, i: number) => {
     e.preventDefault();
-    alert('내가 사라져볼게 얍!')
-    dispatch(__deleteFishPosition(i))
-  }
+    alert("내가 사라져볼게 얍!");
+    dispatch(__deleteFishPosition(i));
+  };
 
   return (
     <InvenLayout ref={containerRef}>
@@ -173,16 +156,16 @@ const FishIventory = () => {
                 left: dTest[i][0] === 0 ? "0.5em" : dTest[i][0],
                 top: dTest[i][1] === 0 ? "0.85em" : dTest[i][1],
 
-                width:  dTest[i][0] === 0 ? "" : 100,
+                width: dTest[i][0] === 0 ? "" : 100,
                 height: dTest[i][1] === 0 ? "" : 70,
               }}
               src={data.image}
               alt=""
-              onContextMenu={(e) => FishDeleteHandler(e,i)}
+              onContextMenu={(e) => FishDeleteHandler(e, i)}
             />
             <Bubble
               style={{
-                display: dTest[i][1] === 0  ? "block": "none" ,
+                display: dTest[i][1] === 0 ? "block" : "none",
                 boxShadow:
                   userPoint >= data.point
                     ? ""
@@ -205,7 +188,7 @@ const InvenLayout = styled.div`
   display: flex;
   justify-content: center;
   bottom: 0;
-  z-index: 1;
+  z-index: 9999;
   position: absolute;
 `;
 

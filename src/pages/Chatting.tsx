@@ -1,13 +1,12 @@
-import React, { useEffect, useLayoutEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
-import { addUser, __getChatroom } from "../redux/modules/socket";
+import { addUser } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { __getUserProfile } from "../redux/modules/userData";
-import Grid from "../elements/Grid";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
@@ -20,24 +19,29 @@ function Chatting() {
 
   const { id }: any = location.state;
   //기본설정---헤더, 토큰, 주소설정
+
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
-  const chat = useAppSelector((state) => state.socket.chat);
+  const chatUser = useAppSelector((state) => state.socket.chat);
+  const roomId = chatUser.find((roomId) => roomId.roomId);
+  console.log(roomId);
   const userNickname = useAppSelector(
     (state) => state.userData.userProfile.nickname
   );
-
-  console.log(chat);
 
   const headers = {
     Authorization: token,
   };
 
+  useEffect(() => {
+    dispatch(addUser);
+  }, []);
+
   //렌더되면 소켓 연결실행
   useEffect(() => {
     if (token !== undefined) {
-    onConneted();
-    dispatch(__getUserProfile());
+      onConneted();
+      dispatch(__getUserProfile());
     }
     return () => {
       disConneted();
@@ -84,7 +88,6 @@ function Chatting() {
       client.send(`/pub/chat/message`, headers, res);
     });
 
-    // setMessage("");
     message.current.value = "";
   };
 
@@ -110,92 +113,101 @@ function Chatting() {
     }, 1);
   }
   return (
-    <>
-      <AcadeMachin>
-        <Shadow></Shadow>
-        <Top>
-          <Script></Script>
-          <ScriptLeft></ScriptLeft>
-          <ScriptRight></ScriptRight>
-        </Top>
-        <TopLeft></TopLeft>
-        <TopRight></TopRight>
-        <ScreenContainer>
-          <Joystick>
-            <Stick></Stick>
-            <Stick2></Stick2>
-          </Joystick>
-          <Screen>
-            {chat &&
-              chat.map((list: any, index: number) => {
-                if (list.type === null) {
-                  <>{list.message}</>;
-                  if (list.sender === userNickname) {
-                    return (
-                      <MessageListContainer key={index}>
-                        <MySenderContainer>
-                          <Message>{list.message}</Message>
-                          <Sender>:{list.sender}</Sender>
-                        </MySenderContainer>
-                      </MessageListContainer>
-                    );
-                  }
+    <AcadeMachin>
+      <Shadow></Shadow>
+      <Top>
+        <Script></Script>
+        <ScriptLeft></ScriptLeft>
+        <ScriptRight></ScriptRight>
+      </Top>
+      <TopLeft></TopLeft>
+      <TopRight></TopRight>
+      <ScreenContainer>
+        <Joystick>
+          <Stick></Stick>
+          <Stick2></Stick2>
+        </Joystick>
+        <Screen>
+          {chatUser &&
+            chatUser.map((list: any, index: number) => {
+              if (list.type === "TALK") {
+                if (list.sender === userNickname) {
                   return (
                     <MessageListContainer key={index}>
-                      <SenderContainer>
-                        <Sender>{list.sender}:</Sender>
+                      <MySenderMessageContainer className="chat-thread">
                         <Message>{list.message}</Message>
-                      </SenderContainer>
+                        <SenderContainer>
+                          <SenderProfile src={list.defaultFish} />
+                          <Sender>{list.sender}</Sender>
+                        </SenderContainer>
+                      </MySenderMessageContainer>
                     </MessageListContainer>
                   );
-                } else {
-                  <>
-                    <Grid width="100%" height="100%">
-                      asdasd
-                    </Grid>
-                  </>;
                 }
-              })}
-          </Screen>
-        </ScreenContainer>
-        <ScreenContainerLeft></ScreenContainerLeft>
-        <ScreenContainerRight></ScreenContainerRight>
-        <Board>
-          <BtnA></BtnA>
-          <BtnB></BtnB>
-          <BtnC></BtnC>
-        </Board>
+                return (
+                  <MessageListContainer key={index}>
+                    <SenderMessageContainer>
+                      <Sender>{list.sender}</Sender>
+                      <SenderContainer>
+                        <SenderProfile
+                          src={list.memberChatResDto.defaultFish}
+                        />
+                        <Message>{list.message}</Message>
+                      </SenderContainer>
+                    </SenderMessageContainer>
+                  </MessageListContainer>
+                );
+              } else {
+                return (
+                  <NoticeContainer key={index}>
+                    <EnterContainer>
+                      <Sender>{list.sender}:</Sender>
+                      <Message>{list.message}</Message>
+                    </EnterContainer>
+                  </NoticeContainer>
+                );
+              }
+            })}
+        </Screen>
+      </ScreenContainer>
+      <ScreenContainerLeft></ScreenContainerLeft>
+      <ScreenContainerRight></ScreenContainerRight>
+      <Board>
+        <BtnA></BtnA>
+        <BtnB></BtnB>
+        <BtnC></BtnC>
+      </Board>
 
-        <BoardLeft></BoardLeft>
-        <BoardRight></BoardRight>
-        <Bottom>
-          <BottomScript></BottomScript>
-          <BottomScriptRight></BottomScriptRight>
-          <BottomScriptLeft></BottomScriptLeft>
-          <BottomLeft></BottomLeft>
-          <BottomRight></BottomRight>
-        </Bottom>
-        <MessageForm>
-          <textarea onKeyUp={handleEnterPress} ref={message} />
-          <ButtonContainer>
-            <button onClick={handleClick}>전송</button>
-          </ButtonContainer>
-        </MessageForm>
-      </AcadeMachin>
-    </>
+      <BoardLeft></BoardLeft>
+      <BoardRight></BoardRight>
+      <Bottom>
+        <BottomScript></BottomScript>
+        <BottomScriptRight></BottomScriptRight>
+        <BottomScriptLeft></BottomScriptLeft>
+        <BottomLeft></BottomLeft>
+        <BottomRight></BottomRight>
+      </Bottom>
+      <MessageForm>
+        <textarea onKeyUp={handleEnterPress} ref={message} />
+        <ButtonContainer>
+          <CoinDiv>
+            <CoinWrapper></CoinWrapper>
+          </CoinDiv>
+          <SendButton onClick={handleClick}>SEND</SendButton>
+        </ButtonContainer>
+      </MessageForm>
+    </AcadeMachin>
   );
 }
 
 const AcadeMachin = styled.div`
-  border: solid red 1px;
   height: 100%;
-  width: 100%;
+  width: 95%;
   position: relative;
-  margin: 0 auto;
+  margin-left: 5%;
   perspective: 35em;
   display: block;
   overflow: hidden;
-  background-color: #0095ffac;
 `;
 
 const Shadow = styled.div`
@@ -299,54 +311,36 @@ const ScreenContainerRight = styled.div`
   right: 5%;
   z-index: 2;
 `;
-const Shadow2 = styled.div`
-  height: 8%;
-  width: 110%;
-  position: absolute;
-  top: 0%;
-  left: -5%;
-  background: rgba(0, 0, 0, 0.1);
-  z-index: 4;
-`;
+
 const Screen = styled.div`
   height: 100%;
   width: 100%;
   position: absolute;
   display: flex;
   flex-direction: column-reverse;
-  padding: 30px;
   overflow-y: scroll;
+  padding: 0 10px;
   background: #313332;
   border-radius: 90px 93px 93px 93px/15px 15px 15px 15px;
   text-align: center;
   color: ${({ theme }) => theme.colors.white};
   ::-webkit-scrollbar {
-    background-color: transparent;
-    width: 5px;
+    width: 10px;
   }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: rgba(25, 147, 147, 0.1);
+  }
+
   ::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    background-color: white;
-    height: 5px;
+    border-radius: 10px;
+    background-color: rgba(25, 147, 147, 0.2);
   }
 `;
 
-const Display = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 200%;
-  background-image: repeating-linear-gradient(
-    0deg,
-    #313332,
-    #313332 15px,
-    #4a4d4c 15px,
-    #4a4d4c 16px
-  );
-  animation: translate 1s infinite;
-`;
 const Joystick = styled.div`
-  height: 11%;
-  width: 9%;
+  height: 13%;
+  width: 6%;
   background: #0f90c9;
   position: absolute;
   top: 100%;
@@ -380,10 +374,10 @@ const Stick2 = styled.div`
 
 const Board = styled.div`
   height: 20%;
-  width: 72%;
+  width: 90%;
   position: absolute;
   top: 45%;
-  left: 13.2%;
+  left: 6%;
   border: 2px solid black;
   z-index: 0;
   background: #4b5b61;
@@ -508,98 +502,120 @@ const BottomScriptLeft = styled.div`
   background: #07beb8;
 `;
 
-///
-
-const MessageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow-y: hidden;
-  display: flex;
-  /* padding: 20px 10px; */
-  /* flex: 4; */
-  padding: 0 10px;
-  flex-direction: column-reverse;
-  border: 1px solid yellow;
-  div {
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column-reverse;
-    background-color: #b2c7d9;
-    border: 1px solid yellow;
-    &::-webkit-scrollbar {
-      width: 4px;
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 2px;
-      background: #cccccc;
-    }
+const showChatOdd = keyframes`
+  0% {
+    margin-left: -480px;
+  }
+  100% {
+    margin-left: 0;
   }
 `;
 
-const GameContainer = styled.div`
-  width: 100%;
-  height: 40vh;
-  border: 5px solid black;
-  background-color: aliceblue;
-  display: flex;
-  padding: 5px;
-  transform: perspective(500px) rotateX(10deg);
-`;
+const showChatEven = keyframes`
+  0% {
+    margin-left: -480px;
+  }
+  100% {
+    margin-left: 0;
+  }`;
 
-const GameWrapper = styled.div`
+const MessageListContainer = styled.div`
   width: 100%;
-  height: 100%;
-  border: 1px solid red;
-  position: relative;
-  .left-triangle {
+  .chat-thread {
+    list-style: none;
+    overflow-x: hidden;
+  }
+
+  .chat-thread li {
+    position: relative;
+    clear: both;
+    display: inline-block;
+    padding: 10px;
+    margin: 0 0 20px 0;
+    font: 16px/20px "Noto Sans", sans-serif;
+    border-radius: 10px;
+    background-color: rgba(25, 147, 147, 0.2);
+  }
+
+  /* Chat - Speech Bubble Arrow */
+  .chat-thread li:after {
+    position: absolute;
+    top: 15px;
+    content: "";
     width: 0;
     height: 0;
-    position: absolute;
-    bottom: 0;
-    border-bottom: 4.5vw solid red;
-    border-top: 4.5vw solid transparent;
-    border-left: 4.5vw solid red;
-    border-right: 4.5vw solid transparent;
+    border-top: 15px solid rgba(25, 147, 147, 0.2);
   }
-  .push {
-    position: relative;
-    display: inline-block;
-    width: $push-size;
-    height: $push-size;
+
+  .chat-thread li:nth-child(odd) {
+    animation: ${showChatOdd} 0.15s 1 ease-in;
+    -moz-animation: ${showChatOdd} 0.15s 1 ease-in;
+    -webkit-animation: ${showChatOdd} 0.15s 1 ease-in;
+    float: right;
+    margin-right: 5px;
+    color: #0ad5c1;
+  }
+
+  .chat-thread li:nth-child(odd):after {
+    border-right: 15px solid transparent;
+    right: -15px;
+  }
+
+  .chat-thread li:nth-child(even) {
+    animation: ${showChatEven} 0.15s 1 ease-in;
+    -moz-animation: ${showChatEven} 0.15s 1 ease-in;
+    -webkit-animation: ${showChatEven} 0.15s 1 ease-in;
+    float: left;
+    margin-left: 5px;
+    color: #0ec879;
+  }
+
+  .chat-window {
+    position: fixed;
+    bottom: 18px;
+  }
+
+  .chat-window-message {
+    width: 100%;
+    height: 48px;
+    font: 32px/48px "Noto Sans", sans-serif;
+    background: none;
+    color: #0ad5c1;
     border: 0;
-    margin: 1em;
+    border-bottom: 1px solid rgba(25, 147, 147, 0.2);
     outline: none;
-    background-color: $push-color;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: box-shadow 200ms;
   }
 `;
 
-const MessageListContainer = styled.span`
-  margin-top: 10px;
+const NoticeContainer = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid white;
+  padding: 5px;
+  margin-bottom: 15px;
 `;
 
 const EnterContainer = styled.div`
   width: 100%;
   height: 100%;
-  border: 5px solid white;
-  position: absolute;
-  z-index: 59;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const MySenderContainer = styled.div`
+const MySenderMessageContainer = styled.ul`
   width: 100%;
-  height: 100%;
+  padding: 0 15px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  list-style: none;
 `;
 
-const SenderContainer = styled.div`
+const SenderMessageContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -607,37 +623,50 @@ const SenderContainer = styled.div`
   justify-content: flex-start;
 `;
 
+const SenderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const SenderProfile = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid white;
+  padding: 5px;
+`;
+
 const Sender = styled.span`
-  font-size: 1.2em;
+  font-size: 1em;
   margin-left: 10px;
   margin-right: 10px;
 `;
 
-const Message = styled.span`
+const Message = styled.li`
   font-size: 1.2em;
-`;
-
-const ChatContainer = styled.section`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex: 1.5;
-  flex-direction: column;
+  list-style: none;
 `;
 
 const MessageForm = styled.form`
   display: flex;
-  padding: 10px;
-  width: 85%;
+  width: 86%;
   height: 28%;
+  padding: 20px 10px;
   position: absolute;
   left: 7%;
   bottom: 0%;
   resize: none;
+  border: 1px solid black;
+  background: #4b5b61;
   textarea {
+    padding: 10px;
+    border: 3px solid black;
+    background-color: ${({ theme }) => theme.colors.white};
     resize: none;
-    width: 100%;
-    border: none;
+    width: 80%;
+    border-radius: 10px;
     font-size: 1.5em;
     &:focus {
       outline: none;
@@ -645,18 +674,52 @@ const MessageForm = styled.form`
   }
 `;
 
+const CoinDiv = styled.div`
+  width: 50px;
+  height: 5vh;
+  border: 3px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 5px;
+`;
+
+const CoinWrapper = styled.div`
+  width: 5px;
+  height: 100%;
+  border-radius: 10px;
+  border: 2px solid black;
+`;
+
 const ButtonContainer = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
   flex: 3;
-  padding-top: 20px;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: space-around;
+  border: 2px solid black;
+  border-radius: 10px;
+`;
+
+const SendButton = styled.button`
+  width: 80px;
+  height: 30px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  padding-right: 10px;
-  button {
-    width: 50px;
-    height: 30px;
-  }
+  background-color: white;
+  padding: 0 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: "DungGeunMo";
+  font-size: 16px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
+  border: 1px solid black;
 `;
 
 export default Chatting;

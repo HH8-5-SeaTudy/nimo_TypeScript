@@ -5,10 +5,9 @@ import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-
 export const __getUserProfile: any = createAsyncThunk(
   "user/getUserProfile",
-  async (payload, thunkAPI) => { 
+  async (payload, thunkAPI) => {
     try {
       const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/api/v1/members/myProfile`, {
@@ -17,7 +16,6 @@ export const __getUserProfile: any = createAsyncThunk(
           Authorization: token,
         },
       });
-      console.log('겟데이트',response)
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -42,7 +40,6 @@ export const __editUserProfile: any = createAsyncThunk(
           },
         }
       );
-      console.log(response);
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -67,7 +64,6 @@ export const __editUserFishProfile: any = createAsyncThunk(
           },
         }
       );
-      console.log(response);
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

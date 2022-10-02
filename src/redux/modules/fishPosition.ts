@@ -1,4 +1,4 @@
-import { IPositionInitialState } from './../../api';
+import { IPositionInitialState } from "./../../api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getCookie } from "../../components/social/Cookie";
@@ -8,10 +8,9 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const __getFishPosition: any = createAsyncThunk(
   "Position/__getFishPosition",
   async (payload, thunkAPI) => {
-    try { 
+    try {
       const token: string = getCookie("token") as string;
-      const response = await axios.get(`${BASE_URL}/api/v1/fishes/locations`,
-      {
+      const response = await axios.get(`${BASE_URL}/api/v1/fishes/locations`, {
         headers: {
           Authorization: token,
         },
@@ -31,9 +30,9 @@ export const __postFishPosition: any = createAsyncThunk(
       const data = await axios.put(
         `${BASE_URL}/api/v1/fishes/relocations`,
         {
-          fishNum : payload.fishNum,
-          left : payload.left,
-          top : payload.top
+          fishNum: payload.fishNum,
+          left: payload.left,
+          top: payload.top,
         },
         {
           headers: {
@@ -53,10 +52,11 @@ export const __deleteFishPosition: any = createAsyncThunk(
   "Position/__deleteFishPosition",
   async (payload: any, thunkAPI) => {
     try {
-      console.log('수정페이',payload)
+      console.log("수정페이", payload);
       const token: string = getCookie("token") as string;
       const data = await axios.put(
-        `${BASE_URL}/api/v1/fishes/relocations/${payload}`,{},
+        `${BASE_URL}/api/v1/fishes/relocations/${payload}`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export const __deleteFishPosition: any = createAsyncThunk(
           },
         }
       );
-      console.log('수정테스트',data)
+      console.log("수정테스트", data);
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -74,7 +74,7 @@ export const __deleteFishPosition: any = createAsyncThunk(
 
 // 초기 상태 타입
 const initialState: IPositionInitialState = {
-  position:[],
+  position: [],
 };
 
 export const positionSlice = createSlice({
@@ -84,25 +84,22 @@ export const positionSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(__getFishPosition.fulfilled, (state, action) => {
-        state.position = action.payload
-
+        state.position = action.payload;
       })
       .addCase(__postFishPosition.fulfilled, (state, action) => {
-        console.log('리듀서임',action.payload)
         state.position = state.position.map((list) =>
-        list.fishNum === action.payload.fishNum
-          ? { ...list, left : action.payload.left , top : action.payload.top}
-          : list
-      );
+          list.fishNum === action.payload.fishNum
+            ? { ...list, left: action.payload.left, top: action.payload.top }
+            : list
+        );
       })
       .addCase(__deleteFishPosition.fulfilled, (state, action) => {
         state.position = state.position.map((list) =>
-        list.fishNum === action.payload.fishNum
-          ? { ...list, left : action.payload.left , top : action.payload.top}
-          : list
-      );
-      })
-
+          list.fishNum === action.payload.fishNum
+            ? { ...list, left: action.payload.left, top: action.payload.top }
+            : list
+        );
+      });
   },
 });
 
