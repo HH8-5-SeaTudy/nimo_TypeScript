@@ -18,7 +18,6 @@ import logo from "../../assets/logo/seatudyLogo.png";
 import CalendarVer2 from "../calendar/CalendarVer2";
 import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
 import Grid from "../../elements/Grid";
-
 import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
@@ -45,7 +44,6 @@ const Header = () => {
   const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
   const nextPercent = (userPoint / nextFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
-
   const NextDday = Dday.filter((x) => x.targetDay >= dateString).sort(
     (a, b) => b.dday - a.dday
   )[0];
@@ -61,7 +59,7 @@ const Header = () => {
   const [timeHH, setTimeHH] = useState<number>(0);
 
   const roomId1 = process.env.REACT_APP_ROOMID1;
-  
+
   useEffect(() => {
     dispatch(__getUserinquire());
     dispatch(__getDayMyRank());
@@ -115,39 +113,41 @@ const Header = () => {
           <HeaderLogo src={logo} onClick={() => navigate("/home")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
-
-          <AsmrBtn>
-            <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
-            {asmrShow && <Asmr />}
-          </AsmrBtn>
-          {/* 캘린더버튼 */}
-          <CalendarBtn>
-            <Calendar src={calendar} onClick={() => setShowTodo(!showTodo)} />
-          </CalendarBtn>
-          {/* 다음물고기 */}
-          <FishBtn>
-            <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
-            <p>{nextPercent}%</p>
-          </FishBtn>
-          {/* 랭킹 */}
-          <RankBtn>
-            <Calendar src={ranking} onClick={() => navigate("/statistics")} />
-            <p>D:{dayMyRank}위 W:{weekMyRank}위</p>
-          </RankBtn>
-          {/* 서버 */}
-          <ServerBtn>
-            <Calendar src={server}    
+        <AsmrBtn>
+          <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
+          {asmrShow && <Asmr />}
+        </AsmrBtn>
+        {/* 캘린더버튼 */}
+        <CalendarBtn>
+          <Calendar src={calendar} onClick={() => setShowTodo(!showTodo)} />
+        </CalendarBtn>
+        {/* 다음물고기 */}
+        <FishBtn>
+          <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
+          <p>{nextPercent}%</p>
+        </FishBtn>
+        {/* 랭킹 */}
+        <RankBtn>
+          <Calendar src={ranking} onClick={() => navigate("/statistics")} />
+          <p>
+            D:{dayMyRank}위 W:{weekMyRank}위
+          </p>
+        </RankBtn>
+        {/* 서버 */}
+        <ServerBtn>
+          <Calendar
+            src={server}
             onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId1,
-              },
-            });
-          }} />
-          </ServerBtn>
-          {/* 제일빠른디데이 */}
-          {NextDday && 
-
+              navigate("/chat", {
+                state: {
+                  id: roomId1,
+                },
+              });
+            }}
+          />
+        </ServerBtn>
+        {/* 제일빠른디데이 */}
+        {NextDday && (
           <DdayBtn>
             <DdayTitle>
               D-
@@ -197,7 +197,6 @@ const HeaderContainer = styled.div`
   height: 65px;
   padding: 0px 55px;
   height: 10vh;
-
   box-shadow: 1px 1px 3px 1px #dadce0;
   background: #ff9100;
 `;
@@ -295,8 +294,8 @@ const RankBtn = styled.button`
     width: 80px;
     left: -8px;
   }
-`
-const ServerBtn =styled.div`
+`;
+const ServerBtn = styled.div`
   position: absolute;
   left: 60%;
   width: 70px;
@@ -309,8 +308,7 @@ const ServerBtn =styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.5);
   }
-
-`
+`;
 const DdayBtn = styled.div`
   position: absolute;
   left: 70%;
@@ -338,14 +336,13 @@ const DdayTitle = styled.div`
   background-color: #7dccff;
   display: flex;
   justify-content: center;
-  align-items:center;
-  border-radius:6px;
-`
-const DdayContent =styled.p`
-position:absolute;
-width: 150%;
-border-radius: 6px;
-
+  align-items: center;
+  border-radius: 6px;
+`;
+const DdayContent = styled.p`
+  position: absolute;
+  width: 150%;
+  border-radius: 6px;
   font-size: 14px;
   z-index: 3;
   line-height: 15px;
@@ -355,41 +352,9 @@ border-radius: 6px;
   border: solid white 2px;
 `;
 
-const Rank = styled.div`
-  border: solid red 1px;
-  p {
-    border: solid red 1px;
-  }
-`;
 const Calendar = styled.img`
   width: 100%;
   height: 100%;
-`;
-
-const RankContainer = styled.div`
-  position: absolute;
-  left: 60%;
-  border: solid red 1px;
-  width: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  border-radius: 10px;
-`;
-
-const Nickname = styled.span`
-  font-size: 1.2em;
-  color: black;
-`;
-
-const DayRank = styled.span`
-  font-size: 1.2em;
-  color: black;
-`;
-
-const WeekRank = styled.span`
-  font-size: 1.2em;
-  color: black;
 `;
 
 export default Header;
