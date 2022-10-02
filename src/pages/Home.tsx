@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getDateTodo } from "../redux/modules/dateTodos";
 import {
@@ -11,7 +10,6 @@ import {
 } from "../redux/modules/timer";
 import backimg from "../assets/background/homeBack.png";
 import { __getUserProfile } from "../redux/modules/userData";
-import CalendarVer2 from "../components/calendar/CalendarVer2";
 import FishIventory from "../components/fish/FishIventory";
 import crab from "../assets/pixel/crab.png";
 import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
@@ -27,15 +25,13 @@ const Home = () => {
   const navigate = useNavigate();
   //Todo zone
   const date = useAppSelector((state) => state.updateDate.date);
-  const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const check = useAppSelector((state) => state.timer.isStudy);
   
   const token: string = getCookie("token") as string;
 
   useEffect(() => {
     dispatch(__getUserProfile());
-    dispatch(__getDateTodo(moment(date).format("YYYY-MM-DD")));
-  }, [date]);
+  }, []);
 
 
   // useEffect(() => {

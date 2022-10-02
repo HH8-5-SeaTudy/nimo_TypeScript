@@ -57,9 +57,7 @@ const Header = () => {
     dispatch(__getDayMyRank());
     dispatch(__getWeekMyRank());
     dispatch(__getUserProfile());
-    console.log('테스,트세트트트ㅡㅌ테ㅔ테틋스ㅡ트트트')
     }
-
     return () => {
       dispatch(__getCheckOutTimer());
     };
@@ -166,7 +164,7 @@ const HeaderContainer = styled.div`
   height: 65px;
   padding: 0px 55px;
   height: 10vh;
-
+  box-shadow: 1px 1px 3px 1px #dadce0;
   background: #ff9100;
 `;
 
@@ -229,7 +227,7 @@ const CalendarBtn = styled.button`
 const FishBtn =styled.button`
   position: absolute;
   left: 40%;
-  width: 60px;
+  width: 80px;
   height: 60px;
   padding: 8px;
   border-radius: 9999px;
