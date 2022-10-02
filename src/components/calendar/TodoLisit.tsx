@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
-import moment from "moment";
 import Input from "../../elements/Input";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { updateDate,selectDate } from '../../redux/modules/searchDate';

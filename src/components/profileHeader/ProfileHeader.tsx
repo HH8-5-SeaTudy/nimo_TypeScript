@@ -16,7 +16,7 @@ const ProfileHeader = () => {
     (state) => state.userData.userProfile);
   const todoData = dateTodos?.filter((x)=> x.todoList.length === 0 ).length
   const totalTodo = dateTodos?.map((x)=>x.categoryId).length
-
+console.log(userProfile)
   //오늘 날짜
   const today = new Date();
   const year = today.getFullYear(); 
@@ -44,7 +44,7 @@ const ProfileHeader = () => {
       </ProfileBox>
       <InfoBox>
         <ProfileName>{userProfile.nickname}</ProfileName>
-        <ProfileTime>{userProfile.point}P</ProfileTime>
+        <ProfileTime>{userProfile.totalStudy}</ProfileTime>
         <ProfileGroup onClick={()=>setTodoShow(!todoShow)}>TODO</ProfileGroup>
       </InfoBox>
       <LogoutBtn onClick={onClickLogOut}>LOGOUT</LogoutBtn>

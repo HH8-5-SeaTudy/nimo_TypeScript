@@ -64,6 +64,7 @@ export type IUserData = {
   nickname: string;
   defaultFish: string;
   point: number;
+  totalStudy: string;
 };
 
 // * StopWatch function

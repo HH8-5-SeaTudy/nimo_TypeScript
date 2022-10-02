@@ -18,6 +18,7 @@ import brokenCoral from "../assets/pixel/brokenCoral.png";
 import Server from '../components/serverButton/Server';
 import ProfileHeader from '../components/profileHeader/ProfileHeader';
 import { getCookie } from '../components/social/Cookie';
+import Header from '../components/common/Header';
 
 
 const Home = () => {
@@ -34,13 +35,13 @@ const Home = () => {
   }, []);
 
 
-  // useEffect(() => {
-  //   if ( token == undefined ) {
-  //     navigate("/");
-  //     alert("로그인이 필요한 페이지입니다.");
-  //   }
-  //   document.body.style.overflow = "hidden";
-  // }, []);
+  useEffect(() => {
+    if ( token === undefined ) {
+      navigate("/");
+      alert("로그인이 필요한 페이지입니다.");
+    }
+    document.body.style.overflow = "hidden";
+  }, []);
 
   const onClickCheckIn = () => {
     dispatch(__getCheckInTimer());
@@ -51,11 +52,12 @@ const Home = () => {
   };
 
   return (
+    <><Header />
     <Layer>
       <MainBox>
         <Server />
         <ProfileContainer>
-         <ProfileHeader/>
+        <ProfileHeader/>
         </ProfileContainer>
         {check ? (
           <>
@@ -84,7 +86,8 @@ const Home = () => {
         )}
         <FishIventory />
       </MainBox>
-    </Layer>
+    </Layer></>
+    
   );
 };
 

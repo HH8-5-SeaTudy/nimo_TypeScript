@@ -83,6 +83,7 @@ const initialState: IUser = {
     nickname: "",
     defaultFish: "",
     point: 0,
+    totalStudy: ""
   },
 };
 export const __userSlice = createSlice({

@@ -8,6 +8,9 @@ import fishImages from "../components/fish/FishImages";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getUserProfile } from "../redux/modules/userData";
 import { __getDayRank, __getWeekRank } from "../redux/modules/rank";
+import Header from '../components/common/Header';
+import { getCookie } from '../components/social/Cookie';
+import { useNavigate } from 'react-router-dom';
 
 const Statistics = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
@@ -20,14 +23,22 @@ const Statistics = () => {
   const nextPercent = (userPoint / nextFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
+  const token: string = getCookie("token") as string;
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if ( token === undefined ) {
+      navigate("/");
+      alert("로그인이 필요한 페이지입니다.");
+    }
     dispatch(__getUserProfile());
     dispatch(__getDayRank());
     dispatch(__getWeekRank());
   }, []);
 
   return (
+    <>
+    <Header/>
     <StatisticsLayer>
       <Layer>
         <TopLayer>
@@ -100,6 +111,8 @@ const Statistics = () => {
         </BottomLayer>
       </Layer>
     </StatisticsLayer>
+    </>
+    
   );
 };
 
