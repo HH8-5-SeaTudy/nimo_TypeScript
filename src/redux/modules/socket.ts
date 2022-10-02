@@ -3,13 +3,12 @@ import axios from "axios";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-// const token: string = process.env.REACT_APP_TOKEN as string;
-const token: string = getCookie("token") as string;
 
 export const __getChatroom: any = createAsyncThunk(
   "get/chatroom",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(
         `${BASE_URL}/api/v1/chat/room/${payload}`,
         {
@@ -30,6 +29,7 @@ export const __getChatenter: any = createAsyncThunk(
   "get/chatenter",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/pub/chat/enter`, {
         headers: {
           contentType: "application/json",
@@ -48,6 +48,7 @@ export const __getRoom: any = createAsyncThunk(
   "get/__getRoom",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/sub/chat/room/${payload}`, {
         headers: {
           contentType: "application/json",

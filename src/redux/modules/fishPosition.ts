@@ -4,12 +4,12 @@ import axios from "axios";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token: string = getCookie("token") as string;
 
 export const __getFishPosition: any = createAsyncThunk(
   "Position/__getFishPosition",
   async (payload, thunkAPI) => {
-    try {
+    try { 
+      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/api/v1/fishes/locations`,
       {
         headers: {
@@ -26,8 +26,8 @@ export const __getFishPosition: any = createAsyncThunk(
 export const __postFishPosition: any = createAsyncThunk(
   "Position/__postFishPosition",
   async (payload: any, thunkAPI) => {
-    console.log('페이로드',payload)
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.put(
         `${BASE_URL}/api/v1/fishes/relocations`,
         {
@@ -42,7 +42,6 @@ export const __postFishPosition: any = createAsyncThunk(
           },
         }
       );
-      console.log('여기',data)
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

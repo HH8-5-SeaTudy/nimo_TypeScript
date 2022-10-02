@@ -18,6 +18,12 @@ const FishIventory = () => {
     "스테이트",
     positionData.find((x) => x.fishNum === 0)
   );
+  useEffect(()=>{
+    console.log(
+      "스테이트",
+      positionData.find((x) => x.fishNum === 0)
+    );
+  },[positionData])
 
   useEffect(() => {
     dispatch(__getUserProfile());
@@ -81,6 +87,11 @@ const FishIventory = () => {
     let tempData = [...dTest];
     tempData[i][0] = e.target.offsetLeft + e.clientX - clientPos.x;
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
+    // tempData[i][0] = e.clientX;
+    // tempData[i][1] = e.clientY;
+    console.log(e.target.offsetLeft , e.clientX , clientPos.x);
+    console.log('x :', e.target.offsetLeft)
+    console.log('y :', e.target.offsetTop)
     setDTest(tempData);
     console.log(e.target.offsetLeft , e.clientX , clientPos.x)
     console.log(e.target.offsetTop , e.clientY , clientPos.y)

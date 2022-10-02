@@ -21,7 +21,6 @@ const KakaoLogin = () => {
 
         .then((res) => {
           setCookie("token", res.headers.authorization);
-          dispatch(__getUserProfile(res.data.data));
         })
         .then(() => {
           navigate("/home");
