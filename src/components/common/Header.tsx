@@ -23,6 +23,9 @@ import { getCookie } from '../social/Cookie';
 import { __getDday } from '../../redux/modules/dday';
 
 const Header = () => {
+
+  const token: string = getCookie("token") as string;
+
   const today = new Date();
   const year = today.getFullYear();
   const month = ('0' + (today.getMonth() + 1)).slice(-2);
@@ -62,7 +65,7 @@ const Header = () => {
     return () => {
       dispatch(__getCheckOutTimer());
     };
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     setTimeSS(ss);
@@ -92,6 +95,10 @@ const Header = () => {
     }
   }, [timeMM]);
 
+  if (window.location.pathname === "/") return null;
+  if (window.location.pathname === "/kakaoLogin") return null;
+  if (window.location.pathname === "/naverLogin") return null;
+  if (window.location.pathname === "/googleLogin") return null;
 
   return (
     <>
@@ -112,7 +119,7 @@ const Header = () => {
           </CalendarBtn>
           {/* 다음물고기 */}
           <FishBtn>
-            <Calendar src={nextFishImg} onClick={() => navigate("/statistics")} />
+            <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
             <p>{nextPercent}%</p>
           </FishBtn>
           {/* 랭킹 */}
@@ -287,7 +294,7 @@ const DdayTitle = styled.div`
   width: 100%;
   height: 100%;
   font-size: 25px;
-  line-height: 16px;
+  line-height: 17px;
   font-weight: 700;
   border: solid black 2px;
   background-color: #7DCCFF;

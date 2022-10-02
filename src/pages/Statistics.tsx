@@ -11,6 +11,7 @@ import { __getDayRank, __getWeekRank } from "../redux/modules/rank";
 import Header from '../components/common/Header';
 import { getCookie } from '../components/social/Cookie';
 import { useNavigate } from 'react-router-dom';
+import { __getCheckInTimer, __getUserinquire } from '../redux/modules/timer';
 
 const Statistics = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
@@ -31,14 +32,16 @@ const Statistics = () => {
       navigate("/");
       alert("로그인이 필요한 페이지입니다.");
     }
+
     dispatch(__getUserProfile());
     dispatch(__getDayRank());
     dispatch(__getWeekRank());
-  }, []);
+
+  }, [token]);
 
   return (
     <>
-    <Header/>
+    {/* <Header/> */}
     <StatisticsLayer>
       <Layer>
         <TopLayer>

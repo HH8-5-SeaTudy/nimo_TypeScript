@@ -52,7 +52,8 @@ const Home = () => {
   };
 
   return (
-    <><Header />
+    <>
+    {/* <Header /> */}
     <Layer>
       <MainBox>
         <Server />
