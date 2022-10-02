@@ -17,10 +17,16 @@ import crab from "../assets/pixel/crab.png";
 import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
 import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
-import Server from '../components/serverButton/Server';
-import ProfileHeader from '../components/profileHeader/ProfileHeader';
+import Server from "../components/serverButton/Server";
+import ProfileHeader from "../components/profileHeader/ProfileHeader";
 
+const roomId1 = process.env.REACT_APP_ROOMID1;
+const roomId2 = process.env.REACT_APP_ROOMID2;
+const roomId3 = process.env.REACT_APP_ROOMID3;
+const roomId4 = process.env.REACT_APP_ROOMID4;
+const roomId5 = process.env.REACT_APP_ROOMID5;
 
+const roomId = [roomId1, roomId2, roomId3, roomId4, roomId5];
 const Home = () => {
   const dispatch = useAppDispatch();
 
@@ -36,6 +42,7 @@ const Home = () => {
 
   //SideBar hidden
   const [modalShow, setModlaShow] = useState(false);
+  const navigate = useNavigate();
 
   //Inventory
   const userNickName = useAppSelector(
@@ -58,17 +65,19 @@ const Home = () => {
     dispatch(__getCheckOutTimer());
   };
 
-  const aa = [1, 2, 3, 4, 5];
-  const ss = aa.reduce((a, b) => a + b);
-  console.log(ss);
-
   return (
     <Layer>
       {modalShow && <CalendarVer2 />}
       <MainBox>
-        <Server />
+        <button
+          style={{ width: "100px", height: "100px" }}
+          onClick={() => {
+            navigate("/chat", { state: { id: roomId1 } });
+          }}
+        ></button>
+        {/* <Server /> */}
         <ProfileContainer>
-         <ProfileHeader/>
+          <ProfileHeader />
         </ProfileContainer>
         {check ? (
           <>
@@ -102,12 +111,6 @@ const Home = () => {
 };
 
 export default Home;
-
-const ChatButtonContainer = styled.div`
-  border: solid red 1px;
-  width: 10vw;
-  height: 10vh;
-`;
 
 const Layer = styled.section`
   position: relative;

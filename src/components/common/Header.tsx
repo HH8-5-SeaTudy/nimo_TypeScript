@@ -120,7 +120,7 @@ const Header = () => {
         </RankBtn>
 
         {/* 내 순위 들어가는 부분 */}
-        <RankContainer>
+        {/* <RankContainer>
           <Grid
             // width="30%"
             display="flex"
@@ -134,10 +134,10 @@ const Header = () => {
               <DayRank>일간랭킹: {dayMyRank}</DayRank>
             </Grid>
             <Grid display="flex" flexDirection="column" alignItems="center">
-              <WeekRank>주간랭킹: {weekMyRank}</WeekRank>
+              <WeekRank>주간랭킹:  {weekMyRank}</WeekRank>
             </Grid>
           </Grid>
-        </RankContainer>
+        </RankContainer> */}
         <HeaderTimerContainer>
           <HeaderTimer>
             <Layer>
@@ -177,7 +177,6 @@ const HeaderContainer = styled.div`
   height: 65px;
   padding: 0px 55px;
   height: 10vh;
-
   background: #ff9100;
 `;
 
