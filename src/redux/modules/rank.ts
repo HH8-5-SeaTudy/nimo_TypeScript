@@ -4,18 +4,19 @@ import axios from "axios";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token: string = getCookie("token") as string;
+
 
 export const __getDayRank: any = createAsyncThunk(
   "rank/__getDayRank",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/api/v1/dayRanks`, {
         headers: {
           Authorization: token,
         },
       });
-      console.log(response);
+      console.log('여기겟랭크토큰',token);
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -27,6 +28,7 @@ export const __getWeekRank: any = createAsyncThunk(
   "rank/__getWeekRank",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/api/v1/weekDayRanks`, {
         headers: {
           Authorization: token,
@@ -43,6 +45,7 @@ export const __getDayMyRank: any = createAsyncThunk(
   "rank/__getdayMyRank",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/api/v1/dayMyRanks`, {
         headers: {
           Authorization: token,
@@ -59,6 +62,7 @@ export const __getWeekMyRank: any = createAsyncThunk(
   "rank/__getWeekMyRank",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/api/v1/weekDayMyRanks`, {
         headers: {
           Authorization: token,

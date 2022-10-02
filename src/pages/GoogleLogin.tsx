@@ -19,8 +19,6 @@ const GoogleLogin = () => {
         .get(`${BASE_URL}/api/v1/members/googleLogin?code=${code}`)
         .then((res) => {
           setCookie("token", res.headers.authorization);
-          setCookie("userData", res.data.data);
-          dispatch(__getUserProfile(res.data.data));
         })
         .then(() => {
           navigate("/home");

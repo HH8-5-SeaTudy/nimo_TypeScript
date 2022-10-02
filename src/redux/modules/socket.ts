@@ -3,7 +3,7 @@ import axios from "axios";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-// const token: string = process.env.REACT_APP_TOKEN as string;
+
 const token: string = getCookie("token") as string;
 
 export const __getChatroom: any = createAsyncThunk(
@@ -11,7 +11,7 @@ export const __getChatroom: any = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/v1/chat/room/${payload}`,
+        `${BASE_URL}/chat/room?roomId=${payload}`,
         {
           headers: {
             contentType: "application/json",
@@ -19,6 +19,7 @@ export const __getChatroom: any = createAsyncThunk(
           },
         }
       );
+
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -36,24 +37,6 @@ export const __getChatenter: any = createAsyncThunk(
           authorization: token,
         },
       });
-      console.log(response);
-      return thunkAPI.fulfillWithValue(response.data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
-export const __getRoom: any = createAsyncThunk(
-  "get/__getRoom",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await axios.get(`${BASE_URL}/sub/chat/room/${payload}`, {
-        headers: {
-          contentType: "application/json",
-          authorization: token,
-        },
-      });
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -64,13 +47,30 @@ export const __getRoom: any = createAsyncThunk(
 export type IChat = {
   isLoading: boolean;
   error: null;
-  chat: any;
+  chat: IChatting[];
+  // chatUser: IChatting[];
+};
+
+export type IChatting = {
+  type: string;
+  roomId: string;
+  sender: string;
+  message: string;
+  defaultFish: string;
+  userCount: number;
+  rankByNickname: IChatInfo[];
+};
+
+export type IChatInfo = {
+  nickname: string;
+  point: number;
 };
 
 const initialState: IChat = {
   isLoading: false,
   error: null,
   chat: [],
+  // chatUser: [],
 };
 
 export const preChatSlice = createSlice({
@@ -79,13 +79,6 @@ export const preChatSlice = createSlice({
   reducers: {
     addUser: (state, action) => {
       state.chat = [action.payload, ...state.chat];
-    },
-  },
-  extraReducers: {
-    [__getChatroom.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.chat = action.payload;
-      console.log(action.payload);
     },
   },
 });

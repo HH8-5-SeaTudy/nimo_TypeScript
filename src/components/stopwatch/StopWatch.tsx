@@ -25,11 +25,6 @@ const StopWatch = () => {
   const [timerOn, setTimerOn] = useState(false);
 
 
-  // 수정해야하는 부분 
-  // 1. 로그인 직후 받아오는값이 00:00:00 일땐 타이머가 off 여야 한다.
-  // 2. 현재 코드에선 화면이 로드 될 경우 바로 통신과 체크인이 이뤄진다. 때문에 Stop을 해도 페이지 전환시 다시 시작됨.
-
-
   const startHandler = () => {
     dispatch(__getCheckInTimer());
     setTimerOn(true);

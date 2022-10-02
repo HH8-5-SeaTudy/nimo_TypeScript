@@ -11,8 +11,15 @@ import Grid from "../elements/Grid";
 import { __getFishList } from "../redux/modules/fishList";
 import Input from "../elements/Input";
 
+import Button from "../elements/Button";
+import Header from "../components/common/Header";
+import { getCookie } from "../components/social/Cookie";
+import { useNavigate } from "react-router-dom";
+
 const UnLock = () => {
+  const token: string = getCookie("token") as string;
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const userData = useAppSelector((state) => state.userData.userProfile);
   const fishData = useAppSelector((state) => state.fishList.fishInfo);
   const bannerImage = fishImages.map((data) => data.image);
@@ -26,14 +33,6 @@ const UnLock = () => {
   const [editFishName, setEditFishName] = useState(false);
   const [lock, setLock] = useState(false);
 
-  // const onClickLock = () => {
-  //   for (let i = 0; i < fishImages.length; i++) {
-  //     if (userPoint >= fishPoint[i]) {
-  //       setLock(true);
-  //     }
-  //   }
-  // };
-
   const onClickEditNickname = () => {
     if (nickname.length > 7) {
       alert("닉네임은 최대 7글자 입니다");
@@ -44,14 +43,6 @@ const UnLock = () => {
     }
     setEditNickname(!editNickname);
     dispatch(__editUserProfile(nickname));
-  };
-
-  const onClickEditFishName = () => {
-    setEditFishName(!editFishName);
-  };
-
-  const onClickEdit = () => {
-    setEdit(!edit);
   };
 
   const onChangeNickname = (e: any) => {
@@ -69,275 +60,281 @@ const UnLock = () => {
         setLock(true);
       }
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
+    if (token === undefined) {
+      navigate("/");
+      alert("로그인이 필요한 페이지입니다.");
+    }
     dispatch(__getUserProfile());
   }, []);
   return (
-    <UnClockContainer>
-      <FirstBorderContainer>
-        <UserInfoContainer>
-          <UserInfoTitle>
-            <p>MY PROFILE</p>
-          </UserInfoTitle>
-          <UserInfoProfile>
-            <FishBowl>
-              <Grid width="100%">
-                <UserProfileImage src={userData.defaultFish} alt="" />
-              </Grid>
-            </FishBowl>
-          </UserInfoProfile>
-          <UserInfo>
-            <UserWrapper>
-              <UserTitle>닉네임:</UserTitle>
-              <Grid
-                width="100%"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <>
-                  {editNickname && (
-                    <Input
-                      onChange={onChangeNickname}
-                      transition="width .2s .3s , height .3s"
-                      width={editNickname ? "140px" : "0px"}
-                      height={editNickname ? "25px" : "0px"}
-                      placeholder="닉네임"
-                      fontSize="20px"
-                      border="none"
-                      outline="none"
-                    />
-                  )}
-
-                  {!editNickname && (
-                    <UserProfileTitle>{userData.nickname}</UserProfileTitle>
-                  )}
-                </>
-              </Grid>
-              <EditNicknamButton onClick={onClickEditNickname}>
-                CHANGE
-              </EditNicknamButton>
-            </UserWrapper>
-            <UserWrapper>
-              <UserTitle>이메일:</UserTitle>
-              <Grid
-                width="100%"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <UserProfileTitle>{userData.email}</UserProfileTitle>
-              </Grid>
-            </UserWrapper>
-            <UserWrapper>
-              <UserTitle>포인트:</UserTitle>
-              <Grid
-                width="100%"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <UserProfileTitle>{userData.point}</UserProfileTitle>
-              </Grid>
-            </UserWrapper>
-
-            <UserWrapper>
-              <UserLevel>Lv:</UserLevel>
-              <Grid
-                width="100%"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <UserProfileTitle>{userData.id}</UserProfileTitle>
-              </Grid>
-            </UserWrapper>
-          </UserInfo>
-        </UserInfoContainer>
-
-        <FishSliderSecondBorder>
-          <FishContainer>
-            <FishIllustratedBookTitleContainer>
-              {/* 오른쪽 타이틀 */}
-              <FishIllustratedRightWrapper>
-                <span>FISH BOOK</span>
-              </FishIllustratedRightWrapper>
-            </FishIllustratedBookTitleContainer>
-
-            {/* 물고기 자세히 보기 */}
-            <FishWrapper>
-              <FishDetailContainer>
-                {fishImage ? (
+    <>
+      <UnClockContainer>
+        <FirstBorderContainer>
+          <UserInfoContainer>
+            <UserInfoTitle>
+              <p>MY PROFILE</p>
+            </UserInfoTitle>
+            <UserInfoProfile>
+              <FishBowl>
+                <Grid width="100%">
+                  <UserProfileImage src={userData.defaultFish} alt="" />
+                </Grid>
+              </FishBowl>
+            </UserInfoProfile>
+            <UserInfo>
+              <UserWrapper>
+                <UserTitle>닉네임:</UserTitle>
+                <Grid
+                  width="100%"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
                   <>
-                    <BigFishContainer>
-                      <Grid
-                        width="100%"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        <BigFishNum>Lv.{fishData.fishNum}</BigFishNum>
-                        <BigFishName>{fishData.fishName}</BigFishName>
-                      </Grid>
-                      <BigFish src={fishImage} alt="" />
-                      <ProfileSelect
-                        onClick={() =>
-                          dispatch(__editUserFishProfile(fishData.fishName))
-                        }
-                      >
-                        POFILE SELECT
-                      </ProfileSelect>
-                      <BigFishInfo>{fishData.fishInfo}</BigFishInfo>
-                    </BigFishContainer>
-                  </>
-                ) : (
-                  <>
-                    <BigFishContainer>
-                      <Grid
-                        width="100%"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        <BigFishNum>Lv.1</BigFishNum>
-                        <BigFishName>황금니모</BigFishName>
-                      </Grid>
-                      <BigFish src={bannerImage[0]} alt="" />
-                      <BigFishInfo>{bannerInfo[0]}</BigFishInfo>
-                    </BigFishContainer>
-                  </>
-                )}
-              </FishDetailContainer>
+                    {editNickname && (
+                      <Input
+                        onChange={onChangeNickname}
+                        transition="width .2s .3s , height .3s"
+                        width={editNickname ? "140px" : "0px"}
+                        height={editNickname ? "25px" : "0px"}
+                        placeholder="닉네임"
+                        fontSize="20px"
+                        border="none"
+                        outline="none"
+                      />
+                    )}
 
-              {/* 물고기 리스트 보여주는 곳 */}
-              <FishListContainer>
-                {fishImages.map((data: any, index: any) => {
-                  if (userData.point >= data.point) {
-                    // 물고기 해제
-                    return (
-                      <FishListWrapper
-                        key={index}
-                        onClick={() => {
-                          dispatch(__getFishList(data.fishName));
-                        }}
-                      >
-                        {lock ? (
-                          <>
-                            {editFishName ? (
-                              <>
-                                <FishImageNumberContainer
-                                  onClick={() => {
-                                    dispatch(
-                                      __editUserFishProfile(data.fishName)
-                                    );
-                                  }}
+                    {!editNickname && (
+                      <UserProfileTitle>{userData.nickname}</UserProfileTitle>
+                    )}
+                  </>
+                </Grid>
+                <EditNicknamButton onClick={onClickEditNickname}>
+                  CHANGE
+                </EditNicknamButton>
+              </UserWrapper>
+              <UserWrapper>
+                <UserTitle>이메일:</UserTitle>
+                <Grid
+                  width="100%"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <UserProfileTitle>{userData.email}</UserProfileTitle>
+                </Grid>
+              </UserWrapper>
+              <UserWrapper>
+                <UserTitle>포인트:</UserTitle>
+                <Grid
+                  width="100%"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <UserProfileTitle>{userData.point}</UserProfileTitle>
+                </Grid>
+              </UserWrapper>
+
+              <UserWrapper>
+                <UserLevel>Lv:</UserLevel>
+                <Grid
+                  width="100%"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <UserProfileTitle>{userData.id}</UserProfileTitle>
+                </Grid>
+              </UserWrapper>
+            </UserInfo>
+          </UserInfoContainer>
+
+          <FishSliderSecondBorder>
+            <FishContainer>
+              <FishIllustratedBookTitleContainer>
+                {/* 오른쪽 타이틀 */}
+                <FishIllustratedRightWrapper>
+                  <span>FISH BOOK</span>
+                </FishIllustratedRightWrapper>
+              </FishIllustratedBookTitleContainer>
+
+              {/* 물고기 자세히 보기 */}
+              <FishWrapper>
+                <FishDetailContainer>
+                  {fishImage ? (
+                    <>
+                      <BigFishContainer>
+                        <Grid
+                          width="100%"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          <BigFishNum>Lv.{fishData.fishNum}</BigFishNum>
+                          <BigFishName>{fishData.fishName}</BigFishName>
+                        </Grid>
+                        <BigFish src={fishImage} alt="" />
+                        <ProfileSelect
+                          onClick={() =>
+                            dispatch(__editUserFishProfile(fishData.fishName))
+                          }
+                        >
+                          POFILE SELECT
+                        </ProfileSelect>
+                        <BigFishInfo>{fishData.fishInfo}</BigFishInfo>
+                      </BigFishContainer>
+                    </>
+                  ) : (
+                    <>
+                      <BigFishContainer>
+                        <Grid
+                          width="100%"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          <BigFishNum>Lv.1</BigFishNum>
+                          <BigFishName>황금니모</BigFishName>
+                        </Grid>
+                        <BigFish src={bannerImage[0]} alt="" />
+                        <BigFishInfo>{bannerInfo[0]}</BigFishInfo>
+                      </BigFishContainer>
+                    </>
+                  )}
+                </FishDetailContainer>
+
+                {/* 물고기 리스트 보여주는 곳 */}
+                <FishListContainer>
+                  {fishImages.map((data: any, index: any) => {
+                    if (userData.point >= data.point) {
+                      // 물고기 해제
+                      return (
+                        <FishListWrapper
+                          key={index}
+                          onClick={() => {
+                            dispatch(__getFishList(data.fishName));
+                          }}
+                        >
+                          {lock ? (
+                            <>
+                              {editFishName ? (
+                                <>
+                                  <FishImageNumberContainer
+                                    onClick={() => {
+                                      dispatch(
+                                        __editUserFishProfile(data.fishName)
+                                      );
+                                    }}
+                                  >
+                                    <FishNumber>Lv.{index + 1}</FishNumber>
+                                    <Grid padding="2% 0">
+                                      <FishImage src={data.image} alt="" />
+                                    </Grid>
+                                    <Grid
+                                      display="flex"
+                                      justifyContent="space-around"
+                                      width="60%"
+                                    >
+                                      <FishName>{data.fishName}</FishName>
+                                      <RemainingPoint>{0}</RemainingPoint>
+                                    </Grid>
+                                  </FishImageNumberContainer>
+                                </>
+                              ) : (
+                                <>
+                                  <FishImageNumberContainer>
+                                    <FishNumber>Lv.{index + 1}</FishNumber>
+                                    <Grid padding="2% 0">
+                                      <FishImage src={data.image} alt="" />
+                                    </Grid>
+                                    <Grid
+                                      display="flex"
+                                      justifyContent="space-around"
+                                      width="60%"
+                                    >
+                                      <FishName>{data.fishName}</FishName>
+                                      <RemainingPoint>{0}</RemainingPoint>
+                                    </Grid>
+                                  </FishImageNumberContainer>
+                                </>
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              <FishImageNumberContainer>
+                                <FishNumber>Lv.{index + 1}</FishNumber>
+                                <Grid padding="2%">
+                                  <FishImage src={data.image} alt="" />
+                                </Grid>
+                                <Grid
+                                  display="flex"
+                                  justifyContent="space-around"
+                                  width="60%"
                                 >
-                                  <FishNumber>Lv.{index + 1}</FishNumber>
-                                  <Grid padding="2% 0">
-                                    <FishImage src={data.image} alt="" />
-                                  </Grid>
-                                  <Grid
-                                    display="flex"
-                                    justifyContent="space-around"
-                                    width="60%"
-                                  >
-                                    <FishName>{data.fishName}</FishName>
-                                    <RemainingPoint>{0}</RemainingPoint>
-                                  </Grid>
-                                </FishImageNumberContainer>
-                              </>
-                            ) : (
-                              <>
-                                <FishImageNumberContainer>
-                                  <FishNumber>Lv.{index + 1}</FishNumber>
-                                  <Grid padding="2% 0">
-                                    <FishImage src={data.image} alt="" />
-                                  </Grid>
-                                  <Grid
-                                    display="flex"
-                                    justifyContent="space-around"
-                                    width="60%"
-                                  >
-                                    <FishName>{data.fishName}</FishName>
-                                    <RemainingPoint>{0}</RemainingPoint>
-                                  </Grid>
-                                </FishImageNumberContainer>
-                              </>
-                            )}
-                          </>
-                        ) : (
-                          <>
-                            <FishImageNumberContainer>
-                              <FishNumber>Lv.{index + 1}</FishNumber>
-                              <Grid padding="2%">
-                                <FishImage src={data.image} alt="" />
-                              </Grid>
-                              <Grid
-                                display="flex"
-                                justifyContent="space-around"
-                                width="60%"
-                              >
-                                <FishName>{data.fishName}</FishName>
-                                <RemainingPoint>
-                                  {data.point - userData.point}
-                                </RemainingPoint>
-                              </Grid>
-                            </FishImageNumberContainer>
-                          </>
-                        )}
-                      </FishListWrapper>
-                    );
-                  } else {
-                    // if (userPoint >= data.point) {
-                    // }
-                    // 물고기 잠금
-                    return (
-                      <FishListWrapper key={index}>
-                        <UnLockContainer>
-                          <UnLockAnimation
-                            className="icon-lock"
-                            style={{ float: "left" }}
-                          >
-                            <div
-                              className="lock-top-1"
-                              style={{ backgroundColor: "#02A7D7" }}
-                            ></div>
-                            <div className="lock-top-2"></div>
-                            <div
-                              className="lock-body"
-                              style={{ backgroundColor: "#02A7D7" }}
-                            ></div>
-                            <div className="lock-hole"></div>
-                          </UnLockAnimation>
-                        </UnLockContainer>
-                        <FishImageNumberContainer>
-                          <FishNumber>Lv.{index + 1}</FishNumber>
-                          <Grid padding="2% 0">
-                            <FishImage src={data.image} alt="" />
-                          </Grid>
-                          <Grid
-                            display="flex"
-                            justifyContent="space-around"
-                            width="60%"
-                          >
-                            <FishName>{data.fishName}</FishName>
-                            <RemainingPoint>
-                              {data.point - userData.point}
-                            </RemainingPoint>
-                          </Grid>
-                        </FishImageNumberContainer>
-                      </FishListWrapper>
-                    );
-                  }
-                })}
-              </FishListContainer>
-            </FishWrapper>
-          </FishContainer>
-        </FishSliderSecondBorder>
-      </FirstBorderContainer>
-    </UnClockContainer>
+                                  <FishName>{data.fishName}</FishName>
+                                  <RemainingPoint>
+                                    {data.point - userData.point}
+                                  </RemainingPoint>
+                                </Grid>
+                              </FishImageNumberContainer>
+                            </>
+                          )}
+                        </FishListWrapper>
+                      );
+                    } else {
+                      // if (userPoint >= data.point) {
+                      // }
+                      // 물고기 잠금
+                      return (
+                        <FishListWrapper key={index}>
+                          <UnLockContainer>
+                            <UnLockAnimation
+                              className="icon-lock"
+                              style={{ float: "left" }}
+                            >
+                              <div
+                                className="lock-top-1"
+                                style={{ backgroundColor: "#02A7D7" }}
+                              ></div>
+                              <div className="lock-top-2"></div>
+                              <div
+                                className="lock-body"
+                                style={{ backgroundColor: "#02A7D7" }}
+                              ></div>
+                              <div className="lock-hole"></div>
+                            </UnLockAnimation>
+                          </UnLockContainer>
+                          <FishImageNumberContainer>
+                            <FishNumber>Lv.{index + 1}</FishNumber>
+                            <Grid padding="2% 0">
+                              <FishImage src={data.image} alt="" />
+                            </Grid>
+                            <Grid
+                              display="flex"
+                              justifyContent="space-around"
+                              width="60%"
+                            >
+                              <FishName>{data.fishName}</FishName>
+                              <RemainingPoint>
+                                {data.point - userData.point}
+                              </RemainingPoint>
+                            </Grid>
+                          </FishImageNumberContainer>
+                        </FishListWrapper>
+                      );
+                    }
+                  })}
+                </FishListContainer>
+              </FishWrapper>
+            </FishContainer>
+          </FishSliderSecondBorder>
+        </FirstBorderContainer>
+      </UnClockContainer>
+    </>
   );
 };
 

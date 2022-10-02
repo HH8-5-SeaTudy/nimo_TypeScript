@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useAppDispatch } from "../components/hooks/reduxHooks";
-import { __getChatroom } from "../redux/modules/socket";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
+import Server from "../components/serverButton/Server";
+import { addUser } from "../redux/modules/socket";
 import Chatting from "./Chatting";
 
 const roomId1 = process.env.REACT_APP_ROOMID1;
@@ -12,84 +14,80 @@ const roomId5 = process.env.REACT_APP_ROOMID5;
 
 function ChatRoom() {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const { id }: any = location.state;
-
-  //기본설정---헤더, 토큰, 주소설정
   const dispatch = useAppDispatch();
 
-  const roomIdHandler = () => {
-    window.location.reload();
-  };
+  const location = useLocation();
+  const { id }: any = location.state;
+
+  const chatUser = useAppSelector((state) => state.socket.chat);
+
+  useEffect(() => {
+    dispatch(addUser);
+  }, []);
+
+  const userCount = chatUser.find((user: any) => user.userCount);
+  const enter = chatUser.find((nickname) => nickname.rankByNickname);
+  const roomId = chatUser.find((roomId) => roomId.roomId);
+  console.log(roomId);
+
+  console.log("id", id);
+
+  const date = useAppSelector((state) => state.socket.chat);
+  console.log("여기채팅룸", date);
 
   return (
     <MessageContainer>
       <MessageFormContainer>
         {/* 왼쪽 section */}
+
         <SeaContainer>
-          <div>
-            <button
-              onClick={() => {
-                roomIdHandler();
-                navigate("/chat", {
-                  state: {
-                    id: roomId1,
-                  },
-                });
-              }}
-            >
-              서버1
-            </button>
-            <button
-              onClick={() => {
-                roomIdHandler();
-                navigate("/chat", {
-                  state: {
-                    id: roomId2,
-                  },
-                });
-              }}
-            >
-              서버2
-            </button>
-            <button
-              onClick={() => {
-                roomIdHandler();
-                navigate("/chat", {
-                  state: {
-                    id: roomId3,
-                  },
-                });
-              }}
-            >
-              서버3
-            </button>
-            <button
-              onClick={() => {
-                roomIdHandler();
-                navigate("/chat", {
-                  state: {
-                    id: roomId4,
-                  },
-                });
-              }}
-            >
-              서버4
-            </button>
-            <button
-              onClick={() => {
-                roomIdHandler();
-                navigate("/chat", {
-                  state: {
-                    id: roomId5,
-                  },
-                });
-              }}
-            >
-              서버5
-            </button>
-          </div>
+          <SeaTitleWrapper>
+            {/* 채팅방 타이틀 */}
+            <SeaTitle>
+              <>
+                {id === roomId1 ? <span>Indian Ocean</span> : null}
+                {id === roomId2 ? <span>Pacific Ocean</span> : null}
+                {id === roomId3 ? <span>Atlantic Ocean</span> : null}
+                {id === roomId4 ? <span>The Arctic Ocean</span> : null}
+                {id === roomId5 ? <div>The Antarctic Ocean</div> : null}
+              </>
+            </SeaTitle>
+          </SeaTitleWrapper>
+          <ServerButtonContainer>
+            <UserCounterContainer>
+              {/* 채팅방 인원 */}
+              <UserCounterWrapper>
+                <UserCount>User Count: </UserCount>
+                <UserCount>{userCount?.userCount}/20</UserCount>
+              </UserCounterWrapper>
+
+              {/* 유저 랭킹 */}
+              <UserRankContainer>
+                <UserRankTitleWrapper>
+                  <UserRankTitle>User Rank</UserRankTitle>
+                </UserRankTitleWrapper>
+                <UserRankNicknameContainer>
+                  {enter?.rankByNickname.map((data, index) => (
+                    <UserRankNicknameWrapper key={index}>
+                      <UserRankNickname>
+                        {index + 1}.{data.nickname}
+                      </UserRankNickname>
+                      <UserRankPoint>Time:{data.point}hours</UserRankPoint>
+                    </UserRankNicknameWrapper>
+                  ))}
+                </UserRankNicknameContainer>
+              </UserRankContainer>
+            </UserCounterContainer>
+            <ServerContainer>
+              <ServerTitle>Change Server</ServerTitle>
+
+              <Server />
+
+              <OutButtonContainer>
+                <OutButton onClick={() => navigate("/home")}>Out</OutButton>
+              </OutButtonContainer>
+            </ServerContainer>
+          </ServerButtonContainer>
         </SeaContainer>
 
         {/* 채팅 부분 */}
@@ -106,24 +104,8 @@ const MessageContainer = styled.div`
   height: 90vh;
   display: flex;
   flex-direction: column;
-  border: 4px solid green;
   padding: 0 10px;
-`;
-
-const MessageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-  display: flex;
-  /* padding: 20px 10px; */
-  /* flex: 4; */
-  flex-direction: column-reverse;
-  background-color: #b2c7d9;
-`;
-
-const MessageListContainer = styled.span`
-  width: 100%;
-  border: 1px solid black;
+  background: #0096ff;
 `;
 
 const MessageFormContainer = styled.div`
@@ -136,8 +118,134 @@ const SeaContainer = styled.section`
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   flex: 2.5;
+  box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
 `;
+
+const SeaTitleWrapper = styled.div`
+  width: 100%;
+  border-bottom: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const SeaTitle = styled.span`
+  font-size: 50px;
+  background: #0096ff;
+  padding: 0 20px;
+  border: 1px solid black;
+`;
+
+const ServerButtonContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: translate(50% 50%);
+  border: 2px solid black;
+  display: flex;
+  overflow: hidden;
+`;
+
+const OutButtonContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 10px;
+`;
+
+const OutButton = styled.div`
+  width: 120px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 0 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: "DungGeunMo";
+  font-size: 16px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
+  border: 1px solid black;
+`;
+
+const UserCount = styled.span`
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  font-size: ${({ theme }) => theme.fontSizes.xxxl};
+`;
+
+const UserCounterContainer = styled.div`
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+`;
+
+const UserCounterWrapper = styled.div`
+  width: 100%;
+  height: 20%;
+`;
+
+const UserRankTitleWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 2px solid black;
+`;
+
+const UserRankTitle = styled.span`
+  font-size: 40px;
+`;
+
+const UserRankContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid black;
+`;
+
+const UserRankNicknameContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+const UserRankNicknameWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+`;
+const UserRankNickname = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+`;
+const UserRankPoint = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+`;
+
+const ServerContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+`;
+
+const ServerTitle = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xxxl};
+`;
+
 const ChatContainer = styled.section`
   width: 100%;
   height: 100%;
