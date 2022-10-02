@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import fishImages from "../fish/FishImages";
 import { __getUserProfile } from "../../redux/modules/userData";
 import fishPosition, {
+  __deleteFishPosition,
   __getFishPosition,
   __postFishPosition,
 } from "../../redux/modules/fishPosition";
@@ -127,7 +128,7 @@ const FishIventory = () => {
     tempData[i][0] = e.target.offsetLeft + e.clientX - clientPos.x;
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
     setDTest(tempData);
-
+    
     dispatch(
       __postFishPosition({
         fishNum: i,
@@ -146,6 +147,12 @@ const FishIventory = () => {
     document.body.removeAttribute("style");
     document.body.style.overflow = "hidden";
   };
+
+  const FishDeleteHandler =(e:any,i:number)=> {
+    e.preventDefault();
+    alert('제자리에 둘래?')
+    dispatch(__deleteFishPosition(i))
+  }
 
   return (
     <InvenLayout ref={containerRef}>
@@ -166,15 +173,16 @@ const FishIventory = () => {
                 left: dTest[i][0] === 0 ? "0.5em" : dTest[i][0],
                 top: dTest[i][1] === 0 ? "0.85em" : dTest[i][1],
 
-                width: dSize[i][0] === 0 ? "" : dSize[i][0],
-                height: dSize[i][1] === 0 ? "" : dSize[i][1],
+                width:  dTest[i][0] === 0 ? "" : 100,
+                height: dTest[i][1] === 0 ? "" : 70,
               }}
               src={data.image}
               alt=""
+              onContextMenu={(e) => FishDeleteHandler(e,i)}
             />
             <Bubble
               style={{
-                display: dSize[i][0] > 90 ? "none" : "block",
+                display: dTest[i][1] === 0  ? "block": "none" ,
                 boxShadow:
                   userPoint >= data.point
                     ? ""
@@ -322,7 +330,5 @@ const FishImg = styled.img`
   width: 2em;
   height: 1.5em;
   position: fixed;
-  /* top: 0.7em;
-  left: 0.5em; */
-  z-index: 1;
+  z-index: 5;
 `;

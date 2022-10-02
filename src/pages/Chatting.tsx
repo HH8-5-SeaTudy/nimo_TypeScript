@@ -35,8 +35,10 @@ function Chatting() {
 
   //렌더되면 소켓 연결실행
   useEffect(() => {
+    if (token !== undefined) {
     onConneted();
     dispatch(__getUserProfile());
+    }
     return () => {
       disConneted();
     };

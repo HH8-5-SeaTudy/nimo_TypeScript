@@ -11,9 +11,14 @@ import Grid from "../elements/Grid";
 import { __getFishList } from "../redux/modules/fishList";
 import Input from "../elements/Input";
 import Button from "../elements/Button";
+import Header from '../components/common/Header';
+import { getCookie } from '../components/social/Cookie';
+import { useNavigate } from 'react-router-dom';
 
 const UnLock = () => {
+  const token: string = getCookie("token") as string;
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const userData = useAppSelector((state) => state.userData.userProfile);
   const fishData = useAppSelector((state) => state.fishList.fishInfo);
   const bannerImage = fishImages.map((data) => data.image);
@@ -48,14 +53,6 @@ const UnLock = () => {
     dispatch(__editUserProfile(nickname));
   };
 
-  const onClickEditFishName = () => {
-    setEditFishName(!editFishName);
-  };
-
-  const onClickEdit = () => {
-    setEdit(!edit);
-  };
-
   const onChangeNickname = (e: any) => {
     setNickname(e.target.value);
   };
@@ -74,9 +71,14 @@ const UnLock = () => {
   }, []);
 
   useEffect(() => {
+    if ( token === undefined ) {
+      navigate("/");
+      alert("로그인이 필요한 페이지입니다.");
+    }
     dispatch(__getUserProfile());
   }, []);
   return (
+    <><Header/>
     <UnClockContainer>
       <FirstBorderContainer>
         <UserInfoContainer>
@@ -342,6 +344,8 @@ const UnLock = () => {
         </FishSliderSecondBorder>
       </FirstBorderContainer>
     </UnClockContainer>
+    </>
+    
   );
 };
 
