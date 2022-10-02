@@ -44,19 +44,13 @@ function ChatRoom() {
           <SeaTitleWrapper>
             {/* 채팅방 타이틀 */}
             <SeaTitle>
-              {roomId === id ? (
-                <>
-                  <span>서버를 선택해 주세요</span>
-                </>
-              ) : (
-                <>
-                  {id === roomId1 ? <span>Indian Ocean</span> : null}
-                  {id === roomId2 ? <span>Pacific Ocean</span> : null}
-                  {id === roomId3 ? <span>Atlantic Ocean</span> : null}
-                  {id === roomId4 ? <span>The Arctic Ocean</span> : null}
-                  {id === roomId5 ? <div>The Antarctic Ocean</div> : null}
-                </>
-              )}
+              <>
+                {id === roomId1 ? <span>Indian Ocean</span> : null}
+                {id === roomId2 ? <span>Pacific Ocean</span> : null}
+                {id === roomId3 ? <span>Atlantic Ocean</span> : null}
+                {id === roomId4 ? <span>The Arctic Ocean</span> : null}
+                {id === roomId5 ? <div>The Antarctic Ocean</div> : null}
+              </>
             </SeaTitle>
           </SeaTitleWrapper>
           <ServerButtonContainer>
