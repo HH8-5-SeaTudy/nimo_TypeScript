@@ -52,7 +52,7 @@ const Home = () => {
       {/* <Header /> */}
       <Layer>
         <MainBox>
-          <Server />
+          {/* <Server /> */}
           <ProfileContainer>
             <ProfileHeader />
           </ProfileContainer>
