@@ -23,7 +23,6 @@ import {
 import left from "../../assets/pixel/left.png";
 import right from "../../assets/pixel/right.png";
 import textbox from "../../assets/pixel/textbox.png";
-import ok from "../../assets/pixel/ok.png";
 
 export type Iresault = {
   result: [];
@@ -36,7 +35,7 @@ const CalendarVer2 = () => {
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
   const DdayRed = DdayData.map((d) => d.targetDay);
-  console.log(DdayRed);
+
   //
   const inputRef = useRef<any>([]);
   const [categoryInputShow, setCategoryInputShow] = useState(false);
@@ -496,6 +495,7 @@ const CalendarVer2 = () => {
             <BTtile>TO DO LIST</BTtile>
           </CalendarTitle>
           <Calendar>
+            
             {/* DdayModal */}
             {DdayShow && (
               <DayTextBox>
@@ -1000,18 +1000,7 @@ const DdayInputBtn = styled.div`
     line-height: 12px;
   }
 `;
-//디데이 수정박스
-const DayEditTextBox = styled.div`
-  border: solid red 1px;
-  position: absolute;
-  width: 300px;
-  height: 200px;
-  background-image: url(${textbox});
-  background-repeat: no-repeat;
-  z-index: 5;
-  top: 180px;
-  padding: 35px;
-`;
+
 
 const Calendar = styled.div`
   display: flex;

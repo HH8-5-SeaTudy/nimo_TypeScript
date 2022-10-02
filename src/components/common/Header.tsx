@@ -17,10 +17,14 @@ import logo from "../../assets/logo/seatudyLogo.png";
 import CalendarVer2 from "../calendar/CalendarVer2";
 import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
 import Grid from "../../elements/Grid";
+
 import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
+import { getCookie } from "../social/Cookie";
 
 const Header = () => {
+  const token: string = getCookie("token") as string;
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const time = useAppSelector((state) => state.timer);
@@ -45,10 +49,12 @@ const Header = () => {
   const [timeHH, setTimeHH] = useState<number>(0);
 
   useEffect(() => {
-    dispatch(__getUserinquire());
-    dispatch(__getDayMyRank());
-    dispatch(__getWeekMyRank());
-    dispatch(__getUserProfile());
+    if (token !== undefined) {
+      dispatch(__getUserinquire());
+      dispatch(__getDayMyRank());
+      dispatch(__getWeekMyRank());
+      dispatch(__getUserProfile());
+    }
     return () => {
       dispatch(__getCheckOutTimer());
     };
@@ -98,6 +104,7 @@ const Header = () => {
           <HeaderLogo src={logo} onClick={() => navigate("/home")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
+
         <AsmrBtn>
           <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
           {asmrShow && <Asmr />}
@@ -109,7 +116,7 @@ const Header = () => {
         {/* 다음물고기 */}
         <FishBtn>
           <Calendar src={nextFishImg} onClick={() => navigate("/statistics")} />
-          <p>{nextPercent}%</p>
+          <p>{String(nextPercent).slice(0, 2)}%</p>
         </FishBtn>
         {/* 랭킹 */}
         <RankBtn>
@@ -118,26 +125,6 @@ const Header = () => {
             D:{dayMyRank}위 W:{weekMyRank}위
           </p>
         </RankBtn>
-
-        {/* 내 순위 들어가는 부분 */}
-        {/* <RankContainer>
-          <Grid
-            // width="30%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Nickname>{nickname}</Nickname>
-          </Grid>
-          <Grid>
-            <Grid display="flex" flexDirection="column" alignItems="center">
-              <DayRank>일간랭킹: {dayMyRank}</DayRank>
-            </Grid>
-            <Grid display="flex" flexDirection="column" alignItems="center">
-              <WeekRank>주간랭킹:  {weekMyRank}</WeekRank>
-            </Grid>
-          </Grid>
-        </RankContainer> */}
         <HeaderTimerContainer>
           <HeaderTimer>
             <Layer>
@@ -177,6 +164,8 @@ const HeaderContainer = styled.div`
   height: 65px;
   padding: 0px 55px;
   height: 10vh;
+
+  box-shadow: 1px 1px 3px 1px #dadce0;
   background: #ff9100;
 `;
 
@@ -185,8 +174,8 @@ const HeaderLogoContainer = styled.div`
 `;
 
 const HeaderLogo = styled.img`
-  width: 150px;
-  height: 130px;
+  width: 120px;
+  height: 70px;
 `;
 
 const HeaderTimerContainer = styled.div`
@@ -238,7 +227,7 @@ const CalendarBtn = styled.button`
 const FishBtn = styled.button`
   position: absolute;
   left: 40%;
-  width: 60px;
+  width: 80px;
   height: 60px;
   padding: 8px;
   border-radius: 9999px;

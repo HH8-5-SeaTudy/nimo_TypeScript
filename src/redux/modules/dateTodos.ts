@@ -4,12 +4,12 @@ import { IDateTodosInitialState, ITodos } from "../../api";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token: string = getCookie("token") as string;
 
 //전체 목록 조회
 export const getAllTodo: any = createAsyncThunk(
   "all/allGetTodo",
   async (payload, thunkAPI) => {
+    const token: string = getCookie("token") as string;
     try {
       const getData = await axios.get(`${BASE_URL}/api/v1/todoCategories`, {
         headers: {
@@ -18,7 +18,6 @@ export const getAllTodo: any = createAsyncThunk(
         },
       });
       const data = getData.data.data;
-
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -36,6 +35,7 @@ export const __getDateTodo: any = createAsyncThunk(
   "category/getDateTodo",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.get(
         `${BASE_URL}/api/v1/todoCategories/dates?selectDate=${payload}`,
         {
@@ -56,8 +56,8 @@ export const __getDateTodo: any = createAsyncThunk(
 export const __postCategory: any = createAsyncThunk(
   "category/postCategory",
   async (payload: any, thunkAPI) => {
-    console.log(payload);
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.post(
         `${BASE_URL}/api/v1/todoCategories`,
         {
@@ -83,6 +83,7 @@ export const __deleteCategory: any = createAsyncThunk(
   "category/deleteCategory",
   async (payload: any, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.delete(
         `${BASE_URL}/api/v1/todoCategories/${payload}`,
         {
@@ -104,6 +105,7 @@ export const __editCategory: any = createAsyncThunk(
   "category/editCategory",
   async (payload: any, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.put(
         `${BASE_URL}/api/v1/todoCategories/${payload.categoryId}`,
         {
@@ -128,6 +130,7 @@ export const __postTodo: any = createAsyncThunk(
   "todo/postTodo",
   async (payload: any, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.post(
         `${BASE_URL}/api/v1/${payload.categoryId}/todoLists`,
         {
@@ -153,6 +156,7 @@ export const __doneTodo: any = createAsyncThunk(
   "todo/doneTodo",
   async (payload: any, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.post(
         `${BASE_URL}/api/v1/todoLists/${payload}`,
         {},
@@ -174,6 +178,7 @@ export const __deleteTodo: any = createAsyncThunk(
   "todo/deleteTodo",
   async (payload: any, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.delete(
         `${BASE_URL}/api/v1/todoLists/${payload.todoId}`,
         {

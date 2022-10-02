@@ -3,12 +3,12 @@ import axios from "axios";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token: string = getCookie("token") as string;
 
 export const __getFishList: any = createAsyncThunk(
   "fish/getfishlist",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(
         `${BASE_URL}/api/v1/fishes/images?fishName=${payload}`,
         {
@@ -52,7 +52,6 @@ export const fishList = createSlice({
   extraReducers: (builder) => {
     builder.addCase(__getFishList.fulfilled, (state, action) => {
       state.fishInfo = action.payload;
-      console.log(action.payload);
     });
   },
 });

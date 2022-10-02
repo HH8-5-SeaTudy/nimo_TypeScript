@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { addUser } from "../../redux/modules/socket";
+import { useAppDispatch } from "../hooks/reduxHooks";
 
 //server zone
 const roomId1 = process.env.REACT_APP_ROOMID1;
@@ -11,90 +13,101 @@ const roomId5 = process.env.REACT_APP_ROOMID5;
 
 const Server = () => {
   const [toggle, setToggle] = useState(false);
+  const location = useLocation();
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(addUser);
+  }, []);
 
   const navigate = useNavigate();
 
   return (
     <Body>
-      <UL>
-        <Toggle onClick={() => setToggle(!toggle)} toggle={toggle} />
-        <LI1
-          onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId1,
-              },
-            });
-            window.location.reload();
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -5 * 1))" }}>
-            <ATitle>인도양</ATitle>
-          </A>
-        </LI1>
-        <LI2
-          onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId2,
-              },
-            });
-            window.location.reload();
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -5 * 2))" }}>
-            <ATitle>태평양</ATitle>
-          </A>
-        </LI2>
-        <LI3
-          onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId3,
-              },
-            });
-            window.location.reload();
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -5 * 3))" }}>
-            <ATitle>대서양</ATitle>
-          </A>
-        </LI3>
-        <LI4
-          onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId4,
-              },
-            });
-            window.location.reload();
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -5 * 4))" }}>
-            <ATitle>북극해</ATitle>
-          </A>
-        </LI4>
+      <div className="background-wrap">
+        <div className="bubble x1">
+          <UL>
+            <Toggle onClick={() => setToggle(!toggle)} toggle={toggle} />
+            <LI1
+              onClick={() => {
+                navigate("/chat", {
+                  state: {
+                    id: roomId1,
+                  },
+                });
+                window.location.reload();
+              }}
+              toggle={toggle}
+            >
+              <A style={{ transform: "rotate(calc(360deg/ -5 * 1))" }}>
+                <ATitle>인도양</ATitle>
+              </A>
+            </LI1>
+            <LI2
+              onClick={() => {
+                navigate("/chat", {
+                  state: {
+                    id: roomId2,
+                  },
+                });
+                window.location.reload();
+              }}
+              toggle={toggle}
+            >
+              <A style={{ transform: "rotate(calc(360deg/ -5 * 2))" }}>
+                <ATitle>태평양</ATitle>
+              </A>
+            </LI2>
+            <LI3
+              onClick={() => {
+                navigate("/chat", {
+                  state: {
+                    id: roomId3,
+                  },
+                });
+                window.location.reload();
+              }}
+              toggle={toggle}
+            >
+              <A style={{ transform: "rotate(calc(360deg/ -5 * 3))" }}>
+                <ATitle>대서양</ATitle>
+              </A>
+            </LI3>
+            <LI4
+              onClick={() => {
+                navigate("/chat", {
+                  state: {
+                    id: roomId4,
+                  },
+                });
+                window.location.reload();
+              }}
+              toggle={toggle}
+            >
+              <A style={{ transform: "rotate(calc(360deg/ -5 * 4))" }}>
+                <ATitle>북극해</ATitle>
+              </A>
+            </LI4>
 
-        <LI5
-          onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId5,
-              },
-            });
-            window.location.reload();
-          }}
-          toggle={toggle}
-        >
-          <A style={{ transform: "rotate(calc(360deg/ -5 * 5))" }}>
-            <ATitle>남극해</ATitle>
-          </A>
-        </LI5>
-      </UL>
+            <LI5
+              onClick={() => {
+                navigate("/chat", {
+                  state: {
+                    id: roomId5,
+                  },
+                });
+                window.location.reload();
+              }}
+              toggle={toggle}
+            >
+              <A style={{ transform: "rotate(calc(360deg/ -5 * 5))" }}>
+                <ATitle>남극해</ATitle>
+              </A>
+            </LI5>
+          </UL>
+        </div>
+      </div>
     </Body>
   );
 };
@@ -105,13 +118,63 @@ interface ToggleProps {
 }
 const Body = styled.div`
   position: relative;
-  width: 240px;
-  height: 420px;
+  width: 100%;
+  height: 470px;
   display: flex;
   align-items: center;
-  border: 2px solid white;
-  background-color: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
+  .background-wrap {
+    width: 100%;
+    left: 0;
+    top: 50%;
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bubble {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    box-shadow: 0 0px 20px #fff, inset 0px 10px 30px 5px #add9ec54;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    ${({ theme }) => theme.common.flexCenter};
+    width: 100px;
+    border: solid rgba(255, 255, 255, 0.5) 1px;
+  }
+  .bubble:after {
+    background: -webkit-gradient(
+      radial,
+      center center,
+      0px,
+      center center,
+      100%,
+      color-stop(0%, transparent),
+      color-stop(70%, rgba(255, 255, 255, 0))
+    );
+    background: -webkit-radial-gradient(
+      center,
+      ellipse cover,
+      transparent 0%,
+      rgba(255, 255, 255, 0) 70%
+    );
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(255, 255, 255, 0) 90%
+    );
+    border-radius: 50%;
+    box-shadow: inset 0 -20px -30px rgba(26, 58, 94, 0.322);
+    content: "";
+    height: 180px;
+    left: 10px;
+    position: absolute;
+  }
 `;
 
 const UL = styled.div`
@@ -127,8 +190,7 @@ const UL = styled.div`
 const LI1 = styled.div<ToggleProps>`
   position: absolute;
   transform: translate(50% 50%);
-  left: -9%;
-
+  left: -92%;
   list-style: none;
   transition: 0.5s;
   transition-delay: calc(0.1s * 1);
@@ -141,7 +203,7 @@ const LI1 = styled.div<ToggleProps>`
 
 const LI2 = styled.div<ToggleProps>`
   position: absolute;
-  left: -9%;
+  left: -92%;
   list-style: none;
   transition: 0.5s;
   transition-delay: calc(0.1s * 2);
@@ -154,7 +216,7 @@ const LI2 = styled.div<ToggleProps>`
 
 const LI3 = styled.div<ToggleProps>`
   position: absolute;
-  left: -9%;
+  left: -92%;
   list-style: none;
   transition: 0.5s;
   transition-delay: calc(0.1s * 3);
@@ -167,7 +229,7 @@ const LI3 = styled.div<ToggleProps>`
 
 const LI4 = styled.div<ToggleProps>`
   position: absolute;
-  left: -9%;
+  left: -92%;
   list-style: none;
   transition: 0.5s;
   transform: translate(-50% -50%);
@@ -181,7 +243,7 @@ const LI4 = styled.div<ToggleProps>`
 
 const LI5 = styled.div<ToggleProps>`
   position: absolute;
-  left: -9%;
+  left: -92%;
   list-style: none;
   transition: 0.5s;
   transform: translate(-50% -50%);
@@ -211,7 +273,7 @@ const Toggle = styled.div<ToggleProps>`
   background-color: transparent;
   overflow: hidden;
   transform: ${({ toggle }) => (toggle ? "rotate(270deg)" : "")};
-  background-color: #68a691;
+  background-color: #0096ff;
 `;
 
 const A = styled.div`

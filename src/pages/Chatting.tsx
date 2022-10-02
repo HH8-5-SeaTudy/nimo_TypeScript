@@ -3,11 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
-import { addUser, __getChatroom } from "../redux/modules/socket";
+import { addUser } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
 import styled, { keyframes } from "styled-components";
 import { __getUserProfile } from "../redux/modules/userData";
-import Grid from "../elements/Grid";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
@@ -19,11 +18,13 @@ function Chatting() {
   const location = useLocation();
 
   const { id }: any = location.state;
-  console.log(id);
   //기본설정---헤더, 토큰, 주소설정
+
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
   const chatUser = useAppSelector((state) => state.socket.chat);
+  const roomId = chatUser.find((roomId) => roomId.roomId);
+  console.log(roomId);
   const userNickname = useAppSelector(
     (state) => state.userData.userProfile.nickname
   );
@@ -34,7 +35,7 @@ function Chatting() {
 
   useEffect(() => {
     dispatch(addUser);
-  }, []);
+  }, [id]);
 
   //렌더되면 소켓 연결실행
   useEffect(() => {
@@ -111,90 +112,94 @@ function Chatting() {
   }
   return (
     <>
-      <AcadeMachin>
-        <Shadow></Shadow>
-        <Top>
-          <Script></Script>
-          <ScriptLeft></ScriptLeft>
-          <ScriptRight></ScriptRight>
-        </Top>
-        <TopLeft></TopLeft>
-        <TopRight></TopRight>
-        <ScreenContainer>
-          <Joystick>
-            <Stick></Stick>
-            <Stick2></Stick2>
-          </Joystick>
-          <Screen>
-            {chatUser &&
-              chatUser.map((list: any, index: number) => {
-                if (list.type === "TALK") {
-                  if (list.sender === userNickname) {
+      {roomId === id ? (
+        <div>여백의 미</div>
+      ) : (
+        <AcadeMachin>
+          <Shadow></Shadow>
+          <Top>
+            <Script></Script>
+            <ScriptLeft></ScriptLeft>
+            <ScriptRight></ScriptRight>
+          </Top>
+          <TopLeft></TopLeft>
+          <TopRight></TopRight>
+          <ScreenContainer>
+            <Joystick>
+              <Stick></Stick>
+              <Stick2></Stick2>
+            </Joystick>
+            <Screen>
+              {chatUser &&
+                chatUser.map((list: any, index: number) => {
+                  if (list.type === "TALK") {
+                    if (list.sender === userNickname) {
+                      return (
+                        <MessageListContainer key={index}>
+                          <MySenderMessageContainer className="chat-thread">
+                            <Message>{list.message}</Message>
+                            <SenderContainer>
+                              <SenderProfile src={list.defaultFish} />
+                              <Sender>{list.sender}</Sender>
+                            </SenderContainer>
+                          </MySenderMessageContainer>
+                        </MessageListContainer>
+                      );
+                    }
                     return (
                       <MessageListContainer key={index}>
-                        <MySenderMessageContainer className="chat-thread">
-                          <Message>{list.message}</Message>
+                        <SenderMessageContainer>
+                          <Sender>{list.sender}</Sender>
                           <SenderContainer>
-                            <SenderProfile src={list.defaultFish} />
-                            <Sender>{list.sender}</Sender>
+                            <SenderProfile
+                              src={list.memberChatResDto.defaultFish}
+                            />
+                            <Message>{list.message}</Message>
                           </SenderContainer>
-                        </MySenderMessageContainer>
+                        </SenderMessageContainer>
                       </MessageListContainer>
                     );
-                  }
-                  return (
-                    <MessageListContainer key={index}>
-                      <SenderMessageContainer>
-                        <Sender>{list.sender}</Sender>
-                        <SenderContainer>
-                          <SenderProfile
-                            src={list.memberChatResDto.defaultFish}
-                          />
+                  } else {
+                    return (
+                      <NoticeContainer key={index}>
+                        <EnterContainer>
+                          <Sender>{list.sender}:</Sender>
                           <Message>{list.message}</Message>
-                        </SenderContainer>
-                      </SenderMessageContainer>
-                    </MessageListContainer>
-                  );
-                } else {
-                  return (
-                    <NoticeContainer key={index}>
-                      <EnterContainer>
-                        <Sender>{list.sender}:</Sender>
-                        <Message>{list.message}</Message>
-                      </EnterContainer>
-                    </NoticeContainer>
-                  );
-                }
-              })}
-          </Screen>
-        </ScreenContainer>
-        <ScreenContainerLeft></ScreenContainerLeft>
-        <ScreenContainerRight></ScreenContainerRight>
-        <Board>
-          <BtnA></BtnA>
-          <BtnB></BtnB>
-          <BtnC></BtnC>
-        </Board>
+                        </EnterContainer>
+                      </NoticeContainer>
+                    );
+                  }
+                })}
+            </Screen>
+          </ScreenContainer>
+          <ScreenContainerLeft></ScreenContainerLeft>
+          <ScreenContainerRight></ScreenContainerRight>
+          <Board>
+            <BtnA></BtnA>
+            <BtnB></BtnB>
+            <BtnC></BtnC>
+          </Board>
 
-        <BoardLeft></BoardLeft>
-        <BoardRight></BoardRight>
-        <Bottom>
-          <BottomScript></BottomScript>
-          <BottomScriptRight></BottomScriptRight>
-          <BottomScriptLeft></BottomScriptLeft>
-          <BottomLeft></BottomLeft>
-          <BottomRight></BottomRight>
-        </Bottom>
-        <MessageForm>
-          <textarea onKeyUp={handleEnterPress} ref={message} />
-          <ButtonContainer>
-            <CoinDiv>
-              <CoinWrapper></CoinWrapper>
-            </CoinDiv>
-            <SendButton onClick={handleClick}>SEND</SendButton>
-          </ButtonContainer>
-        </MessageForm>
-      </AcadeMachin>
+          <BoardLeft></BoardLeft>
+          <BoardRight></BoardRight>
+          <Bottom>
+            <BottomScript></BottomScript>
+            <BottomScriptRight></BottomScriptRight>
+            <BottomScriptLeft></BottomScriptLeft>
+            <BottomLeft></BottomLeft>
+            <BottomRight></BottomRight>
+          </Bottom>
+          <MessageForm>
+            <textarea onKeyUp={handleEnterPress} ref={message} />
+            <ButtonContainer>
+              <CoinDiv>
+                <CoinWrapper></CoinWrapper>
+              </CoinDiv>
+              <SendButton onClick={handleClick}>SEND</SendButton>
+            </ButtonContainer>
+          </MessageForm>
+        </AcadeMachin>
+      )}
     </>
   );
 }
@@ -592,7 +597,8 @@ const NoticeContainer = styled.div`
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid white;
-  padding: 10px;
+  padding: 5px;
+  margin-bottom: 15px;
 `;
 
 const EnterContainer = styled.div`
@@ -605,7 +611,7 @@ const EnterContainer = styled.div`
 
 const MySenderMessageContainer = styled.ul`
   width: 100%;
-  height: 90%;
+  /* height: 50%; */
   display: flex;
   align-items: center;
   justify-content: flex-end;

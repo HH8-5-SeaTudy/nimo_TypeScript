@@ -14,10 +14,7 @@ const FishIventory = () => {
   const userPoint = userData.point;
   const positionData = useAppSelector((state) => state.fishPosition.position);
 
-  console.log(
-    "스테이트",
-    positionData.find((x) => x.fishNum === 0)
-  );
+  useEffect(() => {}, [positionData]);
 
   useEffect(() => {
     dispatch(__getUserProfile());
@@ -34,6 +31,17 @@ const FishIventory = () => {
       return [0, 0];
     })
   );
+
+  useEffect(() => {
+    let tempData = [...dTest];
+
+    positionData.map((v) => {
+      tempData[v.fishNum] = [v.left, v.top];
+    });
+
+    setDTest([...tempData]);
+  }, [positionData]);
+
   const [dSize, setDSize] = useState(
     Array.from({ length: 25 }, (v, i) => {
       return [0, 0];
@@ -52,7 +60,6 @@ const FishIventory = () => {
     const originPosTemp = { ...originPos };
     originPosTemp["x"] = e.target.offsetLeft;
     originPosTemp["y"] = e.target.offsetTop;
-    console.log("originPosTemp", originPosTemp);
     setOriginPos(originPosTemp); //드래그 시작할때 드래그 전 위치값을 저장
 
     const clientPosTemp = { ...clientPos };
@@ -68,6 +75,8 @@ const FishIventory = () => {
     let tempData = [...dTest];
     tempData[i][0] = e.target.offsetLeft + e.clientX - clientPos.x;
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
+    // tempData[i][0] = e.clientX;
+    // tempData[i][1] = e.clientY;
     setDTest(tempData);
     setPos(PosTemp);
 

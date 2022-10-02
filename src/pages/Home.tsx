@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getDateTodo } from "../redux/modules/dateTodos";
 import {
@@ -11,7 +10,6 @@ import {
 } from "../redux/modules/timer";
 import backimg from "../assets/background/homeBack.png";
 import { __getUserProfile } from "../redux/modules/userData";
-import CalendarVer2 from "../components/calendar/CalendarVer2";
 import FishIventory from "../components/fish/FishIventory";
 import crab from "../assets/pixel/crab.png";
 import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
@@ -19,6 +17,7 @@ import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
 import Server from "../components/serverButton/Server";
 import ProfileHeader from "../components/profileHeader/ProfileHeader";
+import { getCookie } from "../components/social/Cookie";
 
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;
@@ -26,36 +25,26 @@ const roomId3 = process.env.REACT_APP_ROOMID3;
 const roomId4 = process.env.REACT_APP_ROOMID4;
 const roomId5 = process.env.REACT_APP_ROOMID5;
 
-const roomId = [roomId1, roomId2, roomId3, roomId4, roomId5];
 const Home = () => {
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   //Todo zone
   const date = useAppSelector((state) => state.updateDate.date);
-  const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const check = useAppSelector((state) => state.timer.isStudy);
+
+  const roomId = [roomId1, roomId2, roomId3, roomId4, roomId5];
 
   useEffect(() => {
     dispatch(__getUserProfile());
-    dispatch(__getDateTodo(moment(date).format("YYYY-MM-DD")));
-  }, [date]);
-
-  //SideBar hidden
-  const [modalShow, setModlaShow] = useState(false);
-  const navigate = useNavigate();
-
-  //Inventory
-  const userNickName = useAppSelector(
-    (state) => state.userData.userProfile.nickname
-  );
-  const userImage = useAppSelector(
-    (state) => state.userData.userProfile.defaultFish
-  );
-  const userTime = useAppSelector((state) => state.userData.userProfile.point);
-
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
   }, []);
+
+  // useEffect(() => {
+  //   if ( token == undefined ) {
+  //     navigate("/");
+  //     alert("로그인이 필요한 페이지입니다.");
+  //   }
+  //   document.body.style.overflow = "hidden";
+  // }, []);
 
   const onClickCheckIn = () => {
     dispatch(__getCheckInTimer());
@@ -67,13 +56,16 @@ const Home = () => {
 
   return (
     <Layer>
-      {modalShow && <CalendarVer2 />}
       <MainBox>
         <button
-          style={{ width: "100px", height: "100px" }}
-          onClick={() => {
-            navigate("/chat", { state: { id: roomId1 } });
-          }}
+          style={{ width: "150px", height: "150px" }}
+          onClick={() =>
+            navigate("/chat", {
+              state: {
+                id: undefined,
+              },
+            })
+          }
         ></button>
         {/* <Server /> */}
         <ProfileContainer>
@@ -111,6 +103,12 @@ const Home = () => {
 };
 
 export default Home;
+
+const ChatButtonContainer = styled.div`
+  border: solid red 1px;
+  width: 10vw;
+  height: 10vh;
+`;
 
 const Layer = styled.section`
   position: relative;

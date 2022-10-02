@@ -3,29 +3,8 @@ import axios from "axios";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-// const token: string = process.env.REACT_APP_TOKEN as string;
-const token: string = getCookie("token") as string;
 
-export const __getCo: any = createAsyncThunk(
-  "get/chatroom",
-  async (payload, thunkAPI) => {
-    try {
-      const response = await axios.get(
-        `${BASE_URL}/chat/room?roomId=${payload}`,
-        {
-          headers: {
-            contentType: "application/json",
-            authorization: token,
-          },
-        }
-      );
-      console.log(response);
-      return thunkAPI.fulfillWithValue(response.data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
+const token: string = getCookie("token") as string;
 
 export const __getChatroom: any = createAsyncThunk(
   "get/chatroom",
@@ -40,7 +19,7 @@ export const __getChatroom: any = createAsyncThunk(
           },
         }
       );
-      console.log(response);
+
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -58,7 +37,6 @@ export const __getChatenter: any = createAsyncThunk(
           authorization: token,
         },
       });
-      console.log(response);
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -80,9 +58,12 @@ export type IChatting = {
   message: string;
   defaultFish: string;
   userCount: number;
-  rankByNickname: {
-    nickname: string;
-  };
+  rankByNickname: IChatInfo[];
+};
+
+export type IChatInfo = {
+  nickname: string;
+  point: number;
 };
 
 const initialState: IChat = {

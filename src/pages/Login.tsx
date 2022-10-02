@@ -110,7 +110,7 @@ const Layer = styled.section`
 const Left = styled.div`
   width: 50%;
   height: 100%;
-  padding: 2%;
+  padding: 5%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,7 +129,7 @@ const HowTo = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  padding: 2%;
+  padding: 3%;
 `;
 
 const HowToTitle = styled.span`
@@ -146,7 +146,7 @@ const HowToSubTitle = styled.span`
 const Right = styled.div`
   width: 50%;
   height: 100%;
-  padding: 7%;
+  padding: 8%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -172,7 +172,7 @@ const SocialLoginTitle = styled.span`
 `;
 
 const TitleContainer = styled.div`
-  width: 100%;
+  width: 80%;
   ${({ theme }) => theme.common.flexCenter};
   position: relative;
   span {

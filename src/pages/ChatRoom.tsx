@@ -1,7 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useAppSelector } from "../components/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import Server from "../components/serverButton/Server";
+import { addUser } from "../redux/modules/socket";
 import Chatting from "./Chatting";
 
 const roomId1 = process.env.REACT_APP_ROOMID1;
@@ -12,12 +14,23 @@ const roomId5 = process.env.REACT_APP_ROOMID5;
 
 function ChatRoom() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const location = useLocation();
+  const { id }: any = location.state;
 
   const chatUser = useAppSelector((state) => state.socket.chat);
 
-  const roomName = chatUser.find((room: any) => room.roomId);
+  useEffect(() => {
+    dispatch(addUser);
+  }, []);
+
   const userCount = chatUser.find((user: any) => user.userCount);
-  const enter = chatUser.find((enter: any) => enter.rankByNickname);
+  const enter = chatUser.find((nickname) => nickname.rankByNickname);
+  const roomId = chatUser.find((roomId) => roomId.roomId);
+  console.log(roomId);
+
+  console.log("id", id);
 
   return (
     <MessageContainer>
@@ -28,17 +41,19 @@ function ChatRoom() {
           <SeaTitleWrapper>
             {/* 채팅방 타이틀 */}
             <SeaTitle>
-              {roomName?.roomId === roomId1 ? <span>Indoan Ocean</span> : null}
-              {roomName?.roomId === roomId2 ? <span>Pacific Ocean</span> : null}
-              {roomName?.roomId === roomId3 ? (
-                <span>Atlantic Ocean</span>
-              ) : null}
-              {roomName?.roomId === roomId4 ? (
-                <span>The Arctic Ocean</span>
-              ) : null}
-              {roomName?.roomId === roomId5 ? (
-                <span>The Antarctic Ocean</span>
-              ) : null}
+              {roomId === id ? (
+                <>
+                  <span>서버를 선택해 주세요</span>
+                </>
+              ) : (
+                <>
+                  {id === roomId1 ? <span>Indian Ocean</span> : null}
+                  {id === roomId2 ? <span>Pacific Ocean</span> : null}
+                  {id === roomId3 ? <span>Atlantic Ocean</span> : null}
+                  {id === roomId4 ? <span>The Arctic Ocean</span> : null}
+                  {id === roomId5 ? <div>The Antarctic Ocean</div> : null}
+                </>
+              )}
             </SeaTitle>
           </SeaTitleWrapper>
           <ServerButtonContainer>
@@ -51,12 +66,26 @@ function ChatRoom() {
 
               {/* 유저 랭킹 */}
               <UserRankContainer>
-                {enter?.rankByNickname.nickname}
+                <UserRankTitleWrapper>
+                  <UserRankTitle>User Rank</UserRankTitle>
+                </UserRankTitleWrapper>
+                <UserRankNicknameContainer>
+                  {enter?.rankByNickname.map((data, index) => (
+                    <UserRankNicknameWrapper key={index}>
+                      <UserRankNickname>
+                        {index + 1}.{data.nickname}
+                      </UserRankNickname>
+                      <UserRankPoint>Time:{data.point}hours</UserRankPoint>
+                    </UserRankNicknameWrapper>
+                  ))}
+                </UserRankNicknameContainer>
               </UserRankContainer>
             </UserCounterContainer>
             <ServerContainer>
-              <ServerTitle>Server</ServerTitle>
+              <ServerTitle>Change Server</ServerTitle>
+
               <Server />
+
               <OutButtonContainer>
                 <OutButton onClick={() => navigate("/home")}>Out</OutButton>
               </OutButtonContainer>
@@ -110,6 +139,7 @@ const SeaTitle = styled.span`
   font-size: 50px;
   background: #0096ff;
   padding: 0 20px;
+  border: 1px solid black;
 `;
 
 const ServerButtonContainer = styled.div`
@@ -119,6 +149,7 @@ const ServerButtonContainer = styled.div`
   transform: translate(50% 50%);
   border: 2px solid black;
   display: flex;
+  overflow: hidden;
 `;
 
 const OutButtonContainer = styled.div`
@@ -156,7 +187,7 @@ const UserCount = styled.span`
 
 const UserCounterContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   border: 1px solid black;
@@ -164,20 +195,54 @@ const UserCounterContainer = styled.div`
 
 const UserCounterWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 20%;
+`;
+
+const UserRankTitleWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 2px solid black;
+`;
+
+const UserRankTitle = styled.span`
+  font-size: 40px;
 `;
 
 const UserRankContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid black;
+`;
+
+const UserRankNicknameContainer = styled.div`
+  width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+const UserRankNicknameWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+`;
+const UserRankNickname = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+`;
+const UserRankPoint = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xl};
 `;
 
 const ServerContainer = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
+  position: relative;
 `;
 
 const ServerTitle = styled.span`
