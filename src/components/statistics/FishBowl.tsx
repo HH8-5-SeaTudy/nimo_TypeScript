@@ -10,7 +10,6 @@ const FishBowl = (props:any) => {
       <Bowl>
         <BowlInner>
           <Percent>{props.nextPercent}%</Percent>
-          
           <Water style={{top:`${waterPercent}%`}}></Water>
           <Glare></Glare>
           <FishBox>

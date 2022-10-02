@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useAppDispatch } from "../components/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getChatroom } from "../redux/modules/socket";
 import Chatting from "./Chatting";
 
@@ -22,6 +22,9 @@ function ChatRoom() {
   const roomIdHandler = () => {
     window.location.reload();
   };
+
+  const date = useAppSelector((state) => state.socket.chat);
+  console.log('여기채팅룸',date)
 
   return (
     <MessageContainer>

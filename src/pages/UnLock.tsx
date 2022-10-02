@@ -68,7 +68,7 @@ const UnLock = () => {
         setLock(true);
       }
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if ( token === undefined ) {
@@ -78,7 +78,8 @@ const UnLock = () => {
     dispatch(__getUserProfile());
   }, []);
   return (
-    <><Header/>
+    <>
+    
     <UnClockContainer>
       <FirstBorderContainer>
         <UserInfoContainer>

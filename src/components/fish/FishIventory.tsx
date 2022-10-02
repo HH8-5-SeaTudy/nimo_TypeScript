@@ -150,7 +150,7 @@ const FishIventory = () => {
 
   const FishDeleteHandler =(e:any,i:number)=> {
     e.preventDefault();
-    alert('제자리에 둘래?')
+    alert('내가 사라져볼게 얍!')
     dispatch(__deleteFishPosition(i))
   }
 
