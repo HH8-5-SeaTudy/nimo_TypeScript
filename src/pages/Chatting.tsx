@@ -7,7 +7,6 @@ import { addUser } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
 import styled, { keyframes } from "styled-components";
 import { __getUserProfile } from "../redux/modules/userData";
-import { notInitialized } from 'react-redux/es/utils/useSyncExternalStore';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
