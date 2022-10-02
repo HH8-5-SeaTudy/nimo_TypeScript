@@ -35,7 +35,9 @@ const CalendarVer2 = () => {
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
   const DdayRed = DdayData.map((d) => d.targetDay);
-
+  const DdaySort = DdayData.map((x)=>x).sort((a,b)=> {
+    return b.dday - a.dday
+  })
   //
   const inputRef = useRef<any>([]);
   const [categoryInputShow, setCategoryInputShow] = useState(false);
@@ -694,8 +696,8 @@ const CalendarVer2 = () => {
                 <LeftSideDay>
                   {/* 디데이 */}
                   <DdayList>
-                    {DdayData &&
-                      DdayData.map((list) => (
+                    {DdaySort &&
+                      DdaySort.map((list) => (
                         <>
                           <Dday
                             key={list.ddayId}

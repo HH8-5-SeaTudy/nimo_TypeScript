@@ -21,22 +21,33 @@ import Grid from "../../elements/Grid";
 import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
+import { __getDday } from "../../redux/modules/dday";
 
 const Header = () => {
   const token: string = getCookie("token") as string;
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = ("0" + (today.getMonth() + 1)).slice(-2);
+  const day = ("0" + today.getDate()).slice(-2);
+  const dateString = year + "-" + month + "-" + day;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const time = useAppSelector((state) => state.timer);
   const dayMyRank = useAppSelector((state) => state.rank.dayMyRank.myRank);
   const weekMyRank = useAppSelector((state) => state.rank.WeekMyRank.myRank);
-  const nickname = useAppSelector((state) => state.rank.WeekMyRank.nickname);
+  const Dday = useAppSelector((state) => state.dday.DdayData);
   const userData = useAppSelector((state) => state.userData.userProfile);
   const fishPoint = fishImages.map((data) => data.point);
   const userPoint = userData.point;
   const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
   const nextPercent = (userPoint / nextFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
+
+  const NextDday = Dday.filter((x) => x.targetDay >= dateString).sort(
+    (a, b) => b.dday - a.dday
+  )[0];
 
   const [asmrShow, setAsmrShow] = useState(false);
   const [showTodo, setShowTodo] = useState(false);
@@ -49,16 +60,15 @@ const Header = () => {
   const [timeHH, setTimeHH] = useState<number>(0);
 
   useEffect(() => {
-    if (token !== undefined) {
-      dispatch(__getUserinquire());
-      dispatch(__getDayMyRank());
-      dispatch(__getWeekMyRank());
-      dispatch(__getUserProfile());
-    }
+    dispatch(__getUserinquire());
+    dispatch(__getDayMyRank());
+    dispatch(__getWeekMyRank());
+    dispatch(__getUserProfile());
+    dispatch(__getDday(dateString));
     return () => {
       dispatch(__getCheckOutTimer());
     };
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     setTimeSS(ss);
@@ -88,12 +98,10 @@ const Header = () => {
     }
   }, [timeMM]);
 
-  if (window.location.pathname === "/intro") return null;
   if (window.location.pathname === "/") return null;
   if (window.location.pathname === "/kakaoLogin") return null;
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
-  if (window.location.pathname === "/main") return null;
 
   return (
     <>
@@ -104,7 +112,6 @@ const Header = () => {
           <HeaderLogo src={logo} onClick={() => navigate("/home")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
-
         <AsmrBtn>
           <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
           {asmrShow && <Asmr />}
@@ -115,7 +122,7 @@ const Header = () => {
         </CalendarBtn>
         {/* 다음물고기 */}
         <FishBtn>
-          <Calendar src={nextFishImg} onClick={() => navigate("/statistics")} />
+          <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
           <p>{String(nextPercent).slice(0, 2)}%</p>
         </FishBtn>
         {/* 랭킹 */}
@@ -125,6 +132,18 @@ const Header = () => {
             D:{dayMyRank}위 W:{weekMyRank}위
           </p>
         </RankBtn>
+        {/* 제일빠른디데이 */}
+        {NextDday && (
+          <DdayBtn>
+            <DdayTitle>
+              D-
+              <br />
+              {NextDday.dday === 0 ? "Day" : String(NextDday.dday).slice(1)}
+            </DdayTitle>
+            <DdayContent>자격증시험보는날</DdayContent>
+          </DdayBtn>
+        )}
+
         <HeaderTimerContainer>
           <HeaderTimer>
             <Layer>
@@ -262,6 +281,47 @@ const RankBtn = styled.button`
     width: 80px;
     left: -8px;
   }
+`;
+const DdayBtn = styled.div`
+  position: absolute;
+  left: 60%;
+  width: 60px;
+  height: 60px;
+  padding: 8px;
+  border-radius: 9999px;
+  background-color: transparent;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    p {
+      display: flex;
+    }
+  }
+`;
+
+const DdayTitle = styled.div`
+  width: 100%;
+  height: 100%;
+  font-size: 25px;
+  line-height: 17px;
+  font-weight: 700;
+  border: solid black 2px;
+  background-color: #7dccff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const DdayContent = styled.p`
+  position: absolute;
+  width: 150%;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 3;
+  line-height: 15px;
+  padding: 2px;
+  background-color: #b2e2ff;
+  display: none;
+  border: solid white 2px;
 `;
 
 const Rank = styled.div`

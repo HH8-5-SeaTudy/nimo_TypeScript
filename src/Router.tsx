@@ -15,29 +15,19 @@ import PrivateRoute from "./PrivateRoute";
 import UnLock from "./pages/UnLock";
 
 const Router = () => {
-  // const token: string = process.env.REACT_APP_TOKEN as string;
-  const token: string = getCookie("token") as string;
   return (
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path={EnumPages.HOME} element={<Home />} />
         <Route path={EnumPages.CHATROOM} element={<ChatRoom />} />
-
-        <Route
-          path={EnumPages.STATISTICS}
-          element={<PrivateRoute token={token} component={<Statistics />} />}
-        />
-        <Route
-          path={EnumPages.UNLOCK}
-          element={<PrivateRoute token={token} component={<UnLock />} />}
-        />
+        <Route path={EnumPages.STATISTICS} element={<Statistics />} />
+        <Route path={EnumPages.UNLOCK} element={<UnLock />} />
         <Route path={EnumPages.LOGIN} element={<Login />} />
         <Route path={EnumPages.KAKAOLOGIN} element={<KakaoLogin />} />
         <Route path={EnumPages.NAVERLOGIN} element={<NaverLogin />} />
         <Route path={EnumPages.GOOGLELOGIN} element={<GoogleLogin />} />
       </Routes>
-      <Routes></Routes>
     </BrowserRouter>
   );
 };

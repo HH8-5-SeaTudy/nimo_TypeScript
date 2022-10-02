@@ -8,6 +8,8 @@ import fishImages from "../components/fish/FishImages";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getUserProfile } from "../redux/modules/userData";
 import { __getDayRank, __getWeekRank } from "../redux/modules/rank";
+import { getCookie } from "../components/social/Cookie";
+import { useNavigate } from "react-router-dom";
 
 const Statistics = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
@@ -20,109 +22,120 @@ const Statistics = () => {
   const nextPercent = (userPoint / nextFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
+  const token: string = getCookie("token") as string;
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (token === undefined) {
+      navigate("/");
+      alert("로그인이 필요한 페이지입니다.");
+    }
+
     dispatch(__getUserProfile());
     dispatch(__getDayRank());
     dispatch(__getWeekRank());
-  }, []);
+  }, [token]);
 
   return (
-    <StatisticsLayer>
-      <Layer>
-        <TopLayer>
-          <RankSide>
-            <RankTitle>
-              <p>
-                DAILY
-                <br />
-                RANKING
-              </p>
-            </RankTitle>
-            <RankBox>
-              {dayRankData?.map((list, index) => (
-                <Rank key={index}>
-                  <RankNum>
-                    <Num>{index + 1}.</Num>
-                  </RankNum>
-                  <RankProfile src={list.fish}></RankProfile>
-                  <RankInfo>
-                    <NickName>{list.nickname}</NickName>
-                    <Point>{list.dayStudy}</Point>
-                  </RankInfo>
-                </Rank>
-              ))}
-            </RankBox>
-          </RankSide>
-          <RankSide>
-            <RankTitle>
-              <p>
-                WEEKLY
-                <br />
-                RANKING
-              </p>
-            </RankTitle>
-            <RankBox>
-              {weekRankData?.map((list, index) => (
-                <Rank key={index}>
-                  <RankNum>
-                    <Num>{index + 1}.</Num>
-                  </RankNum>
-                  <RankProfile src={list.fish}></RankProfile>
-                  <RankInfo>
-                    <NickName>{list.nickname}</NickName>
-                    <Point>{list.weekStudy}</Point>
-                  </RankInfo>
-                </Rank>
-              ))}
-            </RankBox>
-          </RankSide>
-          <TotalSide>
-            <TopBox>
-              <TotalTime>
-                <Title>TOTAL POINT</Title>
-                <P>{userPoint}</P>
-              </TotalTime>
-            </TopBox>
-            <BottomBox>
-              <NextFish>
-                <NextFishTitle>
-                  <p>NEXT LEVEL</p>
-                </NextFishTitle>
-                <NextFishBody>
-                  <FishBowl
-                    nextPercent={nextPercent}
-                    nextFishImg={nextFishImg}
-                  ></FishBowl>
-                </NextFishBody>
-              </NextFish>
-              <Week>
-                <WeekTitle>
-                  <p>WEEKLY TIME</p>
-                </WeekTitle>
-                <WeekBody>
-                  <Weekly />
-                </WeekBody>
-              </Week>
-              <MonthBox>
-                <MonthTitle>
-                  <p>
-                    MONTHLY
-                    <br />
-                    TIME
-                  </p>
-                </MonthTitle>
-                <MonthBody>
-                  <Month />
-                </MonthBody>
-              </MonthBox>
-            </BottomBox>
-          </TotalSide>
-        </TopLayer>
-        <BottomLayer>
-          <MyResponsiveCalendar />
-        </BottomLayer>
-      </Layer>
-    </StatisticsLayer>
+    <>
+      {/* <Header/> */}
+      <StatisticsLayer>
+        <Layer>
+          <TopLayer>
+            <RankSide>
+              <RankTitle>
+                <p>
+                  DAILY
+                  <br />
+                  RANKING
+                </p>
+              </RankTitle>
+              <RankBox>
+                {dayRankData?.map((list, index) => (
+                  <Rank key={index}>
+                    <RankNum>
+                      <Num>{index + 1}.</Num>
+                    </RankNum>
+                    <RankProfile src={list.fish}></RankProfile>
+                    <RankInfo>
+                      <NickName>{list.nickname}</NickName>
+                      <Point>{list.dayStudy}</Point>
+                    </RankInfo>
+                  </Rank>
+                ))}
+              </RankBox>
+            </RankSide>
+            <RankSide>
+              <RankTitle>
+                <p>
+                  WEEKLY
+                  <br />
+                  RANKING
+                </p>
+              </RankTitle>
+              <RankBox>
+                {weekRankData?.map((list, index) => (
+                  <Rank key={index}>
+                    <RankNum>
+                      <Num>{index + 1}.</Num>
+                    </RankNum>
+                    <RankProfile src={list.fish}></RankProfile>
+                    <RankInfo>
+                      <NickName>{list.nickname}</NickName>
+                      <Point>{list.weekStudy}</Point>
+                    </RankInfo>
+                  </Rank>
+                ))}
+              </RankBox>
+            </RankSide>
+            <TotalSide>
+              <TopBox>
+                <TotalTime>
+                  <Title>TOTAL POINT</Title>
+                  <P>{userPoint}</P>
+                </TotalTime>
+              </TopBox>
+              <BottomBox>
+                <NextFish>
+                  <NextFishTitle>
+                    <p>NEXT LEVEL</p>
+                  </NextFishTitle>
+                  <NextFishBody>
+                    <FishBowl
+                      nextPercent={nextPercent}
+                      nextFishImg={nextFishImg}
+                    ></FishBowl>
+                  </NextFishBody>
+                </NextFish>
+                <Week>
+                  <WeekTitle>
+                    <p>WEEKLY TIME</p>
+                  </WeekTitle>
+                  <WeekBody>
+                    <Weekly />
+                  </WeekBody>
+                </Week>
+                <MonthBox>
+                  <MonthTitle>
+                    <p>
+                      MONTHLY
+                      <br />
+                      TIME
+                    </p>
+                  </MonthTitle>
+                  <MonthBody>
+                    <Month />
+                  </MonthBody>
+                </MonthBox>
+              </BottomBox>
+            </TotalSide>
+          </TopLayer>
+          <BottomLayer>
+            <MyResponsiveCalendar />
+          </BottomLayer>
+        </Layer>
+      </StatisticsLayer>
+    </>
   );
 };
 

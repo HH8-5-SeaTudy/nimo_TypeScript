@@ -32,6 +32,9 @@ function ChatRoom() {
 
   console.log("id", id);
 
+  const date = useAppSelector((state) => state.socket.chat);
+  console.log("여기채팅룸", date);
+
   return (
     <MessageContainer>
       <MessageFormContainer>
