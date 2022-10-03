@@ -5,7 +5,7 @@ import Stomp from "stompjs";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { addUser } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { __getUserProfile } from "../redux/modules/userData";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -18,24 +18,22 @@ function Chatting() {
   const location = useLocation();
 
   const { id }: any = location.state;
-  //기본설정---헤더, 토큰, 주소설정
 
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
   const chatUser = useAppSelector((state) => state.socket.chat);
-  const roomId = chatUser.find((roomId) => roomId.roomId);
-  
+
   const userNickname = useAppSelector(
     (state) => state.userData.userProfile.nickname
   );
 
-  const headers = {
-    Authorization: token,
-  };
-
   useEffect(() => {
     dispatch(addUser);
   }, []);
+
+  const headers = {
+    Authorization: token,
+  };
 
   //렌더되면 소켓 연결실행
   useEffect(() => {
@@ -131,10 +129,9 @@ function Chatting() {
           {chatUser &&
             chatUser.map((list: any, index: number) => {
               if (list.type === "TALK") {
-                
                 if (list.sender === userNickname) {
                   return (
-                    <MessageListContainer key={index}>
+                    <MyMessageListContainer key={index}>
                       <MySenderMessageContainer className="chat-thread">
                         <Message>{list.message}</Message>
                         <SenderContainer>
@@ -142,31 +139,34 @@ function Chatting() {
                           <Sender>{list.sender}</Sender>
                         </SenderContainer>
                       </MySenderMessageContainer>
-                    </MessageListContainer>
+                    </MyMessageListContainer>
                   );
                 }
                 return (
                   <MessageListContainer key={index}>
-                    <SenderMessageContainer>
-                      <Sender>{list.sender}</Sender>
+                    <SenderMessageContainer className="chat-thread">
                       <SenderContainer>
-                        <SenderProfile
-                          // src={list?.memberChatResDto?.defaultFish?  list.memberChatResDto.defaultFish : null}
-                        />
+                        <SenderProfile src={list.defaultFish} />
+                        <Sender>{list.sender}</Sender>
+                      </SenderContainer>
+                      <SenderContainer>
                         <Message>{list.message}</Message>
                       </SenderContainer>
                     </SenderMessageContainer>
                   </MessageListContainer>
                 );
-              } else {
+              } else if (list.type === "ENTER") {
                 return (
                   <NoticeContainer key={index}>
                     <EnterContainer>
-                      <Sender>{list.sender}:</Sender>
+                      <Sender>{list.sender}</Sender>
                       <Message>{list.message}</Message>
                     </EnterContainer>
                   </NoticeContainer>
                 );
+              } else if (list.type === "FULL") {
+                alert("인원이 가득 찼습니다");
+                window.location.replace("/home");
               }
             })}
         </Screen>
@@ -382,7 +382,7 @@ const Board = styled.div`
   border: 2px solid black;
   z-index: 0;
   background: #4b5b61;
-  transform: rotateX(20deg);
+  transform: rotateX(10deg);
 `;
 
 const BoardLeft = styled.div`
@@ -390,10 +390,10 @@ const BoardLeft = styled.div`
   width: 4%;
   position: absolute;
   top: 45%;
-  left: 3.5%;
+  left: 4%;
   border: 5px solid #4c4c4c;
   background: white;
-  transform: rotateX(15deg);
+  transform: rotateX(10deg);
   z-index: 2;
 `;
 const BoardRight = styled.div`
@@ -401,10 +401,10 @@ const BoardRight = styled.div`
   width: 4%;
   position: absolute;
   top: 45%;
-  right: 3.5%;
+  right: 4%;
   border: 5px solid #4c4c4c;
   background: white;
-  transform: rotateX(15deg);
+  transform: rotateX(10deg);
   z-index: 2;
 `;
 
@@ -503,27 +503,11 @@ const BottomScriptLeft = styled.div`
   background: #07beb8;
 `;
 
-const showChatOdd = keyframes`
-  0% {
-    margin-left: -480px;
-  }
-  100% {
-    margin-left: 0;
-  }
-`;
-
-const showChatEven = keyframes`
-  0% {
-    margin-left: -480px;
-  }
-  100% {
-    margin-left: 0;
-  }`;
-
-const MessageListContainer = styled.div`
+const MyMessageListContainer = styled.div`
   width: 100%;
   .chat-thread {
     list-style: none;
+    width: 100%;
     overflow-x: hidden;
   }
 
@@ -532,7 +516,7 @@ const MessageListContainer = styled.div`
     clear: both;
     display: inline-block;
     padding: 10px;
-    margin: 0 0 20px 0;
+    margin: 0 20px 20px 20px;
     font: 16px/20px "Noto Sans", sans-serif;
     border-radius: 10px;
     background-color: rgba(25, 147, 147, 0.2);
@@ -541,7 +525,7 @@ const MessageListContainer = styled.div`
   /* Chat - Speech Bubble Arrow */
   .chat-thread li:after {
     position: absolute;
-    top: 15px;
+    top: 40%;
     content: "";
     width: 0;
     height: 0;
@@ -549,12 +533,11 @@ const MessageListContainer = styled.div`
   }
 
   .chat-thread li:nth-child(odd) {
-    animation: ${showChatOdd} 0.15s 1 ease-in;
-    -moz-animation: ${showChatOdd} 0.15s 1 ease-in;
-    -webkit-animation: ${showChatOdd} 0.15s 1 ease-in;
     float: right;
     margin-right: 5px;
     color: #0ad5c1;
+    word-wrap: break-word;
+    width: fit-content;
   }
 
   .chat-thread li:nth-child(odd):after {
@@ -563,9 +546,6 @@ const MessageListContainer = styled.div`
   }
 
   .chat-thread li:nth-child(even) {
-    animation: ${showChatEven} 0.15s 1 ease-in;
-    -moz-animation: ${showChatEven} 0.15s 1 ease-in;
-    -webkit-animation: ${showChatEven} 0.15s 1 ease-in;
     float: left;
     margin-left: 5px;
     color: #0ec879;
@@ -575,9 +555,60 @@ const MessageListContainer = styled.div`
     position: fixed;
     bottom: 18px;
   }
+`;
+
+const MessageListContainer = styled.div`
+  width: 100%;
+  .chat-thread {
+    list-style: none;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .chat-thread li {
+    position: relative;
+    clear: both;
+    display: inline-block;
+    padding: 10px;
+    margin: 0 20px 20px 20px;
+    min-width: 10%;
+    width: 80%;
+    font: 16px/20px "Noto Sans", sans-serif;
+    border-radius: 10px;
+    background-color: rgba(25, 147, 147, 0.2);
+  }
+
+  /* Chat - Speech Bubble Arrow */
+  .chat-thread li:after {
+    position: absolute;
+    top: 40%;
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 15px solid rgba(25, 147, 147, 0.2);
+  }
+
+  .chat-thread li:nth-child(odd) {
+    float: right;
+    margin-right: 5px;
+    color: #0ad5c1;
+    word-wrap: break-word;
+    width: fit-content;
+  }
+
+  .chat-thread li:nth-child(odd):after {
+    border-left: 15px solid transparent;
+    left: -15px;
+  }
+
+  .chat-thread li:nth-child(even) {
+    float: left;
+    margin-left: 5px;
+    color: #0ec879;
+  }
 
   .chat-window-message {
-    width: 100%;
+    /* width: 100%; */
     height: 48px;
     font: 32px/48px "Noto Sans", sans-serif;
     background: none;
@@ -616,12 +647,13 @@ const MySenderMessageContainer = styled.ul`
   list-style: none;
 `;
 
-const SenderMessageContainer = styled.div`
+const SenderMessageContainer = styled.ul`
   width: 100%;
-  height: 100%;
+  padding: 0 15px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  list-style: none;
 `;
 
 const SenderContainer = styled.div`
@@ -641,6 +673,7 @@ const SenderProfile = styled.img`
 
 const Sender = styled.span`
   font-size: 1em;
+  display: flex;
   margin-left: 10px;
   margin-right: 10px;
 `;
@@ -648,6 +681,7 @@ const Sender = styled.span`
 const Message = styled.li`
   font-size: 1.2em;
   list-style: none;
+  width: 70%;
 `;
 
 const MessageForm = styled.form`

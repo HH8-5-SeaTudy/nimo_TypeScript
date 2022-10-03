@@ -15,11 +15,9 @@ import crab from "../assets/pixel/crab.png";
 import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
 import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
-import ProfileHeader from '../components/profileHeader/ProfileHeader';
-import { getCookie } from '../components/social/Cookie';
-
-
-
+import ProfileHeader from "../components/profileHeader/ProfileHeader";
+import { getCookie } from "../components/social/Cookie";
+import Server from "../components/serverButton/Server";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -52,41 +50,41 @@ const Home = () => {
 
   return (
     <>
-    <Layer>
-      <MainBox>
-        <ProfileContainer>
-        <ProfileHeader/>
-        </ProfileContainer>
-        {check ? (
-          <>
-            <ButtonTitle>checkOut</ButtonTitle>
-            <ButtonContainer onClick={onClickCheckOut}>
-              <CoralContainer>
-                <BrokenCoral />
-              </CoralContainer>
-              <CrabContainer>
-                <SicissorsCrab />
-              </CrabContainer>
-            </ButtonContainer>
-          </>
-        ) : (
-          <>
-            <ButtonTitle>checkIn</ButtonTitle>
-            <ButtonContainer onClick={onClickCheckIn}>
-              <CoralContainer>
-                <Coral />
-              </CoralContainer>
-              <CrabContainer>
-                <Crab />
-              </CrabContainer>
-            </ButtonContainer>
-          </>
-        )}
-        <FishIventory />
-      </MainBox>
-    </Layer></>
-    
-
+      <Layer>
+        <MainBox>
+          <ProfileContainer>
+            <ProfileHeader />
+          </ProfileContainer>
+          {check ? (
+            <>
+              <ButtonTitle>checkOut</ButtonTitle>
+              <ButtonContainer onClick={onClickCheckOut}>
+                <CoralContainer>
+                  <BrokenCoral />
+                </CoralContainer>
+                <CrabContainer>
+                  <SicissorsCrab />
+                </CrabContainer>
+              </ButtonContainer>
+            </>
+          ) : (
+            <>
+              <ButtonTitle>checkIn</ButtonTitle>
+              <ButtonContainer onClick={onClickCheckIn}>
+                <CoralContainer>
+                  <Coral />
+                </CoralContainer>
+                <CrabContainer>
+                  <Crab />
+                </CrabContainer>
+              </ButtonContainer>
+            </>
+          )}
+          <Server />
+          <FishIventory />
+        </MainBox>
+      </Layer>
+    </>
   );
 };
 

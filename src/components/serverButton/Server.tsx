@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { addUser } from "../../redux/modules/socket";
-import { useAppDispatch } from "../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 //server zone
 const roomId1 = process.env.REACT_APP_ROOMID1;
@@ -13,13 +13,56 @@ const roomId5 = process.env.REACT_APP_ROOMID5;
 
 const Server = () => {
   const [toggle, setToggle] = useState(false);
-  const location = useLocation();
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(addUser);
   }, []);
+
+  const onClickRoom1 = () => {
+    navigate("/chat", {
+      state: {
+        id: roomId1,
+      },
+    });
+    window.location.reload();
+  };
+
+  const onClickRoom2 = () => {
+    navigate("/chat", {
+      state: {
+        id: roomId2,
+      },
+    });
+    window.location.reload();
+  };
+
+  const onClickRoom3 = () => {
+    navigate("/chat", {
+      state: {
+        id: roomId3,
+      },
+    });
+    window.location.reload();
+  };
+
+  const onClickRoom4 = () => {
+    navigate("/chat", {
+      state: {
+        id: roomId4,
+      },
+    });
+    window.location.reload();
+  };
+
+  const onClickRoom5 = () => {
+    navigate("/chat", {
+      state: {
+        id: roomId5,
+      },
+    });
+    window.location.reload();
+  };
 
   const navigate = useNavigate();
 
@@ -29,78 +72,28 @@ const Server = () => {
         <div className="bubble x1">
           <UL>
             <Toggle onClick={() => setToggle(!toggle)} toggle={toggle} />
-            <LI1
-              onClick={() => {
-                navigate("/chat", {
-                  state: {
-                    id: roomId1,
-                  },
-                });
-                window.location.reload();
-              }}
-              toggle={toggle}
-            >
+            <LI1 onClick={onClickRoom1} toggle={toggle}>
               <A style={{ transform: "rotate(calc(360deg/ -5 * 1))" }}>
                 <ATitle>인도양</ATitle>
               </A>
             </LI1>
-            <LI2
-              onClick={() => {
-                navigate("/chat", {
-                  state: {
-                    id: roomId2,
-                  },
-                });
-                window.location.reload();
-              }}
-              toggle={toggle}
-            >
+            <LI2 onClick={onClickRoom2} toggle={toggle}>
               <A style={{ transform: "rotate(calc(360deg/ -5 * 2))" }}>
                 <ATitle>태평양</ATitle>
               </A>
             </LI2>
-            <LI3
-              onClick={() => {
-                navigate("/chat", {
-                  state: {
-                    id: roomId3,
-                  },
-                });
-                window.location.reload();
-              }}
-              toggle={toggle}
-            >
+            <LI3 onClick={onClickRoom3} toggle={toggle}>
               <A style={{ transform: "rotate(calc(360deg/ -5 * 3))" }}>
                 <ATitle>대서양</ATitle>
               </A>
             </LI3>
-            <LI4
-              onClick={() => {
-                navigate("/chat", {
-                  state: {
-                    id: roomId4,
-                  },
-                });
-                window.location.reload();
-              }}
-              toggle={toggle}
-            >
+            <LI4 onClick={onClickRoom4} toggle={toggle}>
               <A style={{ transform: "rotate(calc(360deg/ -5 * 4))" }}>
                 <ATitle>북극해</ATitle>
               </A>
             </LI4>
 
-            <LI5
-              onClick={() => {
-                navigate("/chat", {
-                  state: {
-                    id: roomId5,
-                  },
-                });
-                window.location.reload();
-              }}
-              toggle={toggle}
-            >
+            <LI5 onClick={onClickRoom5} toggle={toggle}>
               <A style={{ transform: "rotate(calc(360deg/ -5 * 5))" }}>
                 <ATitle>남극해</ATitle>
               </A>

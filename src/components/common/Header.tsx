@@ -18,12 +18,11 @@ import logo from "../../assets/logo/seatudyLogo.png";
 import CalendarVer2 from "../calendar/CalendarVer2";
 import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
 import Grid from "../../elements/Grid";
-
 import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
 import { __getDday } from "../../redux/modules/dday";
-import axios from 'axios';
+import axios from "axios";
 
 const Header = () => {
   const token: string = getCookie("token") as string;
@@ -33,7 +32,8 @@ const Header = () => {
   const month = ("0" + (today.getMonth() + 1)).slice(-2);
   const day = ("0" + today.getDate()).slice(-2);
   const dateString = year + "-" + month + "-" + day;
-  const [todayDday,setTodayDday] = useState<any>([])
+
+  const [todayDday, setTodayDday] = useState<any>([]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const time = useAppSelector((state) => state.timer);
@@ -49,20 +49,19 @@ const Header = () => {
   const myPoint = userPoint - prevFishPoint;
   const nextPercent = (myPoint / totalFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
-  
+
 
 
   const TodayStudyData = async () => {
     return await axios
-    .get(`${BASE_URL}/api/v1/ddays/dates?selectDate=${dateString}`,
-      {
+      .get(`${BASE_URL}/api/v1/ddays/dates?selectDate=${dateString}`, {
         headers: {
           Authorization: token,
         },
       })
-    .then((res) => {
-      setTodayDday(res.data.data)
-    })
+      .then((res) => {
+        setTodayDday(res.data.data);
+      });
   };
 
 
@@ -87,7 +86,7 @@ useEffect (()=>{
   const [timeHH, setTimeHH] = useState<number>(0);
 
   const roomId1 = process.env.REACT_APP_ROOMID1;
-  
+
   useEffect(() => {
     dispatch(__getUserinquire());
     dispatch(__getDayMyRank());
@@ -141,6 +140,7 @@ useEffect (()=>{
         </HeaderLogoContainer>
         {/* 소라버튼 */}
 
+
           <AsmrBtn>
             <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
             {asmrShow && <Asmr />}
@@ -178,7 +178,11 @@ useEffect (()=>{
               <br />
               {NextDday?.dday === 0 ? "Day" : String(NextDday?.dday).slice(1)}
             </DdayTitle>
-            <DdayContent>{NextDday?.targetDay}<br/>{NextDday?.title}</DdayContent>
+            <DdayContent>
+              {NextDday?.targetDay}
+              <br />
+              {NextDday?.title}
+            </DdayContent>
           </DdayBtn>
         )}
 
@@ -319,8 +323,8 @@ const RankBtn = styled.button`
     width: 130px;
     left: -32px;
   }
-`
-const ServerBtn =styled.div`
+`;
+const ServerBtn = styled.div`
   position: absolute;
   left: 60%;
   width: 65px;
@@ -369,6 +373,7 @@ const ServerBox =styled.p`
   }
 `
 
+
 const DdayBtn = styled.div`
   position: absolute;
   left: 70%;
@@ -398,6 +403,7 @@ const DdayTitle = styled.div`
   background-color: #7dccff;
   display: flex;
   justify-content: center;
+
   align-items:center;
   border-radius:6px;
 `
@@ -405,13 +411,14 @@ const DdayContent =styled.p`
 position:absolute;
 width: 140%;
 border-radius: 6px;
+
   font-size: 14px;
   z-index: 3;
   line-height: 15px;
   padding: 3px 5px;
   background-color: #b2e2ff;
   display: none;
-  text-align:center;
+  text-align: center;
   border: solid white 2px;
 `;
 
