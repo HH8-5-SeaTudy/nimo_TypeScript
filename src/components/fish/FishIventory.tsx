@@ -186,7 +186,7 @@ const InvenLayout = styled.div`
   display: flex;
   justify-content: center;
   bottom: 0;
-  z-index: 9999;
+  z-index: 4;
   position: absolute;
 `;
 

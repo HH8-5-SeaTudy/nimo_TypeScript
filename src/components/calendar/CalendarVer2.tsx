@@ -836,7 +836,7 @@ const Layer = styled.div`
   height: 650px;
   width: 1150px;
   color: #ffffff;
-  z-index: 50;
+  z-index: 5;
 `;
 
 const MonthYear = styled.div`
@@ -893,6 +893,7 @@ const Wrapper = styled.div`
   color: #ffffff;
   border-radius: 6px;
   border: solid black 2px;
+  z-index: 5;
 `;
 const CalendarTitle = styled.div`
   width: 100%;
