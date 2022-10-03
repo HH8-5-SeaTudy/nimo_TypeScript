@@ -10,4 +10,5 @@ export const enum EnumPages {
   STATISTICS = "statistics",
   WAVE = "wave",
   UNLOCK = "/unlock",
+  Test = "/test",
 }

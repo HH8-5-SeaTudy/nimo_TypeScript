@@ -66,7 +66,7 @@ const MyResponsiveCalendar = () => {
       from={yearFirst}
       to={yearLast}
       emptyColor="#eeeeee"
-      colors={[ '#61cdbb', '#97e3d5', '#e8c1a0', '#f47560' ]}
+      colors={[ '#90D4FF', '#26A4FF', '#e8c1a0', '#FB9100' ]}
       minValue={0}
       margin={{ top: 30, right: 10, bottom: 10, left: 10 }}
       yearSpacing={40}
