@@ -16,7 +16,7 @@ export const __getDayRank: any = createAsyncThunk(
           Authorization: token,
         },
       });
-      console.log('여기겟랭크토큰',token);
+    
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

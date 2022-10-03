@@ -67,7 +67,7 @@ const Header = () => {
 useEffect (()=>{
   TodayStudyData()
 },[Dday])
-console.log(NextDday)
+
 
   const [asmrShow, setAsmrShow] = useState(false);
   const [showTodo, setShowTodo] = useState(false);

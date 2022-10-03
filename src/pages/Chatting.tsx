@@ -24,7 +24,7 @@ function Chatting() {
   const message = useRef<any>(null);
   const chatUser = useAppSelector((state) => state.socket.chat);
   const roomId = chatUser.find((roomId) => roomId.roomId);
-  console.log(roomId);
+  
   const userNickname = useAppSelector(
     (state) => state.userData.userProfile.nickname
   );

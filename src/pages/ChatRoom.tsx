@@ -28,12 +28,10 @@ function ChatRoom() {
   const userCount = chatUser.find((user: any) => user.userCount);
   const enter = chatUser.find((nickname) => nickname.rankByNickname);
   const roomId = chatUser.find((roomId) => roomId.roomId);
-  console.log(roomId);
-
-  console.log("id", id);
+  
 
   const date = useAppSelector((state) => state.socket.chat);
-  console.log("여기채팅룸", date);
+  
 
   return (
     <MessageContainer>
