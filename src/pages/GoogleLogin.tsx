@@ -28,7 +28,7 @@ const GoogleLogin = () => {
       google();
     }
   }, [code, navigate]);
-  return <div>로딩페이지컴포넌트</div>;
+  return <div></div>;
 };
 
 export default GoogleLogin;
