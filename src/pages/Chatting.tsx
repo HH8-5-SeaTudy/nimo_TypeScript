@@ -134,7 +134,7 @@ function Chatting() {
               if (list.type === "TALK") {
                 if (list.sender === userNickname) {
                   return (
-                    <MessageListContainer key={index}>
+                    <MyMessageListContainer key={index}>
                       <MySenderMessageContainer className="chat-thread">
                         <Message>{list.message}</Message>
                         <SenderContainer>
@@ -142,7 +142,7 @@ function Chatting() {
                           <Sender>{list.sender}</Sender>
                         </SenderContainer>
                       </MySenderMessageContainer>
-                    </MessageListContainer>
+                    </MyMessageListContainer>
                   );
                 }
                 return (
@@ -522,7 +522,7 @@ const showChatEven = keyframes`
     margin-left: 0;
   }`;
 
-const MessageListContainer = styled.div`
+const MyMessageListContainer = styled.div`
   width: 100%;
   .chat-thread {
     list-style: none;
@@ -565,6 +565,77 @@ const MessageListContainer = styled.div`
   .chat-thread li:nth-child(odd):after {
     border-right: 15px solid transparent;
     right: -15px;
+  }
+
+  .chat-thread li:nth-child(even) {
+    animation: ${showChatEven} 0.15s 1 ease-in;
+    -moz-animation: ${showChatEven} 0.15s 1 ease-in;
+    -webkit-animation: ${showChatEven} 0.15s 1 ease-in;
+    float: left;
+    margin-left: 5px;
+    color: #0ec879;
+  }
+
+  .chat-window {
+    position: fixed;
+    bottom: 18px;
+  }
+
+  .chat-window-message {
+    /* width: 100%; */
+    height: 48px;
+    font: 32px/48px "Noto Sans", sans-serif;
+    background: none;
+    color: #0ad5c1;
+    border: 0;
+    border-bottom: 1px solid rgba(25, 147, 147, 0.2);
+    outline: none;
+  }
+`;
+
+const MessageListContainer = styled.div`
+  width: 100%;
+  .chat-thread {
+    list-style: none;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .chat-thread li {
+    position: relative;
+    clear: both;
+    display: inline-block;
+    padding: 10px;
+    margin: 0 20px 20px 20px;
+    /* width: 80%; */
+    max-width: 80%;
+    font: 16px/20px "Noto Sans", sans-serif;
+    border-radius: 10px;
+    background-color: rgba(25, 147, 147, 0.2);
+  }
+
+  /* Chat - Speech Bubble Arrow */
+  .chat-thread li:after {
+    position: absolute;
+    top: 40%;
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 15px solid rgba(25, 147, 147, 0.2);
+  }
+
+  .chat-thread li:nth-child(odd) {
+    animation: ${showChatOdd} 0.15s 1 ease-in;
+    -moz-animation: ${showChatOdd} 0.15s 1 ease-in;
+    -webkit-animation: ${showChatOdd} 0.15s 1 ease-in;
+    float: right;
+    margin-right: 5px;
+    color: #0ad5c1;
+  }
+
+  .chat-thread li:nth-child(odd):after {
+    border-left: 15px solid transparent;
+    left: -15px;
   }
 
   .chat-thread li:nth-child(even) {
