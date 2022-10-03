@@ -124,7 +124,7 @@ const Header = () => {
         {/* 다음물고기 */}
         <FishBtn>
           <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
-          <p>{nextPercent}%</p>
+          <p>{String(nextPercent).slice(0, 2)}%</p>
         </FishBtn>
         {/* 랭킹 */}
         <RankBtn>
