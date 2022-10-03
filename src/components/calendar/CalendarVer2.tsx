@@ -836,7 +836,7 @@ const Layer = styled.div`
   height: 650px;
   width: 1150px;
   color: #ffffff;
-  z-index: 20;
+  z-index: 50;
 `;
 
 const MonthYear = styled.div`

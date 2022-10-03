@@ -311,5 +311,5 @@ const FishImg = styled.img`
   width: 2em;
   height: 1.5em;
   position: fixed;
-  z-index: 5;
+  z-index: 2;
 `;
