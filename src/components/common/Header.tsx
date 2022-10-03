@@ -59,13 +59,17 @@ const Header = () => {
       });
   };
 
-  const NextDday = todayDday
-    .filter((x: any) => x.targetDay >= dateString)
-    .sort((a: any, b: any) => b.dday - a.dday)[0];
 
-  useEffect(() => {
-    TodayStudyData();
-  }, [Dday]);
+  
+
+  const NextDday = todayDday.filter((x:any) => x.targetDay >= dateString).sort(
+    (a:any, b:any) => b.dday - a.dday
+  )[0];
+
+useEffect (()=>{
+  TodayStudyData()
+},[Dday])
+
 
   const [asmrShow, setAsmrShow] = useState(false);
   const [showTodo, setShowTodo] = useState(false);

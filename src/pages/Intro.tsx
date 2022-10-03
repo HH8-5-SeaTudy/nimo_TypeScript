@@ -15,7 +15,7 @@ export default function Intro() {
     setActive(true);
   };
 
-  console.log(button);
+ 
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
