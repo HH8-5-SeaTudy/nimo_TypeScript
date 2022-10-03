@@ -10,18 +10,15 @@ import Asmr from "../asmr/Asmr";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import {
-  __getCheckInTimer,
   __getCheckOutTimer,
   __getUserinquire,
 } from "../../redux/modules/timer";
 import logo from "../../assets/logo/seatudyLogo.png";
 import CalendarVer2 from "../calendar/CalendarVer2";
 import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
-import Grid from "../../elements/Grid";
 import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
-import { __getDday } from "../../redux/modules/dday";
 import axios from "axios";
 
 const Header = () => {
@@ -59,17 +56,13 @@ const Header = () => {
       });
   };
 
+  const NextDday = todayDday
+    .filter((x: any) => x.targetDay >= dateString)
+    .sort((a: any, b: any) => b.dday - a.dday)[0];
 
-  
-
-  const NextDday = todayDday.filter((x:any) => x.targetDay >= dateString).sort(
-    (a:any, b:any) => b.dday - a.dday
-  )[0];
-
-useEffect (()=>{
-  TodayStudyData()
-},[Dday])
-
+  useEffect(() => {
+    TodayStudyData();
+  }, [Dday]);
 
   const [asmrShow, setAsmrShow] = useState(false);
   const [showTodo, setShowTodo] = useState(false);
@@ -108,7 +101,7 @@ useEffect (()=>{
     } else {
       clearInterval(interval);
     }
-    if (timeSS % 60 == 0 && timeSS !== 0) {
+    if (timeSS % 60 === 0 && timeSS !== 0) {
       setTimeMM((mm) => mm + 1);
     }
 
@@ -116,7 +109,7 @@ useEffect (()=>{
   }, [JSON.stringify(time), timeSS]);
 
   useEffect(() => {
-    if (timeMM % 60 == 0 && timeMM !== 0) {
+    if (timeMM % 60 === 0 && timeMM !== 0) {
       setTimeHH((hh) => hh + 1);
     }
   }, [timeMM]);

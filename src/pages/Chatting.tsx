@@ -164,9 +164,6 @@ function Chatting() {
                     </EnterContainer>
                   </NoticeContainer>
                 );
-              } else if (list.type === "FULL") {
-                alert("인원이 가득 찼습니다");
-                window.location.replace("/home");
               }
             })}
         </Screen>

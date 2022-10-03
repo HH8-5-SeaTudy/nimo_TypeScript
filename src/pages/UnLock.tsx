@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import {
@@ -25,7 +25,6 @@ const UnLock = () => {
   const fishImage = useAppSelector(
     (state) => state.fishList.fishInfo.fishImageUrl
   );
-  const [edit, setEdit] = useState(false);
   const [nickname, setNickname] = useState("");
   const [editNickname, setEditNickname] = useState(false);
   const [editFishName, setEditFishName] = useState(false);
@@ -46,10 +45,6 @@ const UnLock = () => {
   const onChangeNickname = (e: any) => {
     setNickname(e.target.value);
   };
-
-  // const onClickImage = (e: any) => {
-  //   dispatch(__getFishList(data.)));
-  // };
 
   useEffect(() => {
     const fishPoint = fishImages.map((data) => data.point);
