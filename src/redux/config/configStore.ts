@@ -6,8 +6,9 @@ import userData from "../modules/userData";
 import socket from "../modules/socket";
 import dday from "../modules/dday";
 import fishList from "../modules/fishList";
-import rank from '../modules/rank';
-import fishPosition from '../modules/fishPosition';
+import rank from "../modules/rank";
+import fishPosition from "../modules/fishPosition";
+import chatCount from "../modules/chatCount";
 const store = configureStore({
   reducer: {
     updateDate,
@@ -19,6 +20,7 @@ const store = configureStore({
     fishList,
     rank,
     fishPosition,
+    chatCount,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
