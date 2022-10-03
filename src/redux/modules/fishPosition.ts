@@ -52,7 +52,7 @@ export const __deleteFishPosition: any = createAsyncThunk(
   "Position/__deleteFishPosition",
   async (payload: any, thunkAPI) => {
     try {
-      console.log("수정페이", payload);
+      
       const token: string = getCookie("token") as string;
       const data = await axios.put(
         `${BASE_URL}/api/v1/fishes/relocations/${payload}`,
@@ -64,7 +64,7 @@ export const __deleteFishPosition: any = createAsyncThunk(
           },
         }
       );
-      console.log("수정테스트", data);
+   
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

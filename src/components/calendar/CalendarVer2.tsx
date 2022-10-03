@@ -113,7 +113,7 @@ const CalendarVer2 = () => {
     const tempData = [...todo];
     tempData[i] = "";
     setTodo([...tempData]);
-    console.log(inputRef, i);
+
   };
   const onChangeTodoInput = (e: any, i: number) => {
     const tempData = [...todo];
@@ -170,7 +170,7 @@ const CalendarVer2 = () => {
     dispatch(__getDday(DD));
   }, [DD]);
 
-  console.log(DdayShow);
+  
   const calendarArr = () => {
     let result: any = [];
 
@@ -836,7 +836,7 @@ const Layer = styled.div`
   height: 650px;
   width: 1150px;
   color: #ffffff;
-  z-index: 20;
+  z-index: 5;
 `;
 
 const MonthYear = styled.div`
@@ -893,6 +893,7 @@ const Wrapper = styled.div`
   color: #ffffff;
   border-radius: 6px;
   border: solid black 2px;
+  z-index: 5;
 `;
 const CalendarTitle = styled.div`
   width: 100%;

@@ -28,6 +28,12 @@ function ChatRoom() {
   const userCount = chatUser.find((user: any) => user.userCount);
   const enter = chatUser.find((nickname) => nickname.rankByNickname);
 
+  const roomId = chatUser.find((roomId) => roomId.roomId);
+  
+
+  const date = useAppSelector((state) => state.socket.chat);
+  
+
   return (
     <MessageContainer>
       <MessageFormContainer>
