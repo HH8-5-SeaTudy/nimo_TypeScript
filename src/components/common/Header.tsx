@@ -138,6 +138,7 @@ const Header = () => {
           <Calendar
             src={server}
             onClick={() => {
+<<<<<<< HEAD
               navigate("/chat", {
                 state: {
                   id: roomId1,
@@ -148,13 +149,25 @@ const Header = () => {
         </ServerBtn>
         {/* 제일빠른디데이 */}
         {NextDday && (
+=======
+            navigate("/chat", {
+              state: {
+                id: roomId1,
+              },
+            });
+          }} />
+          </ServerBtn>
+          {/* 제일빠른디데이 */}
+          {NextDday && (
+
+>>>>>>> 0ad57dc78d1df0fc381d4cab57468a47d5fe285f
           <DdayBtn>
             <DdayTitle>
               D-
               <br />
               {NextDday.dday === 0 ? "Day" : String(NextDday.dday).slice(1)}
             </DdayTitle>
-            <DdayContent>자격증시험보는날</DdayContent>
+            <DdayContent>{NextDday.title}</DdayContent>
           </DdayBtn>
         )}
 
