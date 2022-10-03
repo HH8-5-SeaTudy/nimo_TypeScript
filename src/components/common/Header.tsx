@@ -23,16 +23,17 @@ import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
 import { __getDday } from "../../redux/modules/dday";
+import axios from 'axios';
 
 const Header = () => {
   const token: string = getCookie("token") as string;
-
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const today = new Date();
   const year = today.getFullYear();
   const month = ("0" + (today.getMonth() + 1)).slice(-2);
   const day = ("0" + today.getDate()).slice(-2);
   const dateString = year + "-" + month + "-" + day;
-
+  const [todayDday,setTodayDday] = useState<any>([])
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const time = useAppSelector((state) => state.timer);
@@ -45,10 +46,28 @@ const Header = () => {
   const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
   const nextPercent = (userPoint / nextFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
+  
+  const TodayStudyData = async () => {
+    return await axios
+    .get(`${BASE_URL}/api/v1/ddays/dates?selectDate=${dateString}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      })
+    .then((res) => {
+      setTodayDday(res.data.data)
+    })
+  };
 
-  const NextDday = Dday.filter((x) => x.targetDay >= dateString).sort(
-    (a, b) => b.dday - a.dday
+  const NextDday = todayDday.filter((x:any) => x.targetDay >= dateString).sort(
+    (a:any, b:any) => b.dday - a.dday
   )[0];
+
+useEffect (()=>{
+  TodayStudyData()
+},[Dday])
+console.log(NextDday)
 
   const [asmrShow, setAsmrShow] = useState(false);
   const [showTodo, setShowTodo] = useState(false);
@@ -67,7 +86,6 @@ const Header = () => {
     dispatch(__getDayMyRank());
     dispatch(__getWeekMyRank());
     dispatch(__getUserProfile());
-    dispatch(__getDday(dateString));
     return () => {
       dispatch(__getCheckOutTimer());
     };
@@ -127,7 +145,7 @@ const Header = () => {
           {/* 다음물고기 */}
           <FishBtn>
             <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
-            <p>{nextPercent}%</p>
+            <p>{String(nextPercent).slice(0, 2)}%</p>
           </FishBtn>
           {/* 랭킹 */}
           <RankBtn>
@@ -152,9 +170,9 @@ const Header = () => {
             <DdayTitle>
               D-
               <br />
-              {NextDday.dday === 0 ? "Day" : String(NextDday.dday).slice(1)}
+              {NextDday?.dday === 0 ? "Day" : String(NextDday?.dday).slice(1)}
             </DdayTitle>
-            <DdayContent>{NextDday.title}</DdayContent>
+            <DdayContent>{NextDday?.targetDay}<br/>{NextDday?.title}</DdayContent>
           </DdayBtn>
         )}
 
@@ -343,53 +361,22 @@ const DdayTitle = styled.div`
 `
 const DdayContent =styled.p`
 position:absolute;
-width: 150%;
+width: 140%;
 border-radius: 6px;
 
   font-size: 14px;
   z-index: 3;
   line-height: 15px;
-  padding: 2px;
+  padding: 3px 5px;
   background-color: #b2e2ff;
   display: none;
+  text-align:center;
   border: solid white 2px;
 `;
 
-const Rank = styled.div`
-  border: solid red 1px;
-  p {
-    border: solid red 1px;
-  }
-`;
 const Calendar = styled.img`
   width: 100%;
   height: 100%;
-`;
-
-const RankContainer = styled.div`
-  position: absolute;
-  left: 60%;
-  border: solid red 1px;
-  width: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  border-radius: 10px;
-`;
-
-const Nickname = styled.span`
-  font-size: 1.2em;
-  color: black;
-`;
-
-const DayRank = styled.span`
-  font-size: 1.2em;
-  color: black;
-`;
-
-const WeekRank = styled.span`
-  font-size: 1.2em;
-  color: black;
 `;
 
 export default Header;

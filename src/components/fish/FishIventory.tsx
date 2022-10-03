@@ -151,8 +151,6 @@ const FishIventory = () => {
                 dragEndHandler(e, i);
               }}
               style={{
-                // left: positionData.find((x)=>x.fishNum === i )?.left === 0  ? '0.5em' : positionData.find((x)=>x.fishNum === i )?.left,
-                // top: positionData.find((x)=>x.fishNum === i )?.top === 0  ? '0.5em' : positionData.find((x)=>x.fishNum === i )?.top,
                 left: dTest[i][0] === 0 ? "0.5em" : dTest[i][0],
                 top: dTest[i][1] === 0 ? "0.85em" : dTest[i][1],
 

@@ -8,7 +8,6 @@ import Login from "./pages/Login";
 import { EnumPages } from "./enum/EnumPages";
 import ChatRoom from "./pages/ChatRoom";
 import Statistics from "./pages/Statistics";
-import Wave from "./pages/Wave";
 import { getCookie } from "./components/social/Cookie";
 import Header from "./components/common/Header";
 import PrivateRoute from "./PrivateRoute";
