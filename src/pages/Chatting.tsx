@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
@@ -23,12 +23,16 @@ function Chatting() {
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
   const chatUser = useAppSelector((state) => state.socket.chat);
+
   const roomId = chatUser.find((roomId) => roomId.roomId);
   
   const userNickname = useAppSelector(
     (state) => state.userData.userProfile.nickname
   );
+  const userImage = chatUser.find((image) => image.defaultFish);
+  const fishImage = chatUser.find((image) => image.rankByNickname);
 
+  console.log(fishImage?.defaultFish);
   const headers = {
     Authorization: token,
   };
@@ -131,14 +135,13 @@ function Chatting() {
           {chatUser &&
             chatUser.map((list: any, index: number) => {
               if (list.type === "TALK") {
-                
                 if (list.sender === userNickname) {
                   return (
                     <MessageListContainer key={index}>
                       <MySenderMessageContainer className="chat-thread">
                         <Message>{list.message}</Message>
                         <SenderContainer>
-                          <SenderProfile src={list.defaultFish} />
+                          <SenderProfile src={userImage?.defaultFish} />
                           <Sender>{list.sender}</Sender>
                         </SenderContainer>
                       </MySenderMessageContainer>
@@ -147,18 +150,20 @@ function Chatting() {
                 }
                 return (
                   <MessageListContainer key={index}>
-                    <SenderMessageContainer>
-                      <Sender>{list.sender}</Sender>
-                      <SenderContainer>
-                        <SenderProfile
-                          // src={list?.memberChatResDto?.defaultFish?  list.memberChatResDto.defaultFish : null}
-                        />
-                        <Message>{list.message}</Message>
-                      </SenderContainer>
-                    </SenderMessageContainer>
+                    <>
+                      <SenderMessageContainer className="chat-thread">
+                        <SenderContainer>
+                          <SenderProfile src={fishImage?.defaultFish} />
+                          <Sender>{list.sender}</Sender>
+                        </SenderContainer>
+                        <SenderContainer>
+                          <Message>{list.message}</Message>
+                        </SenderContainer>
+                      </SenderMessageContainer>
+                    </>
                   </MessageListContainer>
                 );
-              } else {
+              } else if (list.type === "ENTER") {
                 return (
                   <NoticeContainer key={index}>
                     <EnterContainer>
@@ -382,7 +387,7 @@ const Board = styled.div`
   border: 2px solid black;
   z-index: 0;
   background: #4b5b61;
-  transform: rotateX(20deg);
+  transform: rotateX(10deg);
 `;
 
 const BoardLeft = styled.div`
@@ -390,10 +395,10 @@ const BoardLeft = styled.div`
   width: 4%;
   position: absolute;
   top: 45%;
-  left: 3.5%;
+  left: 4%;
   border: 5px solid #4c4c4c;
   background: white;
-  transform: rotateX(15deg);
+  transform: rotateX(10deg);
   z-index: 2;
 `;
 const BoardRight = styled.div`
@@ -401,10 +406,10 @@ const BoardRight = styled.div`
   width: 4%;
   position: absolute;
   top: 45%;
-  right: 3.5%;
+  right: 4%;
   border: 5px solid #4c4c4c;
   background: white;
-  transform: rotateX(15deg);
+  transform: rotateX(10deg);
   z-index: 2;
 `;
 
@@ -524,6 +529,7 @@ const MessageListContainer = styled.div`
   width: 100%;
   .chat-thread {
     list-style: none;
+    width: 100%;
     overflow-x: hidden;
   }
 
@@ -532,7 +538,9 @@ const MessageListContainer = styled.div`
     clear: both;
     display: inline-block;
     padding: 10px;
-    margin: 0 0 20px 0;
+    margin: 0 20px 20px 20px;
+    /* width: 80%; */
+    max-width: 80%;
     font: 16px/20px "Noto Sans", sans-serif;
     border-radius: 10px;
     background-color: rgba(25, 147, 147, 0.2);
@@ -541,7 +549,7 @@ const MessageListContainer = styled.div`
   /* Chat - Speech Bubble Arrow */
   .chat-thread li:after {
     position: absolute;
-    top: 15px;
+    top: 40%;
     content: "";
     width: 0;
     height: 0;
@@ -577,7 +585,7 @@ const MessageListContainer = styled.div`
   }
 
   .chat-window-message {
-    width: 100%;
+    /* width: 100%; */
     height: 48px;
     font: 32px/48px "Noto Sans", sans-serif;
     background: none;
@@ -616,12 +624,13 @@ const MySenderMessageContainer = styled.ul`
   list-style: none;
 `;
 
-const SenderMessageContainer = styled.div`
+const SenderMessageContainer = styled.ul`
   width: 100%;
-  height: 100%;
+  padding: 0 15px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  list-style: none;
 `;
 
 const SenderContainer = styled.div`
@@ -641,6 +650,7 @@ const SenderProfile = styled.img`
 
 const Sender = styled.span`
   font-size: 1em;
+  display: flex;
   margin-left: 10px;
   margin-right: 10px;
 `;

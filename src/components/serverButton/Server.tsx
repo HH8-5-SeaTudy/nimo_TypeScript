@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { addUser } from "../../redux/modules/socket";
-import { useAppDispatch } from "../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 //server zone
 const roomId1 = process.env.REACT_APP_ROOMID1;
@@ -17,9 +17,47 @@ const Server = () => {
 
   const dispatch = useAppDispatch();
 
+  const chatUser = useAppSelector((state) => state.socket.chat);
+  const chatCount = chatUser.find((state: any) => state.userCount);
+
   useEffect(() => {
     dispatch(addUser);
   }, []);
+
+  const onClickRoom1 = () => {
+    if (Number(chatCount?.userCount) === 20) {
+      alert("인원이 전부 찼습니다");
+      return;
+    }
+  };
+
+  const onClickRoom2 = () => {
+    if (Number(chatCount?.userCount) === 20) {
+      alert("인원이 전부 찼습니다");
+      return;
+    }
+  };
+
+  const onClickRoom3 = () => {
+    if (Number(chatCount?.userCount) === 20) {
+      alert("인원이 전부 찼습니다");
+      return;
+    }
+  };
+
+  const onClickRoom4 = () => {
+    if (Number(chatCount?.userCount) === 20) {
+      alert("인원이 전부 찼습니다");
+      return;
+    }
+  };
+
+  const onClickRoom5 = () => {
+    if (Number(chatCount?.userCount) === 20) {
+      alert("인원이 전부 찼습니다");
+      return;
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -36,6 +74,7 @@ const Server = () => {
                     id: roomId1,
                   },
                 });
+                onClickRoom1();
                 window.location.reload();
               }}
               toggle={toggle}
@@ -51,6 +90,7 @@ const Server = () => {
                     id: roomId2,
                   },
                 });
+                onClickRoom2();
                 window.location.reload();
               }}
               toggle={toggle}
@@ -66,6 +106,7 @@ const Server = () => {
                     id: roomId3,
                   },
                 });
+                onClickRoom3();
                 window.location.reload();
               }}
               toggle={toggle}
@@ -81,6 +122,7 @@ const Server = () => {
                     id: roomId4,
                   },
                 });
+                onClickRoom4();
                 window.location.reload();
               }}
               toggle={toggle}
@@ -97,6 +139,7 @@ const Server = () => {
                     id: roomId5,
                   },
                 });
+                onClickRoom5();
                 window.location.reload();
               }}
               toggle={toggle}

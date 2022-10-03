@@ -27,6 +27,7 @@ function ChatRoom() {
 
   const userCount = chatUser.find((user: any) => user.userCount);
   const enter = chatUser.find((nickname) => nickname.rankByNickname);
+
   const roomId = chatUser.find((roomId) => roomId.roomId);
   
 
@@ -68,9 +69,10 @@ function ChatRoom() {
                   {enter?.rankByNickname.map((data, index) => (
                     <UserRankNicknameWrapper key={index}>
                       <UserRankNickname>
-                        {index + 1}.{data.nickname}
+                        {index + 1}. <UserRankFish src={data.defaultFish} />
+                        {data.nickname}
+                        <UserRankPoint>Time:{data.point}hours</UserRankPoint>
                       </UserRankNickname>
-                      <UserRankPoint>Time:{data.point}hours</UserRankPoint>
                     </UserRankNicknameWrapper>
                   ))}
                 </UserRankNicknameContainer>
@@ -218,15 +220,40 @@ const UserRankNicknameContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    background-color: transparent;
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #0096ff;
+    height: 5px;
+  }
 `;
 const UserRankNicknameWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 `;
-const UserRankNickname = styled.span`
+const UserRankFish = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid white;
+  padding: 5px;
+`;
+const UserRankNickname = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 0 20px;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid black;
   font-size: ${({ theme }) => theme.fontSizes.xl};
+  margin-top: 10px;
+  border-radius: 10px;
 `;
 const UserRankPoint = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xl};
