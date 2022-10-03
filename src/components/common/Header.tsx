@@ -22,16 +22,18 @@ import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
 import { __getDday } from "../../redux/modules/dday";
+import axios from "axios";
 
 const Header = () => {
   const token: string = getCookie("token") as string;
-
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const today = new Date();
   const year = today.getFullYear();
   const month = ("0" + (today.getMonth() + 1)).slice(-2);
   const day = ("0" + today.getDate()).slice(-2);
   const dateString = year + "-" + month + "-" + day;
 
+  const [todayDday, setTodayDday] = useState<any>([]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const time = useAppSelector((state) => state.timer);
@@ -44,9 +46,26 @@ const Header = () => {
   const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
   const nextPercent = (userPoint / nextFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
-  const NextDday = Dday.filter((x) => x.targetDay >= dateString).sort(
-    (a, b) => b.dday - a.dday
-  )[0];
+
+  const TodayStudyData = async () => {
+    return await axios
+      .get(`${BASE_URL}/api/v1/ddays/dates?selectDate=${dateString}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => {
+        setTodayDday(res.data.data);
+      });
+  };
+
+  const NextDday = todayDday
+    .filter((x: any) => x.targetDay >= dateString)
+    .sort((a: any, b: any) => b.dday - a.dday)[0];
+
+  useEffect(() => {
+    TodayStudyData();
+  }, [Dday]);
 
   const [asmrShow, setAsmrShow] = useState(false);
   const [showTodo, setShowTodo] = useState(false);
@@ -65,7 +84,6 @@ const Header = () => {
     dispatch(__getDayMyRank());
     dispatch(__getWeekMyRank());
     dispatch(__getUserProfile());
-    dispatch(__getDday(dateString));
     return () => {
       dispatch(__getCheckOutTimer());
     };
@@ -113,6 +131,7 @@ const Header = () => {
           <HeaderLogo src={logo} onClick={() => navigate("/home")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
+
         <AsmrBtn>
           <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
           {asmrShow && <Asmr />}
@@ -138,7 +157,6 @@ const Header = () => {
           <Calendar
             src={server}
             onClick={() => {
-<<<<<<< HEAD
               navigate("/chat", {
                 state: {
                   id: roomId1,
@@ -149,25 +167,17 @@ const Header = () => {
         </ServerBtn>
         {/* 제일빠른디데이 */}
         {NextDday && (
-=======
-            navigate("/chat", {
-              state: {
-                id: roomId1,
-              },
-            });
-          }} />
-          </ServerBtn>
-          {/* 제일빠른디데이 */}
-          {NextDday && (
-
->>>>>>> 0ad57dc78d1df0fc381d4cab57468a47d5fe285f
           <DdayBtn>
             <DdayTitle>
               D-
               <br />
-              {NextDday.dday === 0 ? "Day" : String(NextDday.dday).slice(1)}
+              {NextDday?.dday === 0 ? "Day" : String(NextDday?.dday).slice(1)}
             </DdayTitle>
-            <DdayContent>{NextDday.title}</DdayContent>
+            <DdayContent>
+              {NextDday?.targetDay}
+              <br />
+              {NextDday?.title}
+            </DdayContent>
           </DdayBtn>
         )}
 
@@ -210,6 +220,7 @@ const HeaderContainer = styled.div`
   height: 65px;
   padding: 0px 55px;
   height: 10vh;
+
   box-shadow: 1px 1px 3px 1px #dadce0;
   background: #ff9100;
 `;
@@ -354,14 +365,16 @@ const DdayTitle = styled.div`
 `;
 const DdayContent = styled.p`
   position: absolute;
-  width: 150%;
+  width: 140%;
   border-radius: 6px;
+
   font-size: 14px;
   z-index: 3;
   line-height: 15px;
-  padding: 2px;
+  padding: 3px 5px;
   background-color: #b2e2ff;
   display: none;
+  text-align: center;
   border: solid white 2px;
 `;
 

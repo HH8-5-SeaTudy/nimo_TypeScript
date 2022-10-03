@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
@@ -7,7 +7,6 @@ import { addUser } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
 import styled, { keyframes } from "styled-components";
 import { __getUserProfile } from "../redux/modules/userData";
-import { notInitialized } from "react-redux/es/utils/useSyncExternalStore";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
@@ -24,11 +23,13 @@ function Chatting() {
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
   const chatUser = useAppSelector((state) => state.socket.chat);
-
   const userNickname = useAppSelector(
     (state) => state.userData.userProfile.nickname
   );
+  const userImage = chatUser.find((image) => image.defaultFish);
+  const fishImage = chatUser.find((image) => image.rankByNickname);
 
+  console.log(fishImage?.defaultFish);
   const headers = {
     Authorization: token,
   };
@@ -137,7 +138,7 @@ function Chatting() {
                       <MySenderMessageContainer className="chat-thread">
                         <Message>{list.message}</Message>
                         <SenderContainer>
-                          <SenderProfile src={list?.defaultFish} />
+                          <SenderProfile src={userImage?.defaultFish} />
                           <Sender>{list.sender}</Sender>
                         </SenderContainer>
                       </MySenderMessageContainer>
@@ -146,19 +147,20 @@ function Chatting() {
                 }
                 return (
                   <MessageListContainer key={index}>
-                    <SenderMessageContainer className="chat-thread">
-                      <Sender>{list.sender}</Sender>
-                      <Message>{list.message}</Message>
-                      <SenderContainer>
-                        <SenderProfile
-                        // src={list?.memberChatResDto?.defaultFish?  list.memberChatResDto.defaultFish : null}
-                        />
-                        <Message>{list.message}</Message>
-                      </SenderContainer>
-                    </SenderMessageContainer>
+                    <>
+                      <SenderMessageContainer className="chat-thread">
+                        <SenderContainer>
+                          <SenderProfile src={fishImage?.defaultFish} />
+                          <Sender>{list.sender}</Sender>
+                        </SenderContainer>
+                        <SenderContainer>
+                          <Message>{list.message}</Message>
+                        </SenderContainer>
+                      </SenderMessageContainer>
+                    </>
                   </MessageListContainer>
                 );
-              } else {
+              } else if (list.type === "ENTER") {
                 return (
                   <NoticeContainer key={index}>
                     <EnterContainer>
@@ -382,7 +384,7 @@ const Board = styled.div`
   border: 2px solid black;
   z-index: 0;
   background: #4b5b61;
-  transform: rotateX(20deg);
+  transform: rotateX(10deg);
 `;
 
 const BoardLeft = styled.div`
@@ -390,10 +392,10 @@ const BoardLeft = styled.div`
   width: 4%;
   position: absolute;
   top: 45%;
-  left: 3.5%;
+  left: 4%;
   border: 5px solid #4c4c4c;
   background: white;
-  transform: rotateX(15deg);
+  transform: rotateX(10deg);
   z-index: 2;
 `;
 const BoardRight = styled.div`
@@ -401,10 +403,10 @@ const BoardRight = styled.div`
   width: 4%;
   position: absolute;
   top: 45%;
-  right: 3.5%;
+  right: 4%;
   border: 5px solid #4c4c4c;
   background: white;
-  transform: rotateX(15deg);
+  transform: rotateX(10deg);
   z-index: 2;
 `;
 
@@ -534,7 +536,8 @@ const MessageListContainer = styled.div`
     display: inline-block;
     padding: 10px;
     margin: 0 20px 20px 20px;
-    width: 80%;
+    /* width: 80%; */
+    max-width: 80%;
     font: 16px/20px "Noto Sans", sans-serif;
     border-radius: 10px;
     background-color: rgba(25, 147, 147, 0.2);
@@ -579,7 +582,7 @@ const MessageListContainer = styled.div`
   }
 
   .chat-window-message {
-    width: 100%;
+    /* width: 100%; */
     height: 48px;
     font: 32px/48px "Noto Sans", sans-serif;
     background: none;
