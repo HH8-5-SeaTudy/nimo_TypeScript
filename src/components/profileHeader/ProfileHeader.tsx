@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -5,17 +6,18 @@ import { useAppDispatch, useAppSelector } from "../../components/hooks/reduxHook
 import { __deleteTodo, __doneTodo, __getDateTodo } from '../../redux/modules/dateTodos';
 import { __getCheckOutTimer } from '../../redux/modules/timer';
 import { __getUserProfile } from '../../redux/modules/userData';
-import { deleteCookie } from '../social/Cookie';
+import { deleteCookie, getCookie } from '../social/Cookie';
 
 const ProfileHeader = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [todoShow,setTodoShow] = useState(false)
+  const [resData,setResData] = useState<any>([])
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const userProfile = useAppSelector(
     (state) => state.userData.userProfile);
-  const todoData = dateTodos?.filter((x)=> x.todoList.length === 0 ).length
-  const totalTodo = dateTodos?.map((x)=>x.categoryId).length
+  const todoData = resData?.filter((x:any)=> x.todoList.length === 0 ).length
+  const totalTodo = resData?.map((x:any)=>x.categoryId).length
 
   //오늘 날짜
   const today = new Date();
@@ -23,12 +25,32 @@ const ProfileHeader = () => {
   const month = ('0' + (today.getMonth() + 1)).slice(-2);
   const day = ('0' + today.getDate()).slice(-2);
   const dateString = year + '-' + month  + '-' + day;
+  const token: string = getCookie("token") as string;
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+ 
+  const TodoData = async () => {
+    return await axios
+    .get(`${BASE_URL}/api/v1/todoCategories/dates?selectDate=${dateString}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      })
+    .then((res) => {
+      setResData(res.data.data)
+    })
+  };
+
 
   const onClickLogOut = () => {
     dispatch(__getCheckOutTimer());
     deleteCookie("token");
     navigate("/");
   };
+
+  useEffect(()=> {
+    TodoData()
+  },[dateTodos])
 
   useEffect(() => {
     dispatch(__getUserProfile());
@@ -51,8 +73,8 @@ const ProfileHeader = () => {
       <TodoBox style={{paddingTop: todoShow ? '70px' : '0px'}}>
         <TodoList style={{height: todoShow ? '40px' : '0px',backgroundColor:'#ff9100'}}><p>TODAY'S TODO</p></TodoList>
         <TodoListBox >
-          {dateTodos &&
-            dateTodos.map((list) => list.todoList.map((item)=> 
+          {resData &&
+            resData.map((list:any) => list.todoList.map((item:any)=> 
             <Todo key={item.todoId} style={{height: todoShow ? '30px' : '0px'}}>
               <Done>
                 <div onClick={() =>dispatch(__doneTodo(item.todoId))}
