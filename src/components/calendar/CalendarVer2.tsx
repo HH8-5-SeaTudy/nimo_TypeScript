@@ -113,7 +113,7 @@ const CalendarVer2 = () => {
     const tempData = [...todo];
     tempData[i] = "";
     setTodo([...tempData]);
-    console.log(inputRef, i);
+
   };
   const onChangeTodoInput = (e: any, i: number) => {
     const tempData = [...todo];
@@ -170,7 +170,7 @@ const CalendarVer2 = () => {
     dispatch(__getDday(DD));
   }, [DD]);
 
-  console.log(DdayShow);
+  
   const calendarArr = () => {
     let result: any = [];
 
