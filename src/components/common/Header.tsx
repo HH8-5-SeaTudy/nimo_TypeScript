@@ -163,7 +163,13 @@ useEffect (()=>{
           <ServerBtn>
             <Calendar src={server}/>
             <ServerBox>
-              <div>태평양</div>
+              <div onClick={() => {
+              navigate("/chat", {
+                state: {
+                  id: roomId1,
+                },
+              });
+            }}>태평양</div>
               <div>대서양</div>
               <div>인도양</div>
               <div>북극해</div>

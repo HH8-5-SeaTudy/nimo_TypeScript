@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Server from '../components/serverButton/Server';
 
 const Test = () => {
   return (
@@ -9,7 +10,9 @@ const Test = () => {
             <OceanName>        
               <p>태평양 영어</p>
               </OceanName>
-            <HandleSide></HandleSide>
+            <HandleSide>
+              <Server />
+            </HandleSide>
             <Island></Island>
           </LeftSide>
           <RightSide>
