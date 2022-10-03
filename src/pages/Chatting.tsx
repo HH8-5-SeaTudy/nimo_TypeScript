@@ -17,6 +17,10 @@ const client = Stomp.over(socket);
 function Chatting() {
   const location = useLocation();
 
+  useEffect(() => {
+    dispatch(addUser);
+  }, []);
+
   const { id }: any = location.state;
   //기본설정---헤더, 토큰, 주소설정
 
@@ -24,22 +28,17 @@ function Chatting() {
   const message = useRef<any>(null);
   const chatUser = useAppSelector((state) => state.socket.chat);
 
-  const roomId = chatUser.find((roomId) => roomId.roomId);
-  
   const userNickname = useAppSelector(
     (state) => state.userData.userProfile.nickname
   );
   const userImage = chatUser.find((image) => image.defaultFish);
   const fishImage = chatUser.find((image) => image.rankByNickname);
 
-  console.log(fishImage?.defaultFish);
+  console.log(userImage);
+
   const headers = {
     Authorization: token,
   };
-
-  useEffect(() => {
-    dispatch(addUser);
-  }, []);
 
   //렌더되면 소켓 연결실행
   useEffect(() => {
@@ -137,30 +136,28 @@ function Chatting() {
               if (list.type === "TALK") {
                 if (list.sender === userNickname) {
                   return (
-                    <MessageListContainer key={index}>
+                    <MyMessageListContainer key={index}>
                       <MySenderMessageContainer className="chat-thread">
                         <Message>{list.message}</Message>
                         <SenderContainer>
-                          <SenderProfile src={userImage?.defaultFish} />
+                          <SenderProfile src={list.defaultFish} />
                           <Sender>{list.sender}</Sender>
                         </SenderContainer>
                       </MySenderMessageContainer>
-                    </MessageListContainer>
+                    </MyMessageListContainer>
                   );
                 }
                 return (
                   <MessageListContainer key={index}>
-                    <>
-                      <SenderMessageContainer className="chat-thread">
-                        <SenderContainer>
-                          <SenderProfile src={fishImage?.defaultFish} />
-                          <Sender>{list.sender}</Sender>
-                        </SenderContainer>
-                        <SenderContainer>
-                          <Message>{list.message}</Message>
-                        </SenderContainer>
-                      </SenderMessageContainer>
-                    </>
+                    <SenderMessageContainer className="chat-thread">
+                      <SenderContainer>
+                        <SenderProfile src={list.defaultFish} />
+                        <Sender>{list.sender}</Sender>
+                      </SenderContainer>
+                      <SenderContainer>
+                        <Message>{list.message}</Message>
+                      </SenderContainer>
+                    </SenderMessageContainer>
                   </MessageListContainer>
                 );
               } else if (list.type === "ENTER") {
@@ -508,24 +505,7 @@ const BottomScriptLeft = styled.div`
   background: #07beb8;
 `;
 
-const showChatOdd = keyframes`
-  0% {
-    margin-left: -480px;
-  }
-  100% {
-    margin-left: 0;
-  }
-`;
-
-const showChatEven = keyframes`
-  0% {
-    margin-left: -480px;
-  }
-  100% {
-    margin-left: 0;
-  }`;
-
-const MessageListContainer = styled.div`
+const MyMessageListContainer = styled.div`
   width: 100%;
   .chat-thread {
     list-style: none;
@@ -539,8 +519,8 @@ const MessageListContainer = styled.div`
     display: inline-block;
     padding: 10px;
     margin: 0 20px 20px 20px;
-    /* width: 80%; */
-    max-width: 80%;
+    min-width: 10%;
+    width: 80%;
     font: 16px/20px "Noto Sans", sans-serif;
     border-radius: 10px;
     background-color: rgba(25, 147, 147, 0.2);
@@ -557,9 +537,6 @@ const MessageListContainer = styled.div`
   }
 
   .chat-thread li:nth-child(odd) {
-    animation: ${showChatOdd} 0.15s 1 ease-in;
-    -moz-animation: ${showChatOdd} 0.15s 1 ease-in;
-    -webkit-animation: ${showChatOdd} 0.15s 1 ease-in;
     float: right;
     margin-right: 5px;
     color: #0ad5c1;
@@ -571,9 +548,6 @@ const MessageListContainer = styled.div`
   }
 
   .chat-thread li:nth-child(even) {
-    animation: ${showChatEven} 0.15s 1 ease-in;
-    -moz-animation: ${showChatEven} 0.15s 1 ease-in;
-    -webkit-animation: ${showChatEven} 0.15s 1 ease-in;
     float: left;
     margin-left: 5px;
     color: #0ec879;
@@ -582,6 +556,55 @@ const MessageListContainer = styled.div`
   .chat-window {
     position: fixed;
     bottom: 18px;
+  }
+`;
+
+const MessageListContainer = styled.div`
+  width: 100%;
+  .chat-thread {
+    list-style: none;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .chat-thread li {
+    position: relative;
+    clear: both;
+    display: inline-block;
+    padding: 10px;
+    margin: 0 20px 20px 20px;
+    min-width: 10%;
+    width: 80%;
+    font: 16px/20px "Noto Sans", sans-serif;
+    border-radius: 10px;
+    background-color: rgba(25, 147, 147, 0.2);
+  }
+
+  /* Chat - Speech Bubble Arrow */
+  .chat-thread li:after {
+    position: absolute;
+    top: 40%;
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 15px solid rgba(25, 147, 147, 0.2);
+  }
+
+  .chat-thread li:nth-child(odd) {
+    float: right;
+    margin-right: 5px;
+    color: #0ad5c1;
+  }
+
+  .chat-thread li:nth-child(odd):after {
+    border-left: 15px solid transparent;
+    left: -15px;
+  }
+
+  .chat-thread li:nth-child(even) {
+    float: left;
+    margin-left: 5px;
+    color: #0ec879;
   }
 
   .chat-window-message {
@@ -658,6 +681,7 @@ const Sender = styled.span`
 const Message = styled.li`
   font-size: 1.2em;
   list-style: none;
+  width: 70%;
 `;
 
 const MessageForm = styled.form`

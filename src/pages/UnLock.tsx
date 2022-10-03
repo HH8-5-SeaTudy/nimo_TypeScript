@@ -11,8 +11,6 @@ import Grid from "../elements/Grid";
 import { __getFishList } from "../redux/modules/fishList";
 import Input from "../elements/Input";
 
-import Button from "../elements/Button";
-import Header from "../components/common/Header";
 import { getCookie } from "../components/social/Cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -286,8 +284,6 @@ const UnLock = () => {
                         </FishListWrapper>
                       );
                     } else {
-                      // if (userPoint >= data.point) {
-                      // }
                       // 물고기 잠금
                       return (
                         <FishListWrapper key={index}>
