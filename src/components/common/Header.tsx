@@ -148,9 +148,9 @@ const Header = () => {
             <DdayTitle>
               D-
               <br />
-              {NextDday.dday === 0 ? "Day" : String(NextDday.dday).slice(1)}
+              {NextDday?.dday === 0 ? "Day" : String(NextDday?.dday).slice(1)}
             </DdayTitle>
-            <DdayContent>{NextDday.title}</DdayContent>
+            <DdayContent>{NextDday?.title}</DdayContent>
 
           </DdayBtn>
           }
