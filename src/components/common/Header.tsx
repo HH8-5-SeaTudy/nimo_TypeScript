@@ -42,11 +42,16 @@ const Header = () => {
   const Dday = useAppSelector((state) => state.dday.DdayData);
   const userData = useAppSelector((state) => state.userData.userProfile);
   const fishPoint = fishImages.map((data) => data.point);
-  const userPoint = userData.point;
+  const userPoint = userData.point
+  const prevFishPoint = fishPoint.filter((x) => x < userPoint).slice(-1)[0];
   const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
-  const nextPercent = (userPoint / nextFishPoint) * 100;
+  const totalFishPoint = nextFishPoint - prevFishPoint;
+  const myPoint = userPoint - prevFishPoint;
+  const nextPercent = (myPoint / totalFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
   
+
+
   const TodayStudyData = async () => {
     return await axios
     .get(`${BASE_URL}/api/v1/ddays/dates?selectDate=${dateString}`,
@@ -60,7 +65,7 @@ const Header = () => {
     })
   };
 
-  
+
 
   const NextDday = todayDday.filter((x:any) => x.targetDay >= dateString).sort(
     (a:any, b:any) => b.dday - a.dday
@@ -156,18 +161,17 @@ useEffect (()=>{
           </RankBtn>
           {/* 서버 */}
           <ServerBtn>
-            <Calendar src={server}    
-            onClick={() => {
-            navigate("/chat", {
-              state: {
-                id: roomId1,
-              },
-            });
-          }} />
+            <Calendar src={server}/>
+            <ServerBox>
+              <div>태평양</div>
+              <div>대서양</div>
+              <div>인도양</div>
+              <div>북극해</div>
+              <div>남극해</div>
+            </ServerBox>
           </ServerBtn>
           {/* 제일빠른디데이 */}
           {NextDday && (
-
           <DdayBtn>
             <DdayTitle>
               D-
@@ -301,7 +305,7 @@ const RankBtn = styled.button`
   width: 60px;
   height: 60px;
   padding: 8px;
-  border-radius: 9999px;
+  border-radius: 50%;
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -312,15 +316,15 @@ const RankBtn = styled.button`
     position: absolute;
     color: black;
     font-weight: 700;
-    width: 80px;
-    left: -8px;
+    width: 130px;
+    left: -32px;
   }
 `
 const ServerBtn =styled.div`
   position: absolute;
   left: 60%;
-  width: 70px;
-  height: 75px;
+  width: 65px;
+  height: 65px;
   padding: 8px;
   border-radius: 9999px;
   border: none;
@@ -328,22 +332,58 @@ const ServerBtn =styled.div`
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.5);
+    p {
+        display: flex;
+    }
   }
 
 `
+const ServerBox =styled.p`
+  border : solid red 1px;
+  position: absolute;
+  width: 65px;
+  height: 120px;
+  left:0.2px;
+  font-size: 14px;
+  z-index: 3;
+  display:none;
+  flex-direction: column;
+  border: solid white 2px;
+  border-radius: 6px;
+  div{
+    height: calc(120px / 5 );
+    text-align:center;
+    background-color: #b2e2ff;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+      background-color: #259fea;
+    }
+    &:first-child {
+      border-radius: 3.5px 3.5px 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 3.5px 3.5px;
+    }
+  }
+`
+
 const DdayBtn = styled.div`
   position: absolute;
   left: 70%;
   width: 60px;
   height: 60px;
   padding: 8px;
-  border-radius: 9999px;
+  border-radius: 50%;
   background-color: transparent;
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.5);
     p {
       display: flex;
+      position: absolute;
+      left: -10px;
     }
   }
 `;
@@ -365,7 +405,6 @@ const DdayContent =styled.p`
 position:absolute;
 width: 140%;
 border-radius: 6px;
-
   font-size: 14px;
   z-index: 3;
   line-height: 15px;

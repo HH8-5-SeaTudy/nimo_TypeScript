@@ -29,6 +29,7 @@ const Home = () => {
 
   const token: string = getCookie("token") as string;
 
+
   useEffect(() => {
     dispatch(__getUserProfile());
   }, []);
