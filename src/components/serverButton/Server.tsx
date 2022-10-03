@@ -25,35 +25,35 @@ const Server = () => {
   }, []);
 
   const onClickRoom1 = () => {
-    if (Number(chatCount?.userCount) < 4) {
+    if (Number(chatCount?.userCount) > 3) {
       alert("인원이 전부 찼습니다");
       return;
     }
   };
 
   const onClickRoom2 = () => {
-    if (Number(chatCount?.userCount) < 4) {
+    if (Number(chatCount?.userCount) > 3) {
       alert("인원이 전부 찼습니다");
       return;
     }
   };
 
   const onClickRoom3 = () => {
-    if (Number(chatCount?.userCount) < 4) {
+    if (Number(chatCount?.userCount) > 3) {
       alert("인원이 전부 찼습니다");
       return;
     }
   };
 
   const onClickRoom4 = () => {
-    if (Number(chatCount?.userCount) < 4) {
+    if (Number(chatCount?.userCount) > 3) {
       alert("인원이 전부 찼습니다");
       return;
     }
   };
 
   const onClickRoom5 = () => {
-    if (Number(chatCount?.userCount) < 4) {
+    if (Number(chatCount?.userCount) > 3) {
       alert("인원이 전부 찼습니다");
       return;
     }
