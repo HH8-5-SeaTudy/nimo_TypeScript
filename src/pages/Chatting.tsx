@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { addUser } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { __getUserProfile } from "../redux/modules/userData";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -17,12 +17,7 @@ const client = Stomp.over(socket);
 function Chatting() {
   const location = useLocation();
 
-  useEffect(() => {
-    dispatch(addUser);
-  }, []);
-
   const { id }: any = location.state;
-  //기본설정---헤더, 토큰, 주소설정
 
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
@@ -31,10 +26,10 @@ function Chatting() {
   const userNickname = useAppSelector(
     (state) => state.userData.userProfile.nickname
   );
-  const userImage = chatUser.find((image) => image.defaultFish);
-  const fishImage = chatUser.find((image) => image.rankByNickname);
 
-  console.log(userImage);
+  useEffect(() => {
+    dispatch(addUser);
+  }, []);
 
   const headers = {
     Authorization: token,
@@ -164,11 +159,14 @@ function Chatting() {
                 return (
                   <NoticeContainer key={index}>
                     <EnterContainer>
-                      <Sender>{list.sender}:</Sender>
+                      <Sender>{list.sender}</Sender>
                       <Message>{list.message}</Message>
                     </EnterContainer>
                   </NoticeContainer>
                 );
+              } else if (list.type === "FULL") {
+                alert("인원이 가득 찼습니다");
+                window.location.replace("/home");
               }
             })}
         </Screen>
@@ -519,8 +517,6 @@ const MyMessageListContainer = styled.div`
     display: inline-block;
     padding: 10px;
     margin: 0 20px 20px 20px;
-    min-width: 10%;
-    width: 80%;
     font: 16px/20px "Noto Sans", sans-serif;
     border-radius: 10px;
     background-color: rgba(25, 147, 147, 0.2);
@@ -540,6 +536,8 @@ const MyMessageListContainer = styled.div`
     float: right;
     margin-right: 5px;
     color: #0ad5c1;
+    word-wrap: break-word;
+    width: fit-content;
   }
 
   .chat-thread li:nth-child(odd):after {
@@ -594,6 +592,8 @@ const MessageListContainer = styled.div`
     float: right;
     margin-right: 5px;
     color: #0ad5c1;
+    word-wrap: break-word;
+    width: fit-content;
   }
 
   .chat-thread li:nth-child(odd):after {
