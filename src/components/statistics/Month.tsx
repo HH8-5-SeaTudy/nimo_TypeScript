@@ -5,19 +5,19 @@ import { getCookie } from '../social/Cookie';
 
 const data2 = [
   {
-    id: "NoData",
+    id: "Empty1",
     value: 10,
   },
   {
-    id: "NoData",
+    id: "Empty2",
     value: 10,
   },
   {
-    id: "NoData",
+    id: "Empty3",
     value: 10,
   },
   {
-    id: "NoData",
+    id: "Empty4",
     value: 10,
   },
 ];

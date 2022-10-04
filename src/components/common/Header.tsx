@@ -9,7 +9,6 @@ import server from "../../assets/pixel/server.png";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import {
-  __getCheckInTimer,
   __getCheckOutTimer,
   __getUserinquire,
 } from "../../redux/modules/timer";
@@ -19,7 +18,6 @@ import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
 import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
-import { __getDday } from "../../redux/modules/dday";
 import axios from "axios";
 
 const Header = () => {
@@ -82,6 +80,12 @@ const Header = () => {
     .filter((x: any) => x.targetDay >= dateString)
     .sort((a: any, b: any) => b.dday - a.dday)[0];
 
+
+  const NextDay = todayDday
+    ?.filter((x: any) => x.targetDay >= dateString)
+    .sort((a: any, b: any) => b.dday - a.dday)[0];
+
+
   useEffect(() => {
     TodayStudyData();
   }, [Dday]);
@@ -126,7 +130,7 @@ const Header = () => {
     } else {
       clearInterval(interval);
     }
-    if (timeSS % 60 == 0 && timeSS !== 0) {
+    if (timeSS % 60 === 0 && timeSS !== 0) {
       setTimeMM((mm) => mm + 1);
     }
 
@@ -134,7 +138,7 @@ const Header = () => {
   }, [JSON.stringify(time), timeSS]);
 
   useEffect(() => {
-    if (timeMM % 60 == 0 && timeMM !== 0) {
+    if (timeMM % 60 === 0 && timeMM !== 0) {
       setTimeHH((hh) => hh + 1);
     }
   }, [timeMM]);
@@ -173,6 +177,7 @@ const Header = () => {
             {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}
             {weekMyRank === 0 ? "D:기록없음" : "D:" + weekMyRank + "위"}
           </p>
+
         </RankBtn>
         {/* 서버 */}
         <ServerBtn>
@@ -241,17 +246,17 @@ const Header = () => {
           </ServerBox>
         </ServerBtn>
         {/* 제일빠른디데이 */}
-        {NextDday && (
+        {NextDay && (
           <DdayBtn>
             <DdayTitle>
               D-
               <br />
-              {NextDday?.dday === 0 ? "Day" : String(NextDday?.dday).slice(1)}
+              {NextDay?.dday === 0 ? "Day" : String(NextDay?.dday).slice(1)}
             </DdayTitle>
             <DdayContent>
-              {NextDday?.targetDay}
+              {NextDay?.targetDay}
               <br />
-              {NextDday?.title}
+              {NextDay?.title}
             </DdayContent>
           </DdayBtn>
         )}
@@ -405,12 +410,12 @@ const ServerBtn = styled.div`
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.5);
-    p {
+    div {
       display: flex;
     }
   }
 `;
-const ServerBox = styled.p`
+const ServerBox = styled.div`
   border: solid red 1px;
   position: absolute;
   width: 65px;
