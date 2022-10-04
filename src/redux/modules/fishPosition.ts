@@ -64,7 +64,28 @@ export const __deleteFishPosition: any = createAsyncThunk(
           },
         }
       );
-   
+      return thunkAPI.fulfillWithValue(data.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const __AllDeleteFishPosition: any = createAsyncThunk(
+  "Position/__AllDeleteFishPosition",
+  async (payload: any, thunkAPI) => {
+    try {
+      const token: string = getCookie("token") as string;
+      const data = await axios.put(
+        `${BASE_URL}/api/v1/fishes/allRelocations`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -99,7 +120,10 @@ export const positionSlice = createSlice({
             ? { ...list, left: action.payload.left, top: action.payload.top }
             : list
         );
-      });
+      })
+      .addCase(__AllDeleteFishPosition.fulfilled, (state, action) => {
+        state.position = action.payload;
+      })
   },
 });
 

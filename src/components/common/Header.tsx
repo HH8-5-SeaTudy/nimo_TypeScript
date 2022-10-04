@@ -82,8 +82,6 @@ const Header = () => {
       });
   };
 
-
-
   const NextDday = todayDday.filter((x:any) => x.targetDay >= dateString).sort(
     (a:any, b:any) => b.dday - a.dday
   )[0];
@@ -149,9 +147,6 @@ useEffect (()=>{
   if (window.location.pathname === "/googleLogin") return null;
 
 
-
-
-  
   return (
     <>
       <HeaderContainer>
@@ -176,7 +171,7 @@ useEffect (()=>{
           {/* 랭킹 */}
           <RankBtn>
             <Calendar src={ranking} onClick={() => navigate("/statistics")} />
-            <p>D:{dayMyRank}위 W:{weekMyRank}위</p>
+            <p>{dayMyRank === 0 ? 'D:기록없음' : 'D:'+dayMyRank+'위'} {weekMyRank === 0 ? 'D:기록없음' : 'D:'+weekMyRank+'위'}</p>
           </RankBtn>
           {/* 서버 */}
           <ServerBtn>
@@ -210,7 +205,6 @@ useEffect (()=>{
             </DdayContent>
           </DdayBtn>
         )}
-
         <HeaderTimerContainer>
           <HeaderTimer>
             <Layer>
