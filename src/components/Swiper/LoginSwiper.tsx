@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react"; // basic
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import "swiper/css"; //basic
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -20,19 +20,31 @@ const LoginSwiper = () => {
         pagination={{ clickable: true }}
       >
         <StyledSwiperSlide>
-          <Img src="https://springblog.s3.ap-northeast-2.amazonaws.com/fish-deco.gif" alt="슬라이드1" />
+          <Img
+            src="https://springblog.s3.ap-northeast-2.amazonaws.com/fish-deco.gif"
+            alt="슬라이드1"
+          />
           <div>Test</div>
         </StyledSwiperSlide>
         <StyledSwiperSlide>
-          <Img src="https://springblog.s3.ap-northeast-2.amazonaws.com/fish-deco.gif" alt="슬라이드1" />
+          <Img
+            src="https://springblog.s3.ap-northeast-2.amazonaws.com/fish-deco.gif"
+            alt="슬라이드1"
+          />
           <div>Test</div>
         </StyledSwiperSlide>
         <StyledSwiperSlide>
-          <Img src="https://springblog.s3.ap-northeast-2.amazonaws.com/fish-deco.gif" alt="슬라이드1" />
+          <Img
+            src="https://springblog.s3.ap-northeast-2.amazonaws.com/fish-deco.gif"
+            alt="슬라이드1"
+          />
           <div>Test</div>
         </StyledSwiperSlide>
         <StyledSwiperSlide>
-          <Img src="https://springblog.s3.ap-northeast-2.amazonaws.com/fish-deco.gif" alt="슬라이드1" />
+          <Img
+            src="https://springblog.s3.ap-northeast-2.amazonaws.com/fish-deco.gif"
+            alt="슬라이드1"
+          />
           <div>Test</div>
         </StyledSwiperSlide>
       </StyledSwiper>
@@ -44,15 +56,15 @@ export default LoginSwiper;
 
 const StyledSwiper = styled(Swiper)`
   width: 80%;
-`
+  margin-top: -4%;
+`;
 const StyledSwiperSlide = styled(SwiperSlide)`
-  border: solid red 5px;
-  display:flex;
-  flex-direction:column;
-  div{
+  display: flex;
+  flex-direction: column;
+  div {
     height: 70px;
   }
-`
+`;
 const Img = styled.img`
-  width:100%;
-`
+  width: 100%;
+`;

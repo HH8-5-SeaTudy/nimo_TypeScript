@@ -9,7 +9,6 @@ import server from "../../assets/pixel/server.png";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import {
-  __getCheckInTimer,
   __getCheckOutTimer,
   __getUserinquire,
 } from "../../redux/modules/timer";
@@ -19,7 +18,6 @@ import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
 import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
-import { __getDday } from "../../redux/modules/dday";
 import axios from "axios";
 
 const Header = () => {
@@ -91,10 +89,15 @@ const Header = () => {
       });
   };
 
+  const NextDday = todayDday
+    .filter((x: any) => x.targetDay >= dateString)
+    .sort((a: any, b: any) => b.dday - a.dday)[0];
+
 
   const NextDay = todayDday
     ?.filter((x: any) => x.targetDay >= dateString)
     .sort((a: any, b: any) => b.dday - a.dday)[0];
+
 
   useEffect(() => {
     TodayStudyData();
@@ -140,7 +143,7 @@ const Header = () => {
     } else {
       clearInterval(interval);
     }
-    if (timeSS % 60 == 0 && timeSS !== 0) {
+    if (timeSS % 60 === 0 && timeSS !== 0) {
       setTimeMM((mm) => mm + 1);
     }
 
@@ -148,7 +151,7 @@ const Header = () => {
   }, [JSON.stringify(time), timeSS]);
 
   useEffect(() => {
-    if (timeMM % 60 == 0 && timeMM !== 0) {
+    if (timeMM % 60 === 0 && timeMM !== 0) {
       setTimeHH((hh) => hh + 1);
     }
   }, [timeMM]);
@@ -158,7 +161,6 @@ const Header = () => {
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
 
- 
 
   return (
     <>
@@ -185,7 +187,11 @@ const Header = () => {
         {/* 랭킹 */}
         <RankBtn>
           <Calendar src={ranking} onClick={() => navigate("/statistics")} />
-          <p>{dayMyRank === 0 ? 'D:기록없음' : 'D:'+dayMyRank+'위'} {weekMyRank === 0 ? 'D:기록없음' : 'D:'+weekMyRank+'위'}</p>
+          <p>
+            {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}
+            {weekMyRank === 0 ? "D:기록없음" : "D:" + weekMyRank + "위"}
+          </p>
+
         </RankBtn>
         {/* 서버 */}
         <ServerBtn>
@@ -313,6 +319,7 @@ const HeaderContainer = styled.div`
 
 const HeaderLogoContainer = styled.div`
   display: flex;
+  cursor: pointer;
 `;
 
 const HeaderLogo = styled.img`

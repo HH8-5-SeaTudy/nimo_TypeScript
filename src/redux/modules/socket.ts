@@ -43,6 +43,7 @@ export type IChatInfo = {
   nickname: string;
   point: number;
   defaultFish: string;
+  totalStudy: string;
 };
 
 const initialState: IChat = {

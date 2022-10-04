@@ -5,7 +5,7 @@ import background from "../assets/background/loginBack.png";
 import Google from "../components/social/Google";
 import Kakao from "../components/social/Kakao";
 import Naver from "../components/social/Naver";
-import LoginSwiper from '../components/Swiper/LoginSwiper';
+import LoginSwiper from "../components/Swiper/LoginSwiper";
 import Grid from "../elements/Grid";
 
 export default function Login() {
@@ -13,68 +13,69 @@ export default function Login() {
     <Layer>
       <Grid height="100%" display="flex">
         <Left>
-          <Title> </Title>
+          <Title>
+            <HowToContainer>
+              <HowTo>
+                <TitleContainer>
+                  <SetudyWrapper>
+                    <span>
+                      <SeatudyContainerBubble />H
+                    </span>
+                  </SetudyWrapper>
+                  <SetudyWrapper>
+                    <span>
+                      <SeatudyContainerBubble />O
+                    </span>
+                  </SetudyWrapper>
+                  <SetudyWrapper>
+                    <span style={{ marginRight: "30px" }}>
+                      <SeatudyContainerBubble />W
+                    </span>
+                  </SetudyWrapper>
+                  <SetudyWrapper>
+                    <span>
+                      <SeatudyContainerBubble />T
+                    </span>
+                  </SetudyWrapper>
+                  <SetudyWrapper>
+                    <span style={{ marginRight: "30px" }}>
+                      <SeatudyContainerBubble />O
+                    </span>
+                  </SetudyWrapper>
+                  <SetudyWrapper>
+                    <span>
+                      <SeatudyContainerBubble />U
+                    </span>
+                  </SetudyWrapper>
+                  <SetudyWrapper>
+                    <span>
+                      <SeatudyContainerBubble />S
+                    </span>
+                  </SetudyWrapper>
+                  <SetudyWrapper>
+                    <span>
+                      <SeatudyContainerBubble />E
+                    </span>
+                  </SetudyWrapper>
+                </TitleContainer>
+              </HowTo>
+            </HowToContainer>
+          </Title>
           <Slide>
             <LoginSwiper></LoginSwiper>
           </Slide>
-          {/* <HowToContainer>
-            <HowTo>
-              <TitleContainer>
-                <SetudyWrapper>
-                  <span>
-                    <SeatudyContainerBubble />H
-                  </span>
-                </SetudyWrapper>
-                <SetudyWrapper>
-                  <span>
-                    <SeatudyContainerBubble />O
-                  </span>
-                </SetudyWrapper>
-                <SetudyWrapper>
-                  <span style={{ marginRight: "30px" }}>
-                    <SeatudyContainerBubble />W
-                  </span>
-                </SetudyWrapper>
-                <SetudyWrapper>
-                  <span>
-                    <SeatudyContainerBubble />T
-                  </span>
-                </SetudyWrapper>
-                <SetudyWrapper>
-                  <span style={{ marginRight: "30px" }}>
-                    <SeatudyContainerBubble />O
-                  </span>
-                </SetudyWrapper>
-                <SetudyWrapper>
-                  <span>
-                    <SeatudyContainerBubble />U
-                  </span>
-                </SetudyWrapper>
-                <SetudyWrapper>
-                  <span>
-                    <SeatudyContainerBubble />S
-                  </span>
-                </SetudyWrapper>
-                <SetudyWrapper>
-                  <span>
-                    <SeatudyContainerBubble />E
-                  </span>
-                </SetudyWrapper>
-              </Grid>
-            </HowTo>
-          </HowToContainer> */}
         </Left>
         <Right>
           <LoginText>LOGIN</LoginText>
           <LoginBtnBox>
             <NaverBtn>
-              <Naver/>
+              <Naver />
             </NaverBtn>
             <KaKaoBtn>
-              <Kakao/>
+              <Kakao />
             </KaKaoBtn>
             <GoggleBtn>
-              <Google/>
+              <Google />
             </GoggleBtn>
           </LoginBtnBox>
         </Right>
@@ -83,8 +84,7 @@ export default function Login() {
   );
 }
 const Layer = styled.section`
-border: solid red 3px;
-padding: 50px;
+  padding: 50px;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -96,27 +96,26 @@ padding: 50px;
 `;
 
 const Left = styled.div`
-border : solid red 1px;
   width: 70%;
   height: 100%;
   display: flex;
-flex-direction: column;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
 `;
-const Title =styled.div`
-  border:solid red 1px;
-  width:100%;
-  height: 15%;
-`
+const Title = styled.div`
+  width: 100%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 const Slide = styled.div`
-  width:100%;
-  height:85%;
-  padding:40px 50px;
-`
-const Info =styled.div`
-  border : solid red 3px;
-  width:100%;
-  height:35%;
-`
+  width: 100%;
+  height: 85%;
+  padding: 40px 50px;
+`;
+
 const HowToContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -128,54 +127,39 @@ const HowTo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  padding: 3%;
-`;
-
-const HowToTitle = styled.span`
-  font-size: 2.5em;
-  color: #ffffffa2;
-`;
-
-const HowToSubTitle = styled.span`
-  font-size: 1.6em;
-  margin-top: 5%;
-  color: #ffffffa2;
 `;
 
 const Right = styled.div`
   width: 30%;
   height: 100%;
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
 `;
-const LoginText =styled.div`
+const LoginText = styled.div`
   height: 10%;
-  display:flex;
-  text-align:center;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
   font-size: 80px;
-`
-const LoginBtnBox =styled.div`
+`;
+const LoginBtnBox = styled.div`
   height: 50%;
   padding: 50px 50px;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: space-between;
-`
-const NaverBtn =styled.div`
-    height: 20%;
-`
-const KaKaoBtn =styled.div`
-
-    height: 20%;
-`
-const GoggleBtn =styled.div` 
-    height: 20%;
-`
+`;
+const NaverBtn = styled.div`
+  height: 20%;
+`;
+const KaKaoBtn = styled.div`
+  height: 20%;
+`;
+const GoggleBtn = styled.div`
+  height: 20%;
+`;
 
 const LoginContainer = styled.div`
   width: 100%;
@@ -198,6 +182,8 @@ const SocialLoginTitle = styled.span`
 
 const TitleContainer = styled.div`
   width: 80%;
+  display: flex;
+  height: 100%;
   ${({ theme }) => theme.common.flexCenter};
   position: relative;
   span {

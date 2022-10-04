@@ -6,6 +6,7 @@ import { __getUserProfile } from "../../redux/modules/userData";
 
 import fishPosition, {
   __AllDeleteFishPosition,
+
   __deleteFishPosition,
   __getFishPosition,
   __postFishPosition,
