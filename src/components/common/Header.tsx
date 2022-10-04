@@ -46,23 +46,36 @@ const Header = () => {
   const nextPercent = (myPoint / totalFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
-  const audio = new Audio(
-    "https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3"
-  );
-  const [playing, setPlaying] = useState(false);
+ const [playing, setPlaying] = useState(false);
 
-  const toggle = () => setPlaying(!playing);
-
+  const [audio, setAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3") )
   useEffect(() => {
-    playing ? audio.play() : audio.pause();
+    if (playing === true) {
+      audio.play();
+      audio.loop = true;
+    } if (playing === false) {
+      audio.pause()
+    }
   }, [playing]);
 
-  useEffect(() => {
-    audio.addEventListener("ended", () => setPlaying(false));
-    return () => {
-      audio.removeEventListener("ended", () => setPlaying(false));
-    };
-  }, []);
+  console.log(playing)
+  // const audio = new Audio(
+  //   "https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3"
+  // );
+  // const [playing, setPlaying] = useState(false);
+
+  // const toggle = () => setPlaying(!playing);
+
+  // useEffect(() => {
+  //   playing ? audio.play() : audio.pause();
+  // }, [playing]);
+
+  // useEffect(() => {
+  //   audio.addEventListener("ended", () => setPlaying(false));
+  //   return () => {
+  //     audio.removeEventListener("ended", () => setPlaying(false));
+  //   };
+  // }, []);
 
   const TodayStudyData = async () => {
     return await axios
@@ -148,6 +161,7 @@ const Header = () => {
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
 
+
   return (
     <>
       <HeaderContainer>
@@ -159,7 +173,7 @@ const Header = () => {
         {/* 소라버튼 */}
 
         <AsmrBtn>
-          <OnAsmr src={shell} onClick={() => toggle()} />
+          <OnAsmr src={shell} onClick={() => setPlaying(!playing)} />
         </AsmrBtn>
         {/* 캘린더버튼 */}
         <CalendarBtn>
