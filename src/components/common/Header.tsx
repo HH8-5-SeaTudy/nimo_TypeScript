@@ -51,6 +51,24 @@ const Header = () => {
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
 
+    const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3")
+    const [playing, setPlaying] = useState(false);
+  
+    const toggle = () => setPlaying(!playing);
+
+      useEffect(() => {
+        playing ? audio.play() : audio.pause();
+      },
+      [playing]
+    );
+  
+    useEffect(() => {
+      audio.addEventListener('ended', () => setPlaying(false));
+      return () => {
+        audio.removeEventListener('ended', () => setPlaying(false));
+      };
+    }, []);
+
 
   const TodayStudyData = async () => {
     return await axios
@@ -130,6 +148,10 @@ useEffect (()=>{
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
 
+
+
+
+  
   return (
     <>
       <HeaderContainer>
@@ -139,11 +161,8 @@ useEffect (()=>{
           <HeaderLogo src={logo} onClick={() => navigate("/home")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
-
-
           <AsmrBtn>
-            <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
-            {asmrShow && <Asmr />}
+            <OnAsmr src={shell} onClick={() =>toggle()}/>
           </AsmrBtn>
           {/* 캘린더버튼 */}
           <CalendarBtn>

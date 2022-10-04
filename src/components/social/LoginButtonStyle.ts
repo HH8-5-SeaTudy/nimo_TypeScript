@@ -6,13 +6,14 @@ import GoogleLogoSrc from "../../assets/LoginSvg/icon-google.png";
 export const KaKaoLoginButtonContainer = styled.div`
   background-color: #ffeb00;
   border-radius: 5px;
-  width: 468px;
-  height: 80px;
+  width: 100%;
+  height: 70px;
   display: flex;
   align-items: center;
   cursor: pointer;
 `;
 export const KaKaoLogo = styled.div`
+  box-shadow: 0.3px 0.3px 0.3px 0.3px lightgrey;
   background-image: url(${KaKaoLogoSrc});
   background-repeat: no-repeat;
   background-size: cover;
@@ -21,27 +22,27 @@ export const KaKaoLogo = styled.div`
   margin: 0 20px;
 `;
 export const KaKaoKor = styled.div`
-  width: 230px;
+  width:50%;
   height: 30px;
   font-size: 36px;
   ${({ theme }) => theme.common.flexCenter};
   font-size: ${({ theme }) => theme.fontSizes.x4l};
-  font-weight: bold;
-  margin-left: 70px;
+  margin-left: 30px;
 `;
 
 export const NaverLoginButtonContainer = styled.div`
   background-color: #03c75a;
   border-radius: 5px;
-  width: 468px;
-  height: 80px;
+  width: 100%;
+  height: 70px;
   display: flex;
   align-items: center;
   cursor: pointer;
+
 `;
 
 export const NaverLogo = styled.div`
-  border: solid white 1px;
+  box-shadow: 0.3px 0.3px 0.3px 0.3px lightgrey;
   background-image: url(${NaverLogoSrc});
   background-repeat: no-repeat;
   background-size: cover;
@@ -50,20 +51,21 @@ export const NaverLogo = styled.div`
   margin: 0 20px;
 `;
 export const NaverKor = styled.div`
-  width: 210px;
+  width:50%;
   height: 30px;
   font-size: 36px;
   ${({ theme }) => theme.common.flexCenter};
   font-size: ${({ theme }) => theme.fontSizes.x4l};
-  font-weight: bold;
-  margin-left: 70px;
+
+  margin-left: 30px;
 `;
 
 export const GoogleLoginButtonContainer = styled.div`
+  background-color: #dee2e6;
   border: 1px solid #dee2e6;
   border-radius: 5px;
-  width: 468px;
-  height: 80px;
+  width: 100%;
+  height: 70px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -76,13 +78,14 @@ export const GoogleLogo = styled.div`
   width: 45px;
   height: 45px;
   margin: 0 20px;
+  box-shadow: 0.3px 0.3px 0.3px 0.3px darkgrey;
 `;
 export const GoogleKor = styled.div`
-  width: 210px;
+  width:50%;
   height: 30px;
   font-size: 36px;
   ${({ theme }) => theme.common.flexCenter};
   font-size: ${({ theme }) => theme.fontSizes.x4l};
-  font-weight: bold;
-  margin-left: 70px;
+
+  margin-left: 30px;
 `;
