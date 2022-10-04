@@ -19,7 +19,7 @@ import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
 import axios from "axios";
-import Asmr from '../asmr/Asmr';
+import Asmr from "../asmr/Asmr";
 
 const Header = () => {
   const token: string = getCookie("token") as string;
@@ -47,8 +47,7 @@ const Header = () => {
   const nextPercent = (myPoint / totalFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
- const [playing, setPlaying] = useState(false);
-
+  const [playing, setPlaying] = useState(false);
 
   const TodayStudyData = async () => {
     return await axios
@@ -62,15 +61,9 @@ const Header = () => {
       });
   };
 
-  const NextDday = todayDday
-    .filter((x: any) => x.targetDay >= dateString)
-    .sort((a: any, b: any) => b.dday - a.dday)[0];
-
-
   const NextDay = todayDday
     ?.filter((x: any) => x.targetDay >= dateString)
     .sort((a: any, b: any) => b.dday - a.dday)[0];
-
 
   useEffect(() => {
     TodayStudyData();
@@ -134,7 +127,6 @@ const Header = () => {
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
 
-
   return (
     <>
       <HeaderContainer>
@@ -146,7 +138,7 @@ const Header = () => {
         {/* 소라버튼 */}
         <AsmrBtn>
           <OnAsmr src={shell} onClick={() => setPlaying(!playing)} />
-          {playing && <Asmr/>}
+          {playing && <Asmr />}
         </AsmrBtn>
         {/* 캘린더버튼 */}
         <CalendarBtn>
@@ -161,10 +153,9 @@ const Header = () => {
         <RankBtn>
           <Calendar src={ranking} onClick={() => navigate("/statistics")} />
           <p>
-            {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}
+            {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}{" "}
             {weekMyRank === 0 ? "D:기록없음" : "D:" + weekMyRank + "위"}
           </p>
-
         </RankBtn>
         {/* 서버 */}
         <ServerBtn>
