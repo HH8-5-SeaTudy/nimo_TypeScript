@@ -180,6 +180,15 @@ function Chatting() {
                       </EnterContainer>
                     </NoticeContainer>
                   );
+                } else {
+                  return (
+                    <NoticeContainer key={index}>
+                      <EnterContainer>
+                        <Sender>{list.sender}</Sender>
+                        <Message>{list.message}</Message>
+                      </EnterContainer>
+                    </NoticeContainer>
+                  );
                 }
               })}
           </ChatBox>

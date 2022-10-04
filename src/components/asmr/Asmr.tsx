@@ -93,7 +93,7 @@ const BtnArrow =styled.div`
     margin: auto;
   width: 0px;
   height: 0px;
-  border-bottom: calc(20px * 1) solid #2296FE;
+  border-bottom: calc(20px * 1) solid #1569AB;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
   text-align: center;
@@ -107,7 +107,7 @@ const AsmrSelectBox = styled.div`
 `;
 
 const BtnGroup = styled.div`
-  background: #2296FE;
+  background: #1569AB;
   border-radius:30px;
   width: 100%;
   height: 5.5vh;

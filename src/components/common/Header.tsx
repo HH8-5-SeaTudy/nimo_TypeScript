@@ -60,7 +60,7 @@ const Header = () => {
         setTodayDday(res.data.data);
       });
   };
-
+  
   const NextDay = todayDday
     ?.filter((x: any) => x.targetDay >= dateString)
     .sort((a: any, b: any) => b.dday - a.dday)[0];
@@ -153,6 +153,7 @@ const Header = () => {
               : "0"}
             %
           </p>
+
         </FishBtn>
         {/* 랭킹 */}
         <RankBtn>
