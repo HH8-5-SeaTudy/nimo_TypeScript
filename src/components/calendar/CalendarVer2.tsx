@@ -52,7 +52,6 @@ const CalendarVer2 = () => {
   //useEffect
   useEffect(() => {
     dispatch(updateDate(today.format("YYYY-MM-DD")));//컴포넌트분리시사용
-    // setDD(today.format("YYYY-MM-DD"));
     dispatch(getAllTodo());
   }, []);
 
@@ -617,7 +616,6 @@ const P = styled.p`
 `;
 
 const LeftLayer = styled.div`
-  /* border: solid red 3px; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;

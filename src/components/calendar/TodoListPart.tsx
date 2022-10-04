@@ -2,9 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import Input from "../../elements/Input";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { updateDate,selectDate } from '../../redux/modules/updateDate';
 import {
-  getAllTodo,
   __postCategory,
   __getDateTodo,
   __postTodo,
@@ -136,9 +134,6 @@ const TodoListPart = () => {
 
   useEffect(() => {
     dispatch(__getDateTodo(date)); //컴포넌트분리시사용
-    // if (date == '' {
-    //   return;
-    // }
     dispatch(__getDday(date));
   }, [date]);
 

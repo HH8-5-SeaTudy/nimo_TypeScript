@@ -7,7 +7,7 @@ const FishBowl = (props: any) => {
     <BowlLayer>
       <Bowl>
         <BowlInner>
-          <Percent>{String(props.nextPercent).slice(0, 2)}%</Percent>
+          <Percent>{String(props.nextPercent).slice(0, 2) === 'Na' ? '0' : String(props.nextPercent).slice(0, 2) }%</Percent>
           <Water style={{ top: `${waterPercent}%` }}></Water>
           <Glare></Glare>
           <FishBox>
