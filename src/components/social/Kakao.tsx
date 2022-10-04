@@ -18,7 +18,7 @@ const Kakao = () => {
   return (
     <KaKaoLoginButtonContainer onClick={loginHandler} >
       <KaKaoLogo/>
-      <KaKaoKor>KAKAO TALK</KaKaoKor>
+      <KaKaoKor>KAKAOTALK</KaKaoKor>
     </KaKaoLoginButtonContainer>
   )
 };

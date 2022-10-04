@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __getChatCount } from "../../redux/modules/chatCount";
 import { addUser } from "../../redux/modules/socket";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-
+import { useAppDispatch } from "../hooks/reduxHooks";
+import handle from "../../assets/pixel/handle.png";
 //server zone
 const roomId1 = process.env.REACT_APP_ROOMID1;
 const roomId2 = process.env.REACT_APP_ROOMID2;
@@ -16,15 +15,9 @@ const Server = () => {
   const [toggle, setToggle] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const userConutInfo = useAppSelector((count) => count.chatCount.roomInfo);
-  const roomId = userConutInfo.map((roomId) => roomId.roomId);
-  const userCount = userConutInfo.map((roomId) => roomId.userCount);
-
-  console.log(roomId[0], userCount);
 
   useEffect(() => {
     dispatch(addUser);
-    dispatch(__getChatCount());
   }, []);
 
   const onClickRoom1 = () => {
@@ -37,7 +30,6 @@ const Server = () => {
   };
 
   const onClickRoom2 = () => {
-    dispatch(__getChatCount());
     navigate("/chat", {
       state: {
         id: roomId2,
@@ -78,7 +70,9 @@ const Server = () => {
       <div className="background-wrap">
         <div className="bubble x1">
           <UL>
-            <Toggle onClick={() => setToggle(!toggle)} toggle={toggle} />
+            <Toggle onClick={() => setToggle(!toggle)} toggle={toggle}>
+              <Img src={handle}></Img>
+            </Toggle>
             <LI1 onClick={onClickRoom1} toggle={toggle}>
               <A style={{ transform: "rotate(calc(360deg/ -5 * 1))" }}>
                 <ATitle>인도양</ATitle>
@@ -137,7 +131,6 @@ const Body = styled.div`
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
-    box-shadow: 0 0px 20px #fff, inset 0px 10px 30px 5px #add9ec54;
     height: 100px;
     display: flex;
     align-items: center;
@@ -145,35 +138,6 @@ const Body = styled.div`
     position: absolute;
     ${({ theme }) => theme.common.flexCenter};
     width: 100px;
-    border: solid rgba(255, 255, 255, 0.5) 1px;
-  }
-  .bubble:after {
-    background: -webkit-gradient(
-      radial,
-      center center,
-      0px,
-      center center,
-      100%,
-      color-stop(0%, transparent),
-      color-stop(70%, rgba(255, 255, 255, 0))
-    );
-    background: -webkit-radial-gradient(
-      center,
-      ellipse cover,
-      transparent 0%,
-      rgba(255, 255, 255, 0) 70%
-    );
-    background: radial-gradient(
-      ellipse at center,
-      transparent 0%,
-      rgba(255, 255, 255, 0) 90%
-    );
-    border-radius: 50%;
-    box-shadow: inset 0 -20px -30px rgba(26, 58, 94, 0.322);
-    content: "";
-    height: 180px;
-    left: 10px;
-    position: absolute;
   }
 `;
 
@@ -190,46 +154,46 @@ const UL = styled.div`
 const LI1 = styled.div<ToggleProps>`
   position: absolute;
   transform: translate(50% 50%);
-  left: -92%;
+  left: -89%;
   list-style: none;
   transition: 0.5s;
   transition-delay: calc(0.1s * 1);
   transform-origin: 140px;
   transform: ${({ toggle }) =>
     toggle
-      ? "rotate(calc(360deg / 5 )) translateX(30px)"
+      ? "rotate(calc(360deg / 5 )) translateX(-80px)"
       : "rotate(0deg) translateX(110px)"};
 `;
 
 const LI2 = styled.div<ToggleProps>`
   position: absolute;
-  left: -92%;
+  left: -89%;
   list-style: none;
   transition: 0.5s;
   transition-delay: calc(0.1s * 2);
   transform-origin: 140px;
   transform: ${({ toggle }) =>
     toggle
-      ? "rotate(calc(360deg / 5* 2 )) translateX(30px)"
+      ? "rotate(calc(360deg / 5* 2 )) translateX(-80px)"
       : "rotate(0deg) translateX(110px)"};
 `;
 
 const LI3 = styled.div<ToggleProps>`
   position: absolute;
-  left: -92%;
+  left: -89%;
   list-style: none;
   transition: 0.5s;
   transition-delay: calc(0.1s * 3);
   transform-origin: 140px;
   transform: ${({ toggle }) =>
     toggle
-      ? "rotate(calc(360deg / 5 * 3)) translateX(30px)"
+      ? "rotate(calc(360deg / 5 * 3)) translateX(-80px)"
       : "rotate(0deg) translateX(110px)"};
 `;
 
 const LI4 = styled.div<ToggleProps>`
   position: absolute;
-  left: -92%;
+  left: -89%;
   list-style: none;
   transition: 0.5s;
   transform: translate(-50% -50%);
@@ -237,13 +201,13 @@ const LI4 = styled.div<ToggleProps>`
   transform-origin: 140px;
   transform: ${({ toggle }) =>
     toggle
-      ? "rotate(calc(360deg / 5 * 4 )) translateX(30px)"
+      ? "rotate(calc(360deg / 5 * 4 )) translateX(-80px)"
       : "rotate(0deg) translateX(110px)"};
 `;
 
 const LI5 = styled.div<ToggleProps>`
   position: absolute;
-  left: -92%;
+  left: -89%;
   list-style: none;
   transition: 0.5s;
   transform: translate(-50% -50%);
@@ -251,14 +215,14 @@ const LI5 = styled.div<ToggleProps>`
   transform-origin: 140px;
   transform: ${({ toggle }) =>
     toggle
-      ? "rotate(calc(360deg / 5 * 5 )) translateX(30px)"
+      ? "rotate(calc(360deg / 5 * 5 )) translateX(-80px)"
       : "rotate(0deg) translateX(110px)"};
 `;
 
 const Toggle = styled.div<ToggleProps>`
   position: absolute;
-  width: 61.7px;
-  height: 61.7px;
+  width: 310px;
+  height: 310px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -266,16 +230,15 @@ const Toggle = styled.div<ToggleProps>`
   cursor: pointer;
   z-index: 10;
   font-size: 2em;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
   transition: transform 1.25s;
-  background-color: transparent;
   overflow: hidden;
   transform: ${({ toggle }) => (toggle ? "rotate(270deg)" : "")};
-  background-color: #0096ff;
+  background-color: transparent;
 `;
-
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 const A = styled.div`
   display: flex;
   justify-content: center;

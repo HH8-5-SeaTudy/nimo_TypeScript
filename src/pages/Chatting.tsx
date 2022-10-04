@@ -22,6 +22,9 @@ function Chatting() {
   const dispatch = useAppDispatch();
   const message = useRef<any>(null);
   const chatUser = useAppSelector((state) => state.socket.chat);
+  const enter = chatUser.find((nickname) => nickname.rankByNickname);
+
+  console.log(enter);
 
   const userNickname = useAppSelector(
     (state) => state.userData.userProfile.nickname
@@ -110,510 +113,243 @@ function Chatting() {
       }
     }, 1);
   }
+
   return (
-    <AcadeMachin>
-      <Shadow></Shadow>
-      <Top>
-        <Script></Script>
-        <ScriptLeft></ScriptLeft>
-        <ScriptRight></ScriptRight>
-      </Top>
-      <TopLeft></TopLeft>
-      <TopRight></TopRight>
-      <ScreenContainer>
-        <Joystick>
-          <Stick></Stick>
-          <Stick2></Stick2>
-        </Joystick>
-        <Screen>
-          {chatUser &&
-            chatUser.map((list: any, index: number) => {
-              if (list.type === "TALK") {
-                if (list.sender === userNickname) {
+    <ChattingContainer>
+      <RightSide>
+        <RankSide>
+          <RankTitle>
+            <p>
+              채팅
+              <br />
+              RANKING
+            </p>
+          </RankTitle>
+          <RankBox>
+            <Rank>
+              <RankInfo>
+                {/* <UserRankNicknameContainer> */}
+                {enter?.rankByNickname.map((data, index) => (
+                  <UserRankNicknameWrapper key={index}>
+                    <UserRankNickname>
+                      {index + 1}.
+                      <UserRankImage src={data.defaultFish} />
+                      <NickName>{data.nickname}</NickName>
+                    </UserRankNickname>
+                    <UserRankPoint>Time:{data.point}hours</UserRankPoint>
+                  </UserRankNicknameWrapper>
+                ))}
+                {/* </UserRankNicknameContainer> */}
+              </RankInfo>
+            </Rank>
+          </RankBox>
+        </RankSide>
+        <ChatSide>
+          <ChatBox>
+            {chatUser &&
+              chatUser.map((list: any, index: number) => {
+                if (list.type === "TALK") {
+                  if (list.sender === userNickname) {
+                    return (
+                      <MyMessageListContainer key={index}>
+                        <MySenderMessageContainer className="chat-thread">
+                          <MySenderContainer>
+                            <Message>{list.message}</Message>
+                          </MySenderContainer>
+                        </MySenderMessageContainer>
+                      </MyMessageListContainer>
+                    );
+                  }
                   return (
-                    <MyMessageListContainer key={index}>
-                      <MySenderMessageContainer className="chat-thread">
-                        <Message>{list.message}</Message>
-                        <SenderContainer>
+                    <MessageListContainer key={index}>
+                      <SenderMessageContainer className="chat-thread">
+                        <SenderMessageWrapper>
                           <SenderProfile src={list.defaultFish} />
                           <Sender>{list.sender}</Sender>
+                        </SenderMessageWrapper>
+                        <SenderContainer>
+                          <Message>{list.message}</Message>
                         </SenderContainer>
-                      </MySenderMessageContainer>
-                    </MyMessageListContainer>
+                      </SenderMessageContainer>
+                    </MessageListContainer>
+                  );
+                } else if (list.type === "ENTER") {
+                  return (
+                    <NoticeContainer key={index}>
+                      <EnterContainer>
+                        <Sender>{list.sender}</Sender>
+                        <Message>{list.message}</Message>
+                      </EnterContainer>
+                    </NoticeContainer>
                   );
                 }
-                return (
-                  <MessageListContainer key={index}>
-                    <SenderMessageContainer className="chat-thread">
-                      <SenderContainer>
-                        <SenderProfile src={list.defaultFish} />
-                        <Sender>{list.sender}</Sender>
-                      </SenderContainer>
-                      <SenderContainer>
-                        <Message>{list.message}</Message>
-                      </SenderContainer>
-                    </SenderMessageContainer>
-                  </MessageListContainer>
-                );
-              } else if (list.type === "ENTER") {
-                return (
-                  <NoticeContainer key={index}>
-                    <EnterContainer>
-                      <Sender>{list.sender}</Sender>
-                      <Message>{list.message}</Message>
-                    </EnterContainer>
-                  </NoticeContainer>
-                );
-              }
-            })}
-        </Screen>
-      </ScreenContainer>
-      <ScreenContainerLeft></ScreenContainerLeft>
-      <ScreenContainerRight></ScreenContainerRight>
-      <Board>
-        <BtnA></BtnA>
-        <BtnB></BtnB>
-        <BtnC></BtnC>
-      </Board>
-
-      <BoardLeft></BoardLeft>
-      <BoardRight></BoardRight>
-      <Bottom>
-        <BottomScript></BottomScript>
-        <BottomScriptRight></BottomScriptRight>
-        <BottomScriptLeft></BottomScriptLeft>
-        <BottomLeft></BottomLeft>
-        <BottomRight></BottomRight>
-      </Bottom>
-      <MessageForm>
-        <textarea onKeyUp={handleEnterPress} ref={message} />
-        <ButtonContainer>
-          <CoinDiv>
-            <CoinWrapper></CoinWrapper>
-          </CoinDiv>
-          <SendButton onClick={handleClick}>SEND</SendButton>
-        </ButtonContainer>
-      </MessageForm>
-    </AcadeMachin>
+              })}
+          </ChatBox>
+          <SendBox>
+            <MessageForm>
+              <textarea onKeyUp={handleEnterPress} ref={message} />
+              <ButtonContainer>
+                <SendButton onClick={handleClick}>SEND</SendButton>
+              </ButtonContainer>
+            </MessageForm>
+          </SendBox>
+        </ChatSide>
+      </RightSide>
+    </ChattingContainer>
   );
 }
 
-const AcadeMachin = styled.div`
+const ChattingContainer = styled.div`
   height: 100%;
-  width: 95%;
+  width: 100%;
   position: relative;
-  margin-left: 5%;
   perspective: 35em;
   display: block;
   overflow: hidden;
 `;
 
-const Shadow = styled.div`
-  height: 45%;
-  width: 65%;
-  position: absolute;
-  top: 20%;
-  left: 18%;
-  background: #4b5b61;
-  box-shadow: 0 0 60px #4b5b61;
-  z-index: -1;
-`;
-
-const Top = styled.div`
-  height: 5%;
+const RightSide = styled.div`
   width: 100%;
-  position: absolute;
-  top: 0%;
-  left: 0%;
-  background: white;
-  border: 5px solid #4c4c4c;
-  z-index: 3;
-`;
-const TopLeft = styled.div`
-  height: 10.5%;
-  width: 5%;
-  position: absolute;
-  top: -0.5%;
-  background: white;
-  border: 5px solid #4c4c4c;
-  content: " ";
-  left: 0%;
-  z-index: 3;
-`;
-const TopRight = styled.div`
-  height: 10.5%;
-  width: 5%;
-  position: absolute;
-  top: -0.5%;
-  background: white;
-  border: 5px solid #4c4c4c;
-  content: " ";
-  right: 0%;
-  z-index: 3;
-`;
-const Script = styled.div`
+  display: flex;
   height: 100%;
-  width: 10%;
-  position: absolute;
-  top: 0%;
-  left: 45%;
-  background: #68a691;
+  border-radius: 6px 6px 6px 6px;
+  box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
 `;
-const ScriptLeft = styled.div`
+const RankSide = styled.div`
+  border-radius: 6px 0 0 0;
+  width: 55%;
   height: 100%;
-  width: 10%;
-  position: absolute;
-  top: 0%;
-  background: #bfd3c1;
-  left: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
-const ScriptRight = styled.div`
-  height: 100%;
-  width: 10%;
-  position: absolute;
-  top: 0%;
-  background: #07beb8;
-  left: 55%;
+const RankTitle = styled.div`
+  border-radius: 6px 0 0 0;
+  height: 120px;
+  background: #ff9100;
+  font-size: 50px;
+  line-height: 40px;
+  padding: 0 20px;
+  p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90%;
+    width: 100%;
+    text-align: center;
+    border-bottom: solid black 2px;
+  }
 `;
-const ScreenContainer = styled.div`
-  height: 45%;
-  width: 90%;
-  position: absolute;
-  top: 4%;
-  left: 5%;
-  background: #4b5b61;
-  border: 5px solid #4c4c4c;
-  z-index: 1;
-`;
-
-const ScreenContainerLeft = styled.div`
-  height: 50%;
-  width: 4%;
-  position: absolute;
-  top: 0%;
-  background: white;
-  content: " ";
-  border: 5px solid #4c4c4c;
-  left: 5%;
-  z-index: 2;
-`;
-
-const ScreenContainerRight = styled.div`
-  height: 50%;
-  width: 4%;
-  position: absolute;
-  top: 0%;
-  background: white;
-  content: " ";
-  border: 5px solid #4c4c4c;
-  right: 5%;
-  z-index: 2;
-`;
-
-const Screen = styled.div`
+const RankBox = styled.div`
+  padding-left: 5px;
+  background-color: #fff;
   height: 100%;
   width: 100%;
-  position: absolute;
+  overflow-y: scroll;
+  border-radius: 0 0 0 6px;
+  ::-webkit-scrollbar {
+    background-color: transparent;
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #0096ff;
+    height: 5px;
+  }
+  div {
+    &:first-child {
+      margin-top: 2px;
+    }
+  }
+`;
+const Rank = styled.div`
+  display: flex;
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: white;
+`;
+const RankInfo = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+const NickName = styled.div`
+  width: 100%;
+  height: 50%;
+  text-align: center;
+  line-height: 17px;
+`;
+
+const ChatSide = styled.div`
+  border-radius: 0 6px 6px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+`;
+const ChatBox = styled.div`
+  padding: 10px 20px;
+  height: 100%;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column-reverse;
-  overflow-y: scroll;
-  padding: 0 10px;
-  background: #313332;
-  border-radius: 90px 93px 93px 93px/15px 15px 15px 15px;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.white};
+  background-color: #eee;
   ::-webkit-scrollbar {
-    width: 10px;
+    background-color: transparent;
+    width: 5px;
   }
-  ::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: rgba(25, 147, 147, 0.1);
-  }
-
   ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: rgba(25, 147, 147, 0.2);
+    background-color: #0096ff;
+    height: 5px;
+  }
+  div {
+    &:first-child {
+      margin-top: 2px;
+    }
   }
 `;
-
-const Joystick = styled.div`
-  height: 13%;
-  width: 6%;
-  background: #0f90c9;
-  position: absolute;
-  top: 100%;
-  left: 7%;
-  border-radius: 50%;
-  border: 5px solid #4c4c4c;
-  z-index: 3;
+const Message = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px;
 `;
-
-const Stick = styled.div`
-  height: 200%;
-  width: 40%;
-  position: absolute;
-  top: 100%;
-  left: 30%;
-  background: #4c4c4c;
-  content: "";
-  z-index: 1;
-`;
-
-const Stick2 = styled.div`
-  height: 140%;
-  width: 40%;
-  transform: rotate(90deg);
-  position: absolute;
-  top: 210%;
-  left: 30%;
-  background: #4c4c4c;
-  content: "";
-`;
-
-const Board = styled.div`
-  height: 20%;
-  width: 90%;
-  position: absolute;
-  top: 45%;
-  left: 6%;
-  border: 2px solid black;
-  z-index: 0;
-  background: #4b5b61;
-  transform: rotateX(10deg);
-`;
-
-const BoardLeft = styled.div`
-  height: 20%;
-  width: 4%;
-  position: absolute;
-  top: 45%;
-  left: 4%;
-  border: 5px solid #4c4c4c;
-  background: white;
-  transform: rotateX(10deg);
-  z-index: 2;
-`;
-const BoardRight = styled.div`
-  height: 20%;
-  width: 4%;
-  position: absolute;
-  top: 45%;
-  right: 4%;
-  border: 5px solid #4c4c4c;
-  background: white;
-  transform: rotateX(10deg);
-  z-index: 2;
-`;
-
-const BtnA = styled.div`
-  background: #bfd3c1;
-  left: 40%;
-  height: 25%;
-  width: 10%;
-  position: absolute;
-  top: 40%;
-  left: 30%;
-  border-radius: 50%;
-  border: 5px solid #4c4c4c;
-  left: 40%;
-`;
-const BtnB = styled.div`
-  background: #68a691;
-  left: 40%;
-  height: 25%;
-  width: 10%;
-  position: absolute;
-  top: 40%;
-  left: 55%;
-  border-radius: 50%;
-  border: 5px solid #4c4c4c;
-  left: 55%;
-`;
-const BtnC = styled.div`
-  background: #07beb8;
-  left: 40%;
-  height: 25%;
-  width: 10%;
-  position: absolute;
-  top: 40%;
-  left: 55%;
-  border-radius: 50%;
-  border: 5px solid #4c4c4c;
-  left: 70%;
-`;
-
-const Bottom = styled.div`
-  height: 12%;
-  width: 86%;
-  position: absolute;
-  top: 60%;
-  left: 7%;
-  background: white;
-  border: 5px solid #4c4c4c;
-  z-index: 5;
-`;
-
-const BottomLeft = styled.div`
-  height: 400%;
-  width: 6%;
-  position: absolute;
-  background: white;
-  content: " ";
-  border: 5px solid #4c4c4c;
-  left: -6%;
-  z-index: 2;
-  top: -4%;
-`;
-const BottomRight = styled.div`
-  height: 400%;
-  width: 6%;
-  position: absolute;
-  background: white;
-  content: " ";
-  border: 5px solid #4c4c4c;
-  right: -6%;
-  z-index: 2;
-  top: -4%;
-`;
-const BottomScript = styled.div`
-  height: 100%;
-  width: 10%;
-  position: absolute;
-  top: 0%;
-  left: 45%;
-  background: #68a691;
-`;
-const BottomScriptRight = styled.div`
-  height: 100%;
-  width: 10%;
-  position: absolute;
-  top: 0%;
-  left: 35%;
-  background: #bfd3c1;
-`;
-const BottomScriptLeft = styled.div`
-  height: 100%;
-  width: 10%;
-  position: absolute;
-  top: 0%;
-  left: 55%;
-  background: #07beb8;
+const SendBox = styled.div`
+  height: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #3fb3fc;
+  border-top: 2px solid #eee;
 `;
 
 const MyMessageListContainer = styled.div`
   width: 100%;
-  .chat-thread {
-    list-style: none;
-    width: 100%;
-    overflow-x: hidden;
-  }
-
-  .chat-thread li {
-    position: relative;
-    clear: both;
-    display: inline-block;
-    padding: 10px;
-    margin: 0 20px 20px 20px;
-    font: 16px/20px "Noto Sans", sans-serif;
-    border-radius: 10px;
-    background-color: rgba(25, 147, 147, 0.2);
-  }
-
-  /* Chat - Speech Bubble Arrow */
-  .chat-thread li:after {
-    position: absolute;
-    top: 40%;
-    content: "";
-    width: 0;
-    height: 0;
-    border-top: 15px solid rgba(25, 147, 147, 0.2);
-  }
-
-  .chat-thread li:nth-child(odd) {
-    float: right;
-    margin-right: 5px;
-    color: #0ad5c1;
-    word-wrap: break-word;
-    width: fit-content;
-  }
-
-  .chat-thread li:nth-child(odd):after {
-    border-right: 15px solid transparent;
-    right: -15px;
-  }
-
-  .chat-thread li:nth-child(even) {
-    float: left;
-    margin-left: 5px;
-    color: #0ec879;
-  }
-
-  .chat-window {
-    position: fixed;
-    bottom: 18px;
-  }
 `;
 
 const MessageListContainer = styled.div`
   width: 100%;
-  .chat-thread {
-    list-style: none;
-    width: 100%;
-    overflow-x: hidden;
-  }
-
-  .chat-thread li {
-    position: relative;
-    clear: both;
-    display: inline-block;
-    padding: 10px;
-    margin: 0 20px 20px 20px;
-    min-width: 10%;
-    width: 80%;
-    font: 16px/20px "Noto Sans", sans-serif;
-    border-radius: 10px;
-    background-color: rgba(25, 147, 147, 0.2);
-  }
-
-  /* Chat - Speech Bubble Arrow */
-  .chat-thread li:after {
-    position: absolute;
-    top: 40%;
-    content: "";
-    width: 0;
-    height: 0;
-    border-top: 15px solid rgba(25, 147, 147, 0.2);
-  }
-
-  .chat-thread li:nth-child(odd) {
-    float: right;
-    margin-right: 5px;
-    color: #0ad5c1;
-    word-wrap: break-word;
-    width: fit-content;
-  }
-
-  .chat-thread li:nth-child(odd):after {
-    border-left: 15px solid transparent;
-    left: -15px;
-  }
-
-  .chat-thread li:nth-child(even) {
-    float: left;
-    margin-left: 5px;
-    color: #0ec879;
-  }
-
-  .chat-window-message {
-    /* width: 100%; */
-    height: 48px;
-    font: 32px/48px "Noto Sans", sans-serif;
-    background: none;
-    color: #0ad5c1;
-    border: 0;
-    border-bottom: 1px solid rgba(25, 147, 147, 0.2);
-    outline: none;
-  }
+`;
+const UserRankImage = styled.img`
+  width: 60px;
+  height: 40px;
+  margin-left: 10px;
+`;
+const UserRankNicknameWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
+const UserRankNickname = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: ${({ theme }) => theme.fontSizes.base};
+`;
+const UserRankPoint = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.base};
 `;
 
 const NoticeContainer = styled.div`
@@ -637,11 +373,21 @@ const EnterContainer = styled.div`
 
 const MySenderMessageContainer = styled.ul`
   width: 100%;
+  width: auto;
   padding: 0 15px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   list-style: none;
+`;
+
+const MySenderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #75c9ff;
+  border-radius: 10px;
 `;
 
 const SenderMessageContainer = styled.ul`
@@ -653,45 +399,45 @@ const SenderMessageContainer = styled.ul`
   list-style: none;
 `;
 
-const SenderContainer = styled.div`
+const SenderMessageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 
+const SenderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #e3effd;
+  border-radius: 10px;
+`;
+
 const SenderProfile = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  border: 1px solid white;
+  border: 1px solid black;
   padding: 5px;
 `;
 
 const Sender = styled.span`
-  font-size: 1em;
+  font-size: 0.8em;
   display: flex;
   margin-left: 10px;
   margin-right: 10px;
 `;
 
-const Message = styled.li`
-  font-size: 1.2em;
-  list-style: none;
-  width: 70%;
-`;
-
 const MessageForm = styled.form`
   display: flex;
-  width: 86%;
-  height: 28%;
-  padding: 20px 10px;
-  position: absolute;
-  left: 7%;
-  bottom: 0%;
+  align-items: center;
+  justify-content: center;
   resize: none;
-  border: 1px solid black;
-  background: #4b5b61;
+  width: 100%;
+  background: #ff9100;
+  padding: 10px;
   textarea {
     padding: 10px;
     border: 3px solid black;
@@ -706,24 +452,6 @@ const MessageForm = styled.form`
   }
 `;
 
-const CoinDiv = styled.div`
-  width: 50px;
-  height: 5vh;
-  border: 3px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  padding: 5px;
-`;
-
-const CoinWrapper = styled.div`
-  width: 5px;
-  height: 100%;
-  border-radius: 10px;
-  border: 2px solid black;
-`;
-
 const ButtonContainer = styled.div`
   height: 100%;
   width: 100%;
@@ -733,13 +461,12 @@ const ButtonContainer = styled.div`
   margin-left: 10px;
   align-items: center;
   justify-content: space-around;
-  border: 2px solid black;
   border-radius: 10px;
 `;
 
 const SendButton = styled.button`
   width: 80px;
-  height: 30px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -752,6 +479,7 @@ const SendButton = styled.button`
   font-size: 16px;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
   border: 1px solid black;
+  border-radius: 10px;
 `;
 
 export default Chatting;
