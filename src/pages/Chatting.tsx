@@ -7,6 +7,7 @@ import { addUser } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
 import styled from "styled-components";
 import { __getUserProfile } from "../redux/modules/userData";
+import sendbtn from "../assets/pixel/sendbtn.png";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
@@ -23,8 +24,6 @@ function Chatting() {
   const message = useRef<any>(null);
   const chatUser = useAppSelector((state) => state.socket.chat);
   const enter = chatUser.find((nickname) => nickname.rankByNickname);
-
-  console.log(enter);
 
   const userNickname = useAppSelector(
     (state) => state.userData.userProfile.nickname
@@ -120,7 +119,7 @@ function Chatting() {
         <RankSide>
           <RankTitle>
             <p>
-              채팅
+              CHATTING
               <br />
               RANKING
             </p>
@@ -128,7 +127,6 @@ function Chatting() {
           <RankBox>
             <Rank>
               <RankInfo>
-                {/* <UserRankNicknameContainer> */}
                 {enter?.rankByNickname.map((data, index) => (
                   <UserRankNicknameWrapper key={index}>
                     <UserRankNickname>
@@ -136,7 +134,7 @@ function Chatting() {
                       <UserRankImage src={data.defaultFish} />
                       <NickName>{data.nickname}</NickName>
                     </UserRankNickname>
-                    <UserRankPoint>Time:{data.point}hours</UserRankPoint>
+                    <UserRankPoint>Time:{data.totalStudy}</UserRankPoint>
                   </UserRankNicknameWrapper>
                 ))}
                 {/* </UserRankNicknameContainer> */}
@@ -190,7 +188,7 @@ function Chatting() {
             <MessageForm>
               <textarea onKeyUp={handleEnterPress} ref={message} />
               <ButtonContainer>
-                <SendButton onClick={handleClick}>SEND</SendButton>
+                <SendButton onClick={handleClick}></SendButton>
               </ButtonContainer>
             </MessageForm>
           </SendBox>
@@ -219,7 +217,7 @@ const RightSide = styled.div`
 `;
 const RankSide = styled.div`
   border-radius: 6px 0 0 0;
-  width: 55%;
+  width: 65%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -252,10 +250,12 @@ const RankBox = styled.div`
   ::-webkit-scrollbar {
     background-color: transparent;
     width: 5px;
+    border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb {
     background-color: #0096ff;
     height: 5px;
+    border-radius: 9999px;
   }
   div {
     &:first-child {
@@ -282,7 +282,7 @@ const NickName = styled.div`
 `;
 
 const ChatSide = styled.div`
-  border-radius: 0 6px 6px 0;
+  border-radius: 6px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -296,13 +296,17 @@ const ChatBox = styled.div`
   display: flex;
   flex-direction: column-reverse;
   background-color: #eee;
+  border-radius: 0 6px 0 0;
+  border-left: 1px solid black;
   ::-webkit-scrollbar {
     background-color: transparent;
     width: 5px;
+    border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb {
     background-color: #0096ff;
     height: 5px;
+    border-radius: 9999px;
   }
   div {
     &:first-child {
@@ -320,7 +324,6 @@ const SendBox = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: #3fb3fc;
   border-top: 2px solid #eee;
 `;
 
@@ -342,6 +345,8 @@ const UserRankNicknameWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  border-bottom: 1px solid black;
+  padding: 10px 0;
 `;
 const UserRankNickname = styled.div`
   display: flex;
@@ -351,7 +356,7 @@ const UserRankNickname = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.base};
 `;
 const UserRankPoint = styled.span`
-  font-size: ${({ theme }) => theme.fontSizes.base};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
 const NoticeContainer = styled.div`
@@ -413,7 +418,7 @@ const SenderContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #e3effd;
+  background-color: #8bc7df;
   border-radius: 10px;
 `;
 
@@ -440,6 +445,8 @@ const MessageForm = styled.form`
   width: 100%;
   background: #ff9100;
   padding: 10px;
+  border-radius: 0 0 6px 0;
+
   textarea {
     padding: 10px;
     border: 3px solid black;
@@ -448,6 +455,17 @@ const MessageForm = styled.form`
     width: 80%;
     border-radius: 10px;
     font-size: 1.5em;
+    ::-webkit-scrollbar {
+      background-color: transparent;
+      width: 5px;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #cae5f8;
+
+      border-radius: 9999px;
+      height: 5px;
+    }
     &:focus {
       outline: none;
     }
@@ -467,20 +485,21 @@ const ButtonContainer = styled.div`
 `;
 
 const SendButton = styled.button`
+  background-image: url(${sendbtn});
+  background-size: 80px;
+  background-position: top 1px;
+  height: 50px;
   width: 80px;
-  height: 60px;
+  height: 65.5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  padding: 0 5px;
+  background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
   font-family: "DungGeunMo";
   font-size: 16px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
-  border: 1px solid black;
   border-radius: 10px;
 `;
 

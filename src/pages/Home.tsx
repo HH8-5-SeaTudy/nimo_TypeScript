@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getCheckInTimer, __getCheckOutTimer } from "../redux/modules/timer";
 import backimg from "../assets/background/homeBack.png";
@@ -19,9 +19,9 @@ const Home = () => {
   const navigate = useNavigate();
   //Todo zone
   const check = useAppSelector((state) => state.timer.isStudy);
+  const [buttonTrue, setButtonTure] = useState("");
 
   const token: string = getCookie("token") as string;
-
 
   useEffect(() => {
     dispatch(__getUserProfile());
@@ -53,6 +53,7 @@ const Home = () => {
           {check ? (
             <>
               <ButtonTitle>checkOut</ButtonTitle>
+              <Triangle />
               <ButtonContainer onClick={onClickCheckOut}>
                 <CoralContainer>
                   <BrokenCoral />
@@ -64,7 +65,8 @@ const Home = () => {
             </>
           ) : (
             <>
-              <ButtonTitle>checkIn</ButtonTitle>
+              <ButtonAnimtaionTitle>checkIn</ButtonAnimtaionTitle>
+              <Triangle />
               <ButtonContainer onClick={onClickCheckIn}>
                 <CoralContainer>
                   <Coral />
@@ -83,12 +85,6 @@ const Home = () => {
 };
 
 export default Home;
-
-const ChatButtonContainer = styled.div`
-  border: solid red 1px;
-  width: 10vw;
-  height: 10vh;
-`;
 
 const Layer = styled.section`
   position: relative;
@@ -114,122 +110,6 @@ const ProfileContainer = styled.div`
   align-items: center;
 `;
 
-const ProfileWrapper = styled.div`
-  width: 25vw;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  padding: 20px 10px;
-  margin: 10px 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 9999px;
-`;
-
-const ImageContainer = styled.div`
-  width: 50%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ProfileImage = styled.img`
-  width: 80px;
-  height: 70px;
-  border: 2px solid white;
-  padding: 10px;
-  border-radius: 9999px;
-`;
-
-const ProfileTitle = styled.span`
-  font-size: 1.4em;
-  margin-right: 10px;
-  color: ${({ theme }) => theme.colors.white};
-`;
-
-const ProfileNickname = styled.span`
-  font-size: 1.4em;
-  color: ${({ theme }) => theme.colors.white};
-`;
-
-const ProfileTime = styled.span`
-  font-size: 1.4em;
-  color: ${({ theme }) => theme.colors.white};
-`;
-
-const TodoContainer = styled.div`
-  width: 100%;
-  height: 40vh;
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const TodoListWrapper = styled.div`
-  width: 25vw;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  overflow-y: scroll;
-  border-radius: 10px;
-  ::-webkit-scrollbar {
-    background-color: transparent;
-    width: 5px;
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    background-color: #0096ff;
-    height: 5px;
-  }
-`;
-
-const TodoTitle = styled.span`
-  font-size: 1.5em;
-  color: ${({ theme }) => theme.colors.white};
-`;
-
-const TodoListInnerContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
-const Todo = styled.div`
-  padding: 0 10px;
-  display: flex;
-`;
-
-const TodoSpan = styled.span`
-  font-size: 1.4em;
-  color: ${({ theme }) => theme.colors.white};
-  margin: 5px 0;
-`;
-
-const TitleContainer = styled.div`
-  border: solid red 1px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  width: 100%;
-`;
-const TitleWrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-`;
-
 const ButtonContainer = styled.div`
   width: 130px;
   height: 130px;
@@ -248,12 +128,52 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const ButtonTitle = styled.span`
-  color: white;
+const Triangle = styled.div`
+  width: 0px;
+  height: 0px;
+  right: 5%;
+  bottom: 28%;
+  position: absolute;
+  border-top: 20px solid black;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+`;
+
+const textBounce = keyframes`
+    0% {  
+        transform: translateY(0);
+    }
+    20% {  
+        transform: translateY(-0.5em);
+    }
+    40% {  
+        transform: translateY(0);
+    }
+   60% {
+        transform: translateY(-0.25em);
+    }
+    80% {  
+        transform: translateY(0);
+    }
+`;
+
+const ButtonAnimtaionTitle = styled.span`
+  color: black;
   font-size: ${({ theme }) => theme.fontSizes.x4l};
   position: absolute;
   right: 2%;
-  bottom: 30%;
+  bottom: 35%;
+  font-weight: bold;
+  animation: ${textBounce} 1.5s ease-in-out infinite;
+`;
+
+const ButtonTitle = styled.span`
+  color: black;
+  font-size: ${({ theme }) => theme.fontSizes.x4l};
+  position: absolute;
+  right: 2%;
+  bottom: 35%;
   font-weight: bold;
 `;
 
@@ -272,6 +192,7 @@ const Coral = styled.div`
   background: url(${coral});
   background-size: 90% 90%;
   background-repeat: no-repeat;
+  z-index: 2;
 `;
 
 const BrokenCoral = styled.div`
@@ -280,6 +201,7 @@ const BrokenCoral = styled.div`
   background: url(${brokenCoral});
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  z-index: 3;
 `;
 
 const CrabContainer = styled.div`
@@ -299,7 +221,7 @@ const Crab = styled.div`
   height: 80%;
   background-size: 80% 80%;
   background-repeat: no-repeat;
-  z-index: 3;
+  z-index: 0;
 `;
 
 const SicissorsCrab = styled.div`
@@ -308,5 +230,5 @@ const SicissorsCrab = styled.div`
   height: 80%;
   background-size: 80% 80%;
   background-repeat: no-repeat;
-  z-index: 3;
+  z-index: 2;
 `;

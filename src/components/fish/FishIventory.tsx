@@ -4,15 +4,13 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import fishImages from "../fish/FishImages";
 import { __getUserProfile } from "../../redux/modules/userData";
 
-import fishPosition, {
+import {
   __AllDeleteFishPosition,
-
   __deleteFishPosition,
   __getFishPosition,
   __postFishPosition,
 } from "../../redux/modules/fishPosition";
 import coral2 from "../../assets/pixel/coral2.png";
-
 
 const FishIventory = () => {
   const dispatch = useAppDispatch();
@@ -132,13 +130,15 @@ const FishIventory = () => {
     dispatch(__deleteFishPosition(i));
   };
   const AllFishDeleteHandler = () => {
-    alert('전부 사라져볼게 얍!')
-    dispatch(__AllDeleteFishPosition())
-  }
+    alert("전부 사라져볼게 얍!");
+    dispatch(__AllDeleteFishPosition());
+  };
 
   return (
     <InvenLayout ref={containerRef}>
-      <Coral><Img src={coral2} onClick={()=>AllFishDeleteHandler()}/></Coral>
+      <Coral>
+        <Img src={coral2} onClick={() => AllFishDeleteHandler()} />
+      </Coral>
       {fishImages.map((data: any, i: number) => {
         return (
           <Label key={i}>
@@ -182,7 +182,11 @@ const FishIventory = () => {
 export default FishIventory;
 
 const InvenLayout = styled.div`
-
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
   width: 100vw;
   height: 3.4em;
   display: flex;
@@ -192,17 +196,17 @@ const InvenLayout = styled.div`
   position: absolute;
 `;
 
-const Coral =styled.div`
+const Coral = styled.div`
   position: absolute;
   left: 20px;
   bottom: 10px;
   width: 100px;
-  height:80px;
-`
+  height: 80px;
+`;
 const Img = styled.img`
- width:100%;
- cursor:pointer;
-`
+  width: 100%;
+  cursor: pointer;
+`;
 
 const animateBubble = keyframes`
   0%, 100% {

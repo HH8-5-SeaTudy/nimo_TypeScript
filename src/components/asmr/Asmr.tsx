@@ -1,80 +1,64 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import BirdIcon from "../../assets/icon/AsmrBird.svg";
 import CloseIcon from "../../assets/icon/AsmrClose.svg";
-import CompanyIcon from "../../assets/icon/AsmrCompany.svg";
-import FireIcon from "../../assets/icon/AsmrFire.svg";
-import WaterIcon from "../../assets/icon/AsmrWater.svg";
-import WaveIcon from "../../assets/icon/AsmrWave.svg";
+import asmrfire from "../../assets/pixel/asmrfire.png";
+import asmrgreen from "../../assets/pixel/asmrgreen.png";
+import asmrwave from "../../assets/pixel/asmrwave.png";
+import asmrrain from "../../assets/pixel/asmrrain.png";
 
 const Asmr = () => {
-  const waveAudio = new Audio(
-    "https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3"
-  );
-  const rainAudio = new Audio(
-    "https://cdn.pixabay.com/download/audio/2021/07/28/audio_ef43a9f6fd.mp3?filename=the-memory-of-water-meditation-5739.mp3"
-  );
-  const birdsAudio = new Audio(
-    "https://cdn.pixabay.com/download/audio/2022/02/10/audio_7a07ee0e79.mp3?filename=birds-19624.mp3"
-  );
-  const gardenAudio = new Audio(
-    "https://cdn.pixabay.com/download/audio/2021/12/04/audio_18efe9bcc6.mp3?filename=a-meditation-in-a-japanese-water-garden-11658.mp3"
-  );
-  const companyAudio = new Audio(
-    "https://cdn.pixabay.com/audio/2022/03/09/audio_56b61d9f86.mp3"
-  );
+  // useEffect(() => {
+    //   if (playing === true) {
+      //     audio.play();
+      //     audio.loop = true;
+      //   } if (playing === false) {
+        //     audio.pause()
+        //   }
+        // }, [playing]);
+
+  const [waveAudio, setWaveAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3") )
+  const [greenAudio, setGreenAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/02/10/audio_9080c6f74e.mp3?filename=ambience_lake_morning_water_birds_crickets-19255.mp3") )
+  const [fireAudio, setFireAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/01/18/audio_2c362dfa75.mp3?filename=aachen_burning-fireplace-crackling-fire-soundswav-14561.mp3") )
+  const [rainAudio, setRainAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/07/04/audio_f52a5754b1.mp3?filename=light-rain-ambient-114354.mp3") )
+        
 
   const waveStart = () => {
     waveAudio.play();
-    rainAudio.pause();
-    birdsAudio.pause();
-    gardenAudio.pause();
-    companyAudio.pause();
     waveAudio.loop = true;
+    greenAudio.pause();
+    fireAudio.pause();
+    rainAudio.pause();
+  };
+
+  const greenStart = () => {
+    greenAudio.play();
+    greenAudio.loop = true;
+    waveAudio.pause();
+    fireAudio.pause();
+    rainAudio.pause();
+  };
+
+  const fireStart = () => {
+    fireAudio.play();
+    fireAudio.loop = true;
+    waveAudio.pause();
+    rainAudio.pause();
+    greenAudio.pause();
   };
 
   const rainStart = () => {
     rainAudio.play();
-    waveAudio.pause();
-    birdsAudio.pause();
-    gardenAudio.pause();
-    companyAudio.pause();
     rainAudio.loop = true;
-  };
-
-  const birdsStart = () => {
-    birdsAudio.play();
     waveAudio.pause();
-    rainAudio.pause();
-    gardenAudio.pause();
-    companyAudio.pause();
-    birdsAudio.loop = true;
-  };
-
-  const gardenStart = () => {
-    gardenAudio.play();
-    waveAudio.pause();
-    rainAudio.pause();
-    birdsAudio.pause();
-    companyAudio.pause();
-    gardenAudio.loop = true;
-  };
-
-  const companyStart = () => {
-    companyAudio.play();
-    waveAudio.pause();
-    rainAudio.pause();
-    birdsAudio.pause();
-    gardenAudio.pause();
-    companyAudio.loop = true;
+    greenAudio.pause();
+    fireAudio.pause();
   };
 
   const pause = () => {
     waveAudio.pause();
     rainAudio.pause();
-    birdsAudio.pause();
-    gardenAudio.pause();
-    companyAudio.pause();
+    greenAudio.pause();
+    fireAudio.pause();
   };
 
   return (
@@ -83,19 +67,16 @@ const Asmr = () => {
         <BtnArrow></BtnArrow>
         <BtnGroup>
           <AsmrBtn onClick={waveStart}>
-            <img src={WaveIcon} />
+            <img src={asmrwave} />
           </AsmrBtn>
-          <AsmrBtn onClick={birdsStart}>
-            <img src={BirdIcon} />
+          <AsmrBtn onClick={greenStart}>
+            <img src={asmrgreen} />
           </AsmrBtn>
-          <AsmrBtn onClick={gardenStart}>
-            <img src={FireIcon} />
+          <AsmrBtn onClick={fireStart}>
+            <img src={asmrfire} />
           </AsmrBtn>
           <AsmrBtn onClick={rainStart}>
-            <img src={WaterIcon} />
-          </AsmrBtn>
-          <AsmrBtn onClick={companyStart}>
-            <img src={CompanyIcon} />
+            <img src={asmrrain} />
           </AsmrBtn>
           <AsmrBtn onClick={pause}>
             <img src={CloseIcon} />
@@ -112,7 +93,7 @@ const BtnArrow =styled.div`
     margin: auto;
   width: 0px;
   height: 0px;
-  border-bottom: calc(20px * 1) solid rgba(40, 41, 58, 0.82);
+  border-bottom: calc(20px * 1) solid #1569AB;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
   text-align: center;
@@ -126,7 +107,7 @@ const AsmrSelectBox = styled.div`
 `;
 
 const BtnGroup = styled.div`
-  background: rgba(40, 41, 58, 0.82);
+  background: #1569AB;
   border-radius:30px;
   width: 100%;
   height: 5.5vh;

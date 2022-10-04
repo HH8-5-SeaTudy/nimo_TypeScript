@@ -9,7 +9,6 @@ import ChatRoom from "./pages/ChatRoom";
 import Statistics from "./pages/Statistics";
 import Header from "./components/common/Header";
 import UnLock from "./pages/UnLock";
-import Test from './pages/Test';
 
 const Router = () => {
   return (
@@ -24,7 +23,6 @@ const Router = () => {
         <Route path={EnumPages.KAKAOLOGIN} element={<KakaoLogin />} />
         <Route path={EnumPages.NAVERLOGIN} element={<NaverLogin />} />
         <Route path={EnumPages.GOOGLELOGIN} element={<GoogleLogin />} />
-        <Route path={EnumPages.Test} element={<Test />} />
       </Routes>
     </BrowserRouter>
   );

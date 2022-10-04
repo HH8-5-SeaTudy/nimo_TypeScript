@@ -154,7 +154,8 @@ const UL = styled.div`
 const LI1 = styled.div<ToggleProps>`
   position: absolute;
   transform: translate(50% 50%);
-  left: -89%;
+  left: -30%;
+  bottom: 30%;
   list-style: none;
   transition: 0.5s;
   transition-delay: calc(0.1s * 1);
@@ -162,12 +163,13 @@ const LI1 = styled.div<ToggleProps>`
   transform: ${({ toggle }) =>
     toggle
       ? "rotate(calc(360deg / 5 )) translateX(-80px)"
-      : "rotate(0deg) translateX(110px)"};
+      : "rotate(0deg) translateX(50px) translateY(10px)"};
 `;
 
 const LI2 = styled.div<ToggleProps>`
   position: absolute;
-  left: -89%;
+  left: -75%;
+  bottom: -20%;
   list-style: none;
   transition: 0.5s;
   transition-delay: calc(0.1s * 2);
@@ -175,12 +177,13 @@ const LI2 = styled.div<ToggleProps>`
   transform: ${({ toggle }) =>
     toggle
       ? "rotate(calc(360deg / 5* 2 )) translateX(-80px)"
-      : "rotate(0deg) translateX(110px)"};
+      : "rotate(0deg) translateX(95px) translateY(-40px)"};
 `;
 
 const LI3 = styled.div<ToggleProps>`
   position: absolute;
-  left: -89%;
+  left: -110%;
+  bottom: -5%;
   list-style: none;
   transition: 0.5s;
   transition-delay: calc(0.1s * 3);
@@ -188,12 +191,13 @@ const LI3 = styled.div<ToggleProps>`
   transform: ${({ toggle }) =>
     toggle
       ? "rotate(calc(360deg / 5 * 3)) translateX(-80px)"
-      : "rotate(0deg) translateX(110px)"};
+      : "rotate(0deg) translateX(130px) translateY(-25px)"};
 `;
 
 const LI4 = styled.div<ToggleProps>`
   position: absolute;
-  left: -89%;
+  left: -165%;
+  bottom: 65%;
   list-style: none;
   transition: 0.5s;
   transform: translate(-50% -50%);
@@ -202,12 +206,13 @@ const LI4 = styled.div<ToggleProps>`
   transform: ${({ toggle }) =>
     toggle
       ? "rotate(calc(360deg / 5 * 4 )) translateX(-80px)"
-      : "rotate(0deg) translateX(110px)"};
+      : "rotate(0deg) translateX(185px) translateY(45px)"};
 `;
 
 const LI5 = styled.div<ToggleProps>`
   position: absolute;
-  left: -89%;
+  left: -69%;
+  bottom: 90%;
   list-style: none;
   transition: 0.5s;
   transform: translate(-50% -50%);
@@ -216,7 +221,7 @@ const LI5 = styled.div<ToggleProps>`
   transform: ${({ toggle }) =>
     toggle
       ? "rotate(calc(360deg / 5 * 5 )) translateX(-80px)"
-      : "rotate(0deg) translateX(110px)"};
+      : "rotate(0deg) translateX(90px) translateY(70px)"};
 `;
 
 const Toggle = styled.div<ToggleProps>`
