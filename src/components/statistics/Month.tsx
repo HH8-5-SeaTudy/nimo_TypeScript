@@ -52,7 +52,7 @@ const Month = () => {
   return(
   <ResponsivePie
     enableArcLinkLabels={false}
-    data={data !== null ? data : data2}
+    data={data.length === 0 ? data2 : data}
     margin={{ top: 35, right: 35, bottom: 35, left: 35 }}
     innerRadius={0.5}
     padAngle={2}

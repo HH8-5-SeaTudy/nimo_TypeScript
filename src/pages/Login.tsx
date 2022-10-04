@@ -13,7 +13,7 @@ export default function Login() {
     <Layer>
       <Grid height="100%" display="flex">
         <Left>
-          <Title></Title>
+          <Title> </Title>
           <Slide>
             <LoginSwiper></LoginSwiper>
           </Slide>
@@ -60,25 +60,6 @@ export default function Login() {
                     <SeatudyContainerBubble />E
                   </span>
                 </SetudyWrapper>
-              </TitleContainer>
-              <HowToTitle>같이 공부하고 물고기도 모아봐요!!</HowToTitle>
-              <Grid
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                justifyContent="flex-start"
-                width="100%"
-              >
-                <HowToSubTitle>
-                  1. 체크인 시간에 따라 물고기가 해제됩니다.
-                </HowToSubTitle>
-                <HowToSubTitle>
-                  2. 일간 주간 랭킹 확인이 가능합니다.
-                </HowToSubTitle>
-                <HowToSubTitle>
-                  3. 투두리스트를 작성해서 스케줄을 확인해요.
-                </HowToSubTitle>
-                <HowToSubTitle>4. 물고기를 모아서 배경을 꾸며요.</HowToSubTitle>
               </Grid>
             </HowTo>
           </HowToContainer> */}
@@ -122,15 +103,19 @@ border : solid red 1px;
 flex-direction: column;
 `;
 const Title =styled.div`
-  border : solid red 1px;
+  border:solid red 1px;
   width:100%;
   height: 15%;
 `
 const Slide = styled.div`
-  border : solid red 3px;
   width:100%;
   height:85%;
-  padding:70px;
+  padding:40px 50px;
+`
+const Info =styled.div`
+  border : solid red 3px;
+  width:100%;
+  height:35%;
 `
 const HowToContainer = styled.div`
   width: 100%;
@@ -160,7 +145,6 @@ const HowToSubTitle = styled.span`
 `;
 
 const Right = styled.div`
-border: solid red 1px;
   width: 30%;
   height: 100%;
   display:flex;
@@ -168,7 +152,6 @@ border: solid red 1px;
   justify-content: center;
 `;
 const LoginText =styled.div`
-  border: solid red 1px;
   height: 10%;
   display:flex;
   text-align:center;
@@ -177,7 +160,6 @@ const LoginText =styled.div`
   font-size: 80px;
 `
 const LoginBtnBox =styled.div`
-  border: solid red 1px;
   height: 50%;
   padding: 50px 50px;
   display: flex;
@@ -185,15 +167,13 @@ const LoginBtnBox =styled.div`
   justify-content: space-between;
 `
 const NaverBtn =styled.div`
-    border: solid red 1px;
     height: 20%;
 `
 const KaKaoBtn =styled.div`
-    border: solid red 1px;
+
     height: 20%;
 `
-const GoggleBtn =styled.div`
-    border: solid red 1px;
+const GoggleBtn =styled.div` 
     height: 20%;
 `
 

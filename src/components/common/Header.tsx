@@ -78,6 +78,7 @@ const Header = () => {
       });
   };
 
+
   const NextDday = todayDday
     .filter((x: any) => x.targetDay >= dateString)
     .sort((a: any, b: any) => b.dday - a.dday)[0];
@@ -144,6 +145,7 @@ const Header = () => {
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
 
+
   return (
     <>
       <HeaderContainer>
@@ -153,6 +155,7 @@ const Header = () => {
           <HeaderLogo src={logo} onClick={() => navigate("/home")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
+
         <AsmrBtn>
           <OnAsmr src={shell} onClick={() => toggle()} />
         </AsmrBtn>
@@ -253,7 +256,6 @@ const Header = () => {
             </DdayContent>
           </DdayBtn>
         )}
-
         <HeaderTimerContainer>
           <HeaderTimer>
             <Layer>

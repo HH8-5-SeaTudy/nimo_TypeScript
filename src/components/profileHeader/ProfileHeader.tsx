@@ -27,7 +27,8 @@ const ProfileHeader = () => {
   const dateString = year + '-' + month  + '-' + day;
   const token: string = getCookie("token") as string;
   const BASE_URL = process.env.REACT_APP_BASE_URL;
- 
+  
+  
   const TodoData = async () => {
     return await axios
     .get(`${BASE_URL}/api/v1/todoCategories/dates?selectDate=${dateString}`,
@@ -228,7 +229,10 @@ const Title = styled.div`
     align-items: center;
     text-align:center;
     p{
+      width: 100%;
       font-size: 15px;
+      text-overflow: ellipsis;
+      overflow: hidden;
       text-overflow: ellipsis;
     }
 `
