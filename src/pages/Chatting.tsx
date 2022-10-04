@@ -177,7 +177,15 @@ function Chatting() {
                       <EnterContainer>
                         <Sender>{list.sender}</Sender>
                         <Message>{list.message}</Message>
-
+                      </EnterContainer>
+                    </NoticeContainer>
+                  );
+                } else {
+                  return (
+                    <NoticeContainer key={index}>
+                      <EnterContainer>
+                        <Sender>{list.sender}</Sender>
+                        <Message>{list.message}</Message>
                       </EnterContainer>
                     </NoticeContainer>
                   );
@@ -195,7 +203,6 @@ function Chatting() {
         </ChatSide>
       </RightSide>
     </ChattingContainer>
-
   );
 }
 
@@ -283,6 +290,8 @@ const NickName = styled.div`
 
 const ChatSide = styled.div`
   border-radius: 6px;
+  word-break: break-all;
+  max-width: 60%;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -293,6 +302,7 @@ const ChatBox = styled.div`
   padding: 10px 20px;
   height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column-reverse;
   background-color: #eee;
@@ -380,7 +390,7 @@ const EnterContainer = styled.div`
 
 const MySenderMessageContainer = styled.ul`
   width: 100%;
-  width: auto;
+  /* width: auto; */
   padding: 0 15px;
   display: flex;
   align-items: center;
@@ -395,6 +405,8 @@ const MySenderContainer = styled.div`
   justify-content: center;
   background-color: #75c9ff;
   border-radius: 10px;
+  max-width: 80%;
+  width: fit;
 `;
 
 const SenderMessageContainer = styled.ul`
@@ -410,23 +422,25 @@ const SenderMessageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  margin-right: 10px;
 `;
 
 const SenderContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 70%;
   justify-content: center;
   background-color: #8bc7df;
   border-radius: 10px;
+  width: fit;
 `;
 
 const SenderProfile = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  border: 1px solid black;
   padding: 5px;
 `;
 
