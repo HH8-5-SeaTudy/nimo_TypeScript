@@ -9,7 +9,6 @@ import server from "../../assets/pixel/server.png";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import {
-  __getCheckInTimer,
   __getCheckOutTimer,
   __getUserinquire,
 } from "../../redux/modules/timer";
@@ -19,8 +18,8 @@ import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
 import { __getUserProfile } from "../../redux/modules/userData";
 import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
-import { __getDday } from "../../redux/modules/dday";
 import axios from "axios";
+import Asmr from "../asmr/Asmr";
 
 const Header = () => {
   const token: string = getCookie("token") as string;
@@ -48,23 +47,7 @@ const Header = () => {
   const nextPercent = (myPoint / totalFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
-  const audio = new Audio(
-    "https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3"
-  );
   const [playing, setPlaying] = useState(false);
-
-  const toggle = () => setPlaying(!playing);
-
-  useEffect(() => {
-    playing ? audio.play() : audio.pause();
-  }, [playing]);
-
-  useEffect(() => {
-    audio.addEventListener("ended", () => setPlaying(false));
-    return () => {
-      audio.removeEventListener("ended", () => setPlaying(false));
-    };
-  }, []);
 
   const TodayStudyData = async () => {
     return await axios
@@ -126,7 +109,7 @@ const Header = () => {
     } else {
       clearInterval(interval);
     }
-    if (timeSS % 60 == 0 && timeSS !== 0) {
+    if (timeSS % 60 === 0 && timeSS !== 0) {
       setTimeMM((mm) => mm + 1);
     }
 
@@ -134,7 +117,7 @@ const Header = () => {
   }, [JSON.stringify(time), timeSS]);
 
   useEffect(() => {
-    if (timeMM % 60 == 0 && timeMM !== 0) {
+    if (timeMM % 60 === 0 && timeMM !== 0) {
       setTimeHH((hh) => hh + 1);
     }
   }, [timeMM]);
@@ -153,9 +136,9 @@ const Header = () => {
           <HeaderLogo src={logo} onClick={() => navigate("/home")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
-
         <AsmrBtn>
-          <OnAsmr src={shell} onClick={() => toggle()} />
+          <OnAsmr src={shell} onClick={() => setPlaying(!playing)} />
+          {playing && <Asmr />}
         </AsmrBtn>
         {/* 캘린더버튼 */}
         <CalendarBtn>

@@ -129,11 +129,15 @@ const FishIventory = () => {
     alert("내가 사라져볼게 얍!");
     dispatch(__deleteFishPosition(i));
   };
+  const AllFishDeleteHandler = () => {
+    alert("전부 사라져볼게 얍!");
+    dispatch(__AllDeleteFishPosition());
+  };
 
   return (
     <InvenLayout ref={containerRef}>
       <Coral>
-        <Img src={coral2} onClick={() => dispatch(__AllDeleteFishPosition())} />
+        <Img src={coral2} onClick={() => AllFishDeleteHandler()} />
       </Coral>
       {fishImages.map((data: any, i: number) => {
         return (
