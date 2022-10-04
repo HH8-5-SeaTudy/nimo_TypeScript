@@ -131,18 +131,6 @@ const UnLock = () => {
                   <UserProfileTitle>{userData.point}</UserProfileTitle>
                 </Grid>
               </UserWrapper>
-
-              <UserWrapper>
-                <UserLevel>Lv:</UserLevel>
-                <Grid
-                  width="100%"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  <UserProfileTitle>{userData.id}</UserProfileTitle>
-                </Grid>
-              </UserWrapper>
             </UserInfo>
           </UserInfoContainer>
 

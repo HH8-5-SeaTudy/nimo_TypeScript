@@ -5,6 +5,7 @@ import background from "../assets/background/loginBack.png";
 import Google from "../components/social/Google";
 import Kakao from "../components/social/Kakao";
 import Naver from "../components/social/Naver";
+import LoginSwiper from '../components/Swiper/LoginSwiper';
 import Grid from "../elements/Grid";
 
 export default function Login() {
@@ -12,7 +13,11 @@ export default function Login() {
     <Layer>
       <Grid height="100%" display="flex">
         <Left>
-          <HowToContainer>
+          <Title> </Title>
+          <Slide>
+            <LoginSwiper></LoginSwiper>
+          </Slide>
+          {/* <HowToContainer>
             <HowTo>
               <TitleContainer>
                 <SetudyWrapper>
@@ -55,48 +60,31 @@ export default function Login() {
                     <SeatudyContainerBubble />E
                   </span>
                 </SetudyWrapper>
-              </TitleContainer>
-              <HowToTitle>같이 공부하고 물고기도 모아봐요!!</HowToTitle>
-              <Grid
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                justifyContent="flex-start"
-                width="100%"
-              >
-                <HowToSubTitle>
-                  1. 체크인 시간에 따라 물고기가 해제됩니다.
-                </HowToSubTitle>
-                <HowToSubTitle>
-                  2. 일간 주간 랭킹 확인이 가능합니다.
-                </HowToSubTitle>
-                <HowToSubTitle>
-                  3. 투두리스트를 작성해서 스케줄을 확인해요.
-                </HowToSubTitle>
-                <HowToSubTitle>4. 물고기를 모아서 배경을 꾸며요.</HowToSubTitle>
               </Grid>
             </HowTo>
-          </HowToContainer>
+          </HowToContainer> */}
         </Left>
         <Right>
-          <LoginContainer>
-            <SocialLoginTitle>SOCIAL LOGIN</SocialLoginTitle>
-            <Grid padding="5%">
-              <Kakao />
-            </Grid>
-            <Grid padding="5%">
-              <Naver />
-            </Grid>
-            <Grid padding="5%">
-              <Google />
-            </Grid>
-          </LoginContainer>
+          <LoginText>LOGIN</LoginText>
+          <LoginBtnBox>
+            <NaverBtn>
+              <Naver/>
+            </NaverBtn>
+            <KaKaoBtn>
+              <Kakao/>
+            </KaKaoBtn>
+            <GoggleBtn>
+              <Google/>
+            </GoggleBtn>
+          </LoginBtnBox>
         </Right>
       </Grid>
     </Layer>
   );
 }
 const Layer = styled.section`
+border: solid red 3px;
+padding: 50px;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -108,14 +96,27 @@ const Layer = styled.section`
 `;
 
 const Left = styled.div`
-  width: 50%;
+border : solid red 1px;
+  width: 70%;
   height: 100%;
-  padding: 5%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+flex-direction: column;
 `;
-
+const Title =styled.div`
+  border:solid red 1px;
+  width:100%;
+  height: 15%;
+`
+const Slide = styled.div`
+  width:100%;
+  height:85%;
+  padding:40px 50px;
+`
+const Info =styled.div`
+  border : solid red 3px;
+  width:100%;
+  height:35%;
+`
 const HowToContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -144,24 +145,48 @@ const HowToSubTitle = styled.span`
 `;
 
 const Right = styled.div`
-  width: 50%;
+  width: 30%;
   height: 100%;
-  padding: 8%;
-  display: flex;
-  align-items: center;
+  display:flex;
+  flex-direction:column;
   justify-content: center;
 `;
+const LoginText =styled.div`
+  height: 10%;
+  display:flex;
+  text-align:center;
+  justify-content:center;
+  align-items:center;
+  font-size: 80px;
+`
+const LoginBtnBox =styled.div`
+  height: 50%;
+  padding: 50px 50px;
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between;
+`
+const NaverBtn =styled.div`
+    height: 20%;
+`
+const KaKaoBtn =styled.div`
+
+    height: 20%;
+`
+const GoggleBtn =styled.div` 
+    height: 20%;
+`
 
 const LoginContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 60%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  padding: 2%;
+  padding: 5%;
 `;
 
 const SocialLoginTitle = styled.span`

@@ -6,7 +6,6 @@ import shell from "../../assets/pixel/shell.png";
 import calendar from "../../assets/pixel/calendar.png";
 import ranking from "../../assets/pixel/ranking.png";
 import server from "../../assets/pixel/server.png";
-import Asmr from "../asmr/Asmr";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import {
@@ -40,9 +39,30 @@ const Header = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
   const fishPoint = fishImages.map((data) => data.point);
   const userPoint = userData.point;
+  const prevFishPoint = fishPoint.filter((x) => x < userPoint).slice(-1)[0];
   const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
-  const nextPercent = (userPoint / nextFishPoint) * 100;
+  const totalFishPoint = nextFishPoint - prevFishPoint;
+  const myPoint = userPoint - prevFishPoint;
+  const nextPercent = (myPoint / totalFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
+
+  const audio = new Audio(
+    "https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3"
+  );
+  const [playing, setPlaying] = useState(false);
+
+  const toggle = () => setPlaying(!playing);
+
+  useEffect(() => {
+    playing ? audio.play() : audio.pause();
+  }, [playing]);
+
+  useEffect(() => {
+    audio.addEventListener("ended", () => setPlaying(false));
+    return () => {
+      audio.removeEventListener("ended", () => setPlaying(false));
+    };
+  }, []);
 
   const TodayStudyData = async () => {
     return await axios
@@ -60,11 +80,16 @@ const Header = () => {
     .filter((x: any) => x.targetDay >= dateString)
     .sort((a: any, b: any) => b.dday - a.dday)[0];
 
+
+  const NextDday = todayDday
+    .filter((x: any) => x.targetDay >= dateString)
+    .sort((a: any, b: any) => b.dday - a.dday)[0];
+
+
   useEffect(() => {
     TodayStudyData();
   }, [Dday]);
 
-  const [asmrShow, setAsmrShow] = useState(false);
   const [showTodo, setShowTodo] = useState(false);
   const [hh, mm, ss] = String(time.dayStudyTime)
     .split(":")
@@ -75,6 +100,10 @@ const Header = () => {
   const [timeHH, setTimeHH] = useState<number>(0);
 
   const roomId1 = process.env.REACT_APP_ROOMID1;
+  const roomId2 = process.env.REACT_APP_ROOMID2;
+  const roomId3 = process.env.REACT_APP_ROOMID3;
+  const roomId4 = process.env.REACT_APP_ROOMID4;
+  const roomId5 = process.env.REACT_APP_ROOMID5;
 
   useEffect(() => {
     dispatch(__getUserinquire());
@@ -119,6 +148,7 @@ const Header = () => {
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
 
+
   return (
     <>
       <HeaderContainer>
@@ -130,8 +160,7 @@ const Header = () => {
         {/* 소라버튼 */}
 
         <AsmrBtn>
-          <OnAsmr src={shell} onClick={() => setAsmrShow(!asmrShow)} />
-          {asmrShow && <Asmr />}
+          <OnAsmr src={shell} onClick={() => toggle()} />
         </AsmrBtn>
         {/* 캘린더버튼 */}
         <CalendarBtn>
@@ -151,16 +180,69 @@ const Header = () => {
         </RankBtn>
         {/* 서버 */}
         <ServerBtn>
-          <Calendar
-            src={server}
-            onClick={() => {
-              navigate("/chat", {
-                state: {
-                  id: roomId1,
-                },
-              });
-            }}
-          />
+          <Calendar src={server} />
+          <ServerBox>
+            <div
+              onClick={() => {
+                navigate("/chat", {
+                  state: {
+                    id: roomId1,
+                  },
+                });
+                window.location.reload();
+              }}
+            >
+              인도양
+            </div>
+            <div
+              onClick={() => {
+                navigate("/chat", {
+                  state: {
+                    id: roomId2,
+                  },
+                });
+                window.location.reload();
+              }}
+            >
+              태평양
+            </div>
+            <div
+              onClick={() => {
+                navigate("/chat", {
+                  state: {
+                    id: roomId3,
+                  },
+                });
+                window.location.reload();
+              }}
+            >
+              대서양
+            </div>
+            <div
+              onClick={() => {
+                navigate("/chat", {
+                  state: {
+                    id: roomId4,
+                  },
+                });
+                window.location.reload();
+              }}
+            >
+              북극해
+            </div>
+            <div
+              onClick={() => {
+                navigate("/chat", {
+                  state: {
+                    id: roomId5,
+                  },
+                });
+                window.location.reload();
+              }}
+            >
+              남극해
+            </div>
+          </ServerBox>
         </ServerBtn>
         {/* 제일빠른디데이 */}
         {NextDday && (
@@ -177,7 +259,6 @@ const Header = () => {
             </DdayContent>
           </DdayBtn>
         )}
-
         <HeaderTimerContainer>
           <HeaderTimer>
             <Layer>
@@ -217,7 +298,6 @@ const HeaderContainer = styled.div`
   height: 65px;
   padding: 0px 55px;
   height: 10vh;
-
   box-shadow: 1px 1px 3px 1px #dadce0;
   background: #ff9100;
 `;
@@ -301,7 +381,7 @@ const RankBtn = styled.button`
   width: 60px;
   height: 60px;
   padding: 8px;
-  border-radius: 9999px;
+  border-radius: 50%;
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -312,15 +392,15 @@ const RankBtn = styled.button`
     position: absolute;
     color: black;
     font-weight: 700;
-    width: 80px;
-    left: -8px;
+    width: 130px;
+    left: -32px;
   }
 `;
 const ServerBtn = styled.div`
   position: absolute;
   left: 60%;
-  width: 70px;
-  height: 75px;
+  width: 65px;
+  height: 65px;
   padding: 8px;
   border-radius: 9999px;
   border: none;
@@ -328,21 +408,57 @@ const ServerBtn = styled.div`
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.5);
+    p {
+      display: flex;
+    }
   }
 `;
+const ServerBox = styled.p`
+  border: solid red 1px;
+  position: absolute;
+  width: 65px;
+  height: 120px;
+  left: 0.2px;
+  font-size: 14px;
+  z-index: 3;
+  display: none;
+  flex-direction: column;
+  border: solid white 2px;
+  border-radius: 6px;
+  div {
+    height: calc(120px / 5);
+    text-align: center;
+    background-color: #b2e2ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      background-color: #259fea;
+    }
+    &:first-child {
+      border-radius: 3.5px 3.5px 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 3.5px 3.5px;
+    }
+  }
+`;
+
 const DdayBtn = styled.div`
   position: absolute;
   left: 70%;
   width: 60px;
   height: 60px;
   padding: 8px;
-  border-radius: 9999px;
+  border-radius: 50%;
   background-color: transparent;
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.5);
     p {
       display: flex;
+      position: absolute;
+      left: -10px;
     }
   }
 `;
@@ -364,7 +480,6 @@ const DdayContent = styled.p`
   position: absolute;
   width: 140%;
   border-radius: 6px;
-
   font-size: 14px;
   z-index: 3;
   line-height: 15px;

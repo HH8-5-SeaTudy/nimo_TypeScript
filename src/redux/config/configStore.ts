@@ -8,7 +8,7 @@ import dday from "../modules/dday";
 import fishList from "../modules/fishList";
 import rank from "../modules/rank";
 import fishPosition from "../modules/fishPosition";
-import chatCount from "../modules/chatCount";
+
 const store = configureStore({
   reducer: {
     updateDate,
