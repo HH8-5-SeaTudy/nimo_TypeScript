@@ -19,7 +19,6 @@ const Home = () => {
   const navigate = useNavigate();
   //Todo zone
   const check = useAppSelector((state) => state.timer.isStudy);
-  const [buttonTrue, setButtonTure] = useState("");
 
   const token: string = getCookie("token") as string;
 
