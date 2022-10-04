@@ -1,13 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
-import { __getDateTodo } from "../redux/modules/dateTodos";
-import {
-  __getCheckInTimer,
-  __getCheckOutTimer,
-  __getUserinquire,
-} from "../redux/modules/timer";
+import { __getCheckInTimer, __getCheckOutTimer } from "../redux/modules/timer";
 import backimg from "../assets/background/homeBack.png";
 import { __getUserProfile } from "../redux/modules/userData";
 import FishIventory from "../components/fish/FishIventory";

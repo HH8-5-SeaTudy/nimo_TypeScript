@@ -51,7 +51,7 @@ function ChatRoom() {
               {/* 채팅방 인원 */}
               <UserCounterWrapper>
                 <UserCount>User Count: </UserCount>
-                <UserCount>{userCount?.userCount}/20</UserCount>
+                <UserCount>{userCount?.userCount}</UserCount>
               </UserCounterWrapper>
 
               {/* 유저 랭킹 */}
@@ -75,7 +75,7 @@ function ChatRoom() {
             <ServerContainer>
               <ServerTitle>Change Server</ServerTitle>
 
-              <Server />
+              {/* <Server /> */}
 
               <OutButtonContainer>
                 <OutButton onClick={() => navigate("/home")}>Out</OutButton>

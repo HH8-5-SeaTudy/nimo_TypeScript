@@ -28,88 +28,49 @@ const Server = () => {
   }, []);
 
   const onClickRoom1 = () => {
-    dispatch(__getChatCount());
-    if (roomId[0] === roomId1) {
-      if (userCount[0] > 2) {
-        alert("인원수가 가득 찼습니다");
-        return;
-      } else {
-        navigate("/chat", {
-          state: {
-            id: roomId1,
-          },
-        });
-        window.location.reload();
-      }
-    }
+    navigate("/chat", {
+      state: {
+        id: roomId1,
+      },
+    });
+    window.location.reload();
   };
 
   const onClickRoom2 = () => {
     dispatch(__getChatCount());
-    if (roomId[0] === roomId2) {
-      if (userCount[0] > 2) {
-        alert("인원수가 가득 찼습니다");
-        return;
-      } else {
-        navigate("/chat", {
-          state: {
-            id: roomId2,
-          },
-        });
-        window.location.reload();
-      }
-    }
+    navigate("/chat", {
+      state: {
+        id: roomId2,
+      },
+    });
+    window.location.reload();
   };
 
   const onClickRoom3 = () => {
-    dispatch(__getChatCount());
-    if (roomId[0] === roomId3) {
-      if (userCount[0] > 2) {
-        alert("인원수가 가득 찼습니다");
-        return;
-      } else {
-        navigate("/chat", {
-          state: {
-            id: roomId3,
-          },
-        });
-        window.location.reload();
-      }
-    }
+    navigate("/chat", {
+      state: {
+        id: roomId3,
+      },
+    });
+    window.location.reload();
   };
 
   const onClickRoom4 = () => {
-    dispatch(__getChatCount());
-    if (roomId[0] === roomId4) {
-      if (userCount[0] > 2) {
-        alert("인원수가 가득 찼습니다");
-        return;
-      } else {
-        navigate("/chat", {
-          state: {
-            id: roomId4,
-          },
-        });
-        window.location.reload();
-      }
-    }
+    navigate("/chat", {
+      state: {
+        id: roomId4,
+      },
+    });
+    window.location.reload();
   };
 
   const onClickRoom5 = () => {
-    dispatch(__getChatCount());
-    if (roomId[0] === roomId5) {
-      if (userCount[0] > 2) {
-        alert("인원수가 가득 찼습니다");
-        return;
-      } else {
-        navigate("/chat", {
-          state: {
-            id: roomId5,
-          },
-        });
-        window.location.reload();
-      }
-    }
+    navigate("/chat", {
+      state: {
+        id: roomId5,
+      },
+    });
+    window.location.reload();
   };
 
   return (
