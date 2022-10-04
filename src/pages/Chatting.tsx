@@ -397,6 +397,7 @@ const MySenderContainer = styled.div`
   background-color: #75c9ff;
   border-radius: 10px;
   max-width: 80%;
+  width: fit;
 `;
 
 const SenderMessageContainer = styled.ul`
@@ -413,7 +414,6 @@ const SenderMessageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  border: 1px solid black;
   margin-right: 10px;
 `;
 
@@ -425,13 +425,13 @@ const SenderContainer = styled.div`
   justify-content: center;
   background-color: #8bc7df;
   border-radius: 10px;
+  width: fit;
 `;
 
 const SenderProfile = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  border: 1px solid black;
   padding: 5px;
 `;
 
