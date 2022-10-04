@@ -8,7 +8,6 @@ import { EnumPages } from "./enum/EnumPages";
 import ChatRoom from "./pages/ChatRoom";
 import Statistics from "./pages/Statistics";
 import Header from "./components/common/Header";
-import PrivateRoute from "./PrivateRoute";
 import UnLock from "./pages/UnLock";
 import Test from './pages/Test';
 

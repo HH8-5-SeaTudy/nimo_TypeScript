@@ -6,8 +6,8 @@ import userData from "../modules/userData";
 import socket from "../modules/socket";
 import dday from "../modules/dday";
 import fishList from "../modules/fishList";
-import rank from '../modules/rank';
-import fishPosition from '../modules/fishPosition';
+import rank from "../modules/rank";
+import fishPosition from "../modules/fishPosition";
 const store = configureStore({
   reducer: {
     updateDate,

@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import fishImages from "../fish/FishImages";
 import { __getUserProfile } from "../../redux/modules/userData";
+
 import fishPosition, {
   __AllDeleteFishPosition,
   __deleteFishPosition,
@@ -79,8 +80,6 @@ const FishIventory = () => {
     let tempData = [...dTest];
     tempData[i][0] = e.target.offsetLeft + e.clientX - clientPos.x;
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
-    // tempData[i][0] = e.clientX;
-    // tempData[i][1] = e.clientY;
     setDTest(tempData);
     setPos(PosTemp);
 
@@ -94,15 +93,7 @@ const FishIventory = () => {
     e.preventDefault(); // 드래그시에 플라잉백하는 고스트이미지를 제거한다
   };
 
-  const isInsideDragArea = (e: any) => {};
-
   const dragEndHandler = (e: any, i: number) => {
-    //   if (clientPos.x < originPos.x + 50) {
-    //    const posTemp = { ...pos };
-    //   posTemp["left"] = originPos.x;
-    //   posTemp["top"] = originPos.y;
-    //   setPos(posTemp);
-    // } else{}
     // 범위조건
 
     let tempSize = [...dSize];
