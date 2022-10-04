@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { __getChatCount } from "../../redux/modules/chatCount";
 import { addUser } from "../../redux/modules/socket";
 import { useAppDispatch } from "../hooks/reduxHooks";
 import handle from "../../assets/pixel/handle.png";
@@ -16,53 +17,95 @@ const Server = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+
   useEffect(() => {
     dispatch(addUser);
+    dispatch(__getChatCount());
   }, []);
 
   const onClickRoom1 = () => {
-    navigate("/chat", {
-      state: {
-        id: roomId1,
-      },
-    });
-    window.location.reload();
+    dispatch(__getChatCount());
+    if (roomId[0] === roomId1) {
+      if (userCount[0] > 2) {
+        alert("인원수가 가득 찼습니다");
+        return;
+      } else {
+        navigate("/chat", {
+          state: {
+            id: roomId1,
+          },
+        });
+        window.location.reload();
+      }
+    }
   };
 
   const onClickRoom2 = () => {
-    navigate("/chat", {
-      state: {
-        id: roomId2,
-      },
-    });
-    window.location.reload();
+    dispatch(__getChatCount());
+    if (roomId[0] === roomId2) {
+      if (userCount[0] > 2) {
+        alert("인원수가 가득 찼습니다");
+        return;
+      } else {
+        navigate("/chat", {
+          state: {
+            id: roomId2,
+          },
+        });
+        window.location.reload();
+      }
+    }
   };
 
   const onClickRoom3 = () => {
-    navigate("/chat", {
-      state: {
-        id: roomId3,
-      },
-    });
-    window.location.reload();
+    dispatch(__getChatCount());
+    if (roomId[0] === roomId3) {
+      if (userCount[0] > 2) {
+        alert("인원수가 가득 찼습니다");
+        return;
+      } else {
+        navigate("/chat", {
+          state: {
+            id: roomId3,
+          },
+        });
+        window.location.reload();
+      }
+    }
   };
 
   const onClickRoom4 = () => {
-    navigate("/chat", {
-      state: {
-        id: roomId4,
-      },
-    });
-    window.location.reload();
+    dispatch(__getChatCount());
+    if (roomId[0] === roomId4) {
+      if (userCount[0] > 2) {
+        alert("인원수가 가득 찼습니다");
+        return;
+      } else {
+        navigate("/chat", {
+          state: {
+            id: roomId4,
+          },
+        });
+        window.location.reload();
+      }
+    }
   };
 
   const onClickRoom5 = () => {
-    navigate("/chat", {
-      state: {
-        id: roomId5,
-      },
-    });
-    window.location.reload();
+    dispatch(__getChatCount());
+    if (roomId[0] === roomId5) {
+      if (userCount[0] > 2) {
+        alert("인원수가 가득 찼습니다");
+        return;
+      } else {
+        navigate("/chat", {
+          state: {
+            id: roomId5,
+          },
+        });
+        window.location.reload();
+      }
+    }
   };
 
   return (

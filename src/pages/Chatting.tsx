@@ -179,6 +179,7 @@ function Chatting() {
                       <EnterContainer>
                         <Sender>{list.sender}</Sender>
                         <Message>{list.message}</Message>
+
                       </EnterContainer>
                     </NoticeContainer>
                   );
@@ -196,6 +197,7 @@ function Chatting() {
         </ChatSide>
       </RightSide>
     </ChattingContainer>
+
   );
 }
 
