@@ -81,7 +81,7 @@ const LoginSwiper = () => {
             alt="슬라이드5"
           />
           <div>
-            <span>- 개의 고정된 채팅방</span>
+            <span>- 5개의 고정된 채팅방</span>
             <span>- 상대방이 입장/퇴장시 확인 가능</span>
 
             <span>- 실시간으로 채팅 참여자 확인 가능</span>
@@ -121,6 +121,9 @@ const StyledSwiperSlide = styled(SwiperSlide)`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    span {
+      font-weight: 700;
+    }
   }
 `;
 const Img = styled.img`
