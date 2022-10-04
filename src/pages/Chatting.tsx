@@ -214,7 +214,6 @@ const ChattingContainer = styled.div`
   display: block;
   overflow: hidden;
 `;
-
 const RightSide = styled.div`
   width: 100%;
   display: flex;
