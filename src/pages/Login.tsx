@@ -100,7 +100,6 @@ const Left = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 `;
 const Title = styled.div`
@@ -161,25 +160,6 @@ const GoggleBtn = styled.div`
   height: 20%;
 `;
 
-const LoginContainer = styled.div`
-  width: 100%;
-  height: 60%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  padding: 5%;
-`;
-
-const SocialLoginTitle = styled.span`
-  font-size: 50px;
-  font-weight: bold;
-  margin-bottom: 5%;
-  color: white;
-`;
-
 const TitleContainer = styled.div`
   width: 80%;
   display: flex;
@@ -195,13 +175,13 @@ const TitleContainer = styled.div`
     background-size: 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-text-stroke: 2px white;
+    -webkit-text-stroke: 2px black;
     letter-spacing: 10px;
     &:hover {
       filter: blur(0px);
       transition: 0.5s;
-      color: white;
-      background-color: white;
+      color: black;
+      background-color: black;
       i::before {
         content: "";
         position: absolute;
@@ -210,7 +190,7 @@ const TitleContainer = styled.div`
         height: 8px;
         left: 5px;
         background-color: white;
-        box-shadow: 0px 93px #fff, 95px 93px #fff, 95px 0px #fff;
+        box-shadow: 0px 93px white, 95px 93px white, 95px 0px white;
       }
       i::after {
         content: "";

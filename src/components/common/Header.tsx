@@ -78,8 +78,8 @@ const Header = () => {
       });
   };
 
-  const NextDday = todayDday
-    .filter((x: any) => x.targetDay >= dateString)
+  const NextDay = todayDday
+    ?.filter((x: any) => x.targetDay >= dateString)
     .sort((a: any, b: any) => b.dday - a.dday)[0];
 
   useEffect(() => {
@@ -170,7 +170,7 @@ const Header = () => {
         <RankBtn>
           <Calendar src={ranking} onClick={() => navigate("/statistics")} />
           <p>
-            {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}
+            {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}{" "}
             {weekMyRank === 0 ? "D:기록없음" : "D:" + weekMyRank + "위"}
           </p>
         </RankBtn>
@@ -241,17 +241,17 @@ const Header = () => {
           </ServerBox>
         </ServerBtn>
         {/* 제일빠른디데이 */}
-        {NextDday && (
+        {NextDay && (
           <DdayBtn>
             <DdayTitle>
               D-
               <br />
-              {NextDday?.dday === 0 ? "Day" : String(NextDday?.dday).slice(1)}
+              {NextDay?.dday === 0 ? "Day" : String(NextDay?.dday).slice(1)}
             </DdayTitle>
             <DdayContent>
-              {NextDday?.targetDay}
+              {NextDay?.targetDay}
               <br />
-              {NextDday?.title}
+              {NextDay?.title}
             </DdayContent>
           </DdayBtn>
         )}
@@ -405,12 +405,12 @@ const ServerBtn = styled.div`
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.5);
-    p {
+    div {
       display: flex;
     }
   }
 `;
-const ServerBox = styled.p`
+const ServerBox = styled.div`
   border: solid red 1px;
   position: absolute;
   width: 65px;
