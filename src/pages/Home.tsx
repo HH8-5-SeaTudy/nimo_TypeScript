@@ -80,7 +80,6 @@ const Home = () => {
               </ButtonContainer>
             </>
           )}
-          <Server />
           <FishIventory />
         </MainBox>
       </Layer>

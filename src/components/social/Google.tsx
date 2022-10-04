@@ -16,20 +16,12 @@ const Google = () => {
     window.location.href = googleAuthUrl;
   };
   return (
-    <Grid
-      border={"1px solid #dee2e6"}
-      borderRadius={"5px"}
-      width={"458px"}
-      height={"80px"}
-      display={"flex"}
-      alignItems={"center"}
-      cursor={"pointer"}
+    <GoogleLoginButtonContainer
       onClick={loginHandler}
-      background={"#dee2e6"}
     >
       <GoogleLogo />
       <GoogleKor>GOOGLE</GoogleKor>
-    </Grid>
+    </GoogleLoginButtonContainer>
   );
 };
 

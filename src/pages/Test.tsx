@@ -1,16 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
+import Server from '../components/serverButton/Server';
+import island from "../assets/pixel/island.png";
 
 const Test = () => {
   return (
 <StatisticsLayer>
         <Layer>
           <LeftSide>
-            <OceanName>        
+            <TopBox>
+              <OceanName>        
               <p>태평양 영어</p>
               </OceanName>
-            <HandleSide></HandleSide>
-            <Island></Island>
+              <HandleSide>
+                <Server/>
+              </HandleSide>
+            </TopBox>
+            <BottomBox>
+              <Island src={island}/>
+            </BottomBox>
           </LeftSide>
           <RightSide>
             <RankSide>
@@ -41,7 +49,7 @@ const Test = () => {
                 <Message>
                   <Profile>
                     <Image></Image>
-                    <Name>사이즈작게</Name>
+                    <Name>폰트작게</Name>
                   </Profile>
                   <Text>예찬님예찬님예찬님예찬님예찬님예찬님예찬님예찬님예찬님</Text>
                 </Message> 
@@ -81,13 +89,26 @@ border:solid red 3px;
 `;
 
 const LeftSide =styled.div`
-  border: solid red 1px;
   width: 35%;
   display:flex;
   flex-direction: column;
   justify-content: space-between;
   margin-right: 20px;
+`
+const TopBox =styled.div`
   box-shadow: 5px 5px 5px 5px rgba(1, 1, 1, 0.5);
+  height:77%;
+  display:flex;
+  flex-direction:column;
+  border-radius: 6px;
+`
+const BottomBox =styled.div`
+
+    height: 20%;
+`
+const Island =styled.img`
+  width:100%;
+  height:100%;
 `
 const OceanName =styled.div`
 border-radius: 6px 6px 0 0;
@@ -108,12 +129,7 @@ border-radius: 6px 6px 0 0;
 
 `
 const HandleSide =styled.div`
-   border: solid red 1px;
-   height:70%;
-`
-const Island =styled.div`
-  border: solid red 1px;
-   height:30%;
+   height:80%;
 `
 
 const RightSide =styled.div`

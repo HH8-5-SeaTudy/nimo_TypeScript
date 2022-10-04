@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
-import Server from "../components/serverButton/Server";
 import { addUser } from "../redux/modules/socket";
 import Chatting from "./Chatting";
 
@@ -27,6 +26,11 @@ function ChatRoom() {
 
   const userCount = chatUser.find((user: any) => user.userCount);
   const enter = chatUser.find((nickname) => nickname.rankByNickname);
+  const roomId = chatUser.find((roomId) => roomId.roomId);
+  console.log(roomId);
+
+  const date = useAppSelector((state) => state.socket.chat);
+  
 
   return (
     <MessageContainer>
@@ -63,10 +67,9 @@ function ChatRoom() {
                   {enter?.rankByNickname.map((data, index) => (
                     <UserRankNicknameWrapper key={index}>
                       <UserRankNickname>
-                        {index + 1}. <UserRankFish src={data.defaultFish} />
-                        {data.nickname}
-                        <UserRankPoint>Time:{data.point}hours</UserRankPoint>
+                        {index + 1}.{data.nickname}
                       </UserRankNickname>
+                      <UserRankPoint>Time:{data.point}hours</UserRankPoint>
                     </UserRankNicknameWrapper>
                   ))}
                 </UserRankNicknameContainer>
@@ -75,7 +78,7 @@ function ChatRoom() {
             <ServerContainer>
               <ServerTitle>Change Server</ServerTitle>
 
-              <Server />
+
 
               <OutButtonContainer>
                 <OutButton onClick={() => navigate("/home")}>Out</OutButton>
@@ -214,40 +217,15 @@ const UserRankNicknameContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
-    background-color: transparent;
-    width: 5px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: #0096ff;
-    height: 5px;
-  }
 `;
 const UserRankNicknameWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-around;
-  align-items: center;
 `;
-const UserRankFish = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  border: 1px solid white;
-  padding: 5px;
-`;
-const UserRankNickname = styled.div`
-  display: flex;
-  width: 100%;
-  padding: 0 20px;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid black;
+const UserRankNickname = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xl};
-  margin-top: 10px;
-  border-radius: 10px;
 `;
 const UserRankPoint = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xl};
