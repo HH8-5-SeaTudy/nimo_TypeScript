@@ -18,12 +18,10 @@ const Statistics = () => {
   const fishPoint = fishImages.map((data) => data.point);
   const userPoint = userData.point;
   const dispatch = useAppDispatch();
-  const prevFishPoint = fishPoint.filter((x) => x < userPoint).slice(-1)[0];
   const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
-  const totalFishPoint = nextFishPoint - prevFishPoint;
-  const myPoint = userPoint - prevFishPoint;
-  const nextPercent = (myPoint / totalFishPoint) * 100;
+  const nextPercent = (userPoint / nextFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
+
   const token: string = getCookie("token") as string;
   const navigate = useNavigate();
 
@@ -40,13 +38,14 @@ const Statistics = () => {
 
   return (
     <>
+      {/* <Header/> */}
       <StatisticsLayer>
         <Layer>
           <TopLayer>
             <RankSide>
               <RankTitle>
                 <p>
-                  DAILY
+                  YESTERDAY
                   <br />
                   RANKING
                 </p>
@@ -69,7 +68,7 @@ const Statistics = () => {
             <RankSide>
               <RankTitle>
                 <p>
-                  WEEKLY
+                  LAST WEEK
                   <br />
                   RANKING
                 </p>
