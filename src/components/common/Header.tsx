@@ -60,7 +60,7 @@ const Header = () => {
         setTodayDday(res.data.data);
       });
   };
-
+  
   const NextDay = todayDday
     ?.filter((x: any) => x.targetDay >= dateString)
     .sort((a: any, b: any) => b.dday - a.dday)[0];
@@ -147,7 +147,7 @@ const Header = () => {
         {/* 다음물고기 */}
         <FishBtn>
           <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
-          <p>{String(nextPercent).slice(0, 2)}%</p>
+          <p>{String(nextPercent).slice(0, 2) ? String(nextPercent).slice(0, 2) : '0'}%</p>
         </FishBtn>
         {/* 랭킹 */}
         <RankBtn>
@@ -372,7 +372,7 @@ const RankBtn = styled.button`
     position: absolute;
     color: black;
     font-weight: 700;
-    width: 130px;
+    width: 140px;
     left: -32px;
   }
 `;
