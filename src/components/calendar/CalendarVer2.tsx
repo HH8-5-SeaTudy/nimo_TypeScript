@@ -3,7 +3,6 @@ import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import Input from "../../elements/Input";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-// import { updateDate,selectDate } from '../../redux/modules/searchDate';
 import {
   getAllTodo,
   __postCategory,
@@ -31,13 +30,12 @@ export type Iresault = {
 const CalendarVer2 = () => {
   const dispatch = useAppDispatch();
   const allTodos = useAppSelector((state) => state.dateTodos.allTodos);
-  // const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
   const DdayRed = DdayData.map((d) => d.targetDay);
-  const DdaySort = DdayData.map((x)=>x).sort((a,b)=> {
-    return b.dday - a.dday
-  })
+  const DdaySort = DdayData.map((x) => x).sort((a, b) => {
+    return b.dday - a.dday;
+  });
   //
   const inputRef = useRef<any>([]);
   const [categoryInputShow, setCategoryInputShow] = useState(false);
@@ -71,12 +69,10 @@ const CalendarVer2 = () => {
   const diameter = 2 * Math.PI * radius;
 
   const dateSubmitHandler = (selectDD: string) => {
-    // dispatch(selectDate(selectDD)) //컴포넌트분리시사용
     setDD(selectDD);
   };
 
   //TodoList
-
   const todoBoxIndex = (index: number) => {
     let temp = [...todoInputShow];
     temp[index] = !temp[index];
@@ -113,7 +109,6 @@ const CalendarVer2 = () => {
     const tempData = [...todo];
     tempData[i] = "";
     setTodo([...tempData]);
-
   };
   const onChangeTodoInput = (e: any, i: number) => {
     const tempData = [...todo];
@@ -132,7 +127,6 @@ const CalendarVer2 = () => {
   };
 
   //D-day
-
   const onSubmitDdayHandler = () => {
     dispatch(__postDday({ title: ddayTitle, ddayDate: DD }));
     setDdayTitle("");
@@ -163,14 +157,13 @@ const CalendarVer2 = () => {
 
   useEffect(() => {
     // dispatch(__getDateTodo(date)); //컴포넌트분리시사용
-    if (DD == "") {
+    if (DD === "") {
       return;
     }
     dispatch(__getDateTodo(DD));
     dispatch(__getDday(DD));
   }, [DD]);
 
-  
   const calendarArr = () => {
     let result: any = [];
 
@@ -497,7 +490,6 @@ const CalendarVer2 = () => {
             <BTtile>TO DO LIST</BTtile>
           </CalendarTitle>
           <Calendar>
-            
             {/* DdayModal */}
             {DdayShow && (
               <DayTextBox>
@@ -831,8 +823,8 @@ export default CalendarVer2;
 
 const Layer = styled.div`
   position: absolute;
-  left: calc( 25vw / 2);
-  top: calc( 25vh / 2);
+  left: calc(25vw / 2);
+  top: calc(25vh / 2);
   height: 650px;
   width: 1150px;
   color: #ffffff;
@@ -1003,7 +995,6 @@ const DdayInputBtn = styled.div`
     line-height: 12px;
   }
 `;
-
 
 const Calendar = styled.div`
   display: flex;

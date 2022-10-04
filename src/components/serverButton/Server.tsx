@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { addUser } from "../../redux/modules/socket";
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { useAppDispatch } from "../hooks/reduxHooks";
 import handle from "../../assets/pixel/handle.png";
 //server zone
 const roomId1 = process.env.REACT_APP_ROOMID1;
@@ -14,6 +14,7 @@ const roomId5 = process.env.REACT_APP_ROOMID5;
 const Server = () => {
   const [toggle, setToggle] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(addUser);
@@ -64,18 +65,16 @@ const Server = () => {
     window.location.reload();
   };
 
-  const navigate = useNavigate();
-
   return (
     <Body>
       <div className="background-wrap">
         <div className="bubble x1">
           <UL>
-            <Toggle onClick={() => setToggle(!toggle)} toggle={toggle} >
+            <Toggle onClick={() => setToggle(!toggle)} toggle={toggle}>
               <Img src={handle}></Img>
             </Toggle>
             <LI1 onClick={onClickRoom1} toggle={toggle}>
-              <A style={{ transform: "rotate(calc(360deg/ -5 * 1))" }} >
+              <A style={{ transform: "rotate(calc(360deg/ -5 * 1))" }}>
                 <ATitle>인도양</ATitle>
               </A>
             </LI1>
@@ -139,7 +138,6 @@ const Body = styled.div`
     position: absolute;
     ${({ theme }) => theme.common.flexCenter};
     width: 100px;
-
   }
 `;
 
@@ -237,10 +235,10 @@ const Toggle = styled.div<ToggleProps>`
   transform: ${({ toggle }) => (toggle ? "rotate(270deg)" : "")};
   background-color: transparent;
 `;
-const Img =styled.img`
-  width:100%;
-  height:100%;
-`
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 const A = styled.div`
   display: flex;
   justify-content: center;
