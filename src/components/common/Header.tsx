@@ -78,7 +78,6 @@ const Header = () => {
       });
   };
 
-
   const NextDday = todayDday
     .filter((x: any) => x.targetDay >= dateString)
     .sort((a: any, b: any) => b.dday - a.dday)[0];
@@ -145,7 +144,6 @@ const Header = () => {
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
 
-
   return (
     <>
       <HeaderContainer>
@@ -172,7 +170,8 @@ const Header = () => {
         <RankBtn>
           <Calendar src={ranking} onClick={() => navigate("/statistics")} />
           <p>
-            D:{dayMyRank}위 W:{weekMyRank}위
+            {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}
+            {weekMyRank === 0 ? "D:기록없음" : "D:" + weekMyRank + "위"}
           </p>
         </RankBtn>
         {/* 서버 */}
@@ -301,6 +300,7 @@ const HeaderContainer = styled.div`
 
 const HeaderLogoContainer = styled.div`
   display: flex;
+  cursor: pointer;
 `;
 
 const HeaderLogo = styled.img`
