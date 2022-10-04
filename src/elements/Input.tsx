@@ -12,7 +12,7 @@ const Input = ({
   defaultValue,
   type,
   placeholder,
-
+  overflow,
   onChange,
   onClick,
   ref,
@@ -26,6 +26,7 @@ const Input = ({
   cursor,
   backgroundColor,
   fontFamily,
+  textOverflow,
 }: Partial<IInputProps>) => {
   return (
     <Inputs
@@ -52,6 +53,8 @@ const Input = ({
       cursor={cursor}
       backgroundColor={backgroundColor}
       fontFamily={fontFamily}
+      overflow={overflow}
+      textOverflow={textOverflow}
     />
   );
 };
@@ -73,5 +76,7 @@ const Inputs = styled.input<Partial<IInputProps>>`
   font-weight: ${({ fontWeight }) => fontWeight};
   background-color: ${({ backgroundColor }) => backgroundColor};
   cursor: ${({ cursor }) => cursor};
-  font-family: ${({ fontFamily }) => fontFamily}
+  font-family: ${({ fontFamily }) => fontFamily};
+  overflow: ${({ overflow }) => overflow};
+  text-overflow:${({ textOverflow }) => textOverflow};
 `;

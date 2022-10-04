@@ -20,7 +20,6 @@ const store = configureStore({
     fishList,
     rank,
     fishPosition,
-    chatCount,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

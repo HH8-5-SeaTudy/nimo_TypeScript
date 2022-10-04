@@ -142,6 +142,8 @@ export type IInputProps = {
   cursor: string;
   backgroundColor: string;
   fontFamily: string;
+  overflow:string;
+  textOverflow:string;
 };
 
 // * Grid Type

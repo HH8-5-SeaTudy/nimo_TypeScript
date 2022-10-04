@@ -735,6 +735,8 @@ const CalendarVer2 = () => {
                                 width="150px"
                                 cursor="pointer"
                                 fontFamily="DungGeunMo"
+                                overflow="hidden"
+                                textOverflow="ellipsis"
                               />
                             </CategoryTitle>
                             <BtnGroup>
@@ -1076,15 +1078,6 @@ const Dday = styled.div`
     margin: 0 5px 0 2px;
     font-weight: 700;
   }
-`;
-const DayTextBoxEdit = styled.div`
-  position: relative;
-  width: 300px;
-  height: 200px;
-  background-image: url(${textbox});
-  z-index: 5;
-  top: 0px;
-  padding: 35px;
 `;
 
 const TodoListBox = styled.div`

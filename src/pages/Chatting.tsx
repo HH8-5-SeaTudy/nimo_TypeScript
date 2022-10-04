@@ -7,6 +7,7 @@ import { addUser } from "../redux/modules/socket";
 import { getCookie } from "../components/social/Cookie";
 import styled from "styled-components";
 import { __getUserProfile } from "../redux/modules/userData";
+import sendbtn from "../assets/pixel/sendbtn.png";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
@@ -187,7 +188,7 @@ function Chatting() {
             <MessageForm>
               <textarea onKeyUp={handleEnterPress} ref={message} />
               <ButtonContainer>
-                <SendButton onClick={handleClick}>SEND</SendButton>
+                <SendButton onClick={handleClick}></SendButton>
               </ButtonContainer>
             </MessageForm>
           </SendBox>
@@ -484,20 +485,21 @@ const ButtonContainer = styled.div`
 `;
 
 const SendButton = styled.button`
+  background-image: url(${sendbtn});
+  background-size: 80px;
+  background-position: top 1px;
+  height: 50px;
   width: 80px;
-  height: 60px;
+  height: 65.5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  padding: 0 5px;
+  background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
   font-family: "DungGeunMo";
   font-size: 16px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6);
-  border: 1px solid black;
   border-radius: 10px;
 `;
 
