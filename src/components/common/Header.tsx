@@ -148,7 +148,6 @@ const Header = () => {
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
 
-
   return (
     <>
       <HeaderContainer>
@@ -174,7 +173,11 @@ const Header = () => {
         {/* 랭킹 */}
         <RankBtn>
           <Calendar src={ranking} onClick={() => navigate("/statistics")} />
-          <p>{dayMyRank === 0 ? 'D:기록없음' : 'D:'+dayMyRank+'위'} {weekMyRank === 0 ? 'D:기록없음' : 'D:'+weekMyRank+'위'}</p>
+          <p>
+            {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}
+            {weekMyRank === 0 ? "D:기록없음" : "D:" + weekMyRank + "위"}
+          </p>
+
         </RankBtn>
         {/* 서버 */}
         <ServerBtn>
@@ -302,6 +305,7 @@ const HeaderContainer = styled.div`
 
 const HeaderLogoContainer = styled.div`
   display: flex;
+  cursor: pointer;
 `;
 
 const HeaderLogo = styled.img`
