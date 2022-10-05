@@ -60,7 +60,7 @@ function Chatting() {
   }
 
   //연결&구독
-  const onConneted = () => {
+  function onConneted() {
     try {
       client.connect(headers, () => {
         client.subscribe(
@@ -73,10 +73,10 @@ function Chatting() {
         );
       });
     } catch (error) {}
-  };
+  }
 
   //메시지 보내기
-  const sendMessage = () => {
+  function sendMessage() {
     if (message.current.value.trim() === "") {
       return null;
     }
@@ -89,7 +89,7 @@ function Chatting() {
     });
 
     message.current.value = "";
-  };
+  }
 
   // 연결해제, 구독해제
   function disConneted() {

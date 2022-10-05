@@ -21,10 +21,12 @@ const KakaoLogin = () => {
 
         .then((res) => {
           setCookie("token", res.headers.authorization);
-        })
-        .then(() => {
           navigate("/");
-        });
+        })
+        .catch((error)=>{
+          alert(error.response.data.error.message)
+          navigate("/login");
+        })
     };
     if (code) {
       kakao();

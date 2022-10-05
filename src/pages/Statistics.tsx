@@ -10,20 +10,13 @@ import { __getUserProfile } from "../redux/modules/userData";
 import { __getDayRank, __getWeekRank } from "../redux/modules/rank";
 import { getCookie } from "../components/social/Cookie";
 import { useNavigate } from "react-router-dom";
+import DayRank from '../components/statistics/DayRank';
+import WeekRank from '../components/statistics/WeekRank';
 
 const Statistics = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
-  const dayRankData = useAppSelector((state) => state.rank.dayRank);
-  const weekRankData = useAppSelector((state) => state.rank.weekRank);
-  const fishPoint = fishImages.map((data) => data.point);
   const userPoint = userData.point;
   const dispatch = useAppDispatch();
-  const prevFishPoint = fishPoint.filter((x) => x < userPoint).slice(-1)[0];
-  const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
-  const totalFishPoint = nextFishPoint - prevFishPoint;
-  const myPoint = userPoint - prevFishPoint;
-  const nextPercent = (myPoint / totalFishPoint) * 100;
-  const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
   const token: string = getCookie("token") as string;
   const navigate = useNavigate();
@@ -33,11 +26,8 @@ const Statistics = () => {
       navigate("/login");
       alert("로그인이 필요한 페이지입니다.");
     }
-
     dispatch(__getUserProfile());
-    dispatch(__getDayRank());
-    dispatch(__getWeekRank());
-  }, [token]);
+  }, []);
 
   return (
     <>
@@ -53,20 +43,7 @@ const Statistics = () => {
                   RANKING
                 </p>
               </RankTitle>
-              <RankBox>
-                {dayRankData?.map((list, index) => (
-                  <Rank key={index}>
-                    <RankNum>
-                      <Num>{index + 1}.</Num>
-                    </RankNum>
-                    <RankProfile src={list.fish}></RankProfile>
-                    <RankInfo>
-                      <NickName>{list.nickname}</NickName>
-                      <Point>{list.dayStudy}</Point>
-                    </RankInfo>
-                  </Rank>
-                ))}
-              </RankBox>
+              <DayRank/>
             </RankSide>
             <RankSide>
               <RankTitle>
@@ -76,20 +53,7 @@ const Statistics = () => {
                   RANKING
                 </p>
               </RankTitle>
-              <RankBox>
-                {weekRankData?.map((list, index) => (
-                  <Rank key={index}>
-                    <RankNum>
-                      <Num>{index + 1}.</Num>
-                    </RankNum>
-                    <RankProfile src={list.fish}></RankProfile>
-                    <RankInfo>
-                      <NickName>{list.nickname}</NickName>
-                      <Point>{list.weekStudy}</Point>
-                    </RankInfo>
-                  </Rank>
-                ))}
-              </RankBox>
+              <WeekRank/>
             </RankSide>
             <TotalSide>
               <TopBox>
@@ -104,10 +68,7 @@ const Statistics = () => {
                     <p>NEXT LEVEL</p>
                   </NextFishTitle>
                   <NextFishBody>
-                    <FishBowl
-                      nextPercent={nextPercent}
-                      nextFishImg={nextFishImg}
-                    ></FishBowl>
+                    <FishBowl/>
                   </NextFishBody>
                 </NextFish>
                 <Week>
@@ -203,69 +164,6 @@ const RankTitle = styled.div`
 
 const TotalSide = styled.div`
   width: 70%;
-`;
-const RankBox = styled.div`
-  padding-left: 5px;
-  height: 100%;
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
-    background-color: transparent;
-    width: 5px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: #0096ff;
-    height: 5px;
-  }
-  div {
-    &:first-child {
-      margin-top: 2px;
-    }
-  }
-`;
-const Rank = styled.div`
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  margin-bottom: 5px;
-  background-color: white;
-  border-bottom: solid black 1px;
-`;
-const RankNum = styled.div`
-  width: 50px;
-  display: flex;
-  justify-content: center;
-`;
-const Num = styled.div`
-  height: 40px;
-  width: 40px;
-  margin: auto;
-  display: flex;
-  font-size: 25px;
-  justify-content: center;
-  align-items: center;
-`;
-const RankProfile = styled.img`
-  width: 60px;
-  height: 40px;
-`;
-const RankInfo = styled.div`
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-`;
-const NickName = styled.div`
-  width: 100%;
-  height: 50%;
-  text-align: center;
-  line-height: 17px;
-`;
-const Point = styled.div`
-  width: 100%;
-  height: 50%;
-  text-align: center;
-  line-height: 17px;
 `;
 const TopBox = styled.div`
   height: 30%;

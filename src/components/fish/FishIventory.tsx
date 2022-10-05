@@ -17,16 +17,7 @@ const FishIventory = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
   const positionData = useAppSelector((state) => state.fishPosition.position);
-
-  useEffect(() => {}, [positionData]);
-
-  useEffect(() => {
-    dispatch(__getUserProfile());
-    dispatch(__getFishPosition());
-  }, []);
-
   const containerRef = useRef<HTMLDivElement>(null); // 드래그 할 영역 네모 박스 Ref
-
   const [originPos, setOriginPos] = useState({ x: 0, y: 0 }); // 드래그 전 포지션값 (e.target.offset의 상대 위치)
   const [clientPos, setClientPos] = useState({ x: 0, y: 0 }); // 실시간 커서위치인 e.client를 갱신하는값
   const [pos, setPos] = useState({ left: 0, top: 0 }); // 실제 drag할 요소가 위치하는 포지션값
@@ -35,6 +26,16 @@ const FishIventory = () => {
       return [0, 0];
     })
   );
+  const [dSize, setDSize] = useState(
+    Array.from({ length: 25 }, (v, i) => {
+      return [0, 0];
+    })
+  );
+
+  useEffect(() => {
+    dispatch(__getUserProfile());
+    dispatch(__getFishPosition());
+  }, []);
 
   useEffect(() => {
     let tempData = [...dTest];
@@ -46,13 +47,8 @@ const FishIventory = () => {
     setDTest([...tempData]);
   }, [positionData]);
 
-  const [dSize, setDSize] = useState(
-    Array.from({ length: 25 }, (v, i) => {
-      return [0, 0];
-    })
-  );
 
-  const dragStartHandler = (e: any) => {
+  function dragStartHandler (e: any) {
     const blankCanvas: any = document.createElement("canvas");
     blankCanvas.classList.add("canvas");
     e.dataTransfer?.setDragImage(blankCanvas, 0, 0);
@@ -72,7 +68,7 @@ const FishIventory = () => {
     setClientPos(clientPosTemp);
   };
 
-  const dragHandler = (e: any, i: number) => {
+  function dragHandler (e: any, i: number) {
     const PosTemp = { ...pos };
     PosTemp["left"] = e.target.offsetLeft + e.clientX - clientPos.x;
     PosTemp["top"] = e.target.offsetTop + e.clientY - clientPos.y;
@@ -88,13 +84,11 @@ const FishIventory = () => {
     setClientPos(clientPosTemp);
   };
 
-  const dragOverHandler = (e: any) => {
+  function dragOverHandler (e: any) {
     e.preventDefault(); // 드래그시에 플라잉백하는 고스트이미지를 제거한다
   };
 
-  const dragEndHandler = (e: any, i: number) => {
-    // 범위조건
-
+  function dragEndHandler (e: any, i: number) {
     let tempSize = [...dSize];
     tempSize[i][0] = 100;
     tempSize[i][1] = 70;
@@ -124,12 +118,13 @@ const FishIventory = () => {
     document.body.style.overflow = "hidden";
   };
 
-  const FishDeleteHandler = (e: any, i: number) => {
+
+  function FishDeleteHandler (e: any, i: number){
     e.preventDefault();
     alert("내가 사라져볼게 얍!");
     dispatch(__deleteFishPosition(i));
   };
-  const AllFishDeleteHandler = () => {
+  function AllFishDeleteHandler() {
     alert("전부 사라져볼게 얍!");
     dispatch(__AllDeleteFishPosition());
   };

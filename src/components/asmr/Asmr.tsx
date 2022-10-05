@@ -7,14 +7,6 @@ import asmrwave from "../../assets/pixel/asmrwave.png";
 import asmrrain from "../../assets/pixel/asmrrain.png";
 
 const Asmr = () => {
-  // useEffect(() => {
-    //   if (playing === true) {
-      //     audio.play();
-      //     audio.loop = true;
-      //   } if (playing === false) {
-        //     audio.pause()
-        //   }
-        // }, [playing]);
 
   const [waveAudio, setWaveAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3") )
   const [greenAudio, setGreenAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/02/10/audio_9080c6f74e.mp3?filename=ambience_lake_morning_water_birds_crickets-19255.mp3") )
@@ -22,7 +14,7 @@ const Asmr = () => {
   const [rainAudio, setRainAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/07/04/audio_f52a5754b1.mp3?filename=light-rain-ambient-114354.mp3") )
         
 
-  const waveStart = () => {
+  function waveStart () {
     waveAudio.play();
     waveAudio.loop = true;
     greenAudio.pause();
@@ -30,7 +22,7 @@ const Asmr = () => {
     rainAudio.pause();
   };
 
-  const greenStart = () => {
+  function greenStart () {
     greenAudio.play();
     greenAudio.loop = true;
     waveAudio.pause();
@@ -38,7 +30,7 @@ const Asmr = () => {
     rainAudio.pause();
   };
 
-  const fireStart = () => {
+  function fireStart () {
     fireAudio.play();
     fireAudio.loop = true;
     waveAudio.pause();
@@ -46,7 +38,7 @@ const Asmr = () => {
     greenAudio.pause();
   };
 
-  const rainStart = () => {
+  function rainStart () {
     rainAudio.play();
     rainAudio.loop = true;
     waveAudio.pause();
@@ -54,7 +46,7 @@ const Asmr = () => {
     fireAudio.pause();
   };
 
-  const pause = () => {
+  function pause () {
     waveAudio.pause();
     rainAudio.pause();
     greenAudio.pause();

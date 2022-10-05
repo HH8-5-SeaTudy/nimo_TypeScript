@@ -17,7 +17,7 @@ const Naver = () => {
 
   const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${clientID}&response_type=code&redirect_uri=${callbackUrl}&state=${stateString}`;
 
-  const loginHandler = () => {
+  function loginHandler () {
     window.location.href = naverAuthUrl;
   };
   return (

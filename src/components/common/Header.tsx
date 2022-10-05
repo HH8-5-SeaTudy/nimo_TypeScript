@@ -20,6 +20,7 @@ import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
 import axios from "axios";
 import Asmr from "../asmr/Asmr";
+import StopWatch from '../stopwatch/StopWatch';
 
 const Header = () => {
   const token: string = getCookie("token") as string;
@@ -33,7 +34,6 @@ const Header = () => {
   const [todayDday, setTodayDday] = useState<any>([]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const time = useAppSelector((state) => state.timer);
   const dayMyRank = useAppSelector((state) => state.rank.dayMyRank.myRank);
   const weekMyRank = useAppSelector((state) => state.rank.WeekMyRank.myRank);
   const Dday = useAppSelector((state) => state.dday.DdayData);
@@ -46,10 +46,16 @@ const Header = () => {
   const myPoint = userPoint - prevFishPoint;
   const nextPercent = (myPoint / totalFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
-
+  const [showTodo, setShowTodo] = useState(false);
   const [playing, setPlaying] = useState(false);
 
-  const TodayStudyData = async () => {
+  const roomId1 = process.env.REACT_APP_ROOMID1;
+  const roomId2 = process.env.REACT_APP_ROOMID2;
+  const roomId3 = process.env.REACT_APP_ROOMID3;
+  const roomId4 = process.env.REACT_APP_ROOMID4;
+  const roomId5 = process.env.REACT_APP_ROOMID5;
+
+  const TodayDdayData = async () => {
     return await axios
       .get(`${BASE_URL}/api/v1/ddays/dates?selectDate=${dateString}`, {
         headers: {
@@ -66,61 +72,22 @@ const Header = () => {
     .sort((a: any, b: any) => b.dday - a.dday)[0];
 
   useEffect(() => {
-    TodayStudyData();
+    if( token !== undefined) {
+      TodayDdayData();
+    }
   }, [Dday]);
 
-  const [showTodo, setShowTodo] = useState(false);
-  const [hh, mm, ss] = String(time.dayStudyTime)
-    .split(":")
-    .map((v) => +v);
-
-  const [timeSS, setTimeSS] = useState<number>(0);
-  const [timeMM, setTimeMM] = useState<number>(0);
-  const [timeHH, setTimeHH] = useState<number>(0);
-
-  const roomId1 = process.env.REACT_APP_ROOMID1;
-  const roomId2 = process.env.REACT_APP_ROOMID2;
-  const roomId3 = process.env.REACT_APP_ROOMID3;
-  const roomId4 = process.env.REACT_APP_ROOMID4;
-  const roomId5 = process.env.REACT_APP_ROOMID5;
-
   useEffect(() => {
-    dispatch(__getUserinquire());
+    if( token !== undefined) {
     dispatch(__getDayMyRank());
     dispatch(__getWeekMyRank());
     dispatch(__getUserProfile());
     return () => {
       dispatch(__getCheckOutTimer());
     };
-  }, [token]);
-
-  useEffect(() => {
-    setTimeSS(ss);
-    setTimeMM(mm);
-    setTimeHH(hh);
-  }, [time]);
-
-  useEffect(() => {
-    let interval: any = null;
-    if (time.isStudy) {
-      interval = setInterval(() => {
-        setTimeSS((ss) => ss + 1);
-      }, 1000);
-    } else {
-      clearInterval(interval);
     }
-    if (timeSS % 60 === 0 && timeSS !== 0) {
-      setTimeMM((mm) => mm + 1);
-    }
+  }, []);
 
-    return () => clearInterval(interval);
-  }, [JSON.stringify(time), timeSS]);
-
-  useEffect(() => {
-    if (timeMM % 60 === 0 && timeMM !== 0) {
-      setTimeHH((hh) => hh + 1);
-    }
-  }, [timeMM]);
 
   if (window.location.pathname === "/login") return null;
   if (window.location.pathname === "/kakaoLogin") return null;
@@ -142,19 +109,18 @@ const Header = () => {
         </AsmrBtn>
         {/* 캘린더버튼 */}
         <CalendarBtn>
-          <Calendar src={calendar} onClick={() => setShowTodo(!showTodo)} />
+          <Icon src={calendar} onClick={() => setShowTodo(!showTodo)} />
         </CalendarBtn>
         {/* 다음물고기 */}
         <FishBtn>
-          <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
+          <Icon src={nextFishImg} onClick={() => navigate("/unlock")} />
           <p>
             {String(nextPercent).slice(0, 2) === 'Na' ? '0' : String(nextPercent).slice(0, 2) }% 달성
           </p>
-
         </FishBtn>
         {/* 랭킹 */}
         <RankBtn>
-          <Calendar src={ranking} onClick={() => navigate("/statistics")} />
+          <Icon src={ranking} onClick={() => navigate("/statistics")} />
           <p>
             {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}
             {weekMyRank === 0 ? "W:기록없음" : "W:" + weekMyRank + "위"}
@@ -162,7 +128,7 @@ const Header = () => {
         </RankBtn>
         {/* 서버 */}
         <ServerBtn>
-          <Calendar src={server} />
+          <Icon src={server} />
           <ServerBox>
             <div
               onClick={() => {
@@ -242,39 +208,15 @@ const Header = () => {
           </DdayBtn>
         )}
         <HeaderTimerContainer>
-          <HeaderTimer>
-            <Layer>
-              <Link to="/statistics" style={{ textDecoration: "none" }}>
-                <span>{("0" + Math.floor(timeHH % 24)).slice(-2)}:</span>
-                <span>
-                  {timeMM === undefined
-                    ? "00"
-                    : ("0" + Math.floor(timeMM % 60)).slice(-2)}
-                  :
-                </span>
-                <span>
-                  {timeSS === undefined
-                    ? "00"
-                    : ("0" + Math.floor(timeSS % 60)).slice(-2)}
-                </span>
-              </Link>
-            </Layer>
+          <HeaderTimer onClick={() => navigate("/statistics")}>
+            <StopWatch/>
           </HeaderTimer>
         </HeaderTimerContainer>
       </HeaderContainer>
     </>
   );
 };
-const Layer = styled.div`
-  span {
-    color: white;
-  }
-`;
-const CalendarLayer =styled.div`
-background-color: white;
-  width: 100vw;
-  height: 90vw;
-`
+
 const HeaderContainer = styled.div`
   position: relative;
   display: flex;
@@ -307,6 +249,7 @@ const HeaderTimerContainer = styled.div`
 const HeaderTimer = styled.span`
   color: #fff;
   font-size: 50px;
+  cursor: pointer;
 `;
 
 const AsmrBtn = styled.button`
@@ -477,7 +420,7 @@ const DdayContent = styled.p`
   border: solid white 2px;
 `;
 
-const Calendar = styled.img`
+const Icon = styled.img`
   width: 100%;
   height: 100%;
 `;

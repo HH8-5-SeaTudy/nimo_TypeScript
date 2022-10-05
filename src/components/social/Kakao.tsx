@@ -12,7 +12,7 @@ const Kakao = () => {
 
   const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUrl}&response_type=code`;
 
-  const loginHandler = () => {
+  function loginHandler  ()  {
     window.location.href = kakaoAuthUrl;
   };
   return (

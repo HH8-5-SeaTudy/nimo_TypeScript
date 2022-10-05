@@ -12,14 +12,20 @@ import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
 import ProfileHeader from "../components/profileHeader/ProfileHeader";
 import { getCookie } from "../components/social/Cookie";
+<<<<<<< HEAD
 import LoginSwiper from "../components/Swiper/LoginSwiper";
+=======
+>>>>>>> aa2d0057667df395bef3594d7459da3577a2a10b
 
-const Home = () => {
+const Home = () => {  
+  const token: string = getCookie("token") as string;
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   //Todo zone
   const check = useAppSelector((state) => state.timer.isStudy);
 
+<<<<<<< HEAD
   const token: string = getCookie("token") as string;
   const [info, setInfo] = useState(false);
 
@@ -27,6 +33,8 @@ const Home = () => {
     dispatch(__getUserProfile());
   }, []);
 
+=======
+>>>>>>> aa2d0057667df395bef3594d7459da3577a2a10b
   useEffect(() => {
     if (token === undefined) {
       navigate("/login");
@@ -35,11 +43,11 @@ const Home = () => {
     document.body.style.overflow = "hidden";
   }, []);
 
-  const onClickCheckIn = () => {
+  function onClickCheckIn () {
     dispatch(__getCheckInTimer());
   };
 
-  const onClickCheckOut = () => {
+  function onClickCheckOut () {
     dispatch(__getCheckOutTimer());
   };
 

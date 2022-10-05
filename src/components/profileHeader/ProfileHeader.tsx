@@ -42,8 +42,7 @@ const ProfileHeader = () => {
     })
   };
 
-
-  const onClickLogOut = () => {
+function onClickLogOut  ()  {
     dispatch(__getCheckOutTimer());
     deleteCookie("token");
     navigate("/login");
