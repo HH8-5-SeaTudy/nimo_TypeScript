@@ -2,9 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import Input from "../../elements/Input";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { updateDate,selectDate } from '../../redux/modules/searchDate';
 import {
-  getAllTodo,
   __postCategory,
   __getDateTodo,
   __postTodo,
@@ -25,12 +23,14 @@ export type Iresault = {
   result: [];
 };
 
-
-const TodoLisit = () => {
+const TodoListPart = () => {
   const dispatch = useAppDispatch();
-  const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
+  const date = useAppSelector((state) => state.updateDate.date); //컴포넌트분리시사용
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
+  const DdaySort = DdayData.map((x) => x).sort((a, b) => {
+    return b.dday - a.dday;
+  });
   //
   const inputRef = useRef<any>([]);
   const [categoryInputShow, setCategoryInputShow] = useState(false);
@@ -59,9 +59,6 @@ const TodoLisit = () => {
   };
 
   const onSubmitHandler = () => {
-    if (category.length < 2) {
-      alert("2글자 이상 입력");
-    }
     if (dateTodos.length < 4)
       dispatch(__postCategory({ categoryName: category, selectDate: date }));
     else {
@@ -106,7 +103,6 @@ const TodoLisit = () => {
   };
 
   //D-day
-  
 
   const onSubmitDdayHandler = () => {
     dispatch(__postDday({ title: ddayTitle, ddayDate: date }));
@@ -132,292 +128,281 @@ const TodoLisit = () => {
   //useEffect
 
   useEffect(() => {
+    if (date === "") {
+      return;
+    }
     dispatch(__getDateTodo(date)); //컴포넌트분리시사용
-    // if (date == '' {
-    //   return;
-    // }
     dispatch(__getDday(date));
   }, [date]);
 
   return (
     <>
-        {/* DdayModal */}
-                  {DdayShow && (
-              <DayTextBox>
-                <DdayTextBoxCloseBtn>
-                  <DdayTitle>ADD D-DAY</DdayTitle>
-                  <DdayCLoseBtn onClick={() => setDdayShow(false)}>
-                    X
-                  </DdayCLoseBtn>
-                </DdayTextBoxCloseBtn>
-                <DdayInputBox>
-                  <DToday>{date}</DToday>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      onSubmitDdayHandler();
-                      setDdayShow(false);
-                    }}
-                  >
-                    <DdayInput>
-                      <Input
-                        type="text"
-                        onChange={(e) => setDdayTitle(e.target.value)}
-                        border="solid black 2px"
-                        outline="none"
-                        height="30px"
-                      />
-                    </DdayInput>
-                    <DdayInputBtn>
-                      <div
-                        onClick={() => {
-                          onSubmitDdayHandler();
-                          setDdayShow(false);
-                        }}
-                      >
-                        등록
-                      </div>
-                    </DdayInputBtn>
-                  </form>
-                </DdayInputBox>
-              </DayTextBox>
-            )}
-            {/* DdayEditModal */}
-            {DdayEditShow &&
-              selectDdayData?.map((list) => (
-                <DayTextBox>
-                  <DdayTextBoxCloseBtn>
-                    <DdayTitle>EDIT D-DAY</DdayTitle>
-                    <DdayCLoseBtn onClick={() => setDdayEditShow(false)}>
-                      X
-                    </DdayCLoseBtn>
-                  </DdayTextBoxCloseBtn>
-                  <DdayInputBox>
-                    <DToday>
-                      {date}
-                      <span>
-                        D
-                        {list.dday === 0
-                          ? "-day"
-                          : list.dday > 0
-                          ? "+" + list.dday
-                          : list.dday}
-                      </span>
-                    </DToday>
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        onSubmitDdayEditHandler(list.ddayId, list.targetDay);
-                        setDdayEditShow(false);
-                      }}
-                    >
-                      <DdayInput>
-                        <Input
-                          type="text"
-                          onChange={(e) => setDdayEditTitle(e.target.value)}
-                          border="solid black 2px"
-                          outline="none"
-                          height="30px"
-                          defaultValue={list.title}
-                        />
-                      </DdayInput>
-                      <DdayInputBtn>
-                        <div
-                          onClick={() => {
-                            onSubmitDdayEditHandler(
-                              list.ddayId,
-                              list.targetDay
-                            );
-                            setDdayEditShow(false);
-                          }}
-                        >
-                          수정
-                        </div>
-                        <div
-                          onClick={() => {
-                            dispatch(__deleteDday(list.ddayId));
-                            setDdayEditShow(false);
-                          }}
-                        >
-                          삭제
-                        </div>
-                      </DdayInputBtn>
-                    </form>
-                  </DdayInputBox>
-                </DayTextBox>
-              ))}
-          <CalendarLeft>
-                <TopBox>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      onSubmitHandler();
-                    }}
-                  >
-                    <HiddenAddBtn categoryInputShow={categoryInputShow}>
-                      <AddEventBtn
-                        onClick={() => {
-                          setCategoryInputShow(true);
-                        }}
-                        categoryInputShow={categoryInputShow}
-                      >
-                        +
-                      </AddEventBtn>
-                      {category && <AddEventBtnHidden>+</AddEventBtnHidden>}
-                      <AddCategory categoryInputShow={categoryInputShow}>
-                        <Input
-                          onChange={onChangeCategoryInput}
-                          value={category}
-                          transition="width .2s .3s , height .3s"
-                          width={categoryInputShow ? "140px" : "0px"}
-                          height={categoryInputShow ? "25px" : "0px"}
-                          placeholder="카테고리"
-                          fontSize="20px"
-                          border="none"
-                          outline="none"
-                        />
-                      </AddCategory>
-                    </HiddenAddBtn>
-                  </form>
-                  <DayBtn
+      {/* DdayModal */}
+      {DdayShow && (
+        <DayTextBox>
+          <DdayTextBoxCloseBtn>
+            <DdayTitle>ADD D-DAY</DdayTitle>
+            <DdayCLoseBtn onClick={() => setDdayShow(false)}>X</DdayCLoseBtn>
+          </DdayTextBoxCloseBtn>
+          <DdayInputBox>
+            <DToday>{date}</DToday>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                onSubmitDdayHandler();
+                setDdayShow(false);
+              }}
+            >
+              <DdayInput>
+                <Input
+                  type="text"
+                  onChange={(e) => setDdayTitle(e.target.value)}
+                  border="solid black 2px"
+                  outline="none"
+                  height="30px"
+                />
+              </DdayInput>
+              <DdayInputBtn>
+                <div
+                  onClick={() => {
+                    onSubmitDdayHandler();
+                    setDdayShow(false);
+                  }}
+                >
+                  등록
+                </div>
+              </DdayInputBtn>
+            </form>
+          </DdayInputBox>
+        </DayTextBox>
+      )}
+      {/* DdayEditModal */}
+      {DdayEditShow &&
+        selectDdayData?.map((list) => (
+          <DayTextBox>
+            <DdayTextBoxCloseBtn>
+              <DdayTitle>EDIT D-DAY</DdayTitle>
+              <DdayCLoseBtn onClick={() => setDdayEditShow(false)}>
+                X
+              </DdayCLoseBtn>
+            </DdayTextBoxCloseBtn>
+            <DdayInputBox>
+              <DToday>
+                {date}
+                <span>
+                  D
+                  {list.dday === 0
+                    ? "-day"
+                    : list.dday > 0
+                    ? "+" + list.dday
+                    : list.dday}
+                </span>
+              </DToday>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onSubmitDdayEditHandler(list.ddayId, list.targetDay);
+                  setDdayEditShow(false);
+                }}
+              >
+                <DdayInput>
+                  <Input
+                    type="text"
+                    onChange={(e) => setDdayEditTitle(e.target.value)}
+                    border="solid black 2px"
+                    outline="none"
+                    height="30px"
+                    defaultValue={list.title}
+                  />
+                </DdayInput>
+                <DdayInputBtn>
+                  <div
                     onClick={() => {
-                      setDdayShow(true);
+                      onSubmitDdayEditHandler(list.ddayId, list.targetDay);
                       setDdayEditShow(false);
                     }}
-                  ></DayBtn>
-                  <Today>{date.slice(-2)}</Today>
-                </TopBox>
-                <LeftSideDay>
-                  {/* 디데이 */}
-                  <DdayList>
-                    {DdayData &&
-                      DdayData.map((list) => (
-                        <>
-                          <Dday
-                            key={list.ddayId}
-                            onClick={() => onSubmitEditDataHandler(list.ddayId)}
+                  >
+                    수정
+                  </div>
+                  <div
+                    onClick={() => {
+                      dispatch(__deleteDday(list.ddayId));
+                      setDdayEditShow(false);
+                    }}
+                  >
+                    삭제
+                  </div>
+                </DdayInputBtn>
+              </form>
+            </DdayInputBox>
+          </DayTextBox>
+        ))}
+      <CalendarLeft>
+        <TopBox>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmitHandler();
+            }}
+          >
+            <HiddenAddBtn categoryInputShow={categoryInputShow}>
+              <AddEventBtn
+                onClick={() => {
+                  setCategoryInputShow(true);
+                }}
+                categoryInputShow={categoryInputShow}
+              >
+                +
+              </AddEventBtn>
+              {category && <AddEventBtnHidden>+</AddEventBtnHidden>}
+              <AddCategory categoryInputShow={categoryInputShow}>
+                <Input
+                  onChange={onChangeCategoryInput}
+                  value={category}
+                  transition="width .2s .3s , height .3s"
+                  width={categoryInputShow ? "140px" : "0px"}
+                  height={categoryInputShow ? "25px" : "0px"}
+                  placeholder="카테고리"
+                  fontSize="20px"
+                  border="none"
+                  outline="none"
+                />
+              </AddCategory>
+            </HiddenAddBtn>
+          </form>
+          <DayBtn
+            onClick={() => {
+              setDdayShow(true);
+              setDdayEditShow(false);
+            }}
+          ></DayBtn>
+          <Today>{date.slice(-2)}</Today>
+        </TopBox>
+        <LeftSideDay>
+          {/* 디데이 */}
+          <DdayList>
+            {DdaySort &&
+              DdaySort.map((list) => (
+                <>
+                  <Dday
+                    key={list.ddayId}
+                    onClick={() => onSubmitEditDataHandler(list.ddayId)}
+                  >
+                    <div>{list.title}</div>
+                    <p>
+                      D
+                      {list.dday == 0
+                        ? "-day"
+                        : list.dday > 0
+                        ? "+" + list.dday
+                        : list.dday}
+                    </p>
+                  </Dday>
+                </>
+              ))}
+          </DdayList>
+          {dateTodos &&
+            dateTodos.map((list, index) => {
+              return (
+                <TodoListBox key={list.categoryId}>
+                  <CategoryBox>
+                    <CategoryTitle
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        onSubmitEditHandler(list.categoryId);
+                      }}
+                    >
+                      <Input
+                        readOnly={editCategoryShow ? false : true}
+                        onClick={() => setEditCategoryShow(true)}
+                        onChange={(e) => setEditCategory(e.target.value)}
+                        type="text"
+                        defaultValue={list.categoryName}
+                        backgroundColor="#0096FF"
+                        border="none"
+                        outline="none"
+                        color="black"
+                        fontSize="20px"
+                        width="150px"
+                        cursor="pointer"
+                        fontFamily="DungGeunMo"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                      />
+                    </CategoryTitle>
+                    <BtnGroup>
+                      <CategoryDeleteBtn
+                        onClick={() =>
+                          dispatch(__deleteCategory(list.categoryId))
+                        }
+                      >
+                        +
+                      </CategoryDeleteBtn>
+                      <TodoPopBtn
+                        onClick={() => {
+                          todoBoxIndex(index);
+                        }}
+                        todoInputShow={todoInputShow[index]}
+                      >
+                        ›
+                      </TodoPopBtn>
+                    </BtnGroup>
+                  </CategoryBox>
+                  {todoInputShow[index] && (
+                    <HiddenTodoAddBox
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        onSubmitTodoHandler(list.categoryId, index);
+                      }}
+                    >
+                      <Input
+                        type="text"
+                        ref={(el: any) => (inputRef.current[index] = el)}
+                        onChange={(e) => {
+                          onChangeTodoInput(e, index);
+                        }}
+                        width="250px"
+                      />
+                      <TodoAddBtn todo={todo[index]}>+</TodoAddBtn>
+                    </HiddenTodoAddBox>
+                  )}
+                  {list.todoList &&
+                    list.todoList.map((item) => (
+                      <TodoList key={item.todoId}>
+                        <DoneBtn
+                          style={{
+                            backgroundColor:
+                              item.done === 1 ? "#32de5d" : "transparent",
+                          }}
+                          onClick={() => dispatch(__doneTodo(item.todoId))}
+                        ></DoneBtn>
+                        <Todo>{item.content}</Todo>
+                        <TodoBtn>
+                          <DeleteBtn
+                            onClick={() =>
+                              dispatch(
+                                __deleteTodo({
+                                  todoId: item.todoId,
+                                  categoryId: list.categoryId,
+                                })
+                              )
+                            }
                           >
-                            <div>{list.title}</div>
-                            <p>
-                              D
-                              {list.dday == 0
-                                ? "-day"
-                                : list.dday > 0
-                                ? "+" + list.dday
-                                : list.dday}
-                            </p>
-                          </Dday>
-                        </>
-                      ))}
-                  </DdayList>
-                  {dateTodos &&
-                    dateTodos.map((list, index) => {
-                      return (
-                        <TodoListBox key={list.categoryId}>
-                          <CategoryBox>
-                            <CategoryTitle
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                onSubmitEditHandler(list.categoryId);
-                              }}
-                            >
-                              <Input
-                                readOnly={editCategoryShow ? false : true}
-                                onClick={() => setEditCategoryShow(true)}
-                                onChange={(e) =>
-                                  setEditCategory(e.target.value)
-                                }
-                                type="text"
-                                defaultValue={list.categoryName}
-                                backgroundColor="#0096FF"
-                                border="none"
-                                outline="none"
-                                color="black"
-                                fontSize="20px"
-                                width="150px"
-                                cursor="pointer"
-                                fontFamily="DungGeunMo"
-                              />
-                            </CategoryTitle>
-                            <BtnGroup>
-                              <CategoryDeleteBtn
-                                onClick={() =>
-                                  dispatch(__deleteCategory(list.categoryId))
-                                }
-                              >
-                                +
-                              </CategoryDeleteBtn>
-                              <TodoPopBtn
-                                onClick={() => {
-                                  todoBoxIndex(index);
-                                }}
-                                todoInputShow={todoInputShow[index]}
-                              >
-                                ›
-                              </TodoPopBtn>
-                            </BtnGroup>
-                          </CategoryBox>
-                          {todoInputShow[index] && (
-                            <HiddenTodoAddBox
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                onSubmitTodoHandler(list.categoryId, index);
-                              }}
-                            >
-                              <Input
-                                type="text"
-                                ref={(el: any) =>
-                                  (inputRef.current[index] = el)
-                                }
-                                onChange={(e) => {
-                                  onChangeTodoInput(e, index);
-                                }}
-                                width="250px"
-                              />
-                              <TodoAddBtn todo={todo[index]}>+</TodoAddBtn>
-                            </HiddenTodoAddBox>
-                          )}
-                          {list.todoList &&
-                            list.todoList.map((item) => (
-                              <TodoList key={item.todoId}>
-                                <DoneBtn
-                                  style={{
-                                    backgroundColor:
-                                      item.done === 1
-                                        ? "#32de5d"
-                                        : "transparent",
-                                  }}
-                                  onClick={() =>
-                                    dispatch(__doneTodo(item.todoId))
-                                  }
-                                ></DoneBtn>
-                                <Todo>{item.content}</Todo>
-                                <TodoBtn>
-                                  <DeleteBtn
-                                    onClick={() =>
-                                      dispatch(
-                                        __deleteTodo({
-                                          todoId: item.todoId,
-                                          categoryId: list.categoryId,
-                                        })
-                                      )
-                                    }
-                                  >
-                                    +
-                                  </DeleteBtn>
-                                </TodoBtn>
-                              </TodoList>
-                            ))}
-                        </TodoListBox>
-                      );
-                    })}
-                </LeftSideDay>
-              </CalendarLeft>
+                            +
+                          </DeleteBtn>
+                        </TodoBtn>
+                      </TodoList>
+                    ))}
+                </TodoListBox>
+              );
+            })}
+        </LeftSideDay>
+      </CalendarLeft>
     </>
   );
 };
 
-export default TodoLisit;
+export default TodoListPart;
 
 const CalendarLeft = styled.div`
   position: relative;
@@ -724,7 +709,8 @@ const DayTextBox = styled.div`
   background-image: url(${textbox});
   background-repeat: no-repeat;
   z-index: 99;
-  top: 180px;
+  top: 240px;
+  right: 400px;
   padding: 35px;
 `;
 const DdayTextBoxCloseBtn = styled.div`

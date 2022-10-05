@@ -24,12 +24,13 @@ const Statistics = () => {
   const myPoint = userPoint - prevFishPoint;
   const nextPercent = (myPoint / totalFishPoint) * 100;
   const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
+
   const token: string = getCookie("token") as string;
   const navigate = useNavigate();
 
   useEffect(() => {
     if (token === undefined) {
-      navigate("/");
+      navigate("/login");
       alert("로그인이 필요한 페이지입니다.");
     }
 
@@ -40,13 +41,14 @@ const Statistics = () => {
 
   return (
     <>
+      {/* <Header/> */}
       <StatisticsLayer>
         <Layer>
           <TopLayer>
             <RankSide>
               <RankTitle>
                 <p>
-                  DAILY
+                  TODAY
                   <br />
                   RANKING
                 </p>
@@ -69,7 +71,7 @@ const Statistics = () => {
             <RankSide>
               <RankTitle>
                 <p>
-                  WEEKLY
+                  LAST WEEK
                   <br />
                   RANKING
                 </p>

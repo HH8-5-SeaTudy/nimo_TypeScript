@@ -60,7 +60,7 @@ const Header = () => {
         setTodayDday(res.data.data);
       });
   };
-  
+
   const NextDay = todayDday
     ?.filter((x: any) => x.targetDay >= dateString)
     .sort((a: any, b: any) => b.dday - a.dday)[0];
@@ -122,7 +122,7 @@ const Header = () => {
     }
   }, [timeMM]);
 
-  if (window.location.pathname === "/") return null;
+  if (window.location.pathname === "/login") return null;
   if (window.location.pathname === "/kakaoLogin") return null;
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
@@ -130,10 +130,10 @@ const Header = () => {
   return (
     <>
       <HeaderContainer>
-        {showTodo && <CalendarVer2 />}
+        {showTodo && <CalendarVer2 setShowTodo={setShowTodo}  />}
         {/* 로고 */}
         <HeaderLogoContainer>
-          <HeaderLogo src={logo} onClick={() => navigate("/home")} />
+          <HeaderLogo src={logo} onClick={() => navigate("/")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
         <AsmrBtn>
@@ -148,10 +148,7 @@ const Header = () => {
         <FishBtn>
           <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
           <p>
-            {String(nextPercent).slice(0, 2)
-              ? String(nextPercent).slice(0, 2)
-              : "0"}
-            %
+            {String(nextPercent).slice(0, 2) === 'Na' ? '0' : String(nextPercent).slice(0, 2) }% 달성
           </p>
 
         </FishBtn>
@@ -159,8 +156,8 @@ const Header = () => {
         <RankBtn>
           <Calendar src={ranking} onClick={() => navigate("/statistics")} />
           <p>
-            {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}{" "}
-            {weekMyRank === 0 ? "D:기록없음" : "D:" + weekMyRank + "위"}
+            {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}
+            {weekMyRank === 0 ? "W:기록없음" : "W:" + weekMyRank + "위"}
           </p>
         </RankBtn>
         {/* 서버 */}
@@ -273,7 +270,11 @@ const Layer = styled.div`
     color: white;
   }
 `;
-
+const CalendarLayer =styled.div`
+background-color: white;
+  width: 100vw;
+  height: 90vw;
+`
 const HeaderContainer = styled.div`
   position: relative;
   display: flex;

@@ -12,7 +12,7 @@ import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
 import ProfileHeader from "../components/profileHeader/ProfileHeader";
 import { getCookie } from "../components/social/Cookie";
-import Server from "../components/serverButton/Server";
+import LoginSwiper from "../components/Swiper/LoginSwiper";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +21,7 @@ const Home = () => {
   const check = useAppSelector((state) => state.timer.isStudy);
 
   const token: string = getCookie("token") as string;
+  const [info, setInfo] = useState(false);
 
   useEffect(() => {
     dispatch(__getUserProfile());
@@ -28,7 +29,7 @@ const Home = () => {
 
   useEffect(() => {
     if (token === undefined) {
-      navigate("/");
+      navigate("/login");
       alert("로그인이 필요한 페이지입니다.");
     }
     document.body.style.overflow = "hidden";
@@ -76,6 +77,18 @@ const Home = () => {
               </ButtonContainer>
             </>
           )}
+          <InfoContainer>
+            {info ? (
+              <Info onClick={() => setInfo(!info)}>?</Info>
+            ) : (
+              <>
+                <Info onClick={() => setInfo(!info)}>?</Info>
+                <Slide>
+                  <LoginSwiper />
+                </Slide>
+              </>
+            )}
+          </InfoContainer>
           <FishIventory />
         </MainBox>
       </Layer>
@@ -230,4 +243,38 @@ const SicissorsCrab = styled.div`
   background-size: 80% 80%;
   background-repeat: no-repeat;
   z-index: 2;
+`;
+
+const InfoContainer = styled.div`
+  position: absolute;
+  left: 2%;
+  bottom: 20%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Info = styled.div`
+  font-size: 4em;
+  color: white;
+  border-radius: 9999px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+`;
+
+const Slide = styled.div`
+  position: absolute;
+  left: 120%;
+  bottom: 0;
+  z-index: 5;
+  width: 50vw;
+  height: 60vh;
+  color: black;
 `;

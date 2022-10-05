@@ -23,7 +23,7 @@ const KakaoLogin = () => {
           setCookie("token", res.headers.authorization);
         })
         .then(() => {
-          navigate("/home");
+          navigate("/");
         });
     };
     if (code) {

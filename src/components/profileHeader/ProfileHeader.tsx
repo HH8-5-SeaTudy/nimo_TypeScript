@@ -46,7 +46,7 @@ const ProfileHeader = () => {
   const onClickLogOut = () => {
     dispatch(__getCheckOutTimer());
     deleteCookie("token");
-    navigate("/");
+    navigate("/login");
   };
 
   useEffect(()=> {
@@ -114,6 +114,7 @@ const ProfileBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   img {  
     width: 80px;
     height: 70px;
@@ -151,6 +152,7 @@ color:white;
 text-align:center;
 font-size: 20px;
 line-height: 19px;
+cursor: pointer;
 `
 const ProfileName =styled.div`
   width: 70%;
@@ -179,7 +181,7 @@ const ProfileGroup = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #ff9100;
-  
+  cursor: pointer;
 `
 const TodoBox = styled.div`
   width: 240px;
@@ -218,7 +220,7 @@ const Done = styled.div`
       width:20px;
       border-radius: 50%;
       border: solid black 1px;
-
+      cursor: pointer;
     }
 `
 const Title = styled.div`
@@ -256,6 +258,7 @@ const Delete =styled.div`
     font-size: 15px;
     border: solid black 1px;
     font-family: sans-serif;
+    cursor:pointer;
   }
 `
 const TodoList =styled.div`
