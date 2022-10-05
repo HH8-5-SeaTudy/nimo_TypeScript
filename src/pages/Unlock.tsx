@@ -9,7 +9,7 @@ import { getCookie } from "../components/social/Cookie";
 import { useNavigate } from "react-router-dom";
 import UnLockFishBook from "../components/unlock/UnlockFishBook";
 
-const UnLock = () => {
+const Unlock = () => {
   const token: string = getCookie("token") as string;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -18,15 +18,15 @@ const UnLock = () => {
   const [nickname, setNickname] = useState("");
   const [editNickname, setEditNickname] = useState(false);
 
-  const onClickEditNickname = () => {
+  function onClickEditNickname() {
     setEditNickname(!editNickname);
     setNickname("");
     dispatch(__editUserProfile(nickname));
-  };
+  }
 
-  const onChangeNickname = (e: any) => {
+  function onChangeNickname(e: any) {
     setNickname(e.target.value.slice(0, 7));
-  };
+  }
 
   useEffect(() => {
     if (token === undefined) {
@@ -298,4 +298,4 @@ const FishIllustratedRightWrapper = styled.div`
   }
 `;
 
-export default UnLock;
+export default Unlock;

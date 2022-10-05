@@ -19,13 +19,6 @@ import {
 } from "../../redux/modules/dday";
 import textbox from "../../assets/pixel/textbox.png";
 
-<<<<<<< HEAD
-export type Iresault = {
-  result: [];
-};
-
-=======
->>>>>>> aa2d0057667df395bef3594d7459da3577a2a10b
 const TodoListPart = () => {
   const dispatch = useAppDispatch();
   const date = useAppSelector((state) => state.updateDate.date); //컴포넌트분리시사용
@@ -54,31 +47,22 @@ const TodoListPart = () => {
 
   //TodoList
 
-  function todoBoxIndex (index: number) {
+  function todoBoxIndex(index: number) {
     let temp = [...todoInputShow];
     temp[index] = !temp[index];
     setTodoInputShow(temp);
-  };
+  }
 
-<<<<<<< HEAD
-  const onSubmitHandler = () => {
-    if (dateTodos.length < 4)
-      dispatch(__postCategory({ categoryName: category, selectDate: date }));
-    else {
-      alert("4개까지만 생성가능");
-    }
-=======
-  function onSubmitHandler () {
-    dispatch(__postCategory({ categoryName: category, selectDate: date }))
->>>>>>> aa2d0057667df395bef3594d7459da3577a2a10b
+  function onSubmitHandler() {
+    dispatch(__postCategory({ categoryName: category, selectDate: date }));
     setCategory("");
-  };
+  }
 
-  function onChangeCategoryInput (e: any) {
+  function onChangeCategoryInput(e: any) {
     setCategory(e.target.value);
-  };
+  }
 
-  function onSubmitTodoHandler (id: any, i: number) {
+  function onSubmitTodoHandler(id: any, i: number) {
     dispatch(
       __postTodo({
         categoryId: id,
@@ -89,15 +73,15 @@ const TodoListPart = () => {
     const tempData = [...todo];
     tempData[i] = "";
     setTodo([...tempData]);
-  };
+  }
 
-  function onChangeTodoInput (e: any, i: number) {
+  function onChangeTodoInput(e: any, i: number) {
     const tempData = [...todo];
     tempData[i] = e.target.value;
     setTodo([...tempData]);
-  };
+  }
 
-  function onSubmitEditHandler (id: any) {
+  function onSubmitEditHandler(id: any) {
     dispatch(
       __editCategory({
         categoryName: editCategory,
@@ -105,27 +89,22 @@ const TodoListPart = () => {
       })
     );
     setEditCategoryShow(false);
-  };
+  }
 
   //D-day
-<<<<<<< HEAD
 
-  const onSubmitDdayHandler = () => {
-=======
-  
-  function onSubmitDdayHandler () {
->>>>>>> aa2d0057667df395bef3594d7459da3577a2a10b
+  function onSubmitDdayHandler() {
     dispatch(__postDday({ title: ddayTitle, ddayDate: date }));
     setDdayTitle("");
-  };
-  function onSubmitEditDataHandler (id: number) {
+  }
+  function onSubmitEditDataHandler(id: number) {
     setSelectDdayID(id);
     setDdayShow(false);
     setDdayEditShow(true);
-  };
+  }
   const selectDdayData = DdayData.filter((x) => x.ddayId === selectDdayID);
 
-  function onSubmitDdayEditHandler (id: number, targetDay: string) {
+  function onSubmitDdayEditHandler(id: number, targetDay: string) {
     dispatch(
       __editDday({
         title: DdayEditTitle,
@@ -133,7 +112,7 @@ const TodoListPart = () => {
         id,
       })
     );
-  };
+  }
 
   //useEffect
 
@@ -141,7 +120,7 @@ const TodoListPart = () => {
     if (date === "") {
       return;
     }
-    dispatch(__getDateTodo(date)); 
+    dispatch(__getDateTodo(date));
     dispatch(__getDday(date));
   }, [date]);
 
@@ -189,7 +168,7 @@ const TodoListPart = () => {
       {/* DdayEditModal */}
       {DdayEditShow &&
         selectDdayData?.map((list) => (
-          <DayTextBox>
+          <DayTextBox key={list.ddayId}>
             <DdayTextBoxCloseBtn>
               <DdayTitle>EDIT D-DAY</DdayTitle>
               <DdayCLoseBtn onClick={() => setDdayEditShow(false)}>
@@ -354,45 +333,12 @@ const TodoListPart = () => {
                         }}
                         todoInputShow={todoInputShow[index]}
                       >
-<<<<<<< HEAD
                         ›
                       </TodoPopBtn>
                     </BtnGroup>
                   </CategoryBox>
                   {todoInputShow[index] && (
                     <HiddenTodoAddBox
-=======
-                        등록
-                      </div>
-                    </DdayInputBtn>
-                  </form>
-                </DdayInputBox>
-              </DayTextBox>
-            )}
-            {/* DdayEditModal */}
-            {DdayEditShow &&
-              selectDdayData?.map((list) => (
-                <DayTextBox key={list.ddayId}>
-                  <DdayTextBoxCloseBtn>
-                    <DdayTitle>EDIT D-DAY</DdayTitle>
-                    <DdayCLoseBtn onClick={() => setDdayEditShow(false)}>
-                      X
-                    </DdayCLoseBtn>
-                  </DdayTextBoxCloseBtn>
-                  <DdayInputBox>
-                    <DToday>
-                      {date}
-                      <span>
-                        D
-                        {list.dday === 0
-                          ? "-day"
-                          : list.dday > 0
-                          ? "+" + list.dday
-                          : list.dday}
-                      </span>
-                    </DToday>
-                    <form
->>>>>>> aa2d0057667df395bef3594d7459da3577a2a10b
                       onSubmit={(e) => {
                         e.preventDefault();
                         onSubmitTodoHandler(list.categoryId, index);

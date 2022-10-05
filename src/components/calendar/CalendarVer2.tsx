@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import {getAllTodo} from "../../redux/modules/dateTodos";
+import { getAllTodo } from "../../redux/modules/dateTodos";
 import left from "../../assets/pixel/left.png";
 import right from "../../assets/pixel/right.png";
 import { updateDate } from "../../redux/modules/updateDate";
@@ -20,7 +20,7 @@ const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
   const allTodos = useAppSelector((state) => state.dateTodos.allTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
   const DdayRed = DdayData.map((d) => d.targetDay);
-  const date = useAppSelector((state) => state.updateDate.date)
+  const date = useAppSelector((state) => state.updateDate.date);
   //오늘 날짜 저장
   const [getMoment, setMoment] = useState(moment());
   const today = getMoment;
@@ -32,23 +32,13 @@ const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
   const radius = 48;
   const diameter = 2 * Math.PI * radius;
 
-<<<<<<< HEAD
-  const dateSubmitHandler = (selectDD: string) => {
+  function dateSubmitHandler(selectDD: string) {
     dispatch(updateDate(selectDD));
-  };
-
-  const onHiddenShow = () => {
-    setShowTodo();
-  };
-=======
-  function dateSubmitHandler (selectDD: string) {
-    dispatch(updateDate(selectDD))
-  };
-
-  function onHiddenShow (){
-    setShowTodo()
   }
->>>>>>> aa2d0057667df395bef3594d7459da3577a2a10b
+
+  function onHiddenShow() {
+    setShowTodo();
+  }
 
   //useEffect
   useEffect(() => {
@@ -163,8 +153,10 @@ const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
                           ) === days.format("YYYY-MM-DD")
                             ? "red"
                             : "#ff9100",
-                        color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
-                      
+                        color:
+                          date === days.format("YYYY-MM-DD")
+                            ? "black"
+                            : "white",
                       }}
                     >
                       {days.format("D")}
@@ -263,7 +255,10 @@ const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
                           ) === days.format("YYYY-MM-DD")
                             ? "red"
                             : "#00D7FF",
-                        color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
+                        color:
+                          date === days.format("YYYY-MM-DD")
+                            ? "black"
+                            : "white",
                       }}
                     >
                       {days.format("D")}
@@ -363,8 +358,10 @@ const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
                           ) === days.format("YYYY-MM-DD")
                             ? "red"
                             : "#1175f8",
-                            color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
-                            
+                        color:
+                          date === days.format("YYYY-MM-DD")
+                            ? "black"
+                            : "white",
                       }}
                     >
                       {days.format("D")}
@@ -634,7 +631,3 @@ const animation = keyframes`
 const AnimatedCircle = styled.circle`
   animation: ${animation} 3s ease;
 `;
-
-interface CategoryInputShowProps {
-  categoryInputShow: boolean;
-}
