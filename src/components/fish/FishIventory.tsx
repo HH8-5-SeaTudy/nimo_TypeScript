@@ -17,16 +17,7 @@ const FishIventory = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
   const userPoint = userData.point;
   const positionData = useAppSelector((state) => state.fishPosition.position);
-
-  useEffect(() => {}, [positionData]);
-
-  useEffect(() => {
-    dispatch(__getUserProfile());
-    dispatch(__getFishPosition());
-  }, []);
-
   const containerRef = useRef<HTMLDivElement>(null); // 드래그 할 영역 네모 박스 Ref
-
   const [originPos, setOriginPos] = useState({ x: 0, y: 0 }); // 드래그 전 포지션값 (e.target.offset의 상대 위치)
   const [clientPos, setClientPos] = useState({ x: 0, y: 0 }); // 실시간 커서위치인 e.client를 갱신하는값
   const [pos, setPos] = useState({ left: 0, top: 0 }); // 실제 drag할 요소가 위치하는 포지션값
@@ -35,6 +26,16 @@ const FishIventory = () => {
       return [0, 0];
     })
   );
+  const [dSize, setDSize] = useState(
+    Array.from({ length: 25 }, (v, i) => {
+      return [0, 0];
+    })
+  );
+
+  useEffect(() => {
+    dispatch(__getUserProfile());
+    dispatch(__getFishPosition());
+  }, []);
 
   useEffect(() => {
     let tempData = [...dTest];
@@ -46,11 +47,6 @@ const FishIventory = () => {
     setDTest([...tempData]);
   }, [positionData]);
 
-  const [dSize, setDSize] = useState(
-    Array.from({ length: 25 }, (v, i) => {
-      return [0, 0];
-    })
-  );
 
   const dragStartHandler = (e: any) => {
     const blankCanvas: any = document.createElement("canvas");
@@ -93,8 +89,6 @@ const FishIventory = () => {
   };
 
   const dragEndHandler = (e: any, i: number) => {
-    // 범위조건
-
     let tempSize = [...dSize];
     tempSize[i][0] = 100;
     tempSize[i][1] = 70;
@@ -123,6 +117,7 @@ const FishIventory = () => {
     document.body.removeAttribute("style");
     document.body.style.overflow = "hidden";
   };
+
 
   const FishDeleteHandler = (e: any, i: number) => {
     e.preventDefault();

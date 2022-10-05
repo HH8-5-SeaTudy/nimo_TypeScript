@@ -15,15 +15,8 @@ import WeekRank from '../components/statistics/WeekRank';
 
 const Statistics = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
-  const fishPoint = fishImages.map((data) => data.point);
   const userPoint = userData.point;
   const dispatch = useAppDispatch();
-  const prevFishPoint = fishPoint.filter((x) => x < userPoint).slice(-1)[0];
-  const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
-  const totalFishPoint = nextFishPoint - prevFishPoint;
-  const myPoint = userPoint - prevFishPoint;
-  const nextPercent = (myPoint / totalFishPoint) * 100;
-  const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
 
   const token: string = getCookie("token") as string;
   const navigate = useNavigate();
@@ -34,9 +27,7 @@ const Statistics = () => {
       alert("로그인이 필요한 페이지입니다.");
     }
     dispatch(__getUserProfile());
-    dispatch(__getDayRank());
-    dispatch(__getWeekRank());
-  }, [token]);
+  }, []);
 
   return (
     <>
@@ -77,10 +68,7 @@ const Statistics = () => {
                     <p>NEXT LEVEL</p>
                   </NextFishTitle>
                   <NextFishBody>
-                    <FishBowl
-                      nextPercent={nextPercent}
-                      nextFishImg={nextFishImg}
-                    ></FishBowl>
+                    <FishBowl/>
                   </NextFishBody>
                 </NextFish>
                 <Week>

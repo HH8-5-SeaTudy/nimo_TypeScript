@@ -12,19 +12,14 @@ import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
 import ProfileHeader from "../components/profileHeader/ProfileHeader";
 import { getCookie } from "../components/social/Cookie";
-import Server from "../components/serverButton/Server";
 
-const Home = () => {
+const Home = () => {  
+  const token: string = getCookie("token") as string;
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   //Todo zone
   const check = useAppSelector((state) => state.timer.isStudy);
-
-  const token: string = getCookie("token") as string;
-
-  useEffect(() => {
-    dispatch(__getUserProfile());
-  }, []);
 
   useEffect(() => {
     if (token === undefined) {

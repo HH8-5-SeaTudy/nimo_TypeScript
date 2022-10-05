@@ -22,8 +22,6 @@ const NaverLogin = () => {
         )
         .then((res) => {
           setCookie("token", res.headers.authorization);
-        })
-        .then(() => {
           navigate("/");
         })
         .catch((error)=>{

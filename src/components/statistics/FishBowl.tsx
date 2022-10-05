@@ -1,17 +1,29 @@
 import styled, { keyframes } from "styled-components";
+import fishImages from '../fish/FishImages';
+import { useAppSelector } from '../hooks/reduxHooks';
 
-const FishBowl = (props: any) => {
-  const waterPercent = 100 - props.nextPercent;
+
+const FishBowl = () => {
+  const userData = useAppSelector((state) => state.userData.userProfile);
+  const fishPoint = fishImages.map((data) => data.point);
+  const userPoint = userData.point;
+  const prevFishPoint = fishPoint.filter((x) => x < userPoint).slice(-1)[0];
+  const nextFishPoint = fishPoint.filter((x) => x > userPoint)[0];
+  const totalFishPoint = nextFishPoint - prevFishPoint;
+  const myPoint = userPoint - prevFishPoint;
+  const nextPercent = (myPoint / totalFishPoint) * 100;
+  const nextFishImg = fishImages.find((x) => x.point === nextFishPoint)?.image;
+  const waterPercent = 100 - nextPercent;
 
   return (
     <BowlLayer>
       <Bowl>
         <BowlInner>
-          <Percent>{String(props.nextPercent).slice(0, 2) === 'Na' ? '0' : String(props.nextPercent).slice(0, 2) }%</Percent>
+          <Percent>{String(nextPercent).slice(0, 2) === 'Na' ? '0' : String(nextPercent).slice(0, 2) }%</Percent>
           <Water style={{ top: `${waterPercent}%` }}></Water>
           <Glare></Glare>
           <FishBox>
-            <NextFish src={props.nextFishImg}></NextFish>
+            <NextFish src={nextFishImg}></NextFish>
           </FishBox>
         </BowlInner>
       </Bowl>
