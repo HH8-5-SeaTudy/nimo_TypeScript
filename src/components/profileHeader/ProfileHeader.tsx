@@ -46,7 +46,7 @@ const ProfileHeader = () => {
   const onClickLogOut = () => {
     dispatch(__getCheckOutTimer());
     deleteCookie("token");
-    navigate("/");
+    navigate("/login");
   };
 
   useEffect(()=> {
