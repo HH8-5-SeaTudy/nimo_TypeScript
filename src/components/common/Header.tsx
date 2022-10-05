@@ -227,7 +227,7 @@ const Header = () => {
           </ServerBox>
         </ServerBtn>
         {/* 제일빠른디데이 */}
-        {Dday && (
+        {NextDay && (
           <DdayBtn>
             <DdayTitle>
               D-
