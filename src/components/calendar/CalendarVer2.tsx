@@ -2,22 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import {
-  getAllTodo,
-  __postCategory,
-  __getDateTodo,
-  __postTodo,
-  __deleteTodo,
-  __doneTodo,
-  __editCategory,
-  __deleteCategory,
-} from "../../redux/modules/dateTodos";
-import {
-  __deleteDday,
-  __editDday,
-  __getDday,
-  __postDday,
-} from "../../redux/modules/dday";
+import {getAllTodo} from "../../redux/modules/dateTodos";
 import left from "../../assets/pixel/left.png";
 import right from "../../assets/pixel/right.png";
 import { updateDate } from '../../redux/modules/updateDate';
