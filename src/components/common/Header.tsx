@@ -67,7 +67,7 @@ const Header = () => {
 
   useEffect(() => {
     TodayStudyData();
-  }, [Dday]);
+  }, []);
 
   const [showTodo, setShowTodo] = useState(false);
   const [hh, mm, ss] = String(time.dayStudyTime)
@@ -133,7 +133,7 @@ const Header = () => {
         {showTodo && <CalendarVer2 />}
         {/* 로고 */}
         <HeaderLogoContainer>
-          <HeaderLogo src={logo} onClick={() => navigate("/home")} />
+          <HeaderLogo src={logo} onClick={() => navigate("/")} />
         </HeaderLogoContainer>
         {/* 소라버튼 */}
         <AsmrBtn>
