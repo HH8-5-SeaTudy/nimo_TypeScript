@@ -12,6 +12,10 @@ import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
 import ProfileHeader from "../components/profileHeader/ProfileHeader";
 import { getCookie } from "../components/social/Cookie";
+<<<<<<< HEAD
+import LoginSwiper from "../components/Swiper/LoginSwiper";
+=======
+>>>>>>> aa2d0057667df395bef3594d7459da3577a2a10b
 
 const Home = () => {  
   const token: string = getCookie("token") as string;
@@ -21,6 +25,16 @@ const Home = () => {
   //Todo zone
   const check = useAppSelector((state) => state.timer.isStudy);
 
+<<<<<<< HEAD
+  const token: string = getCookie("token") as string;
+  const [info, setInfo] = useState(false);
+
+  useEffect(() => {
+    dispatch(__getUserProfile());
+  }, []);
+
+=======
+>>>>>>> aa2d0057667df395bef3594d7459da3577a2a10b
   useEffect(() => {
     if (token === undefined) {
       navigate("/login");
@@ -71,6 +85,18 @@ const Home = () => {
               </ButtonContainer>
             </>
           )}
+          <InfoContainer>
+            {info ? (
+              <Info onClick={() => setInfo(!info)}>?</Info>
+            ) : (
+              <>
+                <Info onClick={() => setInfo(!info)}>?</Info>
+                <Slide>
+                  <LoginSwiper />
+                </Slide>
+              </>
+            )}
+          </InfoContainer>
           <FishIventory />
         </MainBox>
       </Layer>
@@ -225,4 +251,38 @@ const SicissorsCrab = styled.div`
   background-size: 80% 80%;
   background-repeat: no-repeat;
   z-index: 2;
+`;
+
+const InfoContainer = styled.div`
+  position: absolute;
+  left: 2%;
+  bottom: 20%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Info = styled.div`
+  font-size: 4em;
+  color: white;
+  border-radius: 9999px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+`;
+
+const Slide = styled.div`
+  position: absolute;
+  left: 120%;
+  bottom: 0;
+  z-index: 5;
+  width: 50vw;
+  height: 60vh;
+  color: black;
 `;

@@ -2,12 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
-import { addUser } from "../redux/modules/socket";
-import { getCookie } from "../components/social/Cookie";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { addUser } from "../../redux/modules/socket";
+import { getCookie } from "../social/Cookie";
 import styled from "styled-components";
-import { __getUserProfile } from "../redux/modules/userData";
-import sendbtn from "../assets/pixel/sendbtn.png";
+import { __getUserProfile } from "../../redux/modules/userData";
+import sendbtn from "../../assets/pixel/sendbtn.png";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const token: string = getCookie("token") as string;
@@ -48,19 +48,19 @@ function Chatting() {
     };
   }, []);
 
-  function handleEnterPress (e: any) {
+  function handleEnterPress(e: any) {
     if (e.code === "Enter" && e.shiftKey === false) {
       sendMessage();
     }
-  };
+  }
 
-  function handleClick  (e: any) {
+  function handleClick(e: any) {
     e.preventDefault();
     sendMessage();
-  };
+  }
 
   //연결&구독
-  function onConneted  () {
+  function onConneted() {
     try {
       client.connect(headers, () => {
         client.subscribe(
@@ -73,10 +73,10 @@ function Chatting() {
         );
       });
     } catch (error) {}
-  };
+  }
 
   //메시지 보내기
-  function sendMessage () {
+  function sendMessage() {
     if (message.current.value.trim() === "") {
       return null;
     }
@@ -89,7 +89,7 @@ function Chatting() {
     });
 
     message.current.value = "";
-  };
+  }
 
   // 연결해제, 구독해제
   function disConneted() {
@@ -516,4 +516,4 @@ const SendButton = styled.button`
   border-radius: 10px;
 `;
 
-export default Chatting;
+export default React.memo(Chatting);

@@ -20,8 +20,8 @@ import {
 } from "../../redux/modules/dday";
 import left from "../../assets/pixel/left.png";
 import right from "../../assets/pixel/right.png";
-import { updateDate } from '../../redux/modules/updateDate';
-import TodoListPart from './TodoListPart';
+import { updateDate } from "../../redux/modules/updateDate";
+import TodoListPart from "./TodoListPart";
 
 interface MyComponentProps {
   setShowTodo: any;
@@ -30,7 +30,7 @@ export type Iresault = {
   result: [];
 };
 
-const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
+const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
   const dispatch = useAppDispatch();
   const allTodos = useAppSelector((state) => state.dateTodos.allTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
@@ -47,6 +47,15 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
   const radius = 48;
   const diameter = 2 * Math.PI * radius;
 
+<<<<<<< HEAD
+  const dateSubmitHandler = (selectDD: string) => {
+    dispatch(updateDate(selectDD));
+  };
+
+  const onHiddenShow = () => {
+    setShowTodo();
+  };
+=======
   function dateSubmitHandler (selectDD: string) {
     dispatch(updateDate(selectDD))
   };
@@ -54,13 +63,13 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
   function onHiddenShow (){
     setShowTodo()
   }
+>>>>>>> aa2d0057667df395bef3594d7459da3577a2a10b
 
   //useEffect
   useEffect(() => {
-    dispatch(updateDate(today.format("YYYY-MM-DD")));//컴포넌트분리시사용
+    dispatch(updateDate(today.format("YYYY-MM-DD"))); //컴포넌트분리시사용
     dispatch(getAllTodo());
   }, []);
-
 
   const calendarArr = () => {
     let result: any = [];
@@ -386,66 +395,65 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
   };
   return (
     <>
-      <Layer onClick={()=>onHiddenShow()}>
-      </Layer>   
+      <Layer onClick={() => onHiddenShow()}></Layer>
       <Wrapper>
-          <CalendarTitle>
-            <ATtile>CALENDAR</ATtile>
-            <BTtile>TO DO LIST</BTtile>
-          </CalendarTitle>
-          <Calendar>
-            {/* 달력 */}
-            <CalendarRight>
-              <Main>
-                <CalendarRow>
-                  <CalendarCol>SUN</CalendarCol>
-                  <CalendarCol>MON</CalendarCol>
-                  <CalendarCol>TUE</CalendarCol>
-                  <CalendarCol>WED</CalendarCol>
-                  <CalendarCol>THU</CalendarCol>
-                  <CalendarCol>FRI</CalendarCol>
-                  <CalendarCol>SAT</CalendarCol>
-                </CalendarRow>
-                {calendarArr()}
-              </Main>
-            </CalendarRight>
-            <LeftLayer>
-              <MonthYear>
-                <YearBox>
-                  <PrevBtn
-                    src={left}
-                    onClick={() => {
-                      setMoment(getMoment.clone().subtract(1, "year"));
-                    }}
-                  ></PrevBtn>
-                  <TodayYear>{today.format("YYYY")}</TodayYear>
-                  <NextBtn
-                    src={right}
-                    onClick={() => {
-                      setMoment(getMoment.clone().add(1, "year"));
-                    }}
-                  ></NextBtn>
-                </YearBox>
-                <Month>
-                  <PrevBtn
-                    src={left}
-                    onClick={() => {
-                      setMoment(getMoment.clone().subtract(1, "month"));
-                    }}
-                  ></PrevBtn>
-                  <TodayMon> {today.format("MMMM")}</TodayMon>
-                  <NextBtn
-                    src={right}
-                    onClick={() => {
-                      setMoment(getMoment.clone().add(1, "month"));
-                    }}
-                  ></NextBtn>
-                </Month>
-              </MonthYear>
-              <TodoListPart/>
-            </LeftLayer>
-          </Calendar>
-        </Wrapper>
+        <CalendarTitle>
+          <ATtile>CALENDAR</ATtile>
+          <BTtile>TO DO LIST</BTtile>
+        </CalendarTitle>
+        <Calendar>
+          {/* 달력 */}
+          <CalendarRight>
+            <Main>
+              <CalendarRow>
+                <CalendarCol>SUN</CalendarCol>
+                <CalendarCol>MON</CalendarCol>
+                <CalendarCol>TUE</CalendarCol>
+                <CalendarCol>WED</CalendarCol>
+                <CalendarCol>THU</CalendarCol>
+                <CalendarCol>FRI</CalendarCol>
+                <CalendarCol>SAT</CalendarCol>
+              </CalendarRow>
+              {calendarArr()}
+            </Main>
+          </CalendarRight>
+          <LeftLayer>
+            <MonthYear>
+              <YearBox>
+                <PrevBtn
+                  src={left}
+                  onClick={() => {
+                    setMoment(getMoment.clone().subtract(1, "year"));
+                  }}
+                ></PrevBtn>
+                <TodayYear>{today.format("YYYY")}</TodayYear>
+                <NextBtn
+                  src={right}
+                  onClick={() => {
+                    setMoment(getMoment.clone().add(1, "year"));
+                  }}
+                ></NextBtn>
+              </YearBox>
+              <Month>
+                <PrevBtn
+                  src={left}
+                  onClick={() => {
+                    setMoment(getMoment.clone().subtract(1, "month"));
+                  }}
+                ></PrevBtn>
+                <TodayMon> {today.format("MMMM")}</TodayMon>
+                <NextBtn
+                  src={right}
+                  onClick={() => {
+                    setMoment(getMoment.clone().add(1, "month"));
+                  }}
+                ></NextBtn>
+              </Month>
+            </MonthYear>
+            <TodoListPart />
+          </LeftLayer>
+        </Calendar>
+      </Wrapper>
     </>
   );
 };
@@ -454,8 +462,8 @@ export default CalendarVer2;
 
 const Layer = styled.div`
   position: absolute;
-  top:10vh;
-  left:0;
+  top: 10vh;
+  left: 0;
   height: 90vh;
   width: 100vw;
   color: #ffffff;
@@ -508,8 +516,8 @@ const NextBtn = styled.img`
 const Wrapper = styled.div`
   background-color: #0096ff;
   position: absolute;
-  left : 17%;
-  top:10vh;
+  left: 17%;
+  top: 10vh;
   display: block;
   max-width: 1100px;
   height: 680px;
@@ -554,7 +562,6 @@ const Calendar = styled.div`
   flex-direction: row;
   height: 600px;
 `;
-
 
 const CalendarRight = styled.div`
   position: relative;

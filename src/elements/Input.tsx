@@ -78,5 +78,5 @@ const Inputs = styled.input<Partial<IInputProps>>`
   cursor: ${({ cursor }) => cursor};
   font-family: ${({ fontFamily }) => fontFamily};
   overflow: ${({ overflow }) => overflow};
-  text-overflow:${({ textOverflow }) => textOverflow};
+  text-overflow: ${({ textOverflow }) => textOverflow};
 `;
