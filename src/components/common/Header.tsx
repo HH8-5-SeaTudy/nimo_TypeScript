@@ -67,7 +67,7 @@ const Header = () => {
 
   useEffect(() => {
     TodayStudyData();
-  }, []);
+  }, [Dday]);
 
   const [showTodo, setShowTodo] = useState(false);
   const [hh, mm, ss] = String(time.dayStudyTime)
@@ -227,7 +227,7 @@ const Header = () => {
           </ServerBox>
         </ServerBtn>
         {/* 제일빠른디데이 */}
-        {NextDay && (
+        {Dday && (
           <DdayBtn>
             <DdayTitle>
               D-
