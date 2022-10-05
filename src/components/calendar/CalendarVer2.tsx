@@ -35,7 +35,7 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
   const allTodos = useAppSelector((state) => state.dateTodos.allTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
   const DdayRed = DdayData.map((d) => d.targetDay);
-
+  const date = useAppSelector((state) => state.updateDate.date)
   //오늘 날짜 저장
   const [getMoment, setMoment] = useState(moment());
   const today = getMoment;
@@ -169,6 +169,8 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
                           ) === days.format("YYYY-MM-DD")
                             ? "red"
                             : "#ff9100",
+                        color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
+                      
                       }}
                     >
                       {days.format("D")}
@@ -267,6 +269,7 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
                           ) === days.format("YYYY-MM-DD")
                             ? "red"
                             : "#00D7FF",
+                        color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
                       }}
                     >
                       {days.format("D")}
@@ -366,6 +369,8 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
                           ) === days.format("YYYY-MM-DD")
                             ? "red"
                             : "#1175f8",
+                        color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
+                            
                       }}
                     >
                       {days.format("D")}
