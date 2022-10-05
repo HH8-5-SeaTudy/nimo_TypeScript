@@ -33,7 +33,6 @@ const UnLock = () => {
   const onClickEditNickname = () => {
     if (nickname.length > 7) {
       alert("닉네임은 최대 7글자 입니다");
-
       return;
     } else if (nickname.trim() === " ") {
       alert("빈값 없이 입력해주세요");
