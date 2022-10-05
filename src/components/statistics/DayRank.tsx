@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useAppSelector } from '../hooks/reduxHooks';
+import { __getDayRank } from '../../redux/modules/rank';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 
 
 const DayRank = () => {
+  const dispatch = useAppDispatch();
   const dayRankData = useAppSelector((state) => state.rank.dayRank);
+
+  useEffect(() => {
+    dispatch(__getDayRank());
+  }, []);
+
   return (
     <RankBox>
     {dayRankData?.map((list, index) => (

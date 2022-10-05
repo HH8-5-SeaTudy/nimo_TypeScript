@@ -58,7 +58,6 @@ const Weekly = () => {
     })
     .then((res) => {
       setResData(res.data.data)
-      
     })
   };
 

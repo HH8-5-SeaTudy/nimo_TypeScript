@@ -109,19 +109,18 @@ const Header = () => {
         </AsmrBtn>
         {/* 캘린더버튼 */}
         <CalendarBtn>
-          <Calendar src={calendar} onClick={() => setShowTodo(!showTodo)} />
+          <Icon src={calendar} onClick={() => setShowTodo(!showTodo)} />
         </CalendarBtn>
         {/* 다음물고기 */}
         <FishBtn>
-          <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
+          <Icon src={nextFishImg} onClick={() => navigate("/unlock")} />
           <p>
             {String(nextPercent).slice(0, 2) === 'Na' ? '0' : String(nextPercent).slice(0, 2) }% 달성
           </p>
-
         </FishBtn>
         {/* 랭킹 */}
         <RankBtn>
-          <Calendar src={ranking} onClick={() => navigate("/statistics")} />
+          <Icon src={ranking} onClick={() => navigate("/statistics")} />
           <p>
             {dayMyRank === 0 ? "D:기록없음" : "D:" + dayMyRank + "위"}
             {weekMyRank === 0 ? "W:기록없음" : "W:" + weekMyRank + "위"}
@@ -129,7 +128,7 @@ const Header = () => {
         </RankBtn>
         {/* 서버 */}
         <ServerBtn>
-          <Calendar src={server} />
+          <Icon src={server} />
           <ServerBox>
             <div
               onClick={() => {
@@ -421,7 +420,7 @@ const DdayContent = styled.p`
   border: solid white 2px;
 `;
 
-const Calendar = styled.img`
+const Icon = styled.img`
   width: 100%;
   height: 100%;
 `;

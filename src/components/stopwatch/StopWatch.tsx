@@ -9,17 +9,15 @@ import styled from 'styled-components';
 
 const StopWatch = () => {
   const dispatch = useAppDispatch();
-
   const time = useAppSelector((state) => state.timer);
-
+  const [timeSS, setTimeSS] = useState<number>(0);
+  const [timeMM, setTimeMM] = useState<number>(0);
+  const [timeHH, setTimeHH] = useState<number>(0);
 
   const [hh, mm, ss] = String(time.dayStudyTime)
   .split(":")
   .map((v) => +v);
 
-const [timeSS, setTimeSS] = useState<number>(0);
-const [timeMM, setTimeMM] = useState<number>(0);
-const [timeHH, setTimeHH] = useState<number>(0);
 
   useEffect(() => {
     dispatch(__getUserinquire());

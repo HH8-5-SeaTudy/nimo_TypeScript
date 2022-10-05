@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useAppSelector } from '../hooks/reduxHooks';
+import { __getWeekRank } from '../../redux/modules/rank';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 
 const WeekRank = () => {
+  const dispatch = useAppDispatch();
   const weekRankData = useAppSelector((state) => state.rank.weekRank);
+
+  useEffect(() => {
+    dispatch(__getWeekRank());
+  }, []);
+
   return (
     <RankBox>
     {weekRankData?.map((list, index) => (
