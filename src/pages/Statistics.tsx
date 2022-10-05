@@ -1,17 +1,15 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import FishBowl from "../components/statistics/FishBowl";
 import Month from "../components/statistics/Month";
 import MyResponsiveCalendar from "../components/statistics/MyResponsiveCalendar";
 import Weekly from "../components/statistics/Weekly";
-import fishImages from "../components/fish/FishImages";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getUserProfile } from "../redux/modules/userData";
-import { __getDayRank, __getWeekRank } from "../redux/modules/rank";
 import { getCookie } from "../components/social/Cookie";
 import { useNavigate } from "react-router-dom";
-import DayRank from '../components/statistics/DayRank';
-import WeekRank from '../components/statistics/WeekRank';
+import DayRank from "../components/statistics/DayRank";
+import WeekRank from "../components/statistics/WeekRank";
 
 const Statistics = () => {
   const userData = useAppSelector((state) => state.userData.userProfile);
@@ -43,7 +41,7 @@ const Statistics = () => {
                   RANKING
                 </p>
               </RankTitle>
-              <DayRank/>
+              <DayRank />
             </RankSide>
             <RankSide>
               <RankTitle>
@@ -53,7 +51,7 @@ const Statistics = () => {
                   RANKING
                 </p>
               </RankTitle>
-              <WeekRank/>
+              <WeekRank />
             </RankSide>
             <TotalSide>
               <TopBox>
@@ -68,7 +66,7 @@ const Statistics = () => {
                     <p>NEXT LEVEL</p>
                   </NextFishTitle>
                   <NextFishBody>
-                    <FishBowl/>
+                    <FishBowl />
                   </NextFishBody>
                 </NextFish>
                 <Week>

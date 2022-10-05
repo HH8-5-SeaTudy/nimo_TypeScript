@@ -4,7 +4,6 @@ import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../components/hooks/reduxHooks";
 import { __getCheckInTimer, __getCheckOutTimer } from "../redux/modules/timer";
 import backimg from "../assets/background/homeBack.png";
-import { __getUserProfile } from "../redux/modules/userData";
 import FishIventory from "../components/fish/FishIventory";
 import crab from "../assets/pixel/crab.png";
 import sicissorsCrab from "../assets/pixel/sicissorsCrab.png";
@@ -12,14 +11,16 @@ import coral from "../assets/pixel/coral.png";
 import brokenCoral from "../assets/pixel/brokenCoral.png";
 import ProfileHeader from "../components/profileHeader/ProfileHeader";
 import { getCookie } from "../components/social/Cookie";
+import LoginSwiper from "../components/Swiper/LoginSwiper";
 
-const Home = () => {  
+const Home = () => {
   const token: string = getCookie("token") as string;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   //Todo zone
   const check = useAppSelector((state) => state.timer.isStudy);
+  const [info, setInfo] = useState(false);
 
   useEffect(() => {
     if (token === undefined) {
@@ -29,14 +30,13 @@ const Home = () => {
     document.body.style.overflow = "hidden";
   }, []);
 
-  function onClickCheckIn () {
+  function onClickCheckIn() {
     dispatch(__getCheckInTimer());
-  };
+  }
 
-  function onClickCheckOut () {
+  function onClickCheckOut() {
     dispatch(__getCheckOutTimer());
-  };
-
+  }
   return (
     <>
       <Layer>
@@ -71,6 +71,18 @@ const Home = () => {
               </ButtonContainer>
             </>
           )}
+          <InfoContainer>
+            {info ? (
+              <Info onClick={() => setInfo(!info)}>?</Info>
+            ) : (
+              <>
+                <Info onClick={() => setInfo(!info)}>?</Info>
+                <Slide>
+                  <LoginSwiper />
+                </Slide>
+              </>
+            )}
+          </InfoContainer>
           <FishIventory />
         </MainBox>
       </Layer>
@@ -225,4 +237,38 @@ const SicissorsCrab = styled.div`
   background-size: 80% 80%;
   background-repeat: no-repeat;
   z-index: 2;
+`;
+
+const InfoContainer = styled.div`
+  position: absolute;
+  left: 2%;
+  bottom: 20%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Info = styled.div`
+  font-size: 4em;
+  color: white;
+  border-radius: 9999px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+`;
+
+const Slide = styled.div`
+  position: absolute;
+  left: 120%;
+  bottom: 0;
+  z-index: 5;
+  width: 50vw;
+  height: 60vh;
+  color: black;
 `;

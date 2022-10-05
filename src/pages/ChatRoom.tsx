@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useAppDispatch } from "../components/hooks/reduxHooks";
 import { addUser } from "../redux/modules/socket";
-import Chatting from "./Chatting";
+import Chatting from "../components/chat/Chatting";
 import Server from "../components/serverButton/Server";
 import island from "../assets/pixel/island.png";
 

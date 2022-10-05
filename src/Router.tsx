@@ -8,7 +8,7 @@ import { EnumPages } from "./enum/EnumPages";
 import ChatRoom from "./pages/ChatRoom";
 import Statistics from "./pages/Statistics";
 import Header from "./components/common/Header";
-import UnLock from "./pages/UnLock";
+import Unlock from "./pages/Unlock";
 
 const Router = () => {
   return (
@@ -18,7 +18,7 @@ const Router = () => {
         <Route path={EnumPages.HOME} element={<Home />} />
         <Route path={EnumPages.CHATROOM} element={<ChatRoom />} />
         <Route path={EnumPages.STATISTICS} element={<Statistics />} />
-        <Route path={EnumPages.UNLOCK} element={<UnLock />} />
+        <Route path={EnumPages.UNLOCK} element={<Unlock />} />
         <Route path={EnumPages.LOGIN} element={<Login />} />
         <Route path={EnumPages.KAKAOLOGIN} element={<KakaoLogin />} />
         <Route path={EnumPages.NAVERLOGIN} element={<NaverLogin />} />
