@@ -122,7 +122,7 @@ const Header = () => {
     }
   }, [timeMM]);
 
-  if (window.location.pathname === "/") return null;
+  if (window.location.pathname === "/login") return null;
   if (window.location.pathname === "/kakaoLogin") return null;
   if (window.location.pathname === "/naverLogin") return null;
   if (window.location.pathname === "/googleLogin") return null;
