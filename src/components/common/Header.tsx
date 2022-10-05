@@ -148,7 +148,7 @@ const Header = () => {
         <FishBtn>
           <Calendar src={nextFishImg} onClick={() => navigate("/unlock")} />
           <p>
-            {String(nextPercent).slice(0, 2) === 'Na' ? '0' : String(nextPercent).slice(0, 2) }%
+            {String(nextPercent).slice(0, 2) === 'Na' ? '0' : String(nextPercent).slice(0, 2) }% 달성
           </p>
 
         </FishBtn>
