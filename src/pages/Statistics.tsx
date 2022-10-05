@@ -48,7 +48,7 @@ const Statistics = () => {
             <RankSide>
               <RankTitle>
                 <p>
-                  YESTERDAY
+                  TODAY
                   <br />
                   RANKING
                 </p>
