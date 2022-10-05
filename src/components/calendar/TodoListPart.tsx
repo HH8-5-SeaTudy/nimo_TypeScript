@@ -60,14 +60,7 @@ const TodoListPart = () => {
   };
 
   const onSubmitHandler = () => {
-    if (category.length < 2) {
-      alert("2글자 이상 입력");
-    }
-    if (dateTodos.length < 4)
-      dispatch(__postCategory({ categoryName: category, selectDate: date }));
-    else {
-      alert("4개까지만 생성가능");
-    }
+    dispatch(__postCategory({ categoryName: category, selectDate: date }))
     setCategory("");
   };
 
@@ -75,10 +68,6 @@ const TodoListPart = () => {
     setCategory(e.target.value);
   };
   const onSubmitTodoHandler = (id: any, i: number) => {
-    if (todo[i].length < 4) {
-      alert("너무 짧습니다");
-      return;
-    }
     dispatch(
       __postTodo({
         categoryId: id,
