@@ -2,9 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import Input from "../../elements/Input";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import { updateDate,selectDate } from '../../redux/modules/searchDate';
 import {
-  getAllTodo,
   __postCategory,
   __getDateTodo,
   __postTodo,
@@ -26,11 +24,14 @@ export type Iresault = {
 };
 
 
-const TodoLisit = () => {
+const TodoListPart = () => {
   const dispatch = useAppDispatch();
   const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
+  const DdaySort = DdayData.map((x) => x).sort((a, b) => {
+    return b.dday - a.dday;
+  });
   //
   const inputRef = useRef<any>([]);
   const [categoryInputShow, setCategoryInputShow] = useState(false);
@@ -133,16 +134,13 @@ const TodoLisit = () => {
 
   useEffect(() => {
     dispatch(__getDateTodo(date)); //컴포넌트분리시사용
-    // if (date == '' {
-    //   return;
-    // }
     dispatch(__getDday(date));
   }, [date]);
 
   return (
     <>
         {/* DdayModal */}
-                  {DdayShow && (
+            {DdayShow && (
               <DayTextBox>
                 <DdayTextBoxCloseBtn>
                   <DdayTitle>ADD D-DAY</DdayTitle>
@@ -290,8 +288,8 @@ const TodoLisit = () => {
                 <LeftSideDay>
                   {/* 디데이 */}
                   <DdayList>
-                    {DdayData &&
-                      DdayData.map((list) => (
+                    {DdaySort &&
+                      DdaySort.map((list) => (
                         <>
                           <Dday
                             key={list.ddayId}
@@ -321,7 +319,7 @@ const TodoLisit = () => {
                                 onSubmitEditHandler(list.categoryId);
                               }}
                             >
-                              <Input
+                            <Input
                                 readOnly={editCategoryShow ? false : true}
                                 onClick={() => setEditCategoryShow(true)}
                                 onChange={(e) =>
@@ -337,6 +335,8 @@ const TodoLisit = () => {
                                 width="150px"
                                 cursor="pointer"
                                 fontFamily="DungGeunMo"
+                                overflow="hidden"
+                                textOverflow="ellipsis"
                               />
                             </CategoryTitle>
                             <BtnGroup>
@@ -417,7 +417,7 @@ const TodoLisit = () => {
   );
 };
 
-export default TodoLisit;
+export default TodoListPart;
 
 const CalendarLeft = styled.div`
   position: relative;
@@ -724,7 +724,8 @@ const DayTextBox = styled.div`
   background-image: url(${textbox});
   background-repeat: no-repeat;
   z-index: 99;
-  top: 180px;
+  top: 240px;
+  right: 400px;
   padding: 35px;
 `;
 const DdayTextBoxCloseBtn = styled.div`

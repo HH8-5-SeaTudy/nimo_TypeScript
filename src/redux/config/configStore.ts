@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import dateTodos from "../modules/dateTodos";
 import timer from "../modules/timer";
-import updateDate from "../modules/searchDate";
+import updateDate from "../modules/updateDate";
 import userData from "../modules/userData";
 import socket from "../modules/socket";
 import dday from "../modules/dday";
