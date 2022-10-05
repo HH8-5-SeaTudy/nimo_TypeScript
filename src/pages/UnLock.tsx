@@ -30,10 +30,9 @@ const UnLock = () => {
   const [editFishName, setEditFishName] = useState(false);
   const [lock, setLock] = useState(false);
 
-  const onClickEditNickname = () => {
+  function onClickEditNickname () {
     if (nickname.length > 7) {
       alert("닉네임은 최대 7글자 입니다");
-
       return;
     } else if (nickname.trim() === " ") {
       alert("빈값 없이 입력해주세요");
@@ -42,7 +41,7 @@ const UnLock = () => {
     dispatch(__editUserProfile(nickname));
   };
 
-  const onChangeNickname = (e: any) => {
+  function onChangeNickname (e: any) {
     setNickname(e.target.value);
   };
 
@@ -52,13 +51,14 @@ const UnLock = () => {
       if (userData.point >= fishPoint[i]) {
         setLock(true);
       }
-    }
-      if (token === undefined) {
+    } 
+    if (token === undefined) {
       navigate("/login");
       alert("로그인이 필요한 페이지입니다.");
     }
     dispatch(__getUserProfile());
   }, []);
+
 
   return (
     <>

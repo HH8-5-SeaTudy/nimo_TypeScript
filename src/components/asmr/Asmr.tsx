@@ -14,7 +14,7 @@ const Asmr = () => {
   const [rainAudio, setRainAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/07/04/audio_f52a5754b1.mp3?filename=light-rain-ambient-114354.mp3") )
         
 
-  const waveStart = () => {
+  function waveStart () {
     waveAudio.play();
     waveAudio.loop = true;
     greenAudio.pause();
@@ -22,7 +22,7 @@ const Asmr = () => {
     rainAudio.pause();
   };
 
-  const greenStart = () => {
+  function greenStart () {
     greenAudio.play();
     greenAudio.loop = true;
     waveAudio.pause();
@@ -30,7 +30,7 @@ const Asmr = () => {
     rainAudio.pause();
   };
 
-  const fireStart = () => {
+  function fireStart () {
     fireAudio.play();
     fireAudio.loop = true;
     waveAudio.pause();
@@ -38,7 +38,7 @@ const Asmr = () => {
     greenAudio.pause();
   };
 
-  const rainStart = () => {
+  function rainStart () {
     rainAudio.play();
     rainAudio.loop = true;
     waveAudio.pause();
@@ -46,7 +46,7 @@ const Asmr = () => {
     fireAudio.pause();
   };
 
-  const pause = () => {
+  function pause () {
     waveAudio.pause();
     rainAudio.pause();
     greenAudio.pause();

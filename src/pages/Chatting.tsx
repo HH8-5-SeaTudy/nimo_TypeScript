@@ -48,19 +48,19 @@ function Chatting() {
     };
   }, []);
 
-  const handleEnterPress = (e: any) => {
+  function handleEnterPress (e: any) {
     if (e.code === "Enter" && e.shiftKey === false) {
       sendMessage();
     }
   };
 
-  const handleClick = (e: any) => {
+  function handleClick  (e: any) {
     e.preventDefault();
     sendMessage();
   };
 
   //연결&구독
-  const onConneted = () => {
+  function onConneted  () {
     try {
       client.connect(headers, () => {
         client.subscribe(
@@ -76,7 +76,7 @@ function Chatting() {
   };
 
   //메시지 보내기
-  const sendMessage = () => {
+  function sendMessage () {
     if (message.current.value.trim() === "") {
       return null;
     }
