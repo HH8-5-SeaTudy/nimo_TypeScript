@@ -66,7 +66,10 @@ const Header = () => {
     .sort((a: any, b: any) => b.dday - a.dday)[0];
 
   useEffect(() => {
-    TodayStudyData();
+    if( token !== undefined) {
+      TodayStudyData();
+    }
+    
   }, [Dday]);
 
   const [showTodo, setShowTodo] = useState(false);
@@ -85,14 +88,16 @@ const Header = () => {
   const roomId5 = process.env.REACT_APP_ROOMID5;
 
   useEffect(() => {
-    dispatch(__getUserinquire());
+    if( token !== undefined) {
+          dispatch(__getUserinquire());
     dispatch(__getDayMyRank());
     dispatch(__getWeekMyRank());
     dispatch(__getUserProfile());
     return () => {
       dispatch(__getCheckOutTimer());
     };
-  }, [token]);
+    }
+  }, []);
 
   useEffect(() => {
     setTimeSS(ss);
