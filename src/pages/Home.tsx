@@ -37,7 +37,6 @@ const Home = () => {
   function onClickCheckOut() {
     dispatch(__getCheckOutTimer());
   }
-
   return (
     <>
       <Layer>
