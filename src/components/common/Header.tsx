@@ -130,7 +130,7 @@ const Header = () => {
   return (
     <>
       <HeaderContainer>
-        {showTodo && <CalendarVer2 />}
+        {showTodo && <CalendarVer2 setShowTodo={setShowTodo}  />}
         {/* 로고 */}
         <HeaderLogoContainer>
           <HeaderLogo src={logo} onClick={() => navigate("/")} />
@@ -270,7 +270,11 @@ const Layer = styled.div`
     color: white;
   }
 `;
-
+const CalendarLayer =styled.div`
+background-color: white;
+  width: 100vw;
+  height: 90vw;
+`
 const HeaderContainer = styled.div`
   position: relative;
   display: flex;

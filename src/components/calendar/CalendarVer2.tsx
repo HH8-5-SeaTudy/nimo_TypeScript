@@ -23,12 +23,14 @@ import right from "../../assets/pixel/right.png";
 import { updateDate } from '../../redux/modules/updateDate';
 import TodoListPart from './TodoListPart';
 
-
+interface MyComponentProps {
+  setShowTodo: any;
+}
 export type Iresault = {
   result: [];
 };
 
-const CalendarVer2 = () => {
+const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
   const dispatch = useAppDispatch();
   const allTodos = useAppSelector((state) => state.dateTodos.allTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
@@ -48,6 +50,10 @@ const CalendarVer2 = () => {
   const dateSubmitHandler = (selectDD: string) => {
     dispatch(updateDate(selectDD))
   };
+
+  const onHiddenShow = () => {
+    setShowTodo()
+  }
 
   //useEffect
   useEffect(() => {
@@ -375,8 +381,9 @@ const CalendarVer2 = () => {
   };
   return (
     <>
-      <Layer>
-        <Wrapper>
+      <Layer onClick={()=>onHiddenShow()}>
+      </Layer>   
+      <Wrapper>
           <CalendarTitle>
             <ATtile>CALENDAR</ATtile>
             <BTtile>TO DO LIST</BTtile>
@@ -434,7 +441,6 @@ const CalendarVer2 = () => {
             </LeftLayer>
           </Calendar>
         </Wrapper>
-      </Layer>
     </>
   );
 };
@@ -443,10 +449,10 @@ export default CalendarVer2;
 
 const Layer = styled.div`
   position: absolute;
-  left: calc(25vw / 2);
-  top: calc(25vh / 2);
-  height: 650px;
-  width: 1150px;
+  top:10vh;
+  left:0;
+  height: 90vh;
+  width: 100vw;
   color: #ffffff;
   z-index: 5;
 `;
@@ -496,7 +502,9 @@ const NextBtn = styled.img`
 
 const Wrapper = styled.div`
   background-color: #0096ff;
-
+  position: absolute;
+  left : 17%;
+  top:10vh;
   display: block;
   max-width: 1100px;
   height: 680px;
@@ -505,7 +513,7 @@ const Wrapper = styled.div`
   color: #ffffff;
   border-radius: 6px;
   border: solid black 2px;
-  z-index: 5;
+  z-index: 10;
 `;
 const CalendarTitle = styled.div`
   width: 100%;

@@ -164,7 +164,7 @@ const UnLock = () => {
                             dispatch(__editUserFishProfile(fishData.fishName))
                           }
                         >
-                          POFILE SELECT
+                          PROFILE SELECT
                         </ProfileSelect>
                         <BigFishInfo>{fishData.fishInfo}</BigFishInfo>
                       </BigFishContainer>
@@ -677,7 +677,7 @@ const LockAnimation = styled.div`
 const UnLockAnimation = styled.div`
   position: relative;
   overflow: hidden;
-  z-index: 5;
+  z-index: 3;
   width: 13%;
   height: 80%;
   .lock-top-1 {
