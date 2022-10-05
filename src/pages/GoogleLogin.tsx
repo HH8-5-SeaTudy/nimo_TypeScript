@@ -21,7 +21,7 @@ const GoogleLogin = () => {
           setCookie("token", res.headers.authorization);
         })
         .then(() => {
-          navigate("/home");
+          navigate("/");
         });
     };
     if (code) {
