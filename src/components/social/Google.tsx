@@ -12,7 +12,7 @@ const Google = () => {
 
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${googleClientId}&scope=openid%20profile%20email&redirect_uri=${googleRedirectUrl}`;
 
-  const loginHandler = () => {
+  function loginHandler  () {
     window.location.href = googleAuthUrl;
   };
   return (

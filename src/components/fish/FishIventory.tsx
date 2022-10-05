@@ -48,7 +48,7 @@ const FishIventory = () => {
   }, [positionData]);
 
 
-  const dragStartHandler = (e: any) => {
+  function dragStartHandler (e: any) {
     const blankCanvas: any = document.createElement("canvas");
     blankCanvas.classList.add("canvas");
     e.dataTransfer?.setDragImage(blankCanvas, 0, 0);
@@ -68,7 +68,7 @@ const FishIventory = () => {
     setClientPos(clientPosTemp);
   };
 
-  const dragHandler = (e: any, i: number) => {
+  function dragHandler (e: any, i: number) {
     const PosTemp = { ...pos };
     PosTemp["left"] = e.target.offsetLeft + e.clientX - clientPos.x;
     PosTemp["top"] = e.target.offsetTop + e.clientY - clientPos.y;
@@ -84,11 +84,11 @@ const FishIventory = () => {
     setClientPos(clientPosTemp);
   };
 
-  const dragOverHandler = (e: any) => {
+  function dragOverHandler (e: any) {
     e.preventDefault(); // 드래그시에 플라잉백하는 고스트이미지를 제거한다
   };
 
-  const dragEndHandler = (e: any, i: number) => {
+  function dragEndHandler (e: any, i: number) {
     let tempSize = [...dSize];
     tempSize[i][0] = 100;
     tempSize[i][1] = 70;
@@ -119,12 +119,12 @@ const FishIventory = () => {
   };
 
 
-  const FishDeleteHandler = (e: any, i: number) => {
+  function FishDeleteHandler (e: any, i: number){
     e.preventDefault();
     alert("내가 사라져볼게 얍!");
     dispatch(__deleteFishPosition(i));
   };
-  const AllFishDeleteHandler = () => {
+  function AllFishDeleteHandler() {
     alert("전부 사라져볼게 얍!");
     dispatch(__AllDeleteFishPosition());
   };

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import {
-  __getCheckInTimer,
-  __getCheckOutTimer,
   __getUserinquire,
 } from "../../redux/modules/timer";
 import styled from 'styled-components';
