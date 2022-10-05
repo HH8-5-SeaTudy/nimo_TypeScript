@@ -22,7 +22,11 @@ const GoogleLogin = () => {
         })
         .then(() => {
           navigate("/");
-        });
+        })
+        .catch((error)=>{
+          alert(error.response.data.error.message)
+          navigate("/login");
+        })
     };
     if (code) {
       google();

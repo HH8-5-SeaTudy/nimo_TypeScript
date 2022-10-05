@@ -176,7 +176,7 @@ const TodoListPart = () => {
             {/* DdayEditModal */}
             {DdayEditShow &&
               selectDdayData?.map((list) => (
-                <DayTextBox>
+                <DayTextBox key={list.ddayId}>
                   <DdayTextBoxCloseBtn>
                     <DdayTitle>EDIT D-DAY</DdayTitle>
                     <DdayCLoseBtn onClick={() => setDdayEditShow(false)}>

@@ -4,12 +4,12 @@ import { IUser } from "../../api";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+const token: string = getCookie("token") as string;
 
 export const __getUserProfile: any = createAsyncThunk(
   "user/getUserProfile",
   async (payload, thunkAPI) => {
     try {
-      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/api/v1/members/myProfile`, {
         headers: {
           "Content-Type": "application/json",
@@ -27,7 +27,6 @@ export const __editUserProfile: any = createAsyncThunk(
   "user/editUserProfile",
   async (payload, thunkAPI) => {
     try {
-      const token: string = getCookie("token") as string;
       const response = await axios.put(
         `${BASE_URL}/api/v1/members/nickname`,
         {
@@ -41,8 +40,8 @@ export const __editUserProfile: any = createAsyncThunk(
         }
       );
       return thunkAPI.fulfillWithValue(response.data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+    } catch (error:any) {
+      return thunkAPI.rejectWithValue(alert(error.response.data.error.message));
     }
   }
 );
@@ -51,7 +50,6 @@ export const __editUserFishProfile: any = createAsyncThunk(
   "user/editUserFishProfile",
   async (payload, thunkAPI) => {
     try {
-      const token: string = getCookie("token") as string;
       const response = await axios.put(
         `${BASE_URL}/api/v1/members/myProfile/fishImages`,
         {
