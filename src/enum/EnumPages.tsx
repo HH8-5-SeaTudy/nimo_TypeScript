@@ -1,7 +1,7 @@
 export const enum EnumPages {
   MAIN = "/main",
-  HOME = "/home",
-  LOGIN = "/",
+  HOME = "/",
+  LOGIN = "/login",
   INTRO = "/intro",
   KAKAOLOGIN = "kakaoLogin",
   NAVERLOGIN = "naverLogin",
