@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
@@ -440,7 +440,7 @@ const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
   );
 };
 
-export default CalendarVer2;
+export default React.memo(CalendarVer2);
 
 const Layer = styled.div`
   position: absolute;

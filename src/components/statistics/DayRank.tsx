@@ -30,7 +30,7 @@ const DayRank = () => {
   );
 };
 
-export default DayRank;
+export default React.memo(DayRank);
 
 const RankBox = styled.div`
   padding-left: 5px;

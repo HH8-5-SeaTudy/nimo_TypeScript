@@ -92,7 +92,7 @@ function onClickLogOut  ()  {
   );
 };
 
-export default ProfileHeader;
+export default React.memo(ProfileHeader);
 
 const Layer = styled.div`
    position: relative;

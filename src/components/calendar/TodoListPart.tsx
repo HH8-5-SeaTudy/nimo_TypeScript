@@ -391,7 +391,7 @@ const TodoListPart = () => {
   );
 };
 
-export default TodoListPart;
+export default React.memo(TodoListPart);
 
 const CalendarLeft = styled.div`
   position: relative;

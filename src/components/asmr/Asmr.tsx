@@ -79,7 +79,7 @@ const Asmr = () => {
   );
 };
 
-export default Asmr;
+export default React.memo(Asmr);
 
 const BtnArrow =styled.div`
     margin: auto;
