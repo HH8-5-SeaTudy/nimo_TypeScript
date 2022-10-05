@@ -29,11 +29,11 @@ const Home = () => {
     document.body.style.overflow = "hidden";
   }, []);
 
-  const onClickCheckIn = () => {
+  function onClickCheckIn () {
     dispatch(__getCheckInTimer());
   };
 
-  const onClickCheckOut = () => {
+  function onClickCheckOut () {
     dispatch(__getCheckOutTimer());
   };
 

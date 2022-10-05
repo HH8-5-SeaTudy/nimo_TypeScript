@@ -47,21 +47,22 @@ const TodoListPart = () => {
 
   //TodoList
 
-  const todoBoxIndex = (index: number) => {
+  function todoBoxIndex (index: number) {
     let temp = [...todoInputShow];
     temp[index] = !temp[index];
     setTodoInputShow(temp);
   };
 
-  const onSubmitHandler = () => {
+  function onSubmitHandler () {
     dispatch(__postCategory({ categoryName: category, selectDate: date }))
     setCategory("");
   };
 
-  const onChangeCategoryInput = (e: any) => {
+  function onChangeCategoryInput (e: any) {
     setCategory(e.target.value);
   };
-  const onSubmitTodoHandler = (id: any, i: number) => {
+
+  function onSubmitTodoHandler (id: any, i: number) {
     dispatch(
       __postTodo({
         categoryId: id,
@@ -73,13 +74,14 @@ const TodoListPart = () => {
     tempData[i] = "";
     setTodo([...tempData]);
   };
-  const onChangeTodoInput = (e: any, i: number) => {
+
+  function onChangeTodoInput (e: any, i: number) {
     const tempData = [...todo];
     tempData[i] = e.target.value;
     setTodo([...tempData]);
   };
 
-  const onSubmitEditHandler = (id: any) => {
+  function onSubmitEditHandler (id: any) {
     dispatch(
       __editCategory({
         categoryName: editCategory,
@@ -91,18 +93,18 @@ const TodoListPart = () => {
 
   //D-day
   
-  const onSubmitDdayHandler = () => {
+  function onSubmitDdayHandler () {
     dispatch(__postDday({ title: ddayTitle, ddayDate: date }));
     setDdayTitle("");
   };
-  const onSubmitEditDataHandler = (id: number) => {
+  function onSubmitEditDataHandler (id: number) {
     setSelectDdayID(id);
     setDdayShow(false);
     setDdayEditShow(true);
   };
   const selectDdayData = DdayData.filter((x) => x.ddayId === selectDdayID);
 
-  const onSubmitDdayEditHandler = (id: number, targetDay: string) => {
+  function onSubmitDdayEditHandler (id: number, targetDay: string) {
     dispatch(
       __editDday({
         title: DdayEditTitle,

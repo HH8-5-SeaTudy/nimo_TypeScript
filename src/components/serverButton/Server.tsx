@@ -20,7 +20,7 @@ const Server = () => {
     dispatch(addUser);
   }, []);
 
-  const onClickRoom1 = () => {
+  function onClickRoom1  () {
     navigate("/chat", {
       state: {
         id: roomId1,
@@ -29,7 +29,7 @@ const Server = () => {
     window.location.reload();
   };
 
-  const onClickRoom2 = () => {
+  function onClickRoom2  () {
     navigate("/chat", {
       state: {
         id: roomId2,
@@ -38,7 +38,7 @@ const Server = () => {
     window.location.reload();
   };
 
-  const onClickRoom3 = () => {
+  function onClickRoom3  ()  {
     navigate("/chat", {
       state: {
         id: roomId3,
@@ -47,7 +47,7 @@ const Server = () => {
     window.location.reload();
   };
 
-  const onClickRoom4 = () => {
+  function onClickRoom4 () {
     navigate("/chat", {
       state: {
         id: roomId4,
@@ -56,7 +56,7 @@ const Server = () => {
     window.location.reload();
   };
 
-  const onClickRoom5 = () => {
+  function onClickRoom5 ()  {
     navigate("/chat", {
       state: {
         id: roomId5,

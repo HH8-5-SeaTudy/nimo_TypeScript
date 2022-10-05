@@ -47,11 +47,11 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
   const radius = 48;
   const diameter = 2 * Math.PI * radius;
 
-  const dateSubmitHandler = (selectDD: string) => {
+  function dateSubmitHandler (selectDD: string) {
     dispatch(updateDate(selectDD))
   };
 
-  const onHiddenShow = () => {
+  function onHiddenShow (){
     setShowTodo()
   }
 
