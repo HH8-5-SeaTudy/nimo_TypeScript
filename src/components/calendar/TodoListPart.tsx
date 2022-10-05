@@ -19,11 +19,6 @@ import {
 } from "../../redux/modules/dday";
 import textbox from "../../assets/pixel/textbox.png";
 
-export type Iresault = {
-  result: [];
-};
-
-
 const TodoListPart = () => {
   const dispatch = useAppDispatch();
   const date = useAppSelector((state) => state.updateDate.date);//컴포넌트분리시사용
@@ -32,7 +27,6 @@ const TodoListPart = () => {
   const DdaySort = DdayData.map((x) => x).sort((a, b) => {
     return b.dday - a.dday;
   });
-  //
   const inputRef = useRef<any>([]);
   const [categoryInputShow, setCategoryInputShow] = useState(false);
   const [todoInputShow, setTodoInputShow] = useState<any>([
@@ -97,7 +91,6 @@ const TodoListPart = () => {
 
   //D-day
   
-
   const onSubmitDdayHandler = () => {
     dispatch(__postDday({ title: ddayTitle, ddayDate: date }));
     setDdayTitle("");
@@ -126,7 +119,7 @@ const TodoListPart = () => {
     if (date === '') {
       return;
     }
-    dispatch(__getDateTodo(date)); //컴포넌트분리시사용
+    dispatch(__getDateTodo(date)); 
     dispatch(__getDday(date));
   }, [date]);
 

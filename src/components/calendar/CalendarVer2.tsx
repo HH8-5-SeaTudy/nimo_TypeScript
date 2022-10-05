@@ -369,7 +369,7 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
                           ) === days.format("YYYY-MM-DD")
                             ? "red"
                             : "#1175f8",
-                        color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
+                            color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
                             
                       }}
                     >

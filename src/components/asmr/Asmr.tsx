@@ -7,14 +7,6 @@ import asmrwave from "../../assets/pixel/asmrwave.png";
 import asmrrain from "../../assets/pixel/asmrrain.png";
 
 const Asmr = () => {
-  // useEffect(() => {
-    //   if (playing === true) {
-      //     audio.play();
-      //     audio.loop = true;
-      //   } if (playing === false) {
-        //     audio.pause()
-        //   }
-        // }, [playing]);
 
   const [waveAudio, setWaveAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/03/12/audio_5b09815aa7.mp3?filename=black-sea-anapa-53651.mp3") )
   const [greenAudio, setGreenAudio] = useState( new Audio("https://cdn.pixabay.com/download/audio/2022/02/10/audio_9080c6f74e.mp3?filename=ambience_lake_morning_water_birds_crickets-19255.mp3") )
