@@ -280,7 +280,7 @@ const TodoListPart = () => {
                     <div>{list.title}</div>
                     <p>
                       D
-                      {list.dday == 0
+                      {list.dday === 0
                         ? "-day"
                         : list.dday > 0
                         ? "+" + list.dday

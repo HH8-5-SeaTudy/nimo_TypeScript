@@ -6,12 +6,8 @@ import shell from "../../assets/pixel/shell.png";
 import calendar from "../../assets/pixel/calendar.png";
 import ranking from "../../assets/pixel/ranking.png";
 import server from "../../assets/pixel/server.png";
-import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import {
-  __getCheckOutTimer,
-  __getUserinquire,
-} from "../../redux/modules/timer";
+import { __getCheckOutTimer } from "../../redux/modules/timer";
 import logo from "../../assets/logo/seatudyLogo.png";
 import CalendarVer2 from "../calendar/CalendarVer2";
 import { __getDayMyRank, __getWeekMyRank } from "../../redux/modules/rank";
@@ -20,7 +16,7 @@ import fishImages from "../fish/FishImages";
 import { getCookie } from "../social/Cookie";
 import axios from "axios";
 import Asmr from "../asmr/Asmr";
-import StopWatch from '../stopwatch/StopWatch';
+import StopWatch from "../stopwatch/StopWatch";
 
 const Header = () => {
   const token: string = getCookie("token") as string;
@@ -72,22 +68,21 @@ const Header = () => {
     .sort((a: any, b: any) => b.dday - a.dday)[0];
 
   useEffect(() => {
-    if( token !== undefined) {
+    if (token !== undefined) {
       TodayDdayData();
     }
   }, [Dday]);
 
   useEffect(() => {
-    if( token !== undefined) {
-    dispatch(__getDayMyRank());
-    dispatch(__getWeekMyRank());
-    dispatch(__getUserProfile());
-    return () => {
-      dispatch(__getCheckOutTimer());
-    };
+    if (token !== undefined) {
+      dispatch(__getDayMyRank());
+      dispatch(__getWeekMyRank());
+      dispatch(__getUserProfile());
+      return () => {
+        dispatch(__getCheckOutTimer());
+      };
     }
   }, []);
-
 
   if (window.location.pathname === "/login") return null;
   if (window.location.pathname === "/kakaoLogin") return null;
@@ -97,7 +92,7 @@ const Header = () => {
   return (
     <>
       <HeaderContainer>
-        {showTodo && <CalendarVer2 setShowTodo={setShowTodo}  />}
+        {showTodo && <CalendarVer2 setShowTodo={setShowTodo} />}
         {/* 로고 */}
         <HeaderLogoContainer>
           <HeaderLogo src={logo} onClick={() => navigate("/")} />
@@ -115,7 +110,10 @@ const Header = () => {
         <FishBtn>
           <Icon src={nextFishImg} onClick={() => navigate("/unlock")} />
           <p>
-            {String(nextPercent).slice(0, 2) === 'Na' ? '0' : String(nextPercent).slice(0, 2) }% 달성
+            {String(nextPercent).slice(0, 2) === "Na"
+              ? "0"
+              : String(nextPercent).slice(0, 2)}
+            % 달성
           </p>
         </FishBtn>
         {/* 랭킹 */}
@@ -209,7 +207,7 @@ const Header = () => {
         )}
         <HeaderTimerContainer>
           <HeaderTimer onClick={() => navigate("/statistics")}>
-            <StopWatch/>
+            <StopWatch />
           </HeaderTimer>
         </HeaderTimerContainer>
       </HeaderContainer>

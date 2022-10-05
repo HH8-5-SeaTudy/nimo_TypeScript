@@ -73,14 +73,14 @@ const Home = () => {
           )}
           <InfoContainer>
             {info ? (
-              <Info onClick={() => setInfo(!info)}>?</Info>
-            ) : (
               <>
                 <Info onClick={() => setInfo(!info)}>?</Info>
                 <Slide>
                   <LoginSwiper />
                 </Slide>
               </>
+            ) : (
+              <Info onClick={() => setInfo(!info)}>?</Info>
             )}
           </InfoContainer>
           <FishIventory />
@@ -242,7 +242,7 @@ const SicissorsCrab = styled.div`
 const InfoContainer = styled.div`
   position: absolute;
   left: 2%;
-  bottom: 20%;
+  top: 2%;
   width: 60px;
   height: 60px;
   display: flex;
@@ -266,9 +266,8 @@ const Info = styled.div`
 const Slide = styled.div`
   position: absolute;
   left: 120%;
-  bottom: 0;
-  z-index: 5;
+  top: 120%;
+  z-index: 10;
   width: 50vw;
-  height: 60vh;
   color: black;
 `;

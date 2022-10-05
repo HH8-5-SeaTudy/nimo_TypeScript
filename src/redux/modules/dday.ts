@@ -1,29 +1,29 @@
-import { IDdayInitialState } from './../../api';
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IDdayInitialState } from "./../../api";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getCookie } from '../../components/social/Cookie';
+import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-      const token: string = getCookie("token") as string;
-
+const token: string = getCookie("token") as string;
 
 export const __getDday: any = createAsyncThunk(
   "Dday/__getDday",
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/v1/ddays/dates?selectDate=${payload}`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      });
+      const response = await axios.get(
+        `${BASE_URL}/api/v1/ddays/dates?selectDate=${payload}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
       return thunkAPI.fulfillWithValue(response.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
-
 
 export const __postDday: any = createAsyncThunk(
   "Dday/__postDday",
@@ -43,7 +43,7 @@ export const __postDday: any = createAsyncThunk(
         }
       );
       return thunkAPI.fulfillWithValue(data.data.data);
-    } catch (error:any) {
+    } catch (error: any) {
       return thunkAPI.rejectWithValue(alert(error.response.data.error.message));
     }
   }
@@ -52,15 +52,12 @@ export const __deleteDday: any = createAsyncThunk(
   "Dday/__deleteDday",
   async (payload: any, thunkAPI) => {
     try {
-      const data = await axios.delete(
-        `${BASE_URL}/api/v1/ddays/${payload}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        }
-      );
+      const data = await axios.delete(`${BASE_URL}/api/v1/ddays/${payload}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -94,7 +91,7 @@ export const __editDday: any = createAsyncThunk(
 // 초기 상태 타입
 
 const initialState: IDdayInitialState = {
-  DdayData:[]
+  DdayData: [],
 };
 
 export const DdaySlice = createSlice({
@@ -111,16 +108,16 @@ export const DdaySlice = createSlice({
       })
       .addCase(__editDday.fulfilled, (state, action) => {
         state.DdayData = state.DdayData.map((list) =>
-        list.ddayId === action.payload.ddayId
-          ? { ...list, title: action.payload.title }
-          : list
-      );
+          list.ddayId === action.payload.ddayId
+            ? { ...list, title: action.payload.title }
+            : list
+        );
       })
       .addCase(__deleteDday.fulfilled, (state, action) => {
         state.DdayData = state.DdayData.filter(
           (list) => list.ddayId !== action.payload
         );
-      })
+      });
   },
 });
 

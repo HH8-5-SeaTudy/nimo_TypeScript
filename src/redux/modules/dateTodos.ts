@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { IDateTodosInitialState, ITodos } from "../../api";
+import { IDateTodosInitialState } from "../../api";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -70,7 +70,7 @@ export const __postCategory: any = createAsyncThunk(
         }
       );
       return thunkAPI.fulfillWithValue(data.data.data);
-    } catch (error:any) {
+    } catch (error: any) {
       return thunkAPI.rejectWithValue(alert(error.response.data.error.message));
     }
   }
@@ -115,7 +115,7 @@ export const __editCategory: any = createAsyncThunk(
         }
       );
       return thunkAPI.fulfillWithValue(data.data.data);
-    } catch (error:any) {
+    } catch (error: any) {
       return thunkAPI.rejectWithValue(alert(error.response.data.error.message));
     }
   }
@@ -140,7 +140,7 @@ export const __postTodo: any = createAsyncThunk(
         }
       );
       return thunkAPI.fulfillWithValue(data.data.data);
-    } catch (error:any) {
+    } catch (error: any) {
       return thunkAPI.rejectWithValue(alert(error.response.data.error.message));
     }
   }

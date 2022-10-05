@@ -104,7 +104,7 @@ const LoginSwiper = () => {
   );
 };
 
-export default LoginSwiper;
+export default React.memo(LoginSwiper);
 
 const StyledSwiper = styled(Swiper)`
   width: 80%;
