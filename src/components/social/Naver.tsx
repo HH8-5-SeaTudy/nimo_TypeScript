@@ -28,4 +28,4 @@ const Naver = () => {
   );
 };
 
-export default Naver;
+export default React.memo(Naver);

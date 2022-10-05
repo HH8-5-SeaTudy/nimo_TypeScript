@@ -29,7 +29,7 @@ const WeekRank = () => {
   );
 };
 
-export default WeekRank;
+export default React.memo(WeekRank);
 
 const RankBox = styled.div`
   padding-left: 5px;

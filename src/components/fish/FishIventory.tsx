@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import fishImages from "../fish/FishImages";
@@ -174,7 +174,7 @@ const FishIventory = () => {
   );
 };
 
-export default FishIventory;
+export default React.memo(FishIventory);
 
 const InvenLayout = styled.div`
   -ms-user-select: none;
