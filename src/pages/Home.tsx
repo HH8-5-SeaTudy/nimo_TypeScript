@@ -71,7 +71,7 @@ const Home = () => {
               </ButtonContainer>
             </>
           )}
-          {/* <InfoContainer>
+          <InfoContainer>
             {info ? (
               <Info onClick={() => setInfo(!info)}>?</Info>
             ) : (
@@ -82,7 +82,7 @@ const Home = () => {
                 </Slide>
               </>
             )}
-          </InfoContainer> */}
+          </InfoContainer>
           <FishIventory />
         </MainBox>
       </Layer>
