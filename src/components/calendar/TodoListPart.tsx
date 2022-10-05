@@ -131,8 +131,12 @@ const TodoListPart = () => {
   };
 
   //useEffect
+  
 
   useEffect(() => {
+    if (date === null) {
+      return;
+    }
     dispatch(__getDateTodo(date)); //컴포넌트분리시사용
     dispatch(__getDday(date));
   }, [date]);
