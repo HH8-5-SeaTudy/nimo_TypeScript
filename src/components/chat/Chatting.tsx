@@ -137,10 +137,12 @@ function Chatting() {
                     <UserRankPoint>Time:{data.totalStudy}</UserRankPoint>
                   </UserRankNicknameWrapper>
                 ))}
-                {/* </UserRankNicknameContainer> */}
               </RankInfo>
             </Rank>
           </RankBox>
+          <UserCountContainer>
+            <UserCount>인원수:{enter?.userCount}</UserCount>
+          </UserCountContainer>
         </RankSide>
         <ChatSide>
           <ChatBox>
@@ -271,9 +273,11 @@ const RankBox = styled.div`
 `;
 const Rank = styled.div`
   display: flex;
+  flex-direction: column;
   padding: 10px;
   margin-bottom: 5px;
   background-color: white;
+  position: relative;
 `;
 const RankInfo = styled.div`
   width: 100%;
@@ -368,6 +372,18 @@ const UserRankPoint = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
+const UserCountContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  background-color: white;
+  padding: 10px;
+`;
+const UserCount = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
+`;
+
 const NoticeContainer = styled.div`
   width: 100%;
   display: flex;
@@ -389,7 +405,6 @@ const EnterContainer = styled.div`
 
 const MySenderMessageContainer = styled.ul`
   width: 100%;
-  /* width: auto; */
   padding: 0 15px;
   display: flex;
   align-items: center;

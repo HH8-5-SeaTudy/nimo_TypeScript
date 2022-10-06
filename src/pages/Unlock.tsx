@@ -8,6 +8,8 @@ import Input from "../elements/Input";
 import { getCookie } from "../components/social/Cookie";
 import { useNavigate } from "react-router-dom";
 import UnLockFishBook from "../components/unlock/UnlockFishBook";
+import React from "react";
+import _ from "lodash";
 
 const Unlock = () => {
   const token: string = getCookie("token") as string;
@@ -18,6 +20,14 @@ const Unlock = () => {
   const [nickname, setNickname] = useState("");
   const [editNickname, setEditNickname] = useState(false);
 
+
+  const debounce = _.debounce((text : any) =>  {
+    onChangeNickname(text);
+  }
+  , 300);
+
+  const DeOnChangeNickname = React.useCallback(debounce, []);
+  
   function onClickEditNickname() {
     setEditNickname(!editNickname);
     setNickname("");
@@ -62,8 +72,7 @@ const Unlock = () => {
                   <>
                     {editNickname && (
                       <Input
-                        onChange={onChangeNickname}
-                        value={nickname}
+                        onChange={(e)=>{DeOnChangeNickname(e)}}
                         transition="width .2s .3s , height .3s"
                         width={editNickname ? "140px" : "0px"}
                         height={editNickname ? "25px" : "0px"}

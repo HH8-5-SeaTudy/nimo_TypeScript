@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import fishImages from "../fish/FishImages";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { __getFishList } from "../../redux/modules/fishList";

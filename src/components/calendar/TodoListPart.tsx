@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Input from "../../elements/Input";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import {
@@ -18,6 +18,7 @@ import {
   __postDday,
 } from "../../redux/modules/dday";
 import textbox from "../../assets/pixel/textbox.png";
+import _ from "lodash";
 
 const TodoListPart = () => {
   const dispatch = useAppDispatch();
@@ -44,6 +45,34 @@ const TodoListPart = () => {
   const [ddayTitle, setDdayTitle] = useState("");
   const [selectDdayID, setSelectDdayID] = useState<number>();
   const [DdayEditTitle, setDdayEditTitle] = useState("");
+
+  //lodash
+  const debounce1 = _.throttle((text : string) =>  {
+    setDdayTitle(text);
+  }
+  , 300);
+  const debounce2 = _.debounce((text : string) =>  {
+    setDdayEditTitle(text);
+  }
+  , 300);
+  const debounce3 = _.debounce((text : string) =>  {
+    setCategory(text);
+  }
+  , 300);
+  const debounce4 = _.debounce((text : string) =>  {
+    setEditCategory(text);
+  }
+  , 300);
+  const debounce5 = _.debounce((text : any,i:number) =>  {
+    onChangeTodoInput(text,i);
+  }
+  , 300);
+
+  const DeSetDdayTitle = React.useCallback(debounce1, []);
+  const DeSetDdayEditTitle = React.useCallback(debounce2, []);
+  const DeSetCategory =  React.useCallback(debounce3, []);
+  const DeSetEditCategory = React.useCallback(debounce4, []);
+  const DeOnChangeTodoInput = React.useCallback(debounce5, []);
 
   //TodoList
 
@@ -123,7 +152,6 @@ const TodoListPart = () => {
     dispatch(__getDateTodo(date));
     dispatch(__getDday(date));
   }, [date]);
-
   return (
     <>
       {/* DdayModal */}
@@ -145,7 +173,7 @@ const TodoListPart = () => {
               <DdayInput>
                 <Input
                   type="text"
-                  onChange={(e) => setDdayTitle(e.target.value)}
+                  onChange={(e) => DeSetDdayTitle(e.target.value)}
                   border="solid black 2px"
                   outline="none"
                   height="30px"
@@ -197,7 +225,7 @@ const TodoListPart = () => {
                 <DdayInput>
                   <Input
                     type="text"
-                    onChange={(e) => setDdayEditTitle(e.target.value)}
+                    onChange={(e) => DeSetDdayEditTitle(e.target.value)}
                     border="solid black 2px"
                     outline="none"
                     height="30px"
@@ -246,7 +274,7 @@ const TodoListPart = () => {
               {category && <AddEventBtnHidden>+</AddEventBtnHidden>}
               <AddCategory categoryInputShow={categoryInputShow}>
                 <Input
-                  onChange={onChangeCategoryInput}
+                  onChange={(e)=>{setCategory(e.target.value)}}
                   value={category}
                   transition="width .2s .3s , height .3s"
                   width={categoryInputShow ? "140px" : "0px"}
@@ -304,7 +332,7 @@ const TodoListPart = () => {
                       <Input
                         readOnly={editCategoryShow ? false : true}
                         onClick={() => setEditCategoryShow(true)}
-                        onChange={(e) => setEditCategory(e.target.value)}
+                        onChange={(e) => DeSetEditCategory(e.target.value)}
                         type="text"
                         defaultValue={list.categoryName}
                         backgroundColor="#0096FF"
@@ -348,7 +376,7 @@ const TodoListPart = () => {
                         type="text"
                         ref={(el: any) => (inputRef.current[index] = el)}
                         onChange={(e) => {
-                          onChangeTodoInput(e, index);
+                          DeOnChangeTodoInput(e, index);
                         }}
                         width="250px"
                       />
@@ -611,16 +639,6 @@ const DeleteBtn = styled.div`
   border-radius: 50%;
   z-index: 1;
   cursor: pointer;
-`;
-
-const animation = keyframes`
-   0% {
-        stroke-dasharray: 0 ${2 * Math.PI * 48};
-      }
-  `;
-
-const AnimatedCircle = styled.circle`
-  animation: ${animation} 3s ease;
 `;
 
 const TopBox = styled.div`
