@@ -35,11 +35,11 @@ const FishIventory = () => {
   );
   const token: string = getCookie("token") as string;
 
-  const debounce = _.debounce((e: any, i: any) => {
-    dragHandler(e, i);
-  }, 300);
+  // const debounce = _.debounce((e: any, i: any) => {
+  //   dragHandler(e, i);
+  // }, 300);
 
-  const DeDragHandler = React.useCallback(debounce, []);
+  // const DeDragHandler = React.useCallback(debounce, []);
   useEffect(() => {
     if (token !== undefined) {
       dispatch(__getUserProfile());
@@ -148,7 +148,7 @@ const FishIventory = () => {
             <FishImg
               draggable={userPoint >= data.point ? true : false}
               onDragStart={(e) => dragStartHandler(e)}
-              onDrag={(e) => DeDragHandler(e, i)}
+              onDrag={(e) => dragHandler(e, i)}
               onDragOver={(e) => dragOverHandler(e)}
               onDragEnd={(e) => {
                 dragEndHandler(e, i);

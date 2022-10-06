@@ -47,7 +47,7 @@ const TodoListPart = () => {
   const [DdayEditTitle, setDdayEditTitle] = useState("");
 
   //lodash
-  const debounce1 = _.throttle((text : string) =>  {
+  const debounce1 = _.debounce((text : string) =>  {
     setDdayTitle(text);
   }
   , 300);
