@@ -14,6 +14,7 @@ const ProfileHeader = () => {
   const [todoShow,setTodoShow] = useState(false)
   const [resData,setResData] = useState<any>([])
   const dateTodos = useAppSelector((state) => state.dateTodos.dateTodos);
+  const isStudy = useAppSelector((state) => state.timer.isStudy);
   const userProfile = useAppSelector(
     (state) => state.userData.userProfile);
   const todoData = resData?.filter((x:any)=> x.todoList.length === 0 ).length
@@ -43,7 +44,9 @@ const ProfileHeader = () => {
   };
 
 function onClickLogOut  ()  {
+  if (isStudy === true) {
     dispatch(__getCheckOutTimer());
+  }
     deleteCookie("token");
     navigate("/login");
   };
