@@ -75,10 +75,10 @@ const Header = () => {
     if( token !== undefined) {
       TodayDdayData();
     }
-  }, [Dday]);
+  }, [Dday,token]);
 
   useEffect(() => {
-    if( token !== undefined) {
+    if (token !== undefined) {
     dispatch(__getDayMyRank());
     dispatch(__getWeekMyRank());
     dispatch(__getUserProfile());
@@ -86,7 +86,7 @@ const Header = () => {
       dispatch(__getCheckOutTimer());
     };
     }
-  }, []);
+  }, [token]);
 
 
   if (window.location.pathname === "/login") return null;
