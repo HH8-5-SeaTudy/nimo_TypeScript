@@ -49,13 +49,17 @@ function onClickLogOut  ()  {
   };
 
   useEffect(()=> {
-    TodoData()
-  },[dateTodos])
+    if(token !== undefined) {
+      TodoData()
+    }
+  },[dateTodos,token])
 
   useEffect(() => {
+    if(token !== undefined) {
     dispatch(__getUserProfile());
     dispatch(__getDateTodo(dateString));
-  }, []);
+    }
+  }, [token]);
 
 
 
