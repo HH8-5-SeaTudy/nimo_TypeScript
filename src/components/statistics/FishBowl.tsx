@@ -115,7 +115,6 @@ const Glare = styled.div`
 `;
 
 const FishBox = styled.div`
-  border: solid red 1px;
   width: 100%;
   height: 100%;
   padding: 40px 20px 0 20px;
