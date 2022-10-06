@@ -1,5 +1,4 @@
 import React from "react";
-import Grid from "../../elements/Grid";
 import {
   GoogleLoginButtonContainer,
   GoogleLogo,
@@ -12,13 +11,11 @@ const Google = () => {
 
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${googleClientId}&scope=openid%20profile%20email&redirect_uri=${googleRedirectUrl}`;
 
-  function loginHandler  () {
+  function loginHandler() {
     window.location.href = googleAuthUrl;
-  };
+  }
   return (
-    <GoogleLoginButtonContainer
-      onClick={loginHandler}
-    >
+    <GoogleLoginButtonContainer onClick={loginHandler}>
       <GoogleLogo />
       <GoogleKor>GOOGLE</GoogleKor>
     </GoogleLoginButtonContainer>
