@@ -12,6 +12,7 @@ import {
 } from "../../redux/modules/fishPosition";
 import coral2 from "../../assets/pixel/coral2.png";
 import { getCookie } from '../social/Cookie';
+import _ from "lodash";
 
 const FishIventory = () => {
   const dispatch = useAppDispatch();
@@ -34,6 +35,12 @@ const FishIventory = () => {
   );
   const token: string = getCookie("token") as string;
 
+  const debounce = _.debounce((e : any,i:any) =>  {
+    dragHandler(e,i)
+  }
+  , 300);
+
+  const DeDragHandler = React.useCallback(debounce, []);
   useEffect(() => {
     if (token !== undefined) {
     dispatch(__getUserProfile());
@@ -145,7 +152,7 @@ const FishIventory = () => {
             <FishImg
               draggable={userPoint >= data.point ? true : false}
               onDragStart={(e) => dragStartHandler(e)}
-              onDrag={(e) => dragHandler(e, i)}
+              onDrag={(e) => DeDragHandler(e, i)}
               onDragOver={(e) => dragOverHandler(e)}
               onDragEnd={(e) => {
                 dragEndHandler(e, i);
