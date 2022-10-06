@@ -69,7 +69,7 @@ const StopWatch = () => {
   );
 };
 
-export default React.memo(StopWatch);
+export default StopWatch;
 
 const Layer = styled.div`
   span {

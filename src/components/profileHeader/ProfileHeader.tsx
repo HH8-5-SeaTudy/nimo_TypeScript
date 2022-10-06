@@ -49,13 +49,13 @@ function onClickLogOut  ()  {
   };
 
   useEffect(()=> {
-    if(token !== undefined) {
+    if ( token !== undefined) {
       TodoData()
     }
-  },[token])
+  },[token,dateTodos])
 
   useEffect(() => {
-    if(token !== undefined) {
+    if (token !== undefined) {
     dispatch(__getUserProfile());
     dispatch(__getDateTodo(dateString));
     }
@@ -96,7 +96,7 @@ function onClickLogOut  ()  {
   );
 };
 
-export default React.memo(ProfileHeader);
+export default ProfileHeader;
 
 const Layer = styled.div`
    position: relative;
