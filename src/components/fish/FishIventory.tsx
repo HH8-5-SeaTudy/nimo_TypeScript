@@ -11,6 +11,7 @@ import {
   __postFishPosition,
 } from "../../redux/modules/fishPosition";
 import coral2 from "../../assets/pixel/coral2.png";
+import { getCookie } from '../social/Cookie';
 
 const FishIventory = () => {
   const dispatch = useAppDispatch();
@@ -31,11 +32,15 @@ const FishIventory = () => {
       return [0, 0];
     })
   );
+  const token: string = getCookie("token") as string;
 
   useEffect(() => {
+    if (token !== undefined) {
     dispatch(__getUserProfile());
     dispatch(__getFishPosition());
-  }, []);
+    }
+ 
+  }, [token]);
 
   useEffect(() => {
     let tempData = [...fishPos];

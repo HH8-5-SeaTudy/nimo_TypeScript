@@ -4,12 +4,12 @@ import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const token: string = getCookie("token") as string;
 
 export const __getChatenter: any = createAsyncThunk(
   "get/chatenter",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/pub/chat/enter`, {
         headers: {
           contentType: "application/json",

@@ -10,6 +10,7 @@ export const __getChatCount: any = createAsyncThunk(
   "get/chatCount",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(`${BASE_URL}/api/v1/chat/roomLists`, {
         headers: {
           contentType: "application/json",
