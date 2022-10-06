@@ -49,13 +49,17 @@ function onClickLogOut  ()  {
   };
 
   useEffect(()=> {
-    TodoData()
-  },[dateTodos])
+    if ( token !== undefined) {
+      TodoData()
+    }
+  },[token,dateTodos])
 
   useEffect(() => {
+    if (token !== undefined) {
     dispatch(__getUserProfile());
     dispatch(__getDateTodo(dateString));
-  }, []);
+    }
+  }, [token]);
 
 
 
@@ -228,14 +232,17 @@ const Title = styled.div`
     display:flex;
     justify-content: center;
     align-items: center;
-    text-align:center;
+    text-align:center;  
+    text-overflow: ellipsis;
+    overflow: hidden;
     p{
       width: 100%;
       font-size: 15px;
-      text-overflow: ellipsis;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+      
+      
 `
 const Delete =styled.div`
   height: 100%;

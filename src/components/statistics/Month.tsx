@@ -1,6 +1,6 @@
 import { ResponsivePie } from "@nivo/pie";
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getCookie } from '../social/Cookie';
 
 const data2 = [
@@ -100,4 +100,4 @@ const Month = () => {
     ]}
   />
 )};
-export default Month;
+export default React.memo(Month);

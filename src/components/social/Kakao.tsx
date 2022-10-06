@@ -24,4 +24,4 @@ const Kakao = () => {
 };
 
 
-export default Kakao;
+export default React.memo(Kakao);

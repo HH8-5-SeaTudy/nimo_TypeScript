@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import fishImages from "../fish/FishImages";
@@ -11,6 +11,8 @@ import {
   __postFishPosition,
 } from "../../redux/modules/fishPosition";
 import coral2 from "../../assets/pixel/coral2.png";
+import { getCookie } from "../social/Cookie";
+import _ from "lodash";
 
 const FishIventory = () => {
   const dispatch = useAppDispatch();
@@ -21,30 +23,38 @@ const FishIventory = () => {
   const [originPos, setOriginPos] = useState({ x: 0, y: 0 }); // 드래그 전 포지션값 (e.target.offset의 상대 위치)
   const [clientPos, setClientPos] = useState({ x: 0, y: 0 }); // 실시간 커서위치인 e.client를 갱신하는값
   const [pos, setPos] = useState({ left: 0, top: 0 }); // 실제 drag할 요소가 위치하는 포지션값
-  const [dTest, setDTest] = useState(
+  const [fishPos, setFishPos] = useState(
     Array.from({ length: 25 }, (v, i) => {
       return [0, 0];
     })
   );
-  const [dSize, setDSize] = useState(
+  const [fishSize, setFishSize] = useState(
     Array.from({ length: 25 }, (v, i) => {
       return [0, 0];
     })
   );
+  const token: string = getCookie("token") as string;
+
+  const debounce = _.debounce((e: any, i: any) => {
+    dragHandler(e, i);
+  }, 300);
+
+  const DeDragHandler = React.useCallback(debounce, []);
+  useEffect(() => {
+    if (token !== undefined) {
+      dispatch(__getUserProfile());
+      dispatch(__getFishPosition());
+    }
+  }, [token]);
 
   useEffect(() => {
-    dispatch(__getUserProfile());
-    dispatch(__getFishPosition());
-  }, []);
-
-  useEffect(() => {
-    let tempData = [...dTest];
+    let tempData = [...fishPos];
 
     positionData.map((v) => {
       tempData[v.fishNum] = [v.left, v.top];
     });
 
-    setDTest([...tempData]);
+    setFishPos([...tempData]);
   }, [positionData]);
 
   function dragStartHandler(e: any) {
@@ -71,10 +81,10 @@ const FishIventory = () => {
     const PosTemp = { ...pos };
     PosTemp["left"] = e.target.offsetLeft + e.clientX - clientPos.x;
     PosTemp["top"] = e.target.offsetTop + e.clientY - clientPos.y;
-    let tempData = [...dTest];
+    let tempData = [...fishPos];
     tempData[i][0] = e.target.offsetLeft + e.clientX - clientPos.x;
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
-    setDTest(tempData);
+    setFishPos(tempData);
     setPos(PosTemp);
 
     const clientPosTemp = { ...clientPos };
@@ -88,21 +98,21 @@ const FishIventory = () => {
   }
 
   function dragEndHandler(e: any, i: number) {
-    let tempSize = [...dSize];
+    let tempSize = [...fishSize];
     tempSize[i][0] = 100;
     tempSize[i][1] = 70;
-    setDSize(tempSize);
+    setFishSize(tempSize);
 
-    let tempData = [...dTest];
+    let tempData = [...fishPos];
     tempData[i][0] = e.target.offsetLeft + e.clientX - clientPos.x;
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
-    setDTest(tempData);
+    setFishPos(tempData);
 
     dispatch(
       __postFishPosition({
         fishNum: i,
-        left: dTest[i][0],
-        top: dTest[i][1],
+        left: fishPos[i][0],
+        top: fishPos[i][1],
       })
     );
 
@@ -138,17 +148,17 @@ const FishIventory = () => {
             <FishImg
               draggable={userPoint >= data.point ? true : false}
               onDragStart={(e) => dragStartHandler(e)}
-              onDrag={(e) => dragHandler(e, i)}
+              onDrag={(e) => DeDragHandler(e, i)}
               onDragOver={(e) => dragOverHandler(e)}
               onDragEnd={(e) => {
                 dragEndHandler(e, i);
               }}
               style={{
-                left: dTest[i][0] === 0 ? "0.5em" : dTest[i][0],
-                top: dTest[i][1] === 0 ? "0.85em" : dTest[i][1],
+                left: fishPos[i][0] === 0 ? "0.5em" : fishPos[i][0],
+                top: fishPos[i][1] === 0 ? "0.85em" : fishPos[i][1],
 
-                width: dTest[i][0] === 0 ? "" : 100,
-                height: dTest[i][1] === 0 ? "" : 70,
+                width: fishPos[i][0] === 0 ? "" : 100,
+                height: fishPos[i][1] === 0 ? "" : 70,
               }}
               src={data.image}
               alt=""
@@ -156,7 +166,7 @@ const FishIventory = () => {
             />
             <Bubble
               style={{
-                display: dTest[i][1] === 0 ? "block" : "none",
+                display: fishPos[i][1] === 0 ? "block" : "none",
                 boxShadow:
                   userPoint >= data.point
                     ? ""
@@ -172,7 +182,7 @@ const FishIventory = () => {
   );
 };
 
-export default FishIventory;
+export default React.memo(FishIventory);
 
 const InvenLayout = styled.div`
   -ms-user-select: none;

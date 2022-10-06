@@ -4,12 +4,12 @@ import axios from "axios";
 import { getCookie } from "../../components/social/Cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const token: string = getCookie("token") as string;
 
 export const __getDday: any = createAsyncThunk(
   "Dday/__getDday",
   async (payload, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const response = await axios.get(
         `${BASE_URL}/api/v1/ddays/dates?selectDate=${payload}`,
         {
@@ -29,6 +29,7 @@ export const __postDday: any = createAsyncThunk(
   "Dday/__postDday",
   async (payload: any, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.post(
         `${BASE_URL}/api/v1/ddays`,
         {
@@ -52,6 +53,7 @@ export const __deleteDday: any = createAsyncThunk(
   "Dday/__deleteDday",
   async (payload: any, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.delete(`${BASE_URL}/api/v1/ddays/${payload}`, {
         headers: {
           "Content-Type": "application/json",
@@ -69,6 +71,7 @@ export const __editDday: any = createAsyncThunk(
   "Dday/__editDday",
   async (payload: any, thunkAPI) => {
     try {
+      const token: string = getCookie("token") as string;
       const data = await axios.put(
         `${BASE_URL}/api/v1/ddays/${payload.id}`,
         {

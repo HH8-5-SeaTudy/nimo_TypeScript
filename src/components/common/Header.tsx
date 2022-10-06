@@ -71,7 +71,7 @@ const Header = () => {
     if (token !== undefined) {
       TodayDdayData();
     }
-  }, [Dday]);
+  }, [Dday, token]);
 
   useEffect(() => {
     if (token !== undefined) {
@@ -82,7 +82,7 @@ const Header = () => {
         dispatch(__getCheckOutTimer());
       };
     }
-  }, []);
+  }, [token]);
 
   if (window.location.pathname === "/login") return null;
   if (window.location.pathname === "/kakaoLogin") return null;

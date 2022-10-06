@@ -1,6 +1,6 @@
 import { ResponsivePie } from "@nivo/pie";
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getCookie } from '../social/Cookie';
 
 
@@ -122,4 +122,4 @@ const Weekly = () => {
   )
   }
 ;
-export default Weekly;
+export default React.memo(Weekly);
