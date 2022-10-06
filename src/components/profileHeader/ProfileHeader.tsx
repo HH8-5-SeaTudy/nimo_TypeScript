@@ -44,9 +44,6 @@ const ProfileHeader = () => {
   };
 
 function onClickLogOut  ()  {
-  if (isStudy === true) {
-    dispatch(__getCheckOutTimer());
-  }
     deleteCookie("token");
     navigate("/login");
   };
