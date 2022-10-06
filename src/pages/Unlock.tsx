@@ -29,7 +29,7 @@ const Unlock = () => {
   const DeOnChangeNickname = React.useCallback(debounce, []);
   
   function onClickEditNickname() {
-    setEditNickname(!editNickname);
+    setEditNickname(!editNickname)
     setNickname("");
     dispatch(__editUserProfile(nickname));
   }
@@ -82,15 +82,20 @@ const Unlock = () => {
                         outline="none"
                       />
                     )}
-
                     {!editNickname && (
                       <UserProfileTitle>{userData.nickname}</UserProfileTitle>
                     )}
                   </>
                 </Grid>
-                <EditNicknamButton onClick={onClickEditNickname}>
+                {!editNickname && 
+                <EditNicknameButton onClick={()=>setEditNickname(!editNickname)}>
                   CHANGE
-                </EditNicknamButton>
+                </EditNicknameButton>
+                }
+                {editNickname &&   
+                <EditNicknameButton onClick={onClickEditNickname}>
+                  CHANGE
+                </EditNicknameButton>}
               </UserWrapper>
               <UserWrapper>
                 <UserTitle>이메일:</UserTitle>
@@ -136,7 +141,7 @@ const Unlock = () => {
   );
 };
 
-const EditNicknamButton = styled.button`
+const EditNicknameButton = styled.button`
   width: 70px;
   height: 25px;
   display: flex;
