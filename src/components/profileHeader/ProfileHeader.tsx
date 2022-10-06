@@ -52,7 +52,7 @@ function onClickLogOut  ()  {
     if(token !== undefined) {
       TodoData()
     }
-  },[token])
+  },[token,dateTodos])
 
   useEffect(() => {
     if(token !== undefined) {
