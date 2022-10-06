@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Input from "../../elements/Input";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import {
@@ -611,16 +611,6 @@ const DeleteBtn = styled.div`
   border-radius: 50%;
   z-index: 1;
   cursor: pointer;
-`;
-
-const animation = keyframes`
-   0% {
-        stroke-dasharray: 0 ${2 * Math.PI * 48};
-      }
-  `;
-
-const AnimatedCircle = styled.circle`
-  animation: ${animation} 3s ease;
 `;
 
 const TopBox = styled.div`
