@@ -11,8 +11,7 @@ import {
   __postFishPosition,
 } from "../../redux/modules/fishPosition";
 import coral2 from "../../assets/pixel/coral2.png";
-import { getCookie } from "../social/Cookie";
-import _ from "lodash";
+import { getCookie } from '../social/Cookie';
 
 const FishIventory = () => {
   const dispatch = useAppDispatch();
@@ -20,14 +19,12 @@ const FishIventory = () => {
   const userPoint = userData.point;
   const positionData = useAppSelector((state) => state.fishPosition.position);
   const containerRef = useRef<HTMLDivElement>(null); // 드래그 할 영역 네모 박스 Ref
-  const [originPos, setOriginPos] = useState({ x: 0, y: 0 }); // 드래그 전 포지션값 (e.target.offset의 상대 위치)
   const [clientPos, setClientPos] = useState({ x: 0, y: 0 }); // 실시간 커서위치인 e.client를 갱신하는값
-  const [pos, setPos] = useState({ left: 0, top: 0 }); // 실제 drag할 요소가 위치하는 포지션값
   const [fishPos, setFishPos] = useState(
     Array.from({ length: 25 }, (v, i) => {
       return [0, 0];
     })
-  );
+  );// 실제 drag할 요소가 위치하는 포지션값
   const [fishSize, setFishSize] = useState(
     Array.from({ length: 25 }, (v, i) => {
       return [0, 0];
@@ -35,16 +32,12 @@ const FishIventory = () => {
   );
   const token: string = getCookie("token") as string;
 
-  // const debounce = _.debounce((e: any, i: any) => {
-  //   dragHandler(e, i);
-  // }, 300);
-
-  // const DeDragHandler = React.useCallback(debounce, []);
   useEffect(() => {
     if (token !== undefined) {
-      dispatch(__getUserProfile());
-      dispatch(__getFishPosition());
+    dispatch(__getUserProfile());
+    dispatch(__getFishPosition());
     }
+ 
   }, [token]);
 
   useEffect(() => {
@@ -57,7 +50,8 @@ const FishIventory = () => {
     setFishPos([...tempData]);
   }, [positionData]);
 
-  function dragStartHandler(e: any) {
+
+  function dragStartHandler (e: any) {
     const blankCanvas: any = document.createElement("canvas");
     blankCanvas.classList.add("canvas");
     e.dataTransfer?.setDragImage(blankCanvas, 0, 0);
@@ -66,38 +60,29 @@ const FishIventory = () => {
     e.dataTransfer.setDragImage(img, 0, 0);
     e.dataTransfer.effectAllowed = "move"; // 크롬의그린 +아이콘 제거
 
-    const originPosTemp = { ...originPos };
-    originPosTemp["x"] = e.target.offsetLeft;
-    originPosTemp["y"] = e.target.offsetTop;
-    setOriginPos(originPosTemp); //드래그 시작할때 드래그 전 위치값을 저장
-
     const clientPosTemp = { ...clientPos };
     clientPosTemp["x"] = e.clientX;
     clientPosTemp["y"] = e.clientY;
     setClientPos(clientPosTemp);
-  }
+  };
 
-  function dragHandler(e: any, i: number) {
-    const PosTemp = { ...pos };
-    PosTemp["left"] = e.target.offsetLeft + e.clientX - clientPos.x;
-    PosTemp["top"] = e.target.offsetTop + e.clientY - clientPos.y;
+  function dragHandler (e: any, i: number) {
     let tempData = [...fishPos];
     tempData[i][0] = e.target.offsetLeft + e.clientX - clientPos.x;
     tempData[i][1] = e.target.offsetTop + e.clientY - clientPos.y;
     setFishPos(tempData);
-    setPos(PosTemp);
 
     const clientPosTemp = { ...clientPos };
     clientPosTemp["x"] = e.clientX;
     clientPosTemp["y"] = e.clientY;
     setClientPos(clientPosTemp);
-  }
+  };
 
-  function dragOverHandler(e: any) {
+  function dragOverHandler (e: any) {
     e.preventDefault(); // 드래그시에 플라잉백하는 고스트이미지를 제거한다
-  }
+  };
 
-  function dragEndHandler(e: any, i: number) {
+  function dragEndHandler (e: any, i: number) {
     let tempSize = [...fishSize];
     tempSize[i][0] = 100;
     tempSize[i][1] = 70;
@@ -125,17 +110,18 @@ const FishIventory = () => {
     // 캔버스로 인해 발생한 스크롤 방지 어트리뷰트 제거
     document.body.removeAttribute("style");
     document.body.style.overflow = "hidden";
-  }
+  };
 
-  function FishDeleteHandler(e: any, i: number) {
+
+  function FishDeleteHandler (e: any, i: number){
     e.preventDefault();
     alert("내가 사라져볼게 얍!");
     dispatch(__deleteFishPosition(i));
-  }
+  };
   function AllFishDeleteHandler() {
     alert("전부 사라져볼게 얍!");
     dispatch(__AllDeleteFishPosition());
-  }
+  };
 
   return (
     <InvenLayout ref={containerRef}>
