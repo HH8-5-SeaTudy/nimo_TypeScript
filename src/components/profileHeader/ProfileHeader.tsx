@@ -227,7 +227,6 @@ const Done = styled.div`
     }
 `
 const Title = styled.div`
-border: solid red 1px;
     height: 100%;
     width: 75%;
     display:flex;
