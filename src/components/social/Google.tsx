@@ -25,4 +25,4 @@ const Google = () => {
   );
 };
 
-export default Google;
+export default React.memo(Google);

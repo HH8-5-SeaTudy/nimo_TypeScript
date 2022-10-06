@@ -1,3 +1,4 @@
+import React from 'react';
 import styled, { keyframes } from "styled-components";
 import fishImages from '../fish/FishImages';
 import { useAppSelector } from '../hooks/reduxHooks';
@@ -31,7 +32,7 @@ const FishBowl = () => {
   );
 };
 
-export default FishBowl;
+export default React.memo(FishBowl);
 
 const BowlLayer = styled.div`
   box-sizing: border-box;
@@ -114,7 +115,6 @@ const Glare = styled.div`
 `;
 
 const FishBox = styled.div`
-  border: solid red 1px;
   width: 100%;
   height: 100%;
   padding: 40px 20px 0 20px;

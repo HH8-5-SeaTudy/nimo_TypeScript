@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { addUser } from "../../redux/modules/socket";
@@ -106,7 +106,7 @@ const Server = () => {
   );
 };
 
-export default Server;
+export default React.memo(Server);
 interface ToggleProps {
   toggle: boolean;
 }

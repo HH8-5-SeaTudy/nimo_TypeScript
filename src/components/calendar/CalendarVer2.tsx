@@ -1,27 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
-import {
-  getAllTodo,
-  __postCategory,
-  __getDateTodo,
-  __postTodo,
-  __deleteTodo,
-  __doneTodo,
-  __editCategory,
-  __deleteCategory,
-} from "../../redux/modules/dateTodos";
-import {
-  __deleteDday,
-  __editDday,
-  __getDday,
-  __postDday,
-} from "../../redux/modules/dday";
+import { getAllTodo } from "../../redux/modules/dateTodos";
 import left from "../../assets/pixel/left.png";
 import right from "../../assets/pixel/right.png";
-import { updateDate } from '../../redux/modules/updateDate';
-import TodoListPart from './TodoListPart';
+import { updateDate } from "../../redux/modules/updateDate";
+import TodoListPart from "./TodoListPart";
 
 interface MyComponentProps {
   setShowTodo: any;
@@ -30,12 +15,12 @@ export type Iresault = {
   result: [];
 };
 
-const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
+const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
   const dispatch = useAppDispatch();
   const allTodos = useAppSelector((state) => state.dateTodos.allTodos);
   const DdayData = useAppSelector((state) => state.dday.DdayData);
   const DdayRed = DdayData.map((d) => d.targetDay);
-  const date = useAppSelector((state) => state.updateDate.date)
+  const date = useAppSelector((state) => state.updateDate.date);
   //오늘 날짜 저장
   const [getMoment, setMoment] = useState(moment());
   const today = getMoment;
@@ -47,20 +32,19 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
   const radius = 48;
   const diameter = 2 * Math.PI * radius;
 
-  function dateSubmitHandler (selectDD: string) {
-    dispatch(updateDate(selectDD))
-  };
+  function dateSubmitHandler(selectDD: string) {
+    dispatch(updateDate(selectDD));
+  }
 
-  function onHiddenShow (){
-    setShowTodo()
+  function onHiddenShow() {
+    setShowTodo();
   }
 
   //useEffect
   useEffect(() => {
-    dispatch(updateDate(today.format("YYYY-MM-DD")));//컴포넌트분리시사용
+    dispatch(updateDate(today.format("YYYY-MM-DD"))); //컴포넌트분리시사용
     dispatch(getAllTodo());
   }, []);
-
 
   const calendarArr = () => {
     let result: any = [];
@@ -169,8 +153,10 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
                           ) === days.format("YYYY-MM-DD")
                             ? "red"
                             : "#ff9100",
-                        color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
-                      
+                        color:
+                          date === days.format("YYYY-MM-DD")
+                            ? "black"
+                            : "white",
                       }}
                     >
                       {days.format("D")}
@@ -269,7 +255,10 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
                           ) === days.format("YYYY-MM-DD")
                             ? "red"
                             : "#00D7FF",
-                        color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
+                        color:
+                          date === days.format("YYYY-MM-DD")
+                            ? "black"
+                            : "white",
                       }}
                     >
                       {days.format("D")}
@@ -369,8 +358,10 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
                           ) === days.format("YYYY-MM-DD")
                             ? "red"
                             : "#1175f8",
-                            color : date === days.format("YYYY-MM-DD") ? 'black' :'white'
-                            
+                        color:
+                          date === days.format("YYYY-MM-DD")
+                            ? "black"
+                            : "white",
                       }}
                     >
                       {days.format("D")}
@@ -386,76 +377,75 @@ const CalendarVer2 = ({setShowTodo}: MyComponentProps) => {
   };
   return (
     <>
-      <Layer onClick={()=>onHiddenShow()}>
-      </Layer>   
+      <Layer onClick={() => onHiddenShow()}></Layer>
       <Wrapper>
-          <CalendarTitle>
-            <ATtile>CALENDAR</ATtile>
-            <BTtile>TO DO LIST</BTtile>
-          </CalendarTitle>
-          <Calendar>
-            {/* 달력 */}
-            <CalendarRight>
-              <Main>
-                <CalendarRow>
-                  <CalendarCol>SUN</CalendarCol>
-                  <CalendarCol>MON</CalendarCol>
-                  <CalendarCol>TUE</CalendarCol>
-                  <CalendarCol>WED</CalendarCol>
-                  <CalendarCol>THU</CalendarCol>
-                  <CalendarCol>FRI</CalendarCol>
-                  <CalendarCol>SAT</CalendarCol>
-                </CalendarRow>
-                {calendarArr()}
-              </Main>
-            </CalendarRight>
-            <LeftLayer>
-              <MonthYear>
-                <YearBox>
-                  <PrevBtn
-                    src={left}
-                    onClick={() => {
-                      setMoment(getMoment.clone().subtract(1, "year"));
-                    }}
-                  ></PrevBtn>
-                  <TodayYear>{today.format("YYYY")}</TodayYear>
-                  <NextBtn
-                    src={right}
-                    onClick={() => {
-                      setMoment(getMoment.clone().add(1, "year"));
-                    }}
-                  ></NextBtn>
-                </YearBox>
-                <Month>
-                  <PrevBtn
-                    src={left}
-                    onClick={() => {
-                      setMoment(getMoment.clone().subtract(1, "month"));
-                    }}
-                  ></PrevBtn>
-                  <TodayMon> {today.format("MMMM")}</TodayMon>
-                  <NextBtn
-                    src={right}
-                    onClick={() => {
-                      setMoment(getMoment.clone().add(1, "month"));
-                    }}
-                  ></NextBtn>
-                </Month>
-              </MonthYear>
-              <TodoListPart/>
-            </LeftLayer>
-          </Calendar>
-        </Wrapper>
+        <CalendarTitle>
+          <ATtile>CALENDAR</ATtile>
+          <BTtile>TO DO LIST</BTtile>
+        </CalendarTitle>
+        <Calendar>
+          {/* 달력 */}
+          <CalendarRight>
+            <Main>
+              <CalendarRow>
+                <CalendarCol>SUN</CalendarCol>
+                <CalendarCol>MON</CalendarCol>
+                <CalendarCol>TUE</CalendarCol>
+                <CalendarCol>WED</CalendarCol>
+                <CalendarCol>THU</CalendarCol>
+                <CalendarCol>FRI</CalendarCol>
+                <CalendarCol>SAT</CalendarCol>
+              </CalendarRow>
+              {calendarArr()}
+            </Main>
+          </CalendarRight>
+          <LeftLayer>
+            <MonthYear>
+              <YearBox>
+                <PrevBtn
+                  src={left}
+                  onClick={() => {
+                    setMoment(getMoment.clone().subtract(1, "year"));
+                  }}
+                ></PrevBtn>
+                <TodayYear>{today.format("YYYY")}</TodayYear>
+                <NextBtn
+                  src={right}
+                  onClick={() => {
+                    setMoment(getMoment.clone().add(1, "year"));
+                  }}
+                ></NextBtn>
+              </YearBox>
+              <Month>
+                <PrevBtn
+                  src={left}
+                  onClick={() => {
+                    setMoment(getMoment.clone().subtract(1, "month"));
+                  }}
+                ></PrevBtn>
+                <TodayMon> {today.format("MMMM")}</TodayMon>
+                <NextBtn
+                  src={right}
+                  onClick={() => {
+                    setMoment(getMoment.clone().add(1, "month"));
+                  }}
+                ></NextBtn>
+              </Month>
+            </MonthYear>
+            <TodoListPart />
+          </LeftLayer>
+        </Calendar>
+      </Wrapper>
     </>
   );
 };
 
-export default CalendarVer2;
+export default React.memo(CalendarVer2);
 
 const Layer = styled.div`
   position: absolute;
-  top:10vh;
-  left:0;
+  top: 10vh;
+  left: 0;
   height: 90vh;
   width: 100vw;
   color: #ffffff;
@@ -508,8 +498,8 @@ const NextBtn = styled.img`
 const Wrapper = styled.div`
   background-color: #0096ff;
   position: absolute;
-  left : 17%;
-  top:10vh;
+  left: 17%;
+  top: 10vh;
   display: block;
   max-width: 1100px;
   height: 680px;
@@ -554,7 +544,6 @@ const Calendar = styled.div`
   flex-direction: row;
   height: 600px;
 `;
-
 
 const CalendarRight = styled.div`
   position: relative;
@@ -642,7 +631,3 @@ const animation = keyframes`
 const AnimatedCircle = styled.circle`
   animation: ${animation} 3s ease;
 `;
-
-interface CategoryInputShowProps {
-  categoryInputShow: boolean;
-}

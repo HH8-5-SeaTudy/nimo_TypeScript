@@ -1,6 +1,6 @@
 import { ResponsiveCalendar } from '@nivo/calendar'
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getCookie } from '../social/Cookie';
 
 // const data = [
@@ -89,4 +89,4 @@ const MyResponsiveCalendar = () => {
   />
 )}
 
-export default MyResponsiveCalendar;
+export default React.memo(MyResponsiveCalendar);
