@@ -102,12 +102,12 @@ function onClickLogOut  ()  {
 export default ProfileHeader;
 
 const Layer = styled.div`
-   position: relative;
-   width: 320px;
-   height: 150px;
-   display:flex;
-   align-items: center;
-   padding-top: 40px;
+    position: relative;
+    width: 320px;
+    height: 150px;
+    display:flex;
+    align-items: center;
+    padding-top: 40px;
 `
 
 const ProfileBox = styled.div`
