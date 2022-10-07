@@ -50,23 +50,23 @@ const TodoListPart = () => {
   const debounce1 = _.debounce((text : string) =>  {
     setDdayTitle(text);
   }
-  , 300);
+  , 1000);
   const debounce2 = _.debounce((text : string) =>  {
     setDdayEditTitle(text);
   }
-  , 300);
+  , 1000);
   const debounce3 = _.debounce((text : string) =>  {
     setCategory(text);
   }
-  , 300);
+  , 1000);
   const debounce4 = _.debounce((text : string) =>  {
     setEditCategory(text);
   }
-  , 300);
+  , 1000);
   const debounce5 = _.debounce((text : any,i:number) =>  {
     onChangeTodoInput(text,i);
   }
-  , 300);
+  , 1000);
 
   const DeSetDdayTitle = React.useCallback(debounce1, []);
   const DeSetDdayEditTitle = React.useCallback(debounce2, []);
