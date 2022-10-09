@@ -83,7 +83,11 @@ const TodoListPart = () => {
   }
 
   function onSubmitHandler() {
+  if (dateTodos.length < 4)
     dispatch(__postCategory({ categoryName: category, selectDate: date }));
+  else {
+    alert("4개까지만 생성가능");
+  }
     setCategory("");
   }
 
