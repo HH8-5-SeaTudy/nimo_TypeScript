@@ -2,10 +2,10 @@
 SeaTUDY는 함께 공부하며 체크인시스템을 이용해 공부시간을 기록할 수 있는 서비스입니다. 공부포인트를 쌓아 물고기캐릭터도 모으고, 랭킹 시스템을 통해 재밌게 공부해보세요!
 
 > [SeaTUDY 바로가기](https://www.seatudy.com)
-[팀노션 바로가기](https://www.notion.so/5-28efb5cf5701425eb16b1d4e9e449678)
-[8기 5조 - '역전의 명수' GitHub](https://github.com/HH8-5-SeaTudy)
-[FrontEnd GitHub](https://github.com/HH8-5-SeaTudy/nimo_TypeScript)
-[BackEnd GitHub](https://github.com/HH8-5-SeaTudy/BE_SeaTudy)
+> [팀노션 바로가기](https://www.notion.so/5-28efb5cf5701425eb16b1d4e9e449678)
+> [8기 5조 - '역전의 명수' GitHub](https://github.com/HH8-5-SeaTudy)
+> [FrontEnd GitHub](https://github.com/HH8-5-SeaTudy/nimo_TypeScript)
+> [BackEnd GitHub](https://github.com/HH8-5-SeaTudy/BE_SeaTudy)
 
 ----
 
