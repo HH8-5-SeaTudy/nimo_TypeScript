@@ -83,6 +83,7 @@ const TodoListPart = () => {
   }
 
   function onSubmitHandler() {
+
   if (dateTodos.length < 4)
     dispatch(__postCategory({ categoryName: category, selectDate: date }));
   else {
