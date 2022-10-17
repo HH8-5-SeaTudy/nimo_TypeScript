@@ -10,10 +10,8 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/ko';
 import 'dayjs/plugin/weekday';
 import week from 'dayjs/plugin/weekOfYear';
-
 dayjs.locale('ko');
 dayjs.extend(week);
-
 interface MyComponentProps {
   setShowTodo: any;
 }
