@@ -37,7 +37,6 @@ const FishIventory = () => {
     dispatch(__getUserProfile());
     dispatch(__getFishPosition());
     }
- 
   }, [token]);
 
   useEffect(() => {
