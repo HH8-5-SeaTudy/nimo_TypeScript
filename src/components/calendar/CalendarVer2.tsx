@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import moment from "moment";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { getAllTodo } from "../../redux/modules/dateTodos";
 import left from "../../assets/pixel/left.png";
 import right from "../../assets/pixel/right.png";
 import { updateDate } from "../../redux/modules/updateDate";
 import TodoListPart from "./TodoListPart";
+import dayjs from 'dayjs'
+import 'dayjs/locale/ko';
+import 'dayjs/plugin/weekday';
+import week from 'dayjs/plugin/weekOfYear';
+
+dayjs.locale('ko');
+dayjs.extend(week);
 
 interface MyComponentProps {
   setShowTodo: any;
@@ -22,8 +28,9 @@ const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
   const DdayRed = DdayData.map((d) => d.targetDay);
   const date = useAppSelector((state) => state.updateDate.date);
   //오늘 날짜 저장
-  const [getMoment, setMoment] = useState(moment());
-  const today = getMoment;
+  
+  const [getDayjs, setDayjs] = useState(dayjs());
+  const today = getDayjs;
   const firstWeek = today.clone().startOf("month").week();
   const lastWeek =
     today.clone().endOf("month").week() === 1
@@ -61,7 +68,7 @@ const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
                 .week(week)
                 .startOf("week")
                 .add(index, "day");
-              if (moment().format("YYYYMMDD") === days.format("YYYYMMDD")) {
+              if (dayjs().format("YYYYMMDD") === days.format("YYYYMMDD")) {
                 return (
                   //오늘
                   <CalendarCel
@@ -405,14 +412,14 @@ const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
                 <PrevBtn
                   src={left}
                   onClick={() => {
-                    setMoment(getMoment.clone().subtract(1, "year"));
+                    setDayjs(getDayjs.clone().subtract(1, "year"));
                   }}
                 ></PrevBtn>
                 <TodayYear>{today.format("YYYY")}</TodayYear>
                 <NextBtn
                   src={right}
                   onClick={() => {
-                    setMoment(getMoment.clone().add(1, "year"));
+                    setDayjs(getDayjs.clone().add(1, "year"));
                   }}
                 ></NextBtn>
               </YearBox>
@@ -420,14 +427,14 @@ const CalendarVer2 = ({ setShowTodo }: MyComponentProps) => {
                 <PrevBtn
                   src={left}
                   onClick={() => {
-                    setMoment(getMoment.clone().subtract(1, "month"));
+                    setDayjs(getDayjs.clone().subtract(1, "month"));
                   }}
                 ></PrevBtn>
                 <TodayMon> {today.format("MMMM")}</TodayMon>
                 <NextBtn
                   src={right}
                   onClick={() => {
-                    setMoment(getMoment.clone().add(1, "month"));
+                    setDayjs(getDayjs.clone().add(1, "month"));
                   }}
                 ></NextBtn>
               </Month>
